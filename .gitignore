@@ -1,0 +1,38 @@
+# ==== 공통 OS ====
+.DS_Store
+Thumbs.db
+
+# ==== IDE ====
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# ==== Spring 빌드 ====
+/spring-web/target/
+/spring-web/out/
+/spring-web/.classpath
+/spring-web/.project
+/spring-web/.settings/
+Servers/
+
+# ==== FastAPI ====
+/fastapi/__pycache__/
+/fastapi/.venv/
+/fastapi/venv/
+/fastapi/.env
+*.pyc
+*.pyo
+*.pyd
+
+# ==== 테스트 ====
+/spring-web/src/test/
+
+# ==== 로그 ====
+*.log
+
+# ==== 데이터 ====
+# 팀 공유시 주석처리
+#/data/*.csv
+#/data/*.xlsx

@@ -1,0 +1,7 @@
+INDEX VERSION 1.4+D:\01-STUDY\SHJ\ElectronicMonitoringAsSystem\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+3735847990.index
+2101339127.index
+909358289.index
+3590070080.index
+588152056.index
+2778320717.index

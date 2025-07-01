@@ -1,3 +1,0 @@
-INDEX VERSION 1.131
-D:\01-STUDY\SHJ\ElectronicMonitoringAsSystem\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1050306917.index
-\spring-web\src\main\java

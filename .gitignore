@@ -12,10 +12,13 @@ Thumbs.db
 # ==== Spring 빌드 ====
 /spring-web/target/
 /spring-web/out/
+/spring-web/.settings/
 /spring-web/.classpath
 /spring-web/.project
-/spring-web/.settings/
+spring-web/.springBeans
+
 Servers/
+.metadata/
 
 # ==== FastAPI ====
 /fastapi/__pycache__/

@@ -1,0 +1,16 @@
+# 모든 텍스트 파일에 대해 자동 줄바꿈 처리
+* text=auto
+
+# 특정 파일 형식에 대해 명시적으로 줄바꿈 설정 가능 (예시)
+*.java text
+*.xml  text
+*.properties text
+*.sh    text eol=lf
+*.bat   text eol=crlf
+
+# 바이너리 파일은 자동 변환 제외
+*.png binary
+*.jpg binary
+*.gif binary
+*.exe binary
+*.dll binary

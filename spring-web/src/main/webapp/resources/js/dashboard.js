@@ -1,38 +1,41 @@
 /**
  * 
  */
- function getPrediction() {
-    const region = $('#regionSelect').val();
-    const years = $('#yearsInput').val();
+function getPrediction() {
+  const region = $('#regionSelect').val();
+  const years = $('#yearsInput').val();
 
-   $.ajax({
-	  url: `http://localhost:8000/predict?years=${years}&region=${region}`,
-	  type: 'GET',
-	  dataType: 'json',
-	  success: function(data) {
-	    console.log(data);
-	
-	    let parsed = typeof data === 'string' ? JSON.parse(data) : data;
-	
-	    if (parsed.status === 'success') {
-	      drawComboChart(parsed.result);
-	    } else {
-	      alert('데이터 오류!');
-	    }
-	  },
-	  error: function(err) {
-	    console.error(err);
-	    alert('예측 요청 실패!');
-	  }
-	});
+  fetch(`http://localhost:8000/predict?years=${years}&region=${region}`)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('네트워크 응답 실패');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log(data);
 
+      let parsed = typeof data === 'string' ? JSON.parse(data) : data;
 
+      if (parsed.status === 'success') {
+        drawComboChart(parsed.result);
+      } else {
+        alert('데이터 오류!');
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      alert('예측 요청 실패!');
+    });
 }
 
+
+
 $(document).ready(function() {
-    //$('#predictBtn').click(function() {
-    //    getPrediction();
-    //});
+	getPrediction();
+    $('#predictBtn').click(function() {
+        getPrediction();
+    });
 	
 	loadReasonChart('fire');
 	

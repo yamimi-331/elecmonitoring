@@ -1,48 +1,60 @@
-# fastapi/prediction.py
-
 import os
 import pandas as pd
-from prophet import Prophet
 import joblib
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+# 모델 불러오기
+model_count = joblib.load('./fastapi/models/prophet_model_count.pkl')
+model_amount = joblib.load('./fastapi/models/prophet_model_amount.pkl')
 
-# 저장된 모델 불러오기
-model = joblib.load(os.path.join(BASE_DIR, 'model.pkl'))
+# 원본 데이터
+df = pd.read_excel('./data/ElecData.xlsx')
+df['ds'] = pd.to_datetime(df['date'].astype(str), format='%Y')
 
-# 원본 데이터 (Prophet 학습할 때 썼던!)
-df = pd.read_excel(os.path.join(BASE_DIR, '../data/ElecData.xlsx'))
-df['ds'] = pd.to_datetime(df['date'])
-df['y'] = df['count']
-df = df[['ds', 'y']]
+def predict(region='서울특별시', type_='전기화재', periods=3):
+    # 필터링
+    df_filtered = df[(df['region'] == region) & (df['type'] == type_)].copy()
 
-def predict_future(periods=12, region="서울"):
-    # 미래 프레임 생성
-    future = model.make_future_dataframe(periods=periods, freq='M')
-    forecast = model.predict(future)
+    # 피해건수 실측
+    count_actual = df_filtered.groupby(df_filtered['ds'].dt.year)['count'].sum().reset_index()
+    count_actual.columns = ['year', 'count_actual']
 
-    # 실측 데이터와 merge
-    merged = pd.merge(forecast, df, on='ds', how='left')
+    # 피해액 실측
+    amount_actual = df_filtered.groupby(df_filtered['ds'].dt.year)['amount'].sum().reset_index()
+    amount_actual.columns = ['year', 'amount_actual']
 
-    # 연도만 추출
-    merged['year'] = merged['ds'].dt.year
+    # 미래 프레임 (연 단위 → Prophet 은 월단위라 넉넉히)
+    future = model_count.make_future_dataframe(periods=periods * 12, freq='M')
 
-    # 지역 추가
-    merged['region'] = region
+    forecast_count = model_count.predict(future)
+    forecast_count['year'] = forecast_count['ds'].dt.year
+    count_pred = forecast_count.groupby('year')['yhat'].sum().reset_index()
+    count_pred.columns = ['year', 'count_predicted']
 
-    # 필요한 컬럼만
-    result = merged[['year', 'region', 'y', 'yhat']].tail(periods)
+    forecast_amount = model_amount.predict(future)
+    forecast_amount['year'] = forecast_amount['ds'].dt.year
+    amount_pred = forecast_amount.groupby('year')['yhat'].sum().reset_index()
+    amount_pred.columns = ['year', 'amount_predicted']
 
-    # 컬럼명 보기 좋게
-    result = result.rename(columns={'y': 'actual', 'yhat': 'predicted'})
+    # merge
+    result = count_actual.merge(count_pred, on='year', how='outer') \
+                         .merge(amount_actual, on='year', how='outer') \
+                         .merge(amount_pred, on='year', how='outer')
 
-    # NaN 실측값은 0으로 (미래는 실측 없으니까)
-    result['actual'] = result['actual'].fillna(0)
+    result['region'] = region
+    result['type'] = type_
 
-    return result.to_dict(orient="records")
+    # NaN 처리
+    result = result.fillna(0)
 
-# 테스트용 실행
+    # 컬럼 순서
+    result = result[['year', 'region', 'type',
+                     'amount_actual', 'amount_predicted',
+                     'count_actual', 'count_predicted']]
+
+    return result.to_dict(orient='records')
+
+# 실행 테스트
 if __name__ == "__main__":
-    result = predict_future(periods=12, region="서울")
-    for row in result:
+    data = predict(region='서울특별시', type_='전기화재', periods=3)
+    for row in data:
         print(row)

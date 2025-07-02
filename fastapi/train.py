@@ -1,23 +1,30 @@
-# fastapi/train.py
-
+import os
 import pandas as pd
 from prophet import Prophet
-import joblib  # 모델 저장/불러오기
+import joblib
 
-# 데이터 읽기
 df = pd.read_excel('./data/ElecData.xlsx')
 
-# 컬럼명 맞추기
-# 예: 사고일시 → ds, 피해건수 → y
-df['ds'] = pd.to_datetime(df['date'])
-df['y'] = df['count']
-df = df[['ds', 'y']]
+# 전기화재만 예시로 학습
+df_fire = df[df['type'] == '전기화재'].copy()
 
-# Prophet 학습
-model = Prophet()
-model.fit(df)
+# ✅ 연도(int or float) → str → datetime
+df_fire['ds'] = pd.to_datetime(df_fire['date'].astype(str), format='%Y')
 
-# 모델 저장 (pkl)
-joblib.dump(model, './fastapi/model.pkl')
+# 피해건수 Prophet
+df_count = df_fire[['ds', 'count']].copy()
+df_count = df_count.rename(columns={'count': 'y'})
 
-print("✅ Prophet 모델 저장 완료: model.pkl")
+model_count = Prophet()
+model_count.fit(df_count)
+joblib.dump(model_count, './fastapi/models/prophet_model_count.pkl')
+
+# 피해액 Prophet
+df_amount = df_fire[['ds', 'amount']].copy()
+df_amount = df_amount.rename(columns={'amount': 'y'})
+
+model_amount = Prophet()
+model_amount.fit(df_amount)
+joblib.dump(model_amount, './fastapi/models/prophet_model_amount.pkl')
+
+print("✅ 두 Prophet 모델 저장 완료")

@@ -3,7 +3,9 @@ import matplotlib.pyplot as plt
 import json
 
 df = pd.read_excel('./data/ElecRate.xlsx')
-df = df.replace(',', '', regex=True).astype(int)
+for col in ['Total', 'Elec']:
+        df[col] = pd.to_numeric(df[col].astype(str).str.replace(',', ''), errors='coerce')
+df['Date'] = df['Date'].astype(str)
 
 # # 영역형 차트 시각화
 # plt.rcParams['font.family'] = 'Malgun Gothic'
@@ -25,7 +27,9 @@ print(json.dumps(json_data, ensure_ascii=False, indent=2))
 
 def elec_rate_json(df):
     # 쉼표 제거 및 타입 변환 (Total, Elec)
-    df = df.replace(',', '', regex=True).astype(int)
+    for col in ['Total', 'Elec']:
+        df[col] = pd.to_numeric(df[col].astype(str).str.replace(',', ''), errors='coerce')
+    df['Date'] = df['Date'].astype(str)
 
     # JSON용 dict 생성
     json_data = {year: [total, elec] for year, total, elec in zip(df['Date'], df['Total'], df['Elec'])}

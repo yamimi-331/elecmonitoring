@@ -1,14 +1,23 @@
-# fastapi/main.py
-
 from fastapi import FastAPI
 import pandas as pd
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
+
 from prediction import predict
 from elecrate import elec_rate_json
 from firereason import fire_reason_json
 from shockreason import shock_reason_json
 
 app = FastAPI()
+
+# CORS 설정 - Spring 서버(8080)와 FastAPI 서버 간 통신
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:8080"],  # Spring 서버 주소
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PUT", "DELETE"],
+    allow_headers=["*"],
+)
 
 @app.get("/predict")
 def get_prediction(

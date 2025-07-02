@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
  <script src="../../resources/js/dashboard.js"></script>
 </head>
 <body>
@@ -34,6 +35,6 @@
   <button id="predictBtn">예측하기</button>
 
   <div id="resultBox"></div>
-
+<canvas id="myChart" width="800" height="400"></canvas>
 </body>
 </html>

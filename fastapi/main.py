@@ -1,29 +1,53 @@
 # fastapi/main.py
 
 from fastapi import FastAPI
-from prediction import predict_future
 import pandas as pd
 from fastapi.responses import JSONResponse
+from prediction import predict
 from elecrate import elec_rate_json
 from firereason import fire_reason_json
 
 app = FastAPI()
 
 @app.get("/predict")
-def get_prediction(months: int = 12):
-    result = predict_future(periods=months)
-    # pandas DataFrame → dict
-    return result.to_dict(orient="records")
-
+def get_prediction(
+    years: int = 3,            # 예측 연도 수
+    region: str = '서울특별시',  # 지역명
+    type_: str = '전기화재'     # 화재 타입 (기본값)
+):
+    try:
+        result = predict(periods=years, region=region, type_=type_)
+        return JSONResponse(content={
+            "status": "success",
+            "result": result
+        })
+    except Exception as e:
+        return JSONResponse( 
+            status_code=500,
+            content={
+                "status": "error",
+                "message": str(e)
+            }
+        )
+    
 # 전체 화재 중 전기 화재 비율 json
 @app.get("/elec-rate")
 def get_elec_rate():
     try:
         df = pd.read_excel('./data/ElecRate.xlsx')
         result = elec_rate_json(df)
-        return JSONResponse(content=result)
+        return JSONResponse(content={
+            "status": "success",
+            "result": result
+        })
     except Exception as e:
-        return JSONResponse(status_code=500, content={"error": str(e)})
+        return JSONResponse( 
+            status_code=500,
+            content={
+                "status": "error",
+                "message": str(e)
+            }
+        )
 
 # 전기 화재 주요 요인
 @app.get("/fire_reason")
@@ -31,6 +55,15 @@ def get_fire_reason():
     try:
         df = pd.read_excel('./data/FireReason.xlsx', index_col=0)
         result = fire_reason_json(df)
-        return JSONResponse(content=result)
+        return JSONResponse(content={
+            "status": "success",
+            "result": result
+        })
     except Exception as e:
-        return JSONResponse(status_code=500, content={"error": str(e)})
+        return JSONResponse( 
+            status_code=500,
+            content={
+                "status": "error",
+                "message": str(e)
+            }
+        )

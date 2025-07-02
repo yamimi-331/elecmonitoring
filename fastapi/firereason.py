@@ -30,6 +30,16 @@ sums = recent_5yrs.sum(axis=1)
 
 # JSON 형식으로 딕셔너리 생성
 summary_json = sums.to_dict()
-
 json_output = json.dumps(summary_json, ensure_ascii=False, indent=2)
 print(json_output)
+
+def fire_reason_json(df):
+    # 쉼표 제거 및 타입 변환
+    df = df.replace(',', '', regex=True).astype(int)
+
+    recent_5yrs = df.iloc[:, -5:]
+    sums = recent_5yrs.sum(axis=1)
+
+    # JSON용 dict 생성summary_json = sums.to_dict()
+    json_data = sums.to_dict()
+    return json_data

@@ -187,14 +187,14 @@ fetch('http://127.0.0.1:8000/elec-rate')
 				data: {
 					labels: labels,
 					datasets: [{
-						label: '전체 화재 수',
+						label: '전체 화재 건수',
 						data: total,
 						backgroundColor: 'rgba(54, 162, 235, 0.2)',
 						borderColor: 'rgba(54, 162, 235, 1)',
 						fill: true,
 						tension: 0.4},
 					{
-						label: '전기 화재 수',
+						label: '전기 화재 건수',
 						data: elec,
 						backgroundColor: 'rgba(255, 99, 132, 0.2)',
 						borderColor: 'rgba(255, 99, 132, 1)',

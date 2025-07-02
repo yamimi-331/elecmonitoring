@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+ <script src="../../resources/js/dashboard.js"></script>
 </head>
 <body>
 	<h2>메인 페이지</h2>
@@ -34,8 +35,5 @@
 
   <div id="resultBox"></div>
 
-  <script>
-   
-  </script>
 </body>
 </html>

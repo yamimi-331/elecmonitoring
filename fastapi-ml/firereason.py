@@ -3,12 +3,12 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import json
 
-df = pd.read_excel('./data/FireReason.xlsx', index_col=0)
-df = df.replace(',', '', regex=True).astype(int)
+# df = pd.read_excel('./data/FireReason.xlsx', index_col=0)
+# df = df.replace(',', '', regex=True).astype(int)
 
 # 최근 5년치만 추출, 원인 별 합계
-recent_5yrs = df.iloc[:, -5:]
-sums = recent_5yrs.sum(axis=1)
+# recent_5yrs = df.iloc[:, -5:]
+# sums = recent_5yrs.sum(axis=1)
 
 # # 도넛형 차트 시각화
 # plt.rcParams['font.family'] = 'Malgun Gothic'
@@ -29,9 +29,9 @@ sums = recent_5yrs.sum(axis=1)
 # plt.show()
 
 # JSON 형식으로 딕셔너리 생성
-summary_json = sums.to_dict()
-json_output = json.dumps(summary_json, ensure_ascii=False, indent=2)
-print(json_output)
+# summary_json = sums.to_dict()
+# json_output = json.dumps(summary_json, ensure_ascii=False, indent=2)
+# print(json_output)
 
 def fire_reason_json(df):
     # 쉼표 제거 및 타입 변환

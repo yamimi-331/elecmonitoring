@@ -3,14 +3,14 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import json
 
-df = pd.read_excel('./data/ShockReason.xlsx', index_col=0)
-df = df.replace(',', '', regex=True).astype(int)
+# df = pd.read_excel('./data/ShockReason.xlsx', index_col=0)
+# df = df.replace(',', '', regex=True).astype(int)
 
-sums = df.sum(axis=1)
+# sums = df.sum(axis=1)
 
-summary_json = sums.to_dict()
-json_output = json.dumps(summary_json, ensure_ascii=False, indent=2)
-print(json_output)
+# summary_json = sums.to_dict()
+# json_output = json.dumps(summary_json, ensure_ascii=False, indent=2)
+# print(json_output)
 
 def shock_reason_json(df):
     # 쉼표 제거 및 타입 변환

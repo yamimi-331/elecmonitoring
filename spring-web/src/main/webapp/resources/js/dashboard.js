@@ -254,12 +254,29 @@ function loadReasonChart(type) {
 								'#ff6384', '#36a2eb', '#ffcd56', '#4bc0c0',
 								'#9966ff', '#c9cbcf', '#ff9f40', '#9ccc65',
 								'#ba68c8', '#f06292'
-							]
+							],
+							hoverOffset: 30
 						}]
 					},
 					options:{
 						responsive: true,
+						interaction: {
+							mode: 'nearest',
+							intersect: true
+						},
 						plugins: {
+							tooltip: {
+								enabled: true,
+								callbacks: {
+									label: function(context) {
+										const label = context.label || '';
+										const value = context.raw;
+										const total = context.chart._metasets[context.datasetIndex].total;
+										const percentage = ((value/total) * 100).toFixed(1);
+										return `${label}: ${value}건 (${percentage}%)`;
+									}
+								}
+							},
 							title: {
 								display: true,
 								text: type == 'fire' ? '전기 화재 주요 요인' : '감전 주요 요인'

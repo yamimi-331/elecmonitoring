@@ -61,41 +61,6 @@
 	</table>
 
 </body>
-<script>
-// 테이블의 값들을 넣을 <td>들을 미리 셀렉트
-const tableCells = document.querySelectorAll('table tr td:nth-child(2)');
 
-function updateSummary() {
-	const region = document.getElementById('regionSelect').value;
-	const year = document.getElementById('yearSelect').value;
 
-	fetch("http://127.0.0.1:8000/summary?region=" + encodeURIComponent(region) + "&year=" + year)
-		.then(response => response.json())
-		.then(data => {
-			if (data.status === 'success') {
-				const r = data.result;
-				// 순서대로 테이블 td에 값 채우기
-				tableCells[0].textContent = r.fire_count.toLocaleString();
-				tableCells[1].textContent = r.fire_amount.toLocaleString();
-				tableCells[2].textContent = r.fire_injury.toLocaleString();
-				tableCells[3].textContent = r.fire_death.toLocaleString();
-				tableCells[4].textContent = r.shock_injury.toLocaleString();
-				tableCells[5].textContent = r.shock_death.toLocaleString();
-			} else {
-				alert('데이터를 불러오는 데 실패했습니다.');
-			}
-		})
-		.catch(err => {
-			console.error(err);
-			alert('서버 오류 발생');
-		});
-}
-
-// 이벤트 연결
-document.getElementById('regionSelect').addEventListener('change', updateSummary);
-document.getElementById('yearSelect').addEventListener('change', updateSummary);
-
-// 페이지 로드 시 초기값 호출
-window.addEventListener('load', updateSummary);
-</script>
 </html>

@@ -37,12 +37,17 @@ $(document).ready(function() {
         getPrediction();
     });
 	
-	loadReasonChart('fire');
 	
+	updateSummary();
     $('#regionSelect').change(function() {
         getPrediction();
+        updateSummary();
+    });
+    $('#yearSelect').change(function() {
+        updateSummary();
     });
     
+    loadReasonChart('fire');
     $('#fireBtn').click(function() {
     	loadReasonChart('fire');
     });
@@ -290,5 +295,36 @@ function loadReasonChart(type) {
 			} else {
 				alert("데이터를 불러오지 못했습니다.");
 			}
+		});
+}
+
+
+// 테이블의 값들을 넣을 <td>들을 미리 셀렉트
+const tableCells = document.querySelectorAll('table tr td:nth-child(2)');
+// select 값 테이블로 보여주기
+function updateSummary() {
+	const region = $('#regionSelect').val();
+	const year = $('#yearSelect').val();
+
+	fetch("http://127.0.0.1:8000/summary?region=" + encodeURIComponent(region) + "&year=" + year)
+		.then(response => response.json())
+		.then(data => {
+			if (data.status === 'success') {
+				const result = data.result;
+                const rows = $('table tr');
+				// 순서대로 테이블 td에 값 채우기
+				$(rows[0]).find('td').eq(1).text(result.fire_count.toLocaleString() + ' 건');
+                $(rows[1]).find('td').eq(1).text(result.fire_amount.toLocaleString() + ' 원');
+                $(rows[2]).find('td').eq(1).text(result.fire_injury.toLocaleString() + ' 명');
+                $(rows[3]).find('td').eq(1).text(result.fire_death.toLocaleString() + ' 명');
+                $(rows[4]).find('td').eq(1).text(result.shock_injury.toLocaleString() + ' 명');
+                $(rows[5]).find('td').eq(1).text(result.shock_death.toLocaleString() + ' 명');
+			} else {
+				alert('데이터를 불러오는 데 실패했습니다.');
+			}
+		})
+		.catch(err => {
+			console.error(err);
+			alert('서버 오류 발생');
 		});
 }

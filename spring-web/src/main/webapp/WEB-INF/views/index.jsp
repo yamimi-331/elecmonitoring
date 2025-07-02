@@ -34,10 +34,52 @@
 
 	<button id="predictBtn">예측하기</button>
 
+	<label>예측 연도:
+		<select id="yearSelect">
+			<option value="2023">2023</option>
+			<option value="2022">2022</option>
+			<option value="2021">2021</option>
+			<option value="2020">2020</option>
+			<option value="2019">2019</option>
+			<option value="2018">2018</option>
+			<option value="2017">2017</option>
+			<option value="2016">2016</option>
+			<option value="2015">2015</option>
+			<option value="2014">2014</option>
+			<option value="2013">2013</option>
+		</select>
+	</label>
+	
+	<table>
+		<tr>
+			<td>화재 건 수 : </td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>화재 피해액 : </td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>화재 부상자 수 : </td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>화재 사망자 수 : </td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>감전 부상자 수 : </td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>감전 사망자 수 : </td>
+			<td></td>
+		</tr>
+	</table>
+
 	<div id="resultBox"></div>
 	<canvas id="myChart" width="800" height="400"></canvas>
-	
-	
+		
 	<h2>전기 화재 비율 (연도별)</h2>
 	<canvas id="elecRateChart" width="600" height="400"></canvas>
 	

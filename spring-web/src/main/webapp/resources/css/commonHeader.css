@@ -1,0 +1,370 @@
+/* 기본 스타일 초기화 */
+body {
+    margin: 0;
+    font-family: 'Malgun Gothic', '맑은 고딕', 'Apple SD Gothic Neo', Dotum, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    overflow-x: hidden; /* 가로 스크롤 방지 */
+}
+
+/* 헤더 스타일 */
+.main-header {
+    background-color: #fff; /* 흰 배경 */
+    padding: 15px 30px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    position: relative;
+    z-index: 1000;
+}
+
+.header-title {
+    margin: 0;
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #333; /* 검은 글씨 */
+    text-align: center; /* 제목 중앙 정렬 */
+    padding-bottom: 15px; /* nav와의 분리 */
+}
+
+/* 네비게이션 컨테이너 */
+.main-nav {
+    background-color: #0070c0; /* 파란 배경 */
+    padding: 0 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 5px; /* 약간 둥근 모서리 */
+    position: relative; /* common-mega-menu-dropdown의 기준점 */
+    z-index: 100; /* 메뉴 위에 오도록 */
+}
+
+.nav-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.nav-item {
+    position: relative;
+}
+
+.nav-link {
+    color: #fff; /* 흰 글씨 */
+    text-decoration: none;
+    padding: 15px 25px; /* 클릭 영역 넓게 */
+    display: block;
+    font-weight: bold;
+    font-size: 1.05em;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.nav-link:hover,
+.nav-item.active .nav-link { /* 활성화/호버 시 배경색 변경 */
+    background-color: rgba(255, 255, 255, 0.2); /* 약간 투명한 흰색 */
+    border-radius: 5px;
+}
+
+/* 공통 메가 메뉴 드롭다운 영역 */
+.common-mega-menu-dropdown {
+    display: none; /* 기본 숨김: JS가 'block'으로 변경 */
+    position: absolute;
+    /* main-nav와 동일한 너비로, main-nav 아래에 위치 */
+    left: 0;
+    right: 0;
+    top: calc(100% + 5px); /* main-nav 아래에 약간의 간격을 두고 */
+    background-color: #fff;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    padding: 25px 30px;
+    border-radius: 0 0 8px 8px; /* 아래쪽만 둥글게 */
+    z-index: 99; /* main-nav보다 아래, overlay보다 위 */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-20px); /* 위에서 아래로 내려오는 효과 */
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+    border-top: 3px solid #0070c0; /* 정부24 스타일의 상단 파란 라인 */
+}
+
+/* common-mega-menu-dropdown이 열릴 때 헤더에 'menu-open' 클래스 추가 (JS가 제어) */
+.main-header.menu-open .common-mega-menu-dropdown {
+    display: block; /* 이 부분을 'block'으로 변경하여 보이게 함 */
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* 각 메가 메뉴 콘텐츠 (탭처럼 전환) */
+.mega-menu-content {
+    display: none; /* 핵심: 기본적으로 모두 숨김 */
+    animation: fadeIn 0.3s ease-in-out; /* 내용 전환 시 페이드인 효과 */
+    /* 아래 flex 속성들은 active 클래스가 붙었을 때만 적용 */
+    justify-content: space-between; /* 컬럼 간 간격 */
+    gap: 30px; /* 컬럼 사이 간격 */
+}
+
+.mega-menu-content.active {
+    display: flex; /* 활성화된 콘텐츠만 'flex'로 보여줌 */
+}
+
+/* 페이드인 애니메이션 */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+/* 메가 메뉴 컬럼 */
+.mega-menu-column {
+    flex: 1; /* 각 컬럼이 동일한 공간 차지 */
+    min-width: 180px; /* 컬럼 최소 너비 */
+}
+
+.mega-menu-column h3 {
+    color: #0070c0; /* 파란색 제목 */
+    font-size: 1.2em;
+    margin-top: 0;
+    margin-bottom: 18px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #eee; /* 하단 구분선 */
+}
+/* 시각적으로 숨기지만 스크린리더는 읽도록 */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+
+.mega-menu-column ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.mega-menu-column ul li {
+    margin-bottom: 10px;
+}
+
+.mega-menu-column ul li a {
+    color: #555;
+    text-decoration: none;
+    display: block;
+    padding: 5px 0;
+    transition: color 0.2s ease, transform 0.2s ease;
+    position: relative;
+    padding-left: 15px; /* 화살표 아이콘 공간 */
+}
+
+.mega-menu-column ul li a::before { /* 정부24 스타일 화살표 */
+    content: '\203A'; /* > 문자 */
+    position: absolute;
+    left: 0;
+    color: #999;
+    font-size: 1.1em;
+    line-height: 1;
+}
+
+.mega-menu-column ul li a:hover {
+    color: #0056b3;
+    transform: translateX(3px); /* 약간의 움직임 효과 */
+}
+
+.mega-menu-column p {
+    font-size: 0.95em;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+/* 아이콘 리스트 (예시) */
+.icon-list li a {
+    display: flex;
+    align-items: center;
+}
+
+.icon-list li a i {
+    margin-right: 8px;
+    color: #0070c0;
+}
+
+/* 메뉴 바로가기 버튼 */
+.menu-shortcut-btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background-color: #f0f0f0;
+    color: #333;
+    padding: 10px 0;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.menu-shortcut-btn:hover {
+    background-color: #e0e0e0;
+}
+
+/* 로그인 버튼 */
+.login-btn {
+    background-color: #f7b000; /* 주황색 계열 (정부24 로그인 버튼 색상 참고) */
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-left: 30px;
+    transition: background-color 0.3s ease;
+    white-space: nowrap; /* 버튼 텍스트 줄바꿈 방지 */
+}
+
+.login-btn:hover {
+    background-color: #e09f00;
+}
+
+/* 오버레이 */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* 조금 더 밝은 오버레이 */
+    z-index: 98; /* 메뉴보다 아래 */
+    display: none;
+    transition: opacity 0.3s ease;
+    opacity: 0;
+}
+
+.overlay.show {
+    opacity: 1;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 1200px) {
+    .common-mega-menu-dropdown {
+        padding: 20px 25px;
+    }
+    .mega-menu-content {
+        gap: 20px;
+    }
+    .mega-menu-column {
+        min-width: 160px;
+    }
+}
+
+@media (max-width: 992px) {
+    .main-header {
+        flex-direction: column;
+        align-items: center;
+        padding: 15px 20px;
+    }
+
+    .header-title {
+        font-size: 1.6em;
+        padding-bottom: 10px;
+    }
+
+    .main-nav {
+        width: 100%;
+        padding: 0 10px;
+        flex-wrap: wrap;
+        justify-content: center;
+        border-radius: 5px; /* 모바일에서 메인 nav도 둥글게 유지 */
+    }
+
+    .nav-list {
+        flex-grow: 1;
+        justify-content: center;
+        margin-right: 10px;
+    }
+
+    .nav-item {
+        margin: 0 5px;
+    }
+
+    .nav-link {
+        padding: 12px 15px;
+        font-size: 0.95em;
+    }
+
+    .login-btn {
+        margin-left: 0;
+        margin-top: 15px;
+        width: 100%;
+        padding: 12px 0;
+    }
+
+    /* 공통 메가 메뉴 드롭다운 (모바일) */
+    .common-mega-menu-dropdown {
+        left: 50%; /* 중앙 정렬 */
+        transform: translateX(-50%) translateY(-20px);
+        width: 95%; /* 화면 너비에 맞춤 */
+        top: 100%; /* 상단 헤더 아래에 위치 */
+        padding: 20px;
+        border-radius: 8px;
+        flex-direction: column; /* 컬럼을 세로로 쌓기 */
+        max-height: 80vh; /* 최대 높이 설정 */
+        overflow-y: auto; /* 내용이 길면 스크롤 */
+    }
+
+    .main-header.menu-open .common-mega-menu-dropdown {
+         transform: translateX(-50%) translateY(0);
+    }
+
+    .mega-menu-content {
+        flex-direction: column; /* 모바일에서 콘텐츠 컬럼도 세로로 쌓기 */
+        gap: 25px;
+        animation: none; /* 모바일에서는 페이드인 애니메이션 제거 (불필요) */
+    }
+
+    .mega-menu-column {
+        margin-bottom: 25px; /* 세로 컬럼 간 간격 */
+        min-width: unset; /* 최소 너비 해제 */
+    }
+    .mega-menu-column:last-child {
+        margin-bottom: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-title {
+        font-size: 1.4em;
+    }
+    .nav-link {
+        padding: 10px 12px;
+        font-size: 0.9em;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-header, .main-nav {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    .header-title {
+        font-size: 1.2em;
+    }
+    .nav-list {
+        flex-direction: column; /* 세로로 메뉴 쌓기 */
+        align-items: center;
+        width: 100%;
+        margin-right: 0;
+    }
+    .nav-item {
+        width: 100%;
+        text-align: center;
+        margin: 5px 0;
+    }
+    .nav-link {
+        width: 100%;
+        padding: 10px 0;
+    }
+    .login-btn {
+        font-size: 0.9em;
+    }
+}

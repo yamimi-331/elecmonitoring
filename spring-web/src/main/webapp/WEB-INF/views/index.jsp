@@ -19,22 +19,31 @@
 	</ul>
 	
 	
-  <label>지역:
-    <select id="regionSelect">
-      <option value="서울특별시">서울특별시</option>
-      <option value="부산광역시">부산광역시</option>
-      <option value="대구광역시">대구광역시</option>
-      <!-- 등등 -->
-    </select>
-  </label>
+	<label>지역:
+		<select id="regionSelect">
+			<option value="서울특별시">서울특별시</option>
+			<option value="부산광역시">부산광역시</option>
+			<option value="대구광역시">대구광역시</option>
+			<!-- 등등 -->
+		</select>
+	</label>
 
-  <label>예측 연도 수:
-    <input type="number" id="yearsInput" value="3" min="1" max="10">
-  </label>
+	<label>예측 연도 수:
+		<input type="number" id="yearsInput" value="3" min="1" max="10">
+	</label>
 
-  <button id="predictBtn">예측하기</button>
+	<button id="predictBtn">예측하기</button>
 
-  <div id="resultBox"></div>
-<canvas id="myChart" width="800" height="400"></canvas>
+	<div id="resultBox"></div>
+	<canvas id="myChart" width="800" height="400"></canvas>
+	
+	
+	<h2>전기 화재 비율 (연도별)</h2>
+	<canvas id="elecRateChart" width="600" height="400"></canvas>
+	
+	<h2>주요 전기 사고 원인</h2>
+	<button id="fireBtn">화재 사고 원인</button>
+	<button id="shockBtn">감전 사고 원인</button>
+	<canvas id="reasonChart" width="500" height="500"></canvas>
 </body>
 </html>

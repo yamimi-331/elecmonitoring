@@ -30,28 +30,31 @@ function getPrediction() {
 }
 
 
-
+let currentReasonType = 'fire';
 $(document).ready(function() {
 	getPrediction();
+	updateSummary();
+	loadReasonChart(currentReasonType);
+	
     $('#predictBtn').click(function() {
         getPrediction();
     });
 	
-	
-	updateSummary();
     $('#regionSelect').change(function() {
         getPrediction();
         updateSummary();
     });
     $('#yearSelect').change(function() {
         updateSummary();
+        loadReasonChart(currentReasonType);
     });
     
-    loadReasonChart('fire');
     $('#fireBtn').click(function() {
+    	currentReasonType = 'fire';
     	loadReasonChart('fire');
     });
     $('#shockBtn').click(function() {
+    	currentReasonType = 'shock';
     	loadReasonChart('shock');
     });
 });
@@ -232,7 +235,8 @@ fetch('http://127.0.0.1:8000/elec-rate')
 let reason = null;
 
 function loadReasonChart(type) {
-	const url = type === 'fire' ? 'http://127.0.0.1:8000/fire_reason' : 'http://127.0.0.1:8000/shock_reason';
+	const year = $('#yearSelect').val();
+	const url = type === 'fire' ? 'http://127.0.0.1:8000/fire_reason?year=' + year : 'http://127.0.0.1:8000/shock_reason?year=' + year;
 	
 	fetch(url)
 		.then(response => response.json())
@@ -284,7 +288,7 @@ function loadReasonChart(type) {
 							},
 							title: {
 								display: true,
-								text: type == 'fire' ? '전기 화재 주요 요인' : '감전 주요 요인'
+								text: year + '년 ' + (type === 'fire' ? "전기 화재 주요 원인" : "감전 주요 원인")
 							},
 							legend: {
 								position: 'bottom'

@@ -33,13 +33,15 @@ import json
 # json_output = json.dumps(summary_json, ensure_ascii=False, indent=2)
 # print(json_output)
 
-def fire_reason_json(df):
+def fire_reason_json(df, year: int = 2023):
     # 쉼표 제거 및 타입 변환
+    df.columns = [col.replace(',', '') for col in df.columns.astype(str)]
     df = df.replace(',', '', regex=True).astype(int)
 
-    recent_5yrs = df.iloc[:, -5:]
-    sums = recent_5yrs.sum(axis=1)
+    year_col = str(year)
+    if year_col not in df.columns:
+        raise ValueError(f"{year}년 데이터가 없습니다.")
 
     # JSON용 dict 생성summary_json = sums.to_dict()
-    json_data = sums.to_dict()
+    json_data = df[year_col].to_dict()
     return json_data

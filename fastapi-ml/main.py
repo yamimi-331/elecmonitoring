@@ -62,10 +62,10 @@ def get_elec_rate():
 
 # 전기 화재 주요 요인
 @app.get("/fire_reason")
-def get_fire_reason():
+def get_fire_reason(year: int = Query(2023, ge=2013, le=2023)):
     try:
         df = pd.read_excel('./data/FireReason.xlsx', index_col=0)
-        result = fire_reason_json(df)
+        result = fire_reason_json(df, year)
         return JSONResponse(content={
             "status": "success",
             "result": result
@@ -81,10 +81,10 @@ def get_fire_reason():
 
 # 감전 주요 요인
 @app.get("/shock_reason")
-def get_shock_reason():
+def get_shock_reason(year: int = Query(2023, ge=2013, le=2023)):
     try:
         df = pd.read_excel('./data/ShockReason.xlsx', index_col=0)
-        result = shock_reason_json(df)
+        result = shock_reason_json(df, year)
         return JSONResponse(content={
             "status": "success",
             "result": result

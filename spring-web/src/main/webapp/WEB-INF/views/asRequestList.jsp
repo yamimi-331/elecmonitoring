@@ -7,11 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
+    <%@ include file="/WEB-INF/views/common/commonHeader.jsp" %>
 	<h2>AS 신고 접수 내역 조회 페이지</h2>
-	<ul>
-		<li><a href="/">메인 페이지</a></li>
-		<li><a href="/asRegister">AS 신고 접수 페이지</a></li>
-		<li><a href="/asRequestList">AS 신고 접수 내역 조회 페이지</a></li>
-	</ul>
+	
 </body>
 </html>

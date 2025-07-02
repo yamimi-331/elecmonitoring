@@ -48,16 +48,18 @@
             <div class="mega-menu-column">
                 <h3>A/S 서비스 신청</h3>
                 <ul>
-                    <li><a href="#">A/S 신청서 작성</a></li>
-                    <li><a href="#">A/S 진행 현황</a></li>
+                    <li><a href="/asRegister">A/S 신청서 작성</a></li>
+                    <li><a href="/asRequestList">A/S 진행 현황</a></li>
                     <li><a href="#">A/S 완료 내역</a></li>
                     <li><a href="#">FAQ: A/S 관련</a></li>
                 </ul>
             </div>
+            
             <div class="mega-menu-column">
                 <h3>신청 가이드</h3>
                 <p>간편하게 A/S를 신청하고 처리 현황을 확인하세요. 전문 기사가 신속하고 정확하게 처리해드립니다. 온라인으로 편리하게 접수 가능합니다.</p>
-                <p style="text-align: center; font-size: 3em; margin-top: 10px;">🔧</p> </div>
+             </div>
+             
              <div class="mega-menu-column">
                 <h3>긴급 문의</h3>
                 <p>긴급한 A/S는 고객센터로 직접 문의해주세요.</p>
@@ -69,7 +71,7 @@
             <div class="mega-menu-column">
                 <h3>사이트 정보</h3>
                 <ul>
-                    <li><a href="#">메인 페이지</a></li>
+                    <li><a href="/">메인 페이지</a></li>
                     <li><a href="#">이용 안내</a></li>
                     <li><a href="#">자주 묻는 질문</a></li>
                     <li><a href="#">사이트맵</a></li>

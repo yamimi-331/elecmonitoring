@@ -3,6 +3,8 @@ import pandas as pd
 import joblib
 import matplotlib.pyplot as plt
 from matplotlib import font_manager, rc
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
 # 원본 데이터
 df = pd.read_excel('./data/ElecData.xlsx')
@@ -64,45 +66,66 @@ def predict(region='서울특별시', type_='전기화재', periods=3):
                      'amount_actual', 'amount_predicted',
                      'count_actual', 'count_predicted']]
 
+    # === 추가: 실제 연도 구간의 평가 지표 ===
+    # actual_years_mask = result['amount_actual'] > 0
+
+    # y_true_amount = result.loc[actual_years_mask, 'amount_actual']
+    # y_pred_amount = result.loc[actual_years_mask, 'amount_predicted']
+    # y_true_count = result.loc[actual_years_mask, 'count_actual']
+    # y_pred_count = result.loc[actual_years_mask, 'count_predicted']
+
+    # amount_mae = mean_absolute_error(y_true_amount, y_pred_amount)
+    # amount_mse = mean_squared_error(y_true_amount, y_pred_amount)
+    # amount_r2 = r2_score(y_true_amount, y_pred_amount)
+
+    # count_mae = mean_absolute_error(y_true_count, y_pred_count)
+    # count_mse = mean_squared_error(y_true_count, y_pred_count)
+    # count_r2 = r2_score(y_true_count, y_pred_count)
+
+    # print(f"=== 예측 성능 ({region} / {type_}) ===")
+    # print(f"[피해액] MAE: {amount_mae:,.2f}, MSE: {amount_mse:,.2f}, R²: {amount_r2:.4f}")
+    # print(f"[건수]   MAE: {count_mae:,.2f}, MSE: {count_mse:,.2f}, R²: {count_r2:.4f}")
+
     return result.to_dict(orient='records')
 
-# # 실행 테스트
+# 실행 테스트
+
 # if __name__ == "__main__":
-#     # 한글 폰트 설정 (윈도우 기준)
+#     # 한글 폰트 설정 (윈도우)
 #     font_path = "C:/Windows/Fonts/malgun.ttf"
 #     font_name = font_manager.FontProperties(fname=font_path).get_name()
 #     rc('font', family=font_name)
 
-#     # ✅ 지역 선택
-#     region = '서울특별시'
-#     type_ = '전기화재'
+#     region = "서울특별시"
+#     periods = 3
+#     results = predict(region, '전기화재', periods)
+#     df_result = pd.DataFrame(results)
 
-#     data = predict(region=region, type_=type_, periods=3)
-#     df_result = pd.DataFrame(data)
+#     fig, ax1 = plt.subplots(figsize=(12, 6))
 
-#     # 피해액 그래프
-#     plt.figure(figsize=(12, 6))
-#     plt.plot(df_result['year'], df_result['amount_actual'], label='피해액 실측', marker='o', color='blue')
-#     plt.plot(df_result['year'], df_result['amount_predicted'], label='피해액 예측', marker='o', linestyle='--', color='cyan')
-#     plt.title(f'{region} 피해액 실측 vs 예측')
-#     plt.xlabel('년도')
-#     plt.ylabel('피해액 (원)')
-#     plt.legend()
-#     plt.grid(True)
-#     plt.xticks(rotation=45)
-#     plt.tight_layout()
-#     plt.show()
+#     # 피해액: 실제 vs 예측 (왼쪽 y축)
+#     ax1.plot(df_result['year'], df_result['amount_actual'], label='피해액 실측', marker='o', color='blue')
+#     ax1.plot(df_result['year'], df_result['amount_predicted'], label='피해액 예측', marker='o', linestyle='--', color='cyan')
+#     ax1.set_xlabel('년도')
+#     ax1.set_ylabel('피해액 (원)', color='blue')
+#     ax1.tick_params(axis='y', labelcolor='blue')
+#     ax1.grid(True)
 
-#     # 피해건수 그래프
-#     plt.figure(figsize=(12, 6))
-#     width = 0.35
-#     plt.bar(df_result['year'] - width/2, df_result['count_actual'], width=width, label='건수 실측', color='orange', alpha=0.7)
-#     plt.bar(df_result['year'] + width/2, df_result['count_predicted'], width=width, label='건수 예측', color='red', alpha=0.7)
-#     plt.title(f'{region} 피해건수 실측 vs 예측')
-#     plt.xlabel('년도')
-#     plt.ylabel('피해건수')
-#     plt.legend()
-#     plt.grid(True)
+#     # 피해건수: 실제 vs 예측 (오른쪽 y축)
+#     ax2 = ax1.twinx()
+#     width = 0.3
+#     years = df_result['year'].values
+#     ax2.bar(years - width/2, df_result['count_actual'], width=width, label='건수 실측', color='orange', alpha=0.7)
+#     ax2.bar(years + width/2, df_result['count_predicted'], width=width, label='건수 예측', color='red', alpha=0.7)
+#     ax2.set_ylabel('피해건수', color='red')
+#     ax2.tick_params(axis='y', labelcolor='red')
+
+#     # 범례
+#     lines_1, labels_1 = ax1.get_legend_handles_labels()
+#     lines_2, labels_2 = ax2.get_legend_handles_labels()
+#     ax1.legend(lines_1 + lines_2, labels_1 + labels_2, loc='upper left')
+
+#     plt.title(f"{region} 전기화재 피해액 및 피해건수 실측 vs 예측 (Prophet)")
 #     plt.xticks(rotation=45)
 #     plt.tight_layout()
 #     plt.show()

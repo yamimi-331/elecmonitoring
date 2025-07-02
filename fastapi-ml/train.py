@@ -23,14 +23,14 @@ for region in regions:
     if df_count['y'].dropna().shape[0] >= 2:
         model_count = Prophet()
         model_count.fit(df_count)
-        joblib.dump(model_count, f'./fastapi/models/prophet_model_count_{region}.pkl')
+        joblib.dump(model_count, f'./models/prophet_model_count_{region}.pkl')
     else:
         print(f"⚠️ {region} 피해건수 데이터가 충분하지 않아 학습하지 않음")
 
     if df_amount['y'].dropna().shape[0] >= 2:
         model_amount = Prophet()
         model_amount.fit(df_amount)
-        joblib.dump(model_amount, f'./fastapi/models/prophet_model_amount_{region}.pkl')
+        joblib.dump(model_amount, f'./models/prophet_model_amount_{region}.pkl')
     else:
         print(f"⚠️ {region} 피해액 데이터가 충분하지 않아 학습하지 않음")
 

@@ -12,8 +12,8 @@ def load_models(region):
     """
     선택한 지역의 Prophet 모델 로드
     """
-    count_model_path = f'./fastapi/models/prophet_model_count_{region}.pkl'
-    amount_model_path = f'./fastapi/models/prophet_model_amount_{region}.pkl'
+    count_model_path = f'./models/prophet_model_count_{region}.pkl'
+    amount_model_path = f'./models/prophet_model_amount_{region}.pkl'
 
     if not os.path.exists(count_model_path) or not os.path.exists(amount_model_path):
         raise FileNotFoundError(f"❌ {region} 모델이 존재하지 않습니다. 모델을 먼저 학습해주세요!")

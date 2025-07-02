@@ -6,6 +6,7 @@ from fastapi.responses import JSONResponse
 from prediction import predict
 from elecrate import elec_rate_json
 from firereason import fire_reason_json
+from shockreason import shock_reason_json
 
 app = FastAPI()
 
@@ -55,6 +56,25 @@ def get_fire_reason():
     try:
         df = pd.read_excel('./data/FireReason.xlsx', index_col=0)
         result = fire_reason_json(df)
+        return JSONResponse(content={
+            "status": "success",
+            "result": result
+        })
+    except Exception as e:
+        return JSONResponse( 
+            status_code=500,
+            content={
+                "status": "error",
+                "message": str(e)
+            }
+        )
+
+# 감전 주요 요인
+@app.get("/shock_reason")
+def get_shock_reason():
+    try:
+        df = pd.read_excel('./data/ShockReason.xlsx', index_col=0)
+        result = shock_reason_json(df)
         return JSONResponse(content={
             "status": "success",
             "result": result

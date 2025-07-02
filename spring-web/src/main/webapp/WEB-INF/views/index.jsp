@@ -5,11 +5,97 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
- <script src="../../resources/js/dashboard.js"></script>
+<title>메인 페이지</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="../../resources/js/dashboard.js"></script>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 30px;
+    background: #f9f9f9;
+  }
+
+  h2, h3 {
+    text-align: center;
+    color: #333;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+
+  ul li a {
+    text-decoration: none;
+    color: #007BFF;
+    font-weight: bold;
+  }
+
+  ul li a:hover {
+    text-decoration: underline;
+  }
+
+  label {
+    margin-right: 20px;
+    display: inline-block;
+  }
+
+  select, input[type="number"] {
+    padding: 5px;
+    margin-left: 5px;
+  }
+
+  button {
+    padding: 7px 15px;
+    margin-left: 10px;
+    background: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background: #0056b3;
+  }
+
+  table {
+    margin: 30px auto;
+    border-collapse: collapse;
+    width: 50%;
+    background: white;
+  }
+
+  table, th, td {
+    border: 1px solid #ddd;
+  }
+
+  td {
+    padding: 10px;
+    text-align: left;
+  }
+
+  canvas {
+    display: block;
+    margin: 30px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px #ddd;
+  }
+  .controller{
+  	display: flex;
+  	justify-content: center;
+  }
+</style>
 </head>
+
 <body>
 	<h2>메인 페이지</h2>
 	<ul>
@@ -19,6 +105,7 @@
 	</ul>
 	
 	
+	<div class="controller">
 	<label>지역:
 		<select id="regionSelect">
 			<option value="서울특별시">서울특별시</option>
@@ -27,12 +114,9 @@
 			<!-- 등등 -->
 		</select>
 	</label>
-
 	<label>예측 연도 수:
 		<input type="number" id="yearsInput" value="3" min="1" max="10">
 	</label>
-
-	<button id="predictBtn">예측하기</button>
 
 	<label>예측 연도:
 		<select id="yearSelect">
@@ -49,6 +133,9 @@
 			<option value="2013">2013</option>
 		</select>
 	</label>
+
+	<button id="predictBtn">예측하기</button>
+	</div>
 	
 	<table>
 		<tr>
@@ -76,16 +163,18 @@
 			<td></td>
 		</tr>
 	</table>
-
-	<div id="resultBox"></div>
+	
+	<h3>연도별 전기화재 피해 현황 및 예측 차트</h3>
 	<canvas id="myChart" width="800" height="400"></canvas>
 		
 	<h2>전기 화재 비율 (연도별)</h2>
 	<canvas id="elecRateChart" width="600" height="400"></canvas>
 	
 	<h2>주요 전기 사고 원인</h2>
+	<div class="controller">
 	<button id="fireBtn">화재 사고 원인</button>
 	<button id="shockBtn">감전 사고 원인</button>
+	</div>
 	<canvas id="reasonChart" width="500" height="500"></canvas>
 </body>
 </html>

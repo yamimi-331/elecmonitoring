@@ -84,12 +84,11 @@
 						<div class="chart-header">
 							<h3>연도별 전기화재 피해 현황 및 예측 차트</h3>
 							<div class="range-group">
-								<label for="predictYear">연도 </label>
 						      	<select class="controller-predict" id="predictYear">
-									<option value="3">3년</option>
-									<option value="5">5년</option>
-									<option value="7">7년</option>
-									<option value="10">10년</option>
+									<option value="3">예측 기간 3년</option>
+									<option value="5">예측 기간 5년</option>
+									<option value="7">예측 기간 7년</option>
+									<option value="10">예측 기간 10년</option>
 								</select>
 						    </div>
 						</div>

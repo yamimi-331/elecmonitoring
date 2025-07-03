@@ -14,7 +14,7 @@
 
 <body>
    <%@ include file="/WEB-INF/views/common/commonHeader.jsp" %>
-	<main>
+	<main class="main">
 		<div class="controller">
 			<label class="controller-label">지역: </label>
 			<select class="controller-select" id="regionSelect">

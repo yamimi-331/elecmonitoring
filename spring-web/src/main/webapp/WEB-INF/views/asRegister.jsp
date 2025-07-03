@@ -9,5 +9,6 @@
 <body>
 	<%@ include file="/WEB-INF/views/common/commonHeader.jsp" %>
 	<h2>AS 신고 접수 페이지</h2>
+	<p> 신고접수 내용 적는 영역</p>
 </body>
 </html>

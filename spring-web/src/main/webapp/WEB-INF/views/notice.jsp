@@ -7,11 +7,6 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" href="../../resources/css/common.css?after" />
 <style>
-.header-title {
-	text-align: center;
-	margin-bottom: 20px;
-}
-
 .btn-insert {
 	display: inline-block;
 	padding: 8px 16px;

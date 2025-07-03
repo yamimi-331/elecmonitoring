@@ -6,14 +6,6 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="../../resources/css/common.css?after" />
-
-<style>
-.wrapper {
-	max-width: 700px;
-	margin: 0 auto;
-	padding: 20px;
-}
-</style>
 <title>공지사항 상세</title>
 </head>
 <body>

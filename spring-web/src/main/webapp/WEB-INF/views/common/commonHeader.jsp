@@ -28,7 +28,7 @@
             <div class="mega-menu-column">
                 <h3>공지사항 안내</h3>
                 <ul>
-                    <li><a href="#">전체 공지사항</a></li>
+                    <li><a href="/notice">전체 공지사항</a></li>
                     <li><a href="#">시스템 업데이트</a></li>
                     <li><a href="#">긴급 점검 안내</a></li>
                     <li><a href="#">이벤트 및 프로모션</a></li>

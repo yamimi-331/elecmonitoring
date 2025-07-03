@@ -13,6 +13,7 @@
 </head>
 <body>
 	 <div class="wrapper">
+	<h2 class="header-title">전기재해 모니터링 &amp; 노후시설 A/S 신고 관리 시스템</h2>
    <%@ include file="/WEB-INF/views/common/commonHeader.jsp" %>
 	<main class="main">
 		<div class="container">

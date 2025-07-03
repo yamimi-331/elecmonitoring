@@ -4,7 +4,6 @@
 <link rel="stylesheet" href="../../resources/css/commonHeader.css?after" />
 
 <header class="main-header">
-	<h2 class="header-title">전기재해 모니터링 &amp; 노후시설 A/S 신고 관리 시스템</h2>
 	<nav class="main-nav">
 		<ul class="nav-list">
 			<li class="nav-item">

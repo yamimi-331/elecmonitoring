@@ -3,7 +3,7 @@
  */
 function getPrediction() {
   const region = $('#regionSelect').val();
-  const years = $('#yearsInput').val();
+  const years = $('#predictYear').val();
 
   fetch(`http://localhost:8000/predict?years=${years}&region=${region}`)
     .then(response => {
@@ -36,7 +36,7 @@ $(document).ready(function() {
 	updateSummary();
 	loadReasonChart(currentReasonType);
 	
-    $('#predictBtn').click(function() {
+    $('#predictYear').change(function() {
         getPrediction();
     });
 	

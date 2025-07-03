@@ -13,19 +13,27 @@
 </head>
 
 <body>
-	<!-- 공통헤더 -->
-	<%@ include file="/WEB-INF/views/common/commonHeader.jsp"%>
-	<!-- 상단 컨트롤러: (지역 예측 연도수 예측 연도 버튼) -->
-	<div class="controller">
-		<label>지역: <select id="regionSelect">
+   <%@ include file="/WEB-INF/views/common/commonHeader.jsp" %>
+	<main>
+		<div class="controller">
+			<label class="controller-label">지역: </label>
+			<select class="controller-select" id="regionSelect">
 				<option value="서울특별시">서울특별시</option>
 				<option value="부산광역시">부산광역시</option>
 				<option value="대구광역시">대구광역시</option>
 				<!-- 등등 -->
-		</select>
-		</label> <label>예측 연도 수: <input type="number" id="yearsInput"
-			value="3" min="1" max="10">
-		</label> <label>예측 연도: <select id="yearSelect">
+			</select>
+			
+			<label class="controller-label">예측 연도 수: </label>
+			<select class="controller-select" id="predictYear">
+				<option value="3">3개월</option>
+				<option value="6">6개월</option>
+				<option value="9">9개월</option>
+				<option value="12">12개월</option>
+			</select>
+			
+			<label class="controller-label">연도:</label>
+			<select class="controller-select" id="yearSelect">
 				<option value="2023">2023</option>
 				<option value="2022">2022</option>
 				<option value="2021">2021</option>
@@ -37,57 +45,48 @@
 				<option value="2015">2015</option>
 				<option value="2014">2014</option>
 				<option value="2013">2013</option>
-		</select>
-		</label>
-
-		<button id="predictBtn">예측하기</button>
-		<button id="fireBtn">화재 사고 원인</button>
-		<button id="shockBtn">감전 사고 원인</button>
-	</div>
-	<!-- 상단 컨트롤러: (지역 예측 연도수 예측 연도 버튼) end ----------------------------- -->
-
-	<main class="main-container">
-		<div class="inner-container">
-			<h3>연도별 전기화재 피해 현황 및 예측 차트</h3>
-			<canvas class="chart-canvas"  id="myChart"></canvas>
+			</select>
 		</div>
-		<div class="inner-container">
-			<h3>전기 화재 비율 (연도별)</h3>
-			<canvas class="chart-canvas"  id="elecRateChart"></canvas>
-		</div>
-		<div class="inner-container">
-			<h3>주요 전기 사고 원인</h3>
-			<canvas class="chart-canvas"  id="reasonChart" ></canvas>
+		<div class="container">
+			<div class="content-wrapper">
+	
+				<div class="left-charts">
+					<div class="top-chart">
+						<h3>연도별 전기화재 피해 현황 및 예측 차트</h3>
+						<canvas class="chartCanvas" id="myChart"></canvas>
+					</div>
+					<div class="bottom-charts">
+						<div class="small-chart">
+							<h3>전기 화재 비율 (연도별)</h3>
+							<canvas class="chartCanvas" id="elecRateChart"></canvas>
+						</div>
+						<div class="small-chart">
+							<div class="controller2">
+								<h3>주요 전기 사고 원인</h3>
+								<button class="reasonBtn" id="fireBtn">화재 사고 원인</button>
+								<button class="reasonBtn" id="shockBtn">감전 사고 원인</button>
+							</div>
+							<canvas class="chartCanvas" id="reasonChart"></canvas>
+						</div>
+					</div>
+				</div>
+	
+				<div class="table-box">
+					<table>
+						<tbody>
+							<tr><td>화재 건 수 :</td><td></td></tr>
+							<tr><td>화재 피해액 :</td><td></td></tr>
+							<tr><td>화재 부상자 수 :</td><td></td></tr>
+							<tr><td>화재 사망자 수 :</td><td></td></tr>
+							<tr><td>감전 부상자 수 :</td><td></td></tr>
+							<tr><td>감전 사망자 수 :</td><td></td></tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
 		</div>
 	</main>
-	
-	<div>
-		<table class="data-table">
-			<tr>
-				<td>화재 건 수</td>
-				<td></td>
-			</tr>
-			<tr>
-				<td>화재 피해액</td>
-				<td></td>
-			</tr>
-			<tr>
-				<td>화재 부상자 수</td>
-				<td></td>
-			</tr>
-			<tr>
-				<td>화재 사망자 수</td>
-				<td></td>
-			</tr>
-			<tr>
-				<td>감전 부상자 수</td>
-				<td></td>
-			</tr>
-			<tr>
-				<td>감전 사망자 수</td>
-				<td></td>
-			</tr>
-		</table>
-	</div>
+	<footer>
+	</footer>
 </body>
 </html>

@@ -31,7 +31,6 @@
 
 </style>
 </head>
-
 <body>
 	 <div class="wrapper">
    <%@ include file="/WEB-INF/views/common/commonHeader.jsp" %>
@@ -43,23 +42,11 @@
 					<div id="map-container">
 						<%@ include file="../../resources/img/koreamap.svg" %>
 					</div>
-					
 					<table class="controll-table">
 						<colgroup>
 							<col width="50%">
 							<col width="50%">
 						</colgroup>
-						<tr>
-							<td>예측 연도 수</td>
-							<td>
-								<select class="controller-select" id="predictYear">
-									<option value="3">3개월</option>
-									<option value="6">6개월</option>
-									<option value="9">9개월</option>
-									<option value="12">12개월</option>
-								</select>
-							</td>
-						</tr>
 						<tr>
 							<td>연도</td>
 							<td>
@@ -97,6 +84,8 @@
 				<div class="right-section">
 					<div class="top-chart">
 						<h3>연도별 전기화재 피해 현황 및 예측 차트</h3>
+						<label for="customRange">예측 연도 수: <span id="rangeValue">3</span></label><br>
+						<input id="predictYear" type="range" min="3" max="12" step="3" value="0">
 						<canvas class="chartCanvas" id="myChart"></canvas>
 					</div>
 					<div class="bottom-charts">
@@ -121,5 +110,18 @@
 	</div>
 	<footer>
 	</footer>
+	
+	<script>
+  const allowedValues = [3, 5, 7, 9]; // 순서 중요!
+  const range = document.getElementById('predictYear');
+  const label = document.getElementById('rangeValue');
+
+  range.addEventListener('change', function() {
+    const realValue = this.value;
+    console.log("realValue " + realValue);
+    console.log("this.value " + this.value);
+    label.textContent = realValue;
+  });
+</script>
 </body>
 </html>

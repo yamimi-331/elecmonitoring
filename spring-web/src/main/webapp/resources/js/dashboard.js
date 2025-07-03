@@ -48,7 +48,7 @@ const regionMap = {
   ulsan: '울산광역시',
   sejong: '세종특별자치시',
   jeju: '제주특별자치도',
-  nation: '전국'
+  koreaMapSvg: '전국'
 };
 
 let currentReasonType = 'fire';

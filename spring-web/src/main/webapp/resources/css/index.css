@@ -164,7 +164,6 @@ body {
 	}
 	.table-box {
 		box-sizing: border-box;
-		margin-top: 50px;
 		flex-shrink: 0;
 		width: 300px;
 		min-width: 300px;
@@ -193,6 +192,7 @@ body {
 #map-container {
   width: 100%;
   max-width: 500px;
+  margin: 25px 0;
 }
 
 #koreaMapSvg {

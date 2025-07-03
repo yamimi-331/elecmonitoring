@@ -5,13 +5,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="../../resources/css/common.css?after" />
 <style>
-.wrapper {
-	max-width: 900px;
-	margin: 0 auto;
-	padding: 20px;
-}
-
 .header-title {
 	text-align: center;
 	margin-bottom: 20px;

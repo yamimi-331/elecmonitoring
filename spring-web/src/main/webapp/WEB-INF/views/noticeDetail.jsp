@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="../../resources/css/common.css?after" />
 
 <style>
 .wrapper {

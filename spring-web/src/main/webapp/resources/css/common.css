@@ -1,0 +1,19 @@
+@charset "UTF-8";
+
+/* header와 main 영역을 감싸는 div*/
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 100%;
+}
+
+/* header 영역 위의 타이틀 */
+.header-title {
+    margin: 0;
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #333; /* 검은 글씨 */
+    text-align: center; /* 제목 중앙 정렬 */
+    padding-bottom: 15px; /* nav와의 분리 */
+}

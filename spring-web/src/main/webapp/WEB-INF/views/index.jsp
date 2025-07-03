@@ -80,6 +80,10 @@
 						</tr>
 					</table>
 					<table class="summary-table">
+						<colgroup>
+							<col width="50%">
+							<col width="50%">
+						</colgroup>
 						<tr><td>화재 건 수</td><td></td></tr>
 						<tr><td>화재 피해액</td><td></td></tr>
 						<tr><td>화재 부상자 수</td><td></td></tr>

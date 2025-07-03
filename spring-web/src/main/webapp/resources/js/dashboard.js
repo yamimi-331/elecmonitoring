@@ -53,6 +53,7 @@ const regionMap = {
 
 let currentReasonType = 'fire';
 let $currentSelectedProvince = null;  // 여기서 전역으로 선언
+let selectedRegionName = '서울특별시';
 
 $(document).ready(function() {
   // 초기 로드 시 예측 데이터 및 요약 정보 로드
@@ -107,7 +108,9 @@ $(document).ready(function() {
 	    const regionValue = regionMap[provinceId];
 		console.log('파라미터용 :', regionValue);
 	    if (regionValue) {
+	      selectedRegionName = regionValue
 	      getPrediction(regionValue);
+	      updateSummary();
 	    } else {
 	      alert(`ID: ${provinceId} 는 매핑되지 않았습니다.`);
 	    }
@@ -370,7 +373,7 @@ function loadReasonChart(type) {
 const tableCells = document.querySelectorAll('table tr td:nth-child(2)');
 // select 값 테이블로 보여주기
 function updateSummary() {
-  const region = $('#regionSelect').val();
+  const region = selectedRegionName;
   const year = $('#yearSelect').val();
 
   fetch("http://127.0.0.1:8000/summary?region=" + encodeURIComponent(region) + "&year=" + year)
@@ -378,14 +381,15 @@ function updateSummary() {
     .then(data => {
       if (data.status === 'success') {
         const result = data.result;
-        const rows = $('table tr');
+        const summaryTable = $('.summary-table');
+        const rows = summaryTable.find('tr');
         // 순서대로 테이블 td에 값 채우기
-        $(rows[3]).find('td').eq(1).text(result.fire_count.toLocaleString() + ' 건');
-        $(rows[4]).find('td').eq(1).text(result.fire_amount.toLocaleString() + ' 원');
-        $(rows[5]).find('td').eq(1).text(result.fire_injury.toLocaleString() + ' 명');
-        $(rows[6]).find('td').eq(1).text(result.fire_death.toLocaleString() + ' 명');
-        $(rows[7]).find('td').eq(1).text(result.shock_injury.toLocaleString() + ' 명');
-        $(rows[8]).find('td').eq(1).text(result.shock_death.toLocaleString() + ' 명');
+        $(rows[0]).find('td').eq(1).text(result.fire_count.toLocaleString() + ' 건');
+        $(rows[1]).find('td').eq(1).text(result.fire_amount.toLocaleString() + ' 원');
+        $(rows[2]).find('td').eq(1).text(result.fire_injury.toLocaleString() + ' 명');
+        $(rows[3]).find('td').eq(1).text(result.fire_death.toLocaleString() + ' 명');
+        $(rows[4]).find('td').eq(1).text(result.shock_injury.toLocaleString() + ' 명');
+        $(rows[5]).find('td').eq(1).text(result.shock_death.toLocaleString() + ' 명');
       } else {
         alert('데이터를 불러오는 데 실패했습니다.');
       }

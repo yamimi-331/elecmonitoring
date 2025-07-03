@@ -28,7 +28,7 @@
 							<option value="incheon">인천광역시</option>
 							<option value="daegu">대구광역시</option>
 							<option value="daejeon">대전광역시</option>
-							<option value="gwangju">광주특별시</option>
+							<option value="gwangju">광주광역시</option>
 							<option value="sejong">세종특별자치시</option>
 							<option value="ulsan">울산광역시</option>
 							<option value="gyeonggi">경기도</option>

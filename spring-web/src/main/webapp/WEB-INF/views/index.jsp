@@ -83,7 +83,8 @@
 						<div class="chart-header">
 							<h3>연도별 전기화재 피해 현황 및 예측 차트</h3>
 							<div class="range-group">
-						      	<select class="controller-select" id="predictYear">
+								<label for="predictYear">연도 </label>
+						      	<select class="controller-predict" id="predictYear">
 									<option value="3">3년</option>
 									<option value="5">5년</option>
 									<option value="7">7년</option>
@@ -97,8 +98,8 @@
 						<div class="small-chart">
 							<div class="controller">
 								<h3>주요 전기 사고 원인</h3>
-								<button class="reasonBtn" id="fireBtn">화재 사고 원인</button>
-								<button class="reasonBtn" id="shockBtn">감전 사고 원인</button>
+								<button class="reasonBtn" id="fireBtn">화재</button>
+								<button class="reasonBtn" id="shockBtn">감전</button>
 							</div>
 							<canvas class="chartCanvas" id="reasonChart"></canvas>
 						</div>

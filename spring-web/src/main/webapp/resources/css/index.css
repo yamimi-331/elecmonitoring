@@ -172,9 +172,6 @@ body {
 		width: 100%;
 		margin: 20px auto;
 	}
-	.summary-table td {
-		padding: 8px;
-	}
 	.summary-table {
 		width: 100%;
 		margin: 20px auto;
@@ -184,6 +181,9 @@ body {
 	.summary-table td {
 		padding: 8px;
 		border: 1px solid #ddd;
+	}
+	.summary-table caption {
+		margin-bottom: 10px;
 	}
 	footer{
 		height: 50px;

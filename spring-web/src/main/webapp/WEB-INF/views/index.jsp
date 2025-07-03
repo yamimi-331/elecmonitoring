@@ -8,7 +8,7 @@
 <title>메인 페이지</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="../../resources/js/dashboard.js"></script>
+<script src="../../resources/js/dashboard.js?after"></script>
 <link rel="stylesheet" href="../../resources/css/index.css?after" />
 <style>
    .korea-province {
@@ -67,9 +67,10 @@
 						</tr>
 					</table>
 					<table class="summary-table">
+						<caption id="summaryCaption">서울특별시의 전기 재해 현황</caption>
 						<colgroup>
-							<col width="50%">
-							<col width="50%">
+							<col width="45%">
+							<col width="55%">
 						</colgroup>
 						<tr><td>화재 건 수</td><td></td></tr>
 						<tr><td>화재 피해액</td><td></td></tr>
@@ -90,16 +91,16 @@
 					</div>
 					<div class="bottom-charts">
 						<div class="small-chart">
-							<h3>전기 화재 비율 (연도별)</h3>
-							<canvas class="chartCanvas" id="elecRateChart"></canvas>
-						</div>
-						<div class="small-chart">
 							<div class="controller">
 								<h3>주요 전기 사고 원인</h3>
 								<button class="reasonBtn" id="fireBtn">화재 사고 원인</button>
 								<button class="reasonBtn" id="shockBtn">감전 사고 원인</button>
 							</div>
 							<canvas class="chartCanvas" id="reasonChart"></canvas>
+						</div>
+						<div class="small-chart">
+							<h3>전기 화재 비율 (연도별)</h3>
+							<canvas class="chartCanvas" id="elecRateChart"></canvas>
 						</div>
 					</div>
 				</div>

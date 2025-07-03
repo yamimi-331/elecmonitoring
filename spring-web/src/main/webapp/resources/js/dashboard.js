@@ -54,10 +54,12 @@ const regionMap = {
 let currentReasonType = 'fire';
 let $currentSelectedProvince = null;  // 여기서 전역으로 선언
 let selectedRegionName = '서울특별시';
+let summaryCaption;
 
 $(document).ready(function() {
   // 초기 로드 시 예측 데이터 및 요약 정보 로드
   getPrediction(); // mapRegionId, mapRegionValue 없이 호출되므로 #regionSelect 값 사용
+  summaryCaption = document.getElementById('summaryCaption');
   updateSummary();
   loadReasonChart(currentReasonType);
 
@@ -373,6 +375,7 @@ function loadReasonChart(type) {
 const tableCells = document.querySelectorAll('table tr td:nth-child(2)');
 // select 값 테이블로 보여주기
 function updateSummary() {
+  summaryCaption.textContent = `${selectedRegionName}의 전기 재해 현황`;
   const region = selectedRegionName;
   const year = $('#yearSelect').val();
 

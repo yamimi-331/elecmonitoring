@@ -189,9 +189,13 @@ body {
 	footer{
 		height: 50px;
 	}
-.map-style{
-	width:100%;
-	
-	
-	
+
+#map-container {
+  width: 100%;
+  max-width: 500px;
+}
+
+#koreaMapSvg {
+  width: 100%;
+  height: auto;
 }

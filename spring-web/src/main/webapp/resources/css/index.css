@@ -121,11 +121,6 @@ body {
 		width: 100%;
 	}
 	.controller{
-		margin: 15px auto;
-		display: flex;
-		justify-content: center;
-	}
-	.controller2{
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -138,7 +133,7 @@ body {
 		justify-content: center;
 		align-items: flex-start;
 	}
-	.left-charts {
+	.right-section {
 		display: flex;
 		flex-direction: column;
 		flex: 2;

@@ -38,29 +38,7 @@
 	<main class="main">
 		<div class="container">
 			<div class="content-wrapper">
-				<!-- 좌측 차트 start----------------- -->
-				<div class="left-charts">
-					<div class="top-chart">
-						<h3>연도별 전기화재 피해 현황 및 예측 차트</h3>
-						<canvas class="chartCanvas" id="myChart"></canvas>
-					</div>
-					<div class="bottom-charts">
-						<div class="small-chart">
-							<h3>전기 화재 비율 (연도별)</h3>
-							<canvas class="chartCanvas" id="elecRateChart"></canvas>
-						</div>
-						<div class="small-chart">
-							<div class="controller2">
-								<h3>주요 전기 사고 원인</h3>
-								<button class="reasonBtn" id="fireBtn">화재 사고 원인</button>
-								<button class="reasonBtn" id="shockBtn">감전 사고 원인</button>
-							</div>
-							<canvas class="chartCanvas" id="reasonChart"></canvas>
-						</div>
-					</div>
-				</div>
-				<!-- 좌측 차트 end----------------- -->
-				<!-- 우측 테이블 start----------------- -->
+				<!-- 좌측 테이블 start----------------- -->
 				<div class="table-box">
 					<div id="map-container">
 						<%@ include file="../../resources/img/koreamap.svg" %>
@@ -110,7 +88,29 @@
 						<tr><td>감전 사망자 수</td><td></td></tr>
 					</table>
 				</div>
-				<!-- 우측 테이블 end----------------- -->
+				<!-- 좌측 테이블 end----------------- -->
+				<!-- 우측 차트 start----------------- -->
+				<div class="right-section">
+					<div class="top-chart">
+						<h3>연도별 전기화재 피해 현황 및 예측 차트</h3>
+						<canvas class="chartCanvas" id="myChart"></canvas>
+					</div>
+					<div class="bottom-charts">
+						<div class="small-chart">
+							<h3>전기 화재 비율 (연도별)</h3>
+							<canvas class="chartCanvas" id="elecRateChart"></canvas>
+						</div>
+						<div class="small-chart">
+							<div class="controller">
+								<h3>주요 전기 사고 원인</h3>
+								<button class="reasonBtn" id="fireBtn">화재 사고 원인</button>
+								<button class="reasonBtn" id="shockBtn">감전 사고 원인</button>
+							</div>
+							<canvas class="chartCanvas" id="reasonChart"></canvas>
+						</div>
+					</div>
+				</div>
+				<!-- 우측 차트 end----------------- -->
 			</div>
 		</div>
 	</main>

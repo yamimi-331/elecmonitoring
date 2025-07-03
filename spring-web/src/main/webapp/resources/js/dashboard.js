@@ -291,7 +291,7 @@ function loadReasonChart(type) {
 								text: year + '년 ' + (type === 'fire' ? "전기 화재 주요 원인" : "감전 주요 원인")
 							},
 							legend: {
-								position: 'bottom'
+								position: 'right'
 							}
 						}
 					}

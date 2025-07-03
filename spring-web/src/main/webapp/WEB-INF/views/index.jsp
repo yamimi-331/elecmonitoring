@@ -13,39 +13,33 @@
 </head>
 <body>
 	 <div class="wrapper">
+	<h2 class="header-title">전기재해 모니터링 &amp; 노후시설 A/S 신고 관리 시스템</h2>
    <%@ include file="/WEB-INF/views/common/commonHeader.jsp" %>
 	<main class="main">
 		<div class="container">
 			<div class="content-wrapper">
 				<!-- 좌측 테이블 start----------------- -->
 				<div class="table-box">
+					<div class="controll-title">지역 선택</div>
 					<div id="map-container">
 						<%@ include file="../../resources/img/koreamap.svg" %>
 					</div>
-					<table class="controll-table">
-						<colgroup>
-							<col width="50%">
-							<col width="50%">
-						</colgroup>
-						<tr>
-							<td>연도</td>
-							<td>
-								<select class="controller-select" id="yearSelect">
-									<option value="2023">2023</option>
-									<option value="2022">2022</option>
-									<option value="2021">2021</option>
-									<option value="2020">2020</option>
-									<option value="2019">2019</option>
-									<option value="2018">2018</option>
-									<option value="2017">2017</option>
-									<option value="2016">2016</option>
-									<option value="2015">2015</option>
-									<option value="2014">2014</option>
-									<option value="2013">2013</option>
-								</select>
-							</td>
-						</tr>
-					</table>
+					<div class="controll-title">
+						<label for="yearSelect">연도 </label>
+						<select class="controller-select" id="yearSelect">
+							<option value="2023">2023</option>
+							<option value="2022">2022</option>
+							<option value="2021">2021</option>
+							<option value="2020">2020</option>
+							<option value="2019">2019</option>
+							<option value="2018">2018</option>
+							<option value="2017">2017</option>
+							<option value="2016">2016</option>
+							<option value="2015">2015</option>
+							<option value="2014">2014</option>
+							<option value="2013">2013</option>
+						</select>
+					</div>
 					<table class="summary-table">
 						<caption id="summaryCaption">서울특별시의 전기 재해 현황</caption>
 						<colgroup>
@@ -95,6 +89,5 @@
 	</div>
 	<footer>
 	</footer>
-	
 </body>
 </html>

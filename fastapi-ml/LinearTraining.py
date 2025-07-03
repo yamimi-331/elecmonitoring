@@ -4,7 +4,7 @@ import joblib
 from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
-
+ 
 # 데이터 불러오기
 df = pd.read_excel('./data/ElecData.xlsx')
 df = df.fillna(0)

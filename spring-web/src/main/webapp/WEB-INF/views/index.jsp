@@ -42,6 +42,7 @@
 				<!-- 좌측 차트 end----------------- -->
 				<!-- 우측 테이블 start----------------- -->
 				<div class="table-box">
+					<img class="map-style" src="../../resources/img/map.png" />
 					<table class="controll-table">
 						<colgroup>
 							<col width="50%">

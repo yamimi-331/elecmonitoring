@@ -83,17 +83,6 @@
 							</td>
 						</tr>
 						<tr>
-							<td>지역</td>
-							<td>
-								<select class="controller-select" id="regionSelect">
-									<option value="서울특별시">서울특별시</option>
-									<option value="부산광역시">부산광역시</option>
-									<option value="대구광역시">대구광역시</option>
-									<!-- 등등 -->
-								</select>
-							</td>
-						</tr>
-						<tr>
 							<td>연도</td>
 							<td>
 								<select class="controller-select" id="yearSelect">

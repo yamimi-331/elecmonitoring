@@ -168,7 +168,6 @@ body {
 		max-height: 350px;
 	}
 	.table-box {
-		background: #f9f9f9;
 		box-sizing: border-box;
 		margin-top: 50px;
 		flex-shrink: 0;
@@ -178,6 +177,8 @@ body {
 	.controll-table {
 		width: 100%;
 		margin: 20px auto;
+	}
+	.summary-table td {
 		padding: 8px;
 	}
 	.summary-table {

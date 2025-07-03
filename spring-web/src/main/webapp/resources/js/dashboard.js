@@ -53,6 +53,7 @@ const regionMap = {
 
 let currentReasonType = 'fire';
 let $currentSelectedProvince = null;  // 여기서 전역으로 선언
+let selectedRegionId = 'seoul'; 
 let selectedRegionName = '서울특별시';
 let summaryCaption;
 
@@ -70,8 +71,24 @@ $(document).ready(function() {
 
   // #regionSelect 변경 시 getPrediction 및 updateSummary 호출 (기존 로직 유지)
   $('#regionSelect').change(function() {
-    getPrediction(); // #regionSelect 값을 사용하도록 호출
-    updateSummary();
+	const regionId = $(this).val(); // ex) seoul
+	const regionText = $('#regionSelect option:selected').text(); // 서울특별시
+	
+	selectedRegionId = regionId;
+	selectedRegionName = regionText;
+	
+	// 지도에서 해당 id 가진 요소 강조
+	if ($currentSelectedProvince) {
+		$currentSelectedProvince.removeClass('selected');
+	}
+	
+	const $target = $('#' + regionId);
+	$target.addClass('selected');
+	$currentSelectedProvince = $target;
+	
+	// 데이터 관련 함수 호출
+	getPrediction(selectedRegionName);
+	updateSummary();
   });
 
   // #yearSelect 변경 시 updateSummary 및 loadReasonChart 호출 (기존 로직 유지)
@@ -92,7 +109,34 @@ $(document).ready(function() {
     loadReasonChart('shock');
   });
 
-  $('#koreaMapSvg').on('click', function(e) {
+//  $('#koreaMapSvg').on('click', function(e) {
+//	  const clickedElement = e.target;
+//	 
+//	  // polyline이면 부모나 id 확인
+//	  const provinceId = $(clickedElement).attr('id');
+//	  console.log('provinceId:', provinceId);
+//		
+//	  if (provinceId) {
+//	    if ($currentSelectedProvince) {
+//	      $currentSelectedProvince.removeClass('selected');
+//	    }
+//	
+//	    $(clickedElement).addClass('selected');
+//	    $currentSelectedProvince = $(clickedElement);
+//	
+//	    const regionValue = regionMap[provinceId];
+//		console.log('파라미터용 :', regionValue);
+//	    if (regionValue) {
+//	      selectedRegionName = regionValue
+//	      getPrediction(regionValue);
+//	      updateSummary();
+//	    } else {
+//	      alert(`ID: ${provinceId} 는 매핑되지 않았습니다.`);
+//	    }
+//	  }
+//	});
+	
+	  $('#koreaMapSvg').on('click', function(e) {
 	  const clickedElement = e.target;
 	 
 	  // polyline이면 부모나 id 확인
@@ -101,33 +145,23 @@ $(document).ready(function() {
 		
 	  if (provinceId) {
 	    if ($currentSelectedProvince) {
-	      $currentSelectedProvince.removeClass('selected');
+			$currentSelectedProvince.removeClass('selected');
 	    }
 	
 	    $(clickedElement).addClass('selected');
 	    $currentSelectedProvince = $(clickedElement);
+	    
+	    $('#regionSelect').val(provinceId);
 	
-	    const regionValue = regionMap[provinceId];
-		console.log('파라미터용 :', regionValue);
-	    if (regionValue) {
-	      selectedRegionName = regionValue
-	      getPrediction(regionValue);
-	      updateSummary();
+	    selectedRegionId = provinceId;
+    	selectedRegionName = $('#regionSelect option:selected').text();
+    	
+	    getPrediction(selectedRegionName);
+    	updateSummary();
 	    } else {
-	      alert(`ID: ${provinceId} 는 매핑되지 않았습니다.`);
+			alert(`ID: ${provinceId} 는 매핑되지 않았습니다.`);
 	    }
-	  }
 	});
-	
-	  const range = document.getElementById('predictYear');
-	  const label = document.getElementById('rangeValue');
-	
-	  range.addEventListener('change', function() {
-	    const realValue = this.value;
-	    console.log("realValue " + realValue);
-	    console.log("this.value " + this.value);
-	    label.textContent = realValue;
-	  });
 });
 
 

@@ -20,7 +20,29 @@
 			<div class="content-wrapper">
 				<!-- 좌측 테이블 start----------------- -->
 				<div class="table-box">
-					<div class="controll-title">지역 선택</div>
+					<div class="controll-title">
+						<label for="yearSelect">지역 </label>
+						<select class="controller-select" id="regionSelect">
+							<option value="seoul">서울특별시</option>
+							<option value="busan">부산광역시</option>
+							<option value="incheon">인천광역시</option>
+							<option value="daegu">대구광역시</option>
+							<option value="daejeon">대전광역시</option>
+							<option value="gwangju">광주특별시</option>
+							<option value="sejong">세종특별자치시</option>
+							<option value="ulsan">울산광역시</option>
+							<option value="gyeonggi">경기도</option>
+							<option value="gangwon">강원도</option>
+							<option value="chungbuk">충청북도</option>
+							<option value="chungnam">충청남도</option>
+							<option value="jeonbuk">전라북도</option>
+							<option value="jeonnam">전라남도</option>
+							<option value="gyeongbuk">경상북도</option>
+							<option value="gyeongnam">경상남도</option>
+							<option value="jeju">제주특별자치도</option>
+							<option value="koreaMapSvg">전국</option>
+						</select>
+					</div>
 					<div id="map-container">
 						<%@ include file="../../resources/img/koreamap.svg" %>
 					</div>
@@ -59,12 +81,16 @@
 				<div class="right-section">
 					<div class="top-chart">
 						<div class="chart-header">
-						    <h3>연도별 전기화재 피해 현황 및 예측 차트</h3>
-						    <div class="range-group">
-						      <label for="predictYear">예측 연도 수: <span id="rangeValue">3</span></label>
-						      <input id="predictYear" type="range" min="3" max="12" step="3" value="3">
+							<h3>연도별 전기화재 피해 현황 및 예측 차트</h3>
+							<div class="range-group">
+						      	<select class="controller-select" id="predictYear">
+									<option value="3">3년</option>
+									<option value="5">5년</option>
+									<option value="7">7년</option>
+									<option value="10">10년</option>
+								</select>
 						    </div>
-						  </div>
+						</div>
 						<canvas class="chartCanvas" id="myChart"></canvas>
 					</div>
 					<div class="bottom-charts">

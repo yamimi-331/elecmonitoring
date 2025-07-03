@@ -10,26 +10,6 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="../../resources/js/dashboard.js?after"></script>
 <link rel="stylesheet" href="../../resources/css/index.css?after" />
-<style>
-   .korea-province {
-  fill: #ccc;
-  stroke: #333;
-  stroke-width: 1;
-  cursor: pointer;
-  transition: fill 0.3s;
-}
-
-.korea-province:hover {
-  fill: #999;
-}
-
-.korea-province.selected {
-  fill: orange;
-  stroke: #222;
-  stroke-width: 2;
-}
-
-</style>
 </head>
 <body>
 	 <div class="wrapper">
@@ -84,9 +64,13 @@
 				<!-- 우측 차트 start----------------- -->
 				<div class="right-section">
 					<div class="top-chart">
-						<h3>연도별 전기화재 피해 현황 및 예측 차트</h3>
-						<label>예측 연도 수: <span id="rangeValue">3</span></label><br>
-						<input id="predictYear" type="range" min="3" max="12" step="3" value="0">
+						<div class="chart-header">
+						    <h3>연도별 전기화재 피해 현황 및 예측 차트</h3>
+						    <div class="range-group">
+						      <label for="predictYear">예측 연도 수: <span id="rangeValue">3</span></label>
+						      <input id="predictYear" type="range" min="3" max="12" step="3" value="3">
+						    </div>
+						  </div>
 						<canvas class="chartCanvas" id="myChart"></canvas>
 					</div>
 					<div class="bottom-charts">
@@ -112,17 +96,5 @@
 	<footer>
 	</footer>
 	
-	<script>
-  const allowedValues = [3, 5, 7, 9]; // 순서 중요!
-  const range = document.getElementById('predictYear');
-  const label = document.getElementById('rangeValue');
-
-  range.addEventListener('change', function() {
-    const realValue = this.value;
-    console.log("realValue " + realValue);
-    console.log("this.value " + this.value);
-    label.textContent = realValue;
-  });
-</script>
 </body>
 </html>

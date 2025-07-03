@@ -118,7 +118,16 @@ $(document).ready(function() {
 	    }
 	  }
 	});
-
+	
+	  const range = document.getElementById('predictYear');
+	  const label = document.getElementById('rangeValue');
+	
+	  range.addEventListener('change', function() {
+	    const realValue = this.value;
+	    console.log("realValue " + realValue);
+	    console.log("this.value " + this.value);
+	    label.textContent = realValue;
+	  });
 });
 
 

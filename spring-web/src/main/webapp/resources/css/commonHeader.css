@@ -1,14 +1,13 @@
 /* 헤더 스타일 */
 .main-header {
-    background-color: #fff; /* 흰 배경 */
-    padding: 15px 30px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    position: relative;
-    z-index: 1000;
-    box-sizing: border-box;
-    width: 90%;
-	min-width: 1600px;
-	margin: 0 auto;
+    width: 1600px; /* 고정 폭 */
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 15px 30px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  position: relative;
+  z-index: 1000;
+  box-sizing: border-box;
 }
 
 .header-title {
@@ -64,9 +63,8 @@
     display: none; /* 기본 숨김: JS가 'block'으로 변경 */
     position: absolute;
     /* main-nav와 동일한 너비로, main-nav 아래에 위치 */
-    left: 0;
-    right: 0;
-    top: calc(100% + 5px); /* main-nav 아래에 약간의 간격을 두고 */
+    left: 3%; 
+    top: calc(100% - 5px); /* main-nav 아래에 약간의 간격을 두고 */
     background-color: #fff;
     box-shadow: 0 8px 16px rgba(0,0,0,0.15);
     padding: 25px 30px;
@@ -77,6 +75,7 @@
     transform: translateY(-20px); /* 위에서 아래로 내려오는 효과 */
     transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
     border-top: 3px solid #0070c0; /* 정부24 스타일의 상단 파란 라인 */
+    width: 90%;
 }
 
 /* common-mega-menu-dropdown이 열릴 때 헤더에 'menu-open' 클래스 추가 (JS가 제어) */

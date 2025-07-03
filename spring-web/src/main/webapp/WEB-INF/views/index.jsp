@@ -13,6 +13,7 @@
 </head>
 
 <body>
+	 <div class="wrapper">
    <%@ include file="/WEB-INF/views/common/commonHeader.jsp" %>
 	<main class="main">
 		<div class="controller">
@@ -86,6 +87,7 @@
 			</div>
 		</div>
 	</main>
+	</div>
 	<footer>
 	</footer>
 </body>

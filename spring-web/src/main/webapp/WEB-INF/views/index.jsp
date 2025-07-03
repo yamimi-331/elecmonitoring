@@ -16,41 +16,9 @@
 	 <div class="wrapper">
    <%@ include file="/WEB-INF/views/common/commonHeader.jsp" %>
 	<main class="main">
-		<div class="controller">
-			<label class="controller-label">지역: </label>
-			<select class="controller-select" id="regionSelect">
-				<option value="서울특별시">서울특별시</option>
-				<option value="부산광역시">부산광역시</option>
-				<option value="대구광역시">대구광역시</option>
-				<!-- 등등 -->
-			</select>
-			
-			<label class="controller-label">예측 연도 수: </label>
-			<select class="controller-select" id="predictYear">
-				<option value="3">3개월</option>
-				<option value="6">6개월</option>
-				<option value="9">9개월</option>
-				<option value="12">12개월</option>
-			</select>
-			
-			<label class="controller-label">연도:</label>
-			<select class="controller-select" id="yearSelect">
-				<option value="2023">2023</option>
-				<option value="2022">2022</option>
-				<option value="2021">2021</option>
-				<option value="2020">2020</option>
-				<option value="2019">2019</option>
-				<option value="2018">2018</option>
-				<option value="2017">2017</option>
-				<option value="2016">2016</option>
-				<option value="2015">2015</option>
-				<option value="2014">2014</option>
-				<option value="2013">2013</option>
-			</select>
-		</div>
 		<div class="container">
 			<div class="content-wrapper">
-	
+				<!-- 좌측 차트 start----------------- -->
 				<div class="left-charts">
 					<div class="top-chart">
 						<h3>연도별 전기화재 피해 현황 및 예측 차트</h3>
@@ -71,19 +39,65 @@
 						</div>
 					</div>
 				</div>
-	
+				<!-- 좌측 차트 end----------------- -->
+				<!-- 우측 테이블 start----------------- -->
 				<div class="table-box">
-					<table>
-						<tbody>
-							<tr><td>화재 건 수 :</td><td></td></tr>
-							<tr><td>화재 피해액 :</td><td></td></tr>
-							<tr><td>화재 부상자 수 :</td><td></td></tr>
-							<tr><td>화재 사망자 수 :</td><td></td></tr>
-							<tr><td>감전 부상자 수 :</td><td></td></tr>
-							<tr><td>감전 사망자 수 :</td><td></td></tr>
-						</tbody>
+					<table class="controll-table">
+						<colgroup>
+							<col width="50%">
+							<col width="50%">
+						</colgroup>
+						<tr>
+							<td>예측 연도 수</td>
+							<td>
+								<select class="controller-select" id="predictYear">
+									<option value="3">3개월</option>
+									<option value="6">6개월</option>
+									<option value="9">9개월</option>
+									<option value="12">12개월</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td>지역</td>
+							<td>
+								<select class="controller-select" id="regionSelect">
+									<option value="서울특별시">서울특별시</option>
+									<option value="부산광역시">부산광역시</option>
+									<option value="대구광역시">대구광역시</option>
+									<!-- 등등 -->
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td>연도</td>
+							<td>
+								<select class="controller-select" id="yearSelect">
+									<option value="2023">2023</option>
+									<option value="2022">2022</option>
+									<option value="2021">2021</option>
+									<option value="2020">2020</option>
+									<option value="2019">2019</option>
+									<option value="2018">2018</option>
+									<option value="2017">2017</option>
+									<option value="2016">2016</option>
+									<option value="2015">2015</option>
+									<option value="2014">2014</option>
+									<option value="2013">2013</option>
+								</select>
+							</td>
+						</tr>
+					</table>
+					<table class="summary-table">
+						<tr><td>화재 건 수</td><td></td></tr>
+						<tr><td>화재 피해액</td><td></td></tr>
+						<tr><td>화재 부상자 수</td><td></td></tr>
+						<tr><td>화재 사망자 수</td><td></td></tr>
+						<tr><td>감전 부상자 수</td><td></td></tr>
+						<tr><td>감전 사망자 수</td><td></td></tr>
 					</table>
 				</div>
+				<!-- 우측 테이블 end----------------- -->
 			</div>
 		</div>
 	</main>

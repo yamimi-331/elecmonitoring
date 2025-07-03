@@ -317,12 +317,12 @@ function updateSummary() {
 				const result = data.result;
                 const rows = $('table tr');
 				// 순서대로 테이블 td에 값 채우기
-				$(rows[0]).find('td').eq(1).text(result.fire_count.toLocaleString() + ' 건');
-                $(rows[1]).find('td').eq(1).text(result.fire_amount.toLocaleString() + ' 원');
-                $(rows[2]).find('td').eq(1).text(result.fire_injury.toLocaleString() + ' 명');
-                $(rows[3]).find('td').eq(1).text(result.fire_death.toLocaleString() + ' 명');
-                $(rows[4]).find('td').eq(1).text(result.shock_injury.toLocaleString() + ' 명');
-                $(rows[5]).find('td').eq(1).text(result.shock_death.toLocaleString() + ' 명');
+				$(rows[3]).find('td').eq(1).text(result.fire_count.toLocaleString() + ' 건');
+                $(rows[4]).find('td').eq(1).text(result.fire_amount.toLocaleString() + ' 원');
+                $(rows[5]).find('td').eq(1).text(result.fire_injury.toLocaleString() + ' 명');
+                $(rows[6]).find('td').eq(1).text(result.fire_death.toLocaleString() + ' 명');
+                $(rows[7]).find('td').eq(1).text(result.shock_injury.toLocaleString() + ' 명');
+                $(rows[8]).find('td').eq(1).text(result.shock_death.toLocaleString() + ' 명');
 			} else {
 				alert('데이터를 불러오는 데 실패했습니다.');
 			}

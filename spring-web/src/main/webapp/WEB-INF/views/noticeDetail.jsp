@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,6 +7,11 @@
 <title>Insert title here</title>
 </head>
 <body>
-<%@ include file="/WEB-INF/views/common/commonHeader.jsp" %>
+	<div class="wrapper">
+		<h2 class="header-title">공지사항 상세 페이지</h2>
+		<%@ include file="/WEB-INF/views/common/commonHeader.jsp"%>
+		<main></main>
+
+	</div>
 </body>
 </html>

@@ -8,9 +8,10 @@
 <title>공지사항 목록</title>
 </head>
 <body>
+	 <div class="wrapper">
+	<h2 class="header-title">공지사항</h2>
 	<%@ include file="/WEB-INF/views/common/commonHeader.jsp"%>
-
-	<h2>공지사항</h2>
+	<main>
 	<a class="btn-insert" href="/notice/detail?mode=insert">+ 새 공지 등록</a>
 
 	<table>
@@ -43,5 +44,9 @@
 			</c:if>
 		</tbody>
 	</table>
+	</main>
+	
+	</div>
+	
 </body>
 </html>

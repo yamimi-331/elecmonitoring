@@ -10,6 +10,26 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="../../resources/js/dashboard.js"></script>
 <link rel="stylesheet" href="../../resources/css/index.css?after" />
+<style>
+   .korea-province {
+  fill: #ccc;
+  stroke: #333;
+  stroke-width: 1;
+  cursor: pointer;
+  transition: fill 0.3s;
+}
+
+.korea-province:hover {
+  fill: #999;
+}
+
+.korea-province.selected {
+  fill: orange;
+  stroke: #222;
+  stroke-width: 2;
+}
+
+</style>
 </head>
 
 <body>
@@ -42,7 +62,10 @@
 				<!-- 좌측 차트 end----------------- -->
 				<!-- 우측 테이블 start----------------- -->
 				<div class="table-box">
-					<img class="map-style" src="../../resources/img/koreamap.svg" />
+					<div id="map-container">
+						<%@ include file="../../resources/img/koreamap.svg" %>
+					</div>
+					
 					<table class="controll-table">
 						<colgroup>
 							<col width="50%">

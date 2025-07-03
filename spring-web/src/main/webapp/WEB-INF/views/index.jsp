@@ -85,7 +85,7 @@
 				<div class="right-section">
 					<div class="top-chart">
 						<h3>연도별 전기화재 피해 현황 및 예측 차트</h3>
-						<label for="customRange">예측 연도 수: <span id="rangeValue">3</span></label><br>
+						<label>예측 연도 수: <span id="rangeValue">3</span></label><br>
 						<input id="predictYear" type="range" min="3" max="12" step="3" value="0">
 						<canvas class="chartCanvas" id="myChart"></canvas>
 					</div>

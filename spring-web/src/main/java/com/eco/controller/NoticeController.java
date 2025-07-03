@@ -49,6 +49,7 @@ public class NoticeController {
 	public String noticeDetailPage(@RequestParam(required = false) Integer notice_cd,
 			@RequestParam(defaultValue = "view") String mode, Model model) {
 		log.info("공지사항 상세 페이지로 이동, mode = " + mode);
+		// 상세 조회 일때 
 		if(notice_cd != null && !mode.equals("insert")) {
 			NoticeVO notice = noticeService.getNoticeDetail(notice_cd);
 			model.addAttribute("notice",notice);

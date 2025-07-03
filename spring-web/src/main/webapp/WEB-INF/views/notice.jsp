@@ -5,48 +5,90 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<style>
+.wrapper {
+	max-width: 900px;
+	margin: 0 auto;
+	padding: 20px;
+}
+
+.header-title {
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+.btn-insert {
+	display: inline-block;
+	padding: 8px 16px;
+	background-color: #28a745;
+	color: white;
+	text-decoration: none;
+	border-radius: 5px;
+	margin-bottom: 10px;
+}
+
+.btn-insert:hover {
+	background-color: #218838;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+th, td {
+	border: 1px solid #ccc;
+	padding: 10px;
+	text-align: center;
+}
+
+tr:hover {
+	background-color: #f9f9f9;
+}
+</style>
 <title>공지사항 목록</title>
 </head>
 <body>
-	 <div class="wrapper">
-	<h2 class="header-title">공지사항</h2>
-	<%@ include file="/WEB-INF/views/common/commonHeader.jsp"%>
-	<main>
-	<a class="btn-insert" href="/notice/detail?mode=insert">+ 새 공지 등록</a>
+	<div class="wrapper">
+		<h2 class="header-title">공지사항</h2>
+		<%@ include file="/WEB-INF/views/common/commonHeader.jsp"%>
+		<main>
+			<div style="text-align: right;">
+				<button class="btn-insert"
+					onclick="location.href='/notice/detail?mode=insert'">+ 새
+					공지 등록</button>
+			</div>
+			<table>
+				<thead>
+					<tr>
+						<th>번호</th>
+						<th>제목</th>
+						<th>작성자</th>
+						<th>작성일</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach var="notice" items="${noticeList}">
+						<tr>
+							<td>${notice.notice_cd}</td>
+							<td><a
+								href="/notice/detail?notice_cd=${notice.notice_cd}&mode=view">
+									${notice.title} </a></td>
+							<td>${notice.user_nm}</td>
+							<td>${notice.create_dt}</td>
+						</tr>
+					</c:forEach>
 
-	<table>
-		<thead>
-			<tr>
-				<th>번호</th>
-				<th>제목</th>
-				<th>작성자</th>
-				<th>작성일</th>
-				<th>수정</th>
-				<th>삭제</th>
-			</tr>
-		</thead>
-		<tbody>
-			<c:forEach var="notice" items="${noticeList}">
-				<tr>
-					<td>${notice.notice_cd}</td>
-					<td><a
-						href="/notice/detail?notice_cd=${notice.notice_cd}&mode=view">
-							${notice.title} </a></td>
-					<td>${notice.user_nm}</td>
-					<td>${notice.create_dt}</td>
-				</tr>
-			</c:forEach>
+					<c:if test="${empty noticeList}">
+						<tr>
+							<td colspan="4">등록된 공지사항이 없습니다.</td>
+						</tr>
+					</c:if>
+				</tbody>
+			</table>
+		</main>
 
-			<c:if test="${empty noticeList}">
-				<tr>
-					<td colspan="4">등록된 공지사항이 없습니다.</td>
-				</tr>
-			</c:if>
-		</tbody>
-	</table>
-	</main>
-	
 	</div>
-	
+
 </body>
 </html>

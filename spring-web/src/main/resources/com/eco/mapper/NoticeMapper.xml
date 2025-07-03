@@ -7,16 +7,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- 공지사항 목록 조회 -->
 	<select id="getNoticeList" resultType="com.eco.domain.NoticeVO">
-		SELECT
-		notice_cd, title,
-		content, create_dt, update_dt, user_nm, use_yn
-		FROM
-		T_NOTICE
-		WHERE
-		use_yn
-		= 'Y'
-		ORDER BY
-		create_dt DESC
+		<![CDATA[
+		SELECT * FROM T_NOTICE
+		WHERE use_yn = 'Y'
+		ORDER BY create_dt DESC
+		]]>
 	</select>
 
 	<!-- 공지사항 상세 조회 (PK로 단건 조회) -->

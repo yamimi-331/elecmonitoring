@@ -6,9 +6,9 @@ import com.eco.domain.NoticeVO;
 
 public interface NoticeService {
 
-	List<NoticeVO> getNoticeList();
-	NoticeVO getNoticeDetail(int notice_cd);
-	int insertNotice(NoticeVO notice);
-	int updateNotice(NoticeVO notice);
-	int deleteNotice(int notice_cd);
+	public List<NoticeVO> getNoticeList();
+	public NoticeVO getNoticeDetail(int notice_cd);
+	public int insertNotice(NoticeVO notice);
+	public int updateNotice(NoticeVO notice);
+	public int deleteNotice(int notice_cd);
 }

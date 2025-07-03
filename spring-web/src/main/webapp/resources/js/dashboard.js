@@ -384,9 +384,9 @@ function loadReasonChart(type) {
 const tableCells = document.querySelectorAll('table tr td:nth-child(2)');
 // select 값 테이블로 보여주기
 function updateSummary() {
-  summaryCaption.textContent = `${selectedRegionName}의 전기 재해 현황`;
   const region = selectedRegionName;
   const year = $('#yearSelect').val();
+  summaryCaption.textContent = `${year}년 ${selectedRegionName} 전기 재해 통계`;
 
   fetch("http://127.0.0.1:8000/summary?region=" + encodeURIComponent(region) + "&year=" + year)
     .then(response => response.json())

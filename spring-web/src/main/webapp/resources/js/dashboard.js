@@ -30,138 +30,198 @@ function getPrediction(region = null) {
     });
 }
 
-const regionMap = {
-  gangwon: '강원도',
-  jeonbuk: '전라북도',
-  jeonnam: '전라남도',
-  chungbuk: '충청북도',
-  chungnam: '충청남도',
-  gyeonggi: '경기도',
-  gyeongbuk: '경상북도',
-  gyeongnam: '경상남도',
-  seoul: '서울특별시',
-  busan: '부산광역시',
-  daegu: '대구광역시',
-  incheon: '인천광역시',
-  gwangju: '광주광역시',
-  daejeon: '대전광역시',
-  ulsan: '울산광역시',
-  sejong: '세종특별자치시',
-  jeju: '제주특별자치도',
-  koreaMapSvg: '전국'
-};
-
+//  전역 변수
 let currentReasonType = 'fire';
-let $currentSelectedProvince = null;  // 여기서 전역으로 선언
-let selectedRegionId = 'seoul'; 
+let $currentSelectedProvince = null;
+let selectedRegionId = 'seoul';
 let selectedRegionName = '서울특별시';
+let lastSelectedRegionId = 'seoul';
 let summaryCaption;
 
 $(document).ready(function() {
-  // 초기 로드 시 예측 데이터 및 요약 정보 로드
-  getPrediction(); // mapRegionId, mapRegionValue 없이 호출되므로 #regionSelect 값 사용
+
+  const $mapElements = $('#koreaMapSvg').find('polyline, path');
+
+  // 지도 기본 스타일
+  $mapElements.css({
+    'stroke': 'white',
+    'stroke-width': '1',
+    'fill': 'gray',
+    'cursor': 'pointer',
+    'transition': 'stroke 0.3s, stroke-width 0.3s, fill 0.3s'
+  });
+
+  // 기본: 서울 선택
+  $currentSelectedProvince = $('#seoul');
+  if ($currentSelectedProvince.length) {
+    $currentSelectedProvince.addClass('selected').css({
+      'stroke': 'white',
+      'stroke-width': '3',
+      'fill': '#4287f5'
+    });
+  }
+  $('#regionSelect').val('seoul');
   summaryCaption = document.getElementById('summaryCaption');
+
+  getPrediction(selectedRegionName);
   updateSummary();
   loadReasonChart(currentReasonType);
 
-  // #predictYear 변경 시 getPrediction 호출 (기존 로직 유지)
-  $('#predictYear').change(function() {
-    getPrediction(); // #regionSelect 값을 사용하도록 호출
-  });
+  // 전국 선택 함수
+  function selectNation() {
+    $mapElements.addClass('selected').css({
+      'stroke': 'white',
+      'stroke-width': '3',
+      'fill': '#4287f5'
+    });
 
-  // #regionSelect 변경 시 getPrediction 및 updateSummary 호출 (기존 로직 유지)
+    selectedRegionId = 'nation';
+    selectedRegionName = '전국';
+    lastSelectedRegionId = 'nation';
+    $currentSelectedProvince = null;
+
+    $('#regionSelect').val('nation');
+
+    getPrediction(selectedRegionName);
+    updateSummary();
+  }
+
+  // 전체 선택 해제 함수
+  function deselectAll() {
+    $mapElements.removeClass('selected').css({
+      'stroke': 'white',
+      'stroke-width': '1',
+      'fill': 'gray'
+    });
+
+    selectedRegionId = '';
+    selectedRegionName = '';
+    lastSelectedRegionId = '';
+    $currentSelectedProvince = null;
+
+    $('#regionSelect').val('');
+  }
+
+  // #regionSelect 변경 시
   $('#regionSelect').change(function() {
-	const regionId = $(this).val(); // ex) seoul
-	const regionText = $('#regionSelect option:selected').text(); // 서울특별시
-	
-	selectedRegionId = regionId;
-	selectedRegionName = regionText;
-	
-	// 지도에서 해당 id 가진 요소 강조
-	if ($currentSelectedProvince) {
-		$currentSelectedProvince.removeClass('selected');
-	}
-	
-	const $target = $('#' + regionId);
-	$target.addClass('selected');
-	$currentSelectedProvince = $target;
-	
-	// 데이터 관련 함수 호출
-	getPrediction(selectedRegionName);
-	updateSummary();
+    const regionId = $(this).val();
+    const regionText = $('#regionSelect option:selected').text();
+
+    if (regionId === 'nation') {
+      selectNation();
+    } else if (regionId === '') {
+      // 선택 해제 옵션
+      deselectAll();
+    } else {
+      deselectAll();
+
+      const $target = $('#' + regionId);
+      if ($target.length) {
+        $target.addClass('selected').css({
+          'stroke': 'white',
+          'stroke-width': '3',
+          'fill': '#4287f5'
+        });
+        selectedRegionId = regionId;
+        selectedRegionName = regionText;
+        lastSelectedRegionId = regionId;
+        $currentSelectedProvince = $target;
+
+        getPrediction(selectedRegionName);
+        updateSummary();
+      }
+    }
   });
 
-  // #yearSelect 변경 시 updateSummary 및 loadReasonChart 호출 (기존 로직 유지)
+  // #predictYear 변경 시
+  $('#predictYear').change(function() {
+    getPrediction(selectedRegionName);
+  });
+
+  // #yearSelect 변경 시
   $('#yearSelect').change(function() {
     updateSummary();
     loadReasonChart(currentReasonType);
   });
 
-  // #fireBtn 클릭 시
+  // 원인 버튼
   $('#fireBtn').click(function() {
     currentReasonType = 'fire';
     loadReasonChart('fire');
   });
 
-  // #shockBtn 클릭 시
   $('#shockBtn').click(function() {
     currentReasonType = 'shock';
     loadReasonChart('shock');
   });
 
-//  $('#koreaMapSvg').on('click', function(e) {
-//	  const clickedElement = e.target;
-//	 
-//	  // polyline이면 부모나 id 확인
-//	  const provinceId = $(clickedElement).attr('id');
-//	  console.log('provinceId:', provinceId);
-//		
-//	  if (provinceId) {
-//	    if ($currentSelectedProvince) {
-//	      $currentSelectedProvince.removeClass('selected');
-//	    }
-//	
-//	    $(clickedElement).addClass('selected');
-//	    $currentSelectedProvince = $(clickedElement);
-//	
-//	    const regionValue = regionMap[provinceId];
-//		console.log('파라미터용 :', regionValue);
-//	    if (regionValue) {
-//	      selectedRegionName = regionValue
-//	      getPrediction(regionValue);
-//	      updateSummary();
-//	    } else {
-//	      alert(`ID: ${provinceId} 는 매핑되지 않았습니다.`);
-//	    }
-//	  }
-//	});
-	
-	  $('#koreaMapSvg').on('click', function(e) {
-	  const clickedElement = e.target;
-	 
-	  // polyline이면 부모나 id 확인
-	  const provinceId = $(clickedElement).attr('id');
-	  console.log('provinceId:', provinceId);
-		
-	  if (provinceId) {
-	    if ($currentSelectedProvince) {
-			$currentSelectedProvince.removeClass('selected');
-	    }
-	
-	    $(clickedElement).addClass('selected');
-	    $currentSelectedProvince = $(clickedElement);
-	    
-	    $('#regionSelect').val(provinceId);
-	
-	    selectedRegionId = provinceId;
-    	selectedRegionName = $('#regionSelect option:selected').text();
-    	
-	    getPrediction(selectedRegionName);
-    	updateSummary();
-	    } else {
-			alert(`ID: ${provinceId} 는 매핑되지 않았습니다.`);
-	    }
-	});
+  // 지도 Hover
+  $mapElements.hover(
+    function() {
+      if (!$(this).hasClass('selected')) {
+        $(this).css({
+          'stroke': 'white',
+          'stroke-width': '4',
+          'fill': '#a8cfff'
+        });
+      }
+    },
+    function() {
+      if (!$(this).hasClass('selected')) {
+        $(this).css({
+          'stroke': 'white',
+          'stroke-width': '1',
+          'fill': 'gray'
+        });
+      }
+    }
+  );
+
+  // 🔹 지도 클릭
+  $mapElements.on('click', function() {
+    const clickedId = $(this).attr('id');
+
+    if (selectedRegionId === 'nation') {
+      // 전국 선택 상태면 → 개별 선택
+      deselectAll();
+    }
+
+    if (selectedRegionId === clickedId) {
+      // 같은 지역 다시 클릭 → 선택 해제
+      deselectAll();
+    } else {
+      // 다른 지역 선택
+      deselectAll();
+
+      $(this).addClass('selected').css({
+        'stroke': 'white',
+        'stroke-width': '3',
+        'fill': '#4287f5'
+      });
+
+      selectedRegionId = clickedId;
+      selectedRegionName = $('#regionSelect option[value="' + clickedId + '"]').text();
+      lastSelectedRegionId = clickedId;
+      $currentSelectedProvince = $(this);
+
+      $('#regionSelect').val(clickedId);
+
+      getPrediction(selectedRegionName);
+      updateSummary();
+    }
+  });
+
+  // 빈영역 클릭 → 전국 선택 or 해제
+  $('#koreaMapSvg').on('click', function(e) {
+    if (!$(e.target).is('polyline, path')) {
+      if (selectedRegionId === 'nation') {
+        deselectAll();
+      } else {
+        selectNation();
+      }
+    }
+  });
+
 });
 
 

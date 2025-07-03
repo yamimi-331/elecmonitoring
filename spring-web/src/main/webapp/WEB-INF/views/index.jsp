@@ -40,7 +40,8 @@
 							<option value="gyeongbuk">경상북도</option>
 							<option value="gyeongnam">경상남도</option>
 							<option value="jeju">제주특별자치도</option>
-							<option value="koreaMapSvg">전국</option>
+							<option value="nation">전국</option>
+							<option value="">선택 해제</option>
 						</select>
 					</div>
 					<div id="map-container">

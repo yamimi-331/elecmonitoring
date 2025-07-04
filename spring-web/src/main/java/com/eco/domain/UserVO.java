@@ -4,12 +4,12 @@ import lombok.Data;
 
 @Data
 public class UserVO {
-	private String user_cd;
+	private int user_cd;
 	private String user_id;
 	private String user_pw;
 	private String user_nm;
-	private String local_cd;
 	private String user_addr;
-	private String user_type;
+	private String user_mail;
+	private String user_social;
 	private char use_yn;
 }

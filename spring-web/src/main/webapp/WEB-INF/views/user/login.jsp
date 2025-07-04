@@ -37,8 +37,12 @@
   </style>
 </head>
 <body>
-
-  <!-- 로그인 유형 탭 -->
+ <div class="wrapper">
+	<h2 class="header-title">전기재해 모니터링 시스템</h2>
+   <%@ include file="/WEB-INF/views/common/commonHeader.jsp" %>
+	<main class="main">
+	
+	 <!-- 로그인 유형 탭 -->
   <ul id="login-tabs">
     <li><a href="#" data-tab="user" class="active">일반 로그인</a></li>
     <li><a href="#" data-tab="staff">직원 로그인</a></li>
@@ -71,7 +75,9 @@
       <button type="submit">비회원 로그인</button>
     </form>
   </div>
-
+</main>
+	</div>
+ 
   <script>
     const tabs = document.querySelectorAll('#login-tabs a');
     const forms = document.querySelectorAll('.login-form');

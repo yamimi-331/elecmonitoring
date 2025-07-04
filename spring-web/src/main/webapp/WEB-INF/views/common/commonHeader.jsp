@@ -19,7 +19,7 @@
 				<a href="#" class="nav-link" data-target="mega-etc">기타</a>
 			</li>
 		</ul>
-		<button class="login-btn">🔑 로그인</button>
+		<button class="login-btn" onclick="location.href='/login'">🔑 로그인</button>
 	</nav>
 
     <div class="common-mega-menu-dropdown">

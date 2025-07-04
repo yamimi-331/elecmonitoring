@@ -14,4 +14,7 @@ public interface UserService {
    
    // 회원 정보 수정
    public boolean modify(UserVO userVO);
+   
+   // 비밀 번호 확인 
+   public boolean checkPassword(String rawPw, String encodedPw);
 }

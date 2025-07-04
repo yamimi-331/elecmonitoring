@@ -61,10 +61,27 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean modify(UserVO userVO) {
         try {
+        	// 비밀번호가 null이 아니고 빈 값이 아니라면 -> 암호화해서 덮어씀
+            if (userVO.getUser_pw() != null && !userVO.getUser_pw().isEmpty()) {
+                String encodedPw = passwordEncoder.encode(userVO.getUser_pw());
+                userVO.setUser_pw(encodedPw);
+            }
+            
             int result = userMapper.updateUser(userVO);
             return result > 0;
         } catch (Exception e) {
             throw new ServiceException("회원 정보 수정 실패", e);
         }
     }
+    
+    // 비밀번호 일치 확인
+    @Override
+    public boolean checkPassword(String rawPw, String encodedPw) {
+        try {
+            return passwordEncoder.matches(rawPw, encodedPw);
+        } catch (Exception e) {
+            throw new ServiceException("비밀번호 확인 실패", e);
+        }
+    }
+
 }

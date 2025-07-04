@@ -27,8 +27,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    VALUES(#{user_id}, #{user_pw}, #{user_nm}, #{user_addr}, #{user_mail})
 	    ]]>
 	</insert>
-
-
+	
 	<!-- UPDATE -->
 	<!-- 사용자 정보 수정 -->
 	<update id="updateUser" parameterType="com.eco.domain.UserVO">

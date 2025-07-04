@@ -27,7 +27,7 @@
 		        <button class="login-btn" onclick="location.href='/login'">🔑 로그인</button>
 		    </c:when>
 		    <c:otherwise>
-		    	<p>${currentUserInfo.user_nm}님 환영합니다.</p>
+		    	<p>${ currentUserInfo.user_nm }님 환영합니다.</p>
 		    	<button class="logout-btn" onclick="location.href='/logout'">🚪 로그아웃</button>
 		    </c:otherwise>
 		</c:choose>	
@@ -82,7 +82,7 @@
                 <h3>사이트 정보</h3>
                 <ul>
                     <li><a href="/">메인 페이지</a></li>
-                    <li><a href="#">이용 안내</a></li>
+                    <li><a href="/profileEdit">회원정보 수정</a></li>
                     <li><a href="#">자주 묻는 질문</a></li>
                     <li><a href="#">사이트맵</a></li>
                 </ul>

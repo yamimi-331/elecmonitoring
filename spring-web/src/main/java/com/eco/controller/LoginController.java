@@ -32,7 +32,7 @@ public class LoginController {
 	}
 
 	@PostMapping("/user")
-	public String userLogin(UserVO vo, HttpSession session) {
+	public String userLogin(UserVO vo, HttpSession session, RedirectAttributes redirectAttrs) {
 		log.info("일반 사용자 로그인 시도: " + vo);
 
         UserVO loginUser = userService.login(vo.getUser_id(), vo.getUser_pw());
@@ -41,10 +41,11 @@ public class LoginController {
             log.info("로그인 성공: " + loginUser.getUser_id());
             // 세션에 사용자 정보 저장
             session.setAttribute("currentUserInfo", loginUser);
-            return "redirect:/index";
+            return "redirect:/";
         } else {
             log.info("로그인 실패");
-            return "redirect:/login?error=fail";
+            redirectAttrs.addFlashAttribute("message", "아이디 및 비밀번호가 틀립니다.");
+            return "redirect:/login";
         }
 	}
 
@@ -58,7 +59,7 @@ public class LoginController {
             log.info("로그인 성공: " + loginStaff.getStaff_id());
             
             session.setAttribute("currentUserInfo", loginStaff);
-            return "redirect:/index";
+            return "redirect:/";
         } else {
             log.info("로그인 실패");
             redirectAttrs.addFlashAttribute("message", "아이디 및 비밀번호가 틀립니다.");
@@ -70,6 +71,6 @@ public class LoginController {
 	public String guestLogin(GuestDTO dto) {
 		// TODO: 비회원 인증 로직
 		// 예: 이메일, 이름 확인 후 세션 저장
-		return "redirect:/index";
+		return "redirect:/";
 	}
 }

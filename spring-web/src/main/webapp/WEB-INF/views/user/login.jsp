@@ -76,6 +76,7 @@
 				</form>
 			</div>
 		</main>
+		<a href="/signup">회원가입</a>
 	</div>
 
 	<c:if test="${not empty message}">

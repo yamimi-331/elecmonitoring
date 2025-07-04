@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!-- --------------------------- 공통 헤더 영역 Start --------------------------- -->
 <link rel="stylesheet" href="../../resources/css/commonHeader.css?after" />
 
@@ -19,7 +21,16 @@
 				<a href="#" class="nav-link" data-target="mega-etc">기타</a>
 			</li>
 		</ul>
-		<button class="login-btn" onclick="location.href='/login'">🔑 로그인</button>
+
+		<c:choose>
+		    <c:when test="${ empty currentUserInfo }">
+		        <button class="login-btn" onclick="location.href='/login'">🔑 로그인</button>
+		    </c:when>
+		    <c:otherwise>
+		    	<p>${currentUserInfo.user_nm}님 환영합니다.</p>
+		    	<button class="logout-btn" onclick="location.href='/logout'">🚪 로그아웃</button>
+		    </c:otherwise>
+		</c:choose>	
 	</nav>
 
     <div class="common-mega-menu-dropdown">

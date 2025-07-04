@@ -115,7 +115,7 @@ $(document).ready(function() {
             success: function(response) {
                 if (response === 'success') {
                     alert('회원가입이 완료되었습니다. 로그인 페이지로 이동합니다.');
-                    location.href = '/login';
+                    location.href = '/user/login';
                 } else {
                     alert('회원가입에 실패했습니다. 다시 시도해주세요.');
                 }

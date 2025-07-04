@@ -31,4 +31,10 @@ public class StaffServiceImpl implements StaffService{
 		return  result > 0;
 	}
 
+	// 직원 정보 수정
+	@Override
+	public boolean modify(StaffVO staffVO) {
+		int result = staffMapper.updateStaff(staffVO);
+		return result > 0;
+	}
 }

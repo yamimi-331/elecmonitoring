@@ -27,4 +27,11 @@ public class UserServiceImpl implements UserService {
 	public int register(UserVO userVO) {
 		return userMapper.insertUser(userVO);
 	}
+	
+	// 직원 정보 수정
+	@Override
+	public boolean modify(UserVO userVO) {
+		int result = userMapper.updateUser(userVO);
+		return result > 0;
+	}
 }

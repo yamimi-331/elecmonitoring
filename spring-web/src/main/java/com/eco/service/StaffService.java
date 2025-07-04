@@ -11,4 +11,7 @@ public interface StaffService {
 
    // 직원 계정 생성
    public boolean register(StaffVO staffVO);
+   
+   // 직원 정보 수정
+   public boolean modify(StaffVO staffVO);
 }

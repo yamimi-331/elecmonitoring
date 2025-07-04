@@ -15,5 +15,7 @@ public interface StaffMapper {
     
     // 직원 계정 생성
     public int insertStaff(StaffVO staffVO);
-
+    
+    // 직원 정보 수정
+    public int updateStaff(StaffVO staffVO);
 }

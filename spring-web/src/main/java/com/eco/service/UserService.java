@@ -11,4 +11,7 @@ public interface UserService {
 
    // 회원가입
    public int register(UserVO userVO);
+   
+   // 회원 정보 수정
+   public boolean modify(UserVO userVO);
 }

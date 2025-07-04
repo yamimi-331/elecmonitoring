@@ -20,15 +20,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		]]>
 	</select>
 	<!-- INSERT -->
-	<!-- 직원 회원가입 -->
+	<!-- 직원 회원 가입 -->
 	<insert id="insertStaff" parameterType="com.eco.domain.StaffVO">
 		<![CDATA[
-		    INSERT INTO t_user(staff_id, staff_pw, staff_nm, staff_addr, staff_role)
+		    INSERT INTO t_staff(staff_id, staff_pw, staff_nm, staff_addr, staff_role)
 		    VALUES(#{staff_id}, #{staff_pw}, #{staff_nm}, #{staff_addr}, #{staff_role})
 	    ]]>
 	</insert>
 	<!-- UPDATE -->
-	<update>
-	
+	<!-- 직원 정보 수정 -->
+	<update id="updateStaff" parameterType="com.eco.domain.StaffVO">
+		<![CDATA[
+		    UPDATE t_staff SET staff_pw = #{staff_pw}, staff_nm = #{staff_nm}
+		    WHERE staff_id = #{staff_id}
+	    ]]>
 	</update>
 </mapper>

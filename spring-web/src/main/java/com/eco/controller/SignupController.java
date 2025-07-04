@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.eco.domain.UserVO;
 import com.eco.service.UserService;
@@ -44,19 +45,22 @@ public class SignupController {
 
 	// 회원가입 처리(POST /signup)
 	@PostMapping("")
-	@ResponseBody
-	public ResponseEntity<String> register(UserVO userVO) {
-		log.info("회원가입 처리: " + userVO);
-		try {
-			int result = userService.register(userVO);
-			if (result > 0) {
-				return ResponseEntity.ok("success");
-			} else {
-				return ResponseEntity.ok("fail");
-			}
-		} catch (Exception e) {
-			log.error("회원가입 중 오류 발생", e);
-			return ResponseEntity.ok("fail");
-		}
+	public String register(UserVO userVO, RedirectAttributes rttr) {
+	    log.info("회원가입 처리: " + userVO);
+	    try {
+	        int result = userService.register(userVO);
+	        if (result > 0) {
+	            rttr.addFlashAttribute("message", "회원가입이 완료되었습니다. 로그인 페이지로 이동합니다.");
+	            return "redirect:/login";
+	        } else {
+	            rttr.addFlashAttribute("message", "회원가입에 실패했습니다. 다시 시도해주세요.");
+	            return "redirect:/signup";  // 실패 시 다시 회원가입 페이지로
+	        }
+	    } catch (Exception e) {
+	        log.error("회원가입 중 오류 발생", e);
+	        rttr.addFlashAttribute("message", "서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+	        return "redirect:/signup";
+	    }
 	}
+
 }

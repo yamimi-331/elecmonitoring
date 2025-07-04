@@ -15,32 +15,45 @@
 			<form>
 				<div class="i">
 					<label for="user_id">아이디</label><br>
-					<input type="text" name="user_id" id="user_id" autocomplete="off" value="${currentUserInfo.user_id}" readonly><br>
+					<input type="text" name="user_id" id="user_id" value="${currentUserInfo.user_id}" readonly><br>
+				</div>
+				
+				<div class="i">
+					<label for="user_id">기존 비밀번호 확인</label><br>
+					<input type="text" name="user_pw" id="user_pw" autocomplete="new-password"><br>
+					<button>비밀번호 확인</button>
+				</div>
+				<div id="pwVerifyMsg" style="color:red; margin: 3px 0;">
+				    <c:if test="${not empty errorMsg}">
+				        ${errorMsg}
+				    </c:if>
 				</div>
 
 				<div class="i">
 					<label for="user_pw">새 비밀번호</label><br>
 					<input type="password" name="user_pw" id="user_pw" autocomplete="new-password"><br>
+					<small id="newPwMsg"></small>
 				</div>
 			  
 				<div class="i">
 					<label for="user_pw_ck">새 비밀번호 확인</label><br>
 					<input type="password" name="user_pw_ck" id="user_pw_ck" autocomplete="new-password"><br>
+					<small id="pwCheckMsg"></small>
 				</div>
 				
 				<div class="i">
 					<label for="user_nm">이름</label><br>
-					<input type="text" name="user_nm" id="user_nm" autocomplete="off"><br>
+					<input type="text" name="user_nm" id="user_nm" value="${currentUserInfo.user_nm}"><br>
 				</div>
 				
 				<div class="i">
 					<label for="user_addr">주소</label><br>
-					<input type="text" name="user_addr" id="user_addr" autocomplete="off"><br>
+					<input type="text" name="user_addr" id="user_addr" value="${currentUserInfo.user_addr}"><br>
 				</div>
 				
 				<div class="i">
 					<label for="user_mail">메일</label><br>
-					<input type="text" name="user_mail" id="user_mail" autocomplete="off"><br>
+					<input type="text" name="user_mail" id="user_mail" value="${currentUserInfo.user_mail}"><br>
 				</div>
 			</form>
 		</main>

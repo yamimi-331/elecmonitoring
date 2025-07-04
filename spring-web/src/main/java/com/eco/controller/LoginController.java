@@ -41,6 +41,7 @@ public class LoginController {
             log.info("로그인 성공: " + loginUser.getUser_id());
             // 세션에 사용자 정보 저장
             session.setAttribute("currentUserInfo", loginUser);
+            session.setAttribute("userType", "common");
             return "redirect:/";
         } else {
             log.info("로그인 실패");
@@ -56,9 +57,8 @@ public class LoginController {
         StaffVO loginStaff = staffService.login(vo.getStaff_id(), vo.getStaff_pw());
 
         if (loginStaff != null) {
-            log.info("로그인 성공: " + loginStaff.getStaff_id());
-            
             session.setAttribute("currentUserInfo", loginStaff);
+            session.setAttribute("userType", loginStaff.getStaff_role());
             return "redirect:/";
         } else {
             log.info("로그인 실패");

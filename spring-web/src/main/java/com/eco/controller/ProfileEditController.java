@@ -2,7 +2,6 @@ package com.eco.controller;
 
 import javax.servlet.http.HttpSession;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,6 +34,7 @@ public class ProfileEditController {
 		ProfileEditDTO dto = new ProfileEditDTO();
 		if ("common".equals(type)) {
 			UserVO currentUser = (UserVO) session.getAttribute("currentUserInfo");
+			log.info(currentUser);
 			dto.setId(currentUser.getUser_id());
 			dto.setPw(currentUser.getUser_pw());
 			dto.setNm(currentUser.getUser_nm());
@@ -56,6 +56,7 @@ public class ProfileEditController {
 
 	@PostMapping("")
 	public String profileEdit(ProfileEditDTO dto, HttpSession session, RedirectAttributes redirectAttrs) {
+		log.info(dto);
 		String type = (String) session.getAttribute("userType");
 		boolean result = false;
 		if ("common".equals(type)) {
@@ -65,11 +66,16 @@ public class ProfileEditController {
 			vo.setUser_nm(dto.getNm());
 			vo.setUser_addr(dto.getAddr());
 			vo.setUser_mail(dto.getMail());
-			
+			log.info(vo);
 			result = userService.modify(vo);
-			// 수정된 정보 다시 세션에 저장
-			session.setAttribute("currentUserInfo", vo);
-
+			log.info(result);
+			
+			if (result) {
+				// DB에서 최신 정보 다시 조회
+				UserVO updatedUser = userService.login(vo);
+				log.info(updatedUser);
+				session.setAttribute("currentUserInfo", updatedUser);
+			}
 		} else if ("staff".equals(type) || "admin".equals(type)) {
 			StaffVO vo = new StaffVO();
 			vo.setStaff_id(dto.getId());
@@ -77,34 +83,34 @@ public class ProfileEditController {
 			vo.setStaff_nm(dto.getNm());
 			vo.setStaff_addr(dto.getAddr());
 			vo.setStaff_role(dto.getStaff_role());
-			
+
 			result = staffService.modify(vo);
 			// 세션 갱신!
-	        session.setAttribute("currentUserInfo", vo);
+			session.setAttribute("currentUserInfo", vo);
 		}
-		
-		if(result) {
+
+		if (result) {
 			redirectAttrs.addFlashAttribute("message", "회원 정보가 수정되었습니다.");
 		} else {
 			redirectAttrs.addFlashAttribute("message", "회원 정보가 수정을 실패했습니다.");
 		}
-			
+
 		return "redirect:/profileEdit";
 	}
-	
-    // 비밀번호 일치 확인 (AJAX)
-    @PostMapping("/checkPassword")
-    @ResponseBody
-    public ResponseEntity<Boolean> checkPassword(@RequestParam("inputPw") String inputPw,
-                                                 HttpSession session) {
-        UserVO currentUser = (UserVO) session.getAttribute("currentUserInfo");
 
-        if (currentUser == null) {
-            return ResponseEntity.ok(false);  // 로그인 정보 없음
-        }
+	// 비밀번호 일치 확인 (AJAX)
+	@PostMapping(value = "/checkPassword", produces = "application/json")
+	@ResponseBody
+	public boolean checkPassword(@RequestParam("inputPw") String inputPw, HttpSession session) {
+		UserVO currentUser = (UserVO) session.getAttribute("currentUserInfo");
 
-        boolean match = userService.checkPassword(inputPw, currentUser.getUser_pw());
-        return ResponseEntity.ok(match);
-    }
+		if (currentUser == null) {
+			return false; // 로그인 정보 없음
+		}
+
+		boolean match = userService.checkPassword(inputPw, currentUser.getUser_pw());
+
+		return match; // JSON true/false 로 응답!
+	}
 
 }

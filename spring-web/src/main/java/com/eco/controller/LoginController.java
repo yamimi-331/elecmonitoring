@@ -33,12 +33,12 @@ public class LoginController {
 
 	@PostMapping("/user")
 	public String userLogin(UserVO vo, HttpSession session, RedirectAttributes redirectAttrs) {
-		log.info("일반 사용자 로그인 시도: " + vo);
+		log.info("일반 사용자 로그인 시도");
 
         UserVO loginUser = userService.login(vo);
 
         if (loginUser != null) {
-            log.info("로그인 성공: " + loginUser.getUser_id());
+            log.info("로그인 성공");
             // 세션에 사용자 정보 저장
             session.setAttribute("currentUserInfo", loginUser);
             session.setAttribute("userType", "common");
@@ -52,11 +52,12 @@ public class LoginController {
 
 	@PostMapping("/staff")
 	public String staffLogin(StaffVO vo, HttpSession session, RedirectAttributes redirectAttrs) {
-		log.info("직원 로그인 시도: " + vo);
+		log.info("직원 로그인 시도");
 
         StaffVO loginStaff = staffService.login(vo.getStaff_id(), vo.getStaff_pw());
 
         if (loginStaff != null) {
+        	log.info("로그인 성공");
             session.setAttribute("currentUserInfo", loginStaff);
             session.setAttribute("userType", loginStaff.getStaff_role());
             return "redirect:/";

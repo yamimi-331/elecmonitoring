@@ -45,7 +45,7 @@ public class SignupController {
 	// 회원가입 처리(POST /signup)
 	@PostMapping("")
 	public String register(UserVO userVO, RedirectAttributes rttr) {
-	    log.info("회원가입 처리: " + userVO);
+	    log.info("회원가입 처리");
 	    try {
 	        int result = userService.register(userVO);
 	        if (result > 0) {

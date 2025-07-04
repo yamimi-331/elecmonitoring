@@ -39,7 +39,7 @@
 </head>
 <body>
 	<div class="wrapper">
-		<h2 class="header-title">전기재해 모니터링 시스템</h2>
+		<h2 class="header-title">로그인</h2>
 		<%@ include file="/WEB-INF/views/common/commonHeader.jsp" %>
 		<main class="main">
 			<!-- 로그인 유형 탭 -->

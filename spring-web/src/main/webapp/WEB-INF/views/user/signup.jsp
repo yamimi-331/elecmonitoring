@@ -48,85 +48,60 @@
 	
 	</main>
 </div>	
+<c:if test="${not empty message}">
+    <script>
+        alert('${message}');
+    </script>
+</c:if>
 <script>
 $(document).ready(function() {
-    // 아이디 중복검사
-	$('#checkIdBtn').on('click', function() {
-	    var userId = $('#user_id').val().trim();
-	
-	    if (userId.length === 0) {
-	        $('#idMsg').text('아이디를 입력해주세요.').removeClass('success').addClass('error');
-	        $('#submitBtn').prop('disabled', true);
-	        return;
-	    }
-	
-	    $.ajax({
-	        url: '/signup/checkId',  // 컨트롤러 경로 맞춰서 변경
-	        type: 'GET',
-	        data: { user_id: userId },
-	        success: function(response) {
-	            if (response === '사용 가능') {
-	                $('#idMsg').text('사용 가능한 아이디입니다.').removeClass('error').addClass('success');
-	                $('#submitBtn').prop('disabled', false);
-	            } else {
-	                $('#idMsg').text(response).removeClass('success').addClass('error');
-	                $('#submitBtn').prop('disabled', true);
-	            }
-	        },
-	        error: function() {
-	            $('#idMsg').text('서버 오류가 발생했습니다.').removeClass('success').addClass('error');
-	            $('#submitBtn').prop('disabled', true);
-	        }
-	    });
-	});
+    // 아이디 중복검사 버튼 클릭
+    $('#checkIdBtn').on('click', function() {
+        var userId = $('#user_id').val().trim();
 
-
-    // 폼 유효성 체크 및 제출 버튼 활성화
-    function checkFormValid() {
-        var pw = $('#user_pw').val();
-        var pwConfirm = $('#user_pw_confirm').val();
-        var userIdMsg = $('#idMsg').hasClass('success');
-
-        if (pw && pwConfirm && pw === pwConfirm && userIdMsg) {
-            $('#submitBtn').prop('disabled', false);
-        } else {
+        if (userId.length === 0) {
+            $('#idMsg').text('아이디를 입력해주세요.').removeClass('success').addClass('error');
             $('#submitBtn').prop('disabled', true);
-        }
-    }
-
-    $('#user_pw, #user_pw_confirm').on('input', checkFormValid);
-
-    // 폼 제출 이벤트
-    $('#registerForm').on('submit', function(e) {
-        e.preventDefault();
-
-        var pw = $('#user_pw').val();
-        var pwConfirm = $('#user_pw_confirm').val();
-
-        if (pw !== pwConfirm) {
-            alert('비밀번호가 일치하지 않습니다.');
             return;
         }
 
         $.ajax({
-            url: '/signup',
-            type: 'POST',
-            data: $(this).serialize(),
+            url: '/signup/checkId',
+            type: 'GET',
+            data: { user_id: userId },
             success: function(response) {
-                if (response === 'success') {
-                    alert('회원가입이 완료되었습니다. 로그인 페이지로 이동합니다.');
-                    location.href = '/user/login';
+                if (response === '사용 가능') {
+                    $('#idMsg').text('사용 가능한 아이디입니다.').removeClass('error').addClass('success');
+                    $('#submitBtn').prop('disabled', false);
                 } else {
-                    alert('회원가입에 실패했습니다. 다시 시도해주세요.');
+                    $('#idMsg').text(response).removeClass('success').addClass('error');
+                    $('#submitBtn').prop('disabled', true);
                 }
             },
             error: function() {
-                alert('서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+                $('#idMsg').text('서버 오류가 발생했습니다.').removeClass('success').addClass('error');
+                $('#submitBtn').prop('disabled', true);
             }
         });
     });
-});
 
+    // 비밀번호 확인 체크 (폼 제출 전 유효성)
+    $('#user_pw, #user_pw_confirm').on('input', function() {
+        var pw = $('#user_pw').val();
+        var pwConfirm = $('#user_pw_confirm').val();
+
+        if (pw && pwConfirm && pw === pwConfirm) {
+            if ($('#idMsg').hasClass('success')) {
+                $('#submitBtn').prop('disabled', false);
+            }
+        } else {
+            $('#submitBtn').prop('disabled', true);
+        }
+    });
+
+    // 이제 AJAX로 폼 submit 안함! 일반 제출
+});
 </script>
+
 </body>
 </html>

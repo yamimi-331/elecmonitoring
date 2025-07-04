@@ -1,15 +1,17 @@
 package com.eco.controller;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSession; 
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.eco.domain.GuestDTO;
 import com.eco.domain.StaffVO;
 import com.eco.domain.UserVO;
+import com.eco.service.StaffService;
 import com.eco.service.UserService;
 
 import lombok.AllArgsConstructor;
@@ -22,6 +24,7 @@ import lombok.extern.log4j.Log4j;
 public class LoginController {
 
     private final UserService userService;
+    private final StaffService staffService;
 
 	@GetMapping("")
 	public String loginPage() {
@@ -46,10 +49,21 @@ public class LoginController {
 	}
 
 	@PostMapping("/staff")
-	public String staffLogin(StaffVO vo) {
-		// TODO: 직원 로그인 로직
-		// 예: 직원 ID/PW 인증 후 권한 체크
-		return "redirect:/index";
+	public String staffLogin(StaffVO vo, HttpSession session, RedirectAttributes redirectAttrs) {
+		log.info("직원 로그인 시도: " + vo);
+
+        StaffVO loginStaff = staffService.login(vo.getStaff_id(), vo.getStaff_pw());
+
+        if (loginStaff != null) {
+            log.info("로그인 성공: " + loginStaff.getStaff_id());
+            
+            session.setAttribute("currentUserInfo", loginStaff);
+            return "redirect:/index";
+        } else {
+            log.info("로그인 실패");
+            redirectAttrs.addFlashAttribute("message", "아이디 및 비밀번호가 틀립니다.");
+            return "redirect:/login?error=fail";
+        }
 	}
 
 	@PostMapping("/guest")

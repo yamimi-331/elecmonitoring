@@ -1,5 +1,6 @@
 package com.eco.service;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.eco.domain.UserVO;
@@ -11,14 +12,23 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
-
+	// 사용자 매퍼
     private final UserMapper userMapper;
-
+    // 비밀번호 암호화
+    private BCryptPasswordEncoder passwordEncoder;
+    
     // 일반 사용자 로그인
     @Override
-    public UserVO login(String user_id, String user_pw) {
+    public UserVO login(UserVO inputUser) {
         try {
-            return userMapper.selectUserByIdAndPw(user_id, user_pw);
+       	   // DB에서 해당 아이디로 사용자 정보 조회
+            UserVO dbUser = userMapper.selectUserById(inputUser); // inputUser.user_id 사용
+
+            // 조회된 사용자 있고, 입력한 PW가 암호화 PW와 일치하면
+            if (dbUser != null && passwordEncoder.matches(inputUser.getUser_pw(), dbUser.getUser_pw())) {
+                return dbUser; // 로그인 성공
+            }
+            return null; // 로그인 실패
         } catch (Exception e) {
             throw new ServiceException("사용자 로그인 실패", e);
         }
@@ -26,9 +36,9 @@ public class UserServiceImpl implements UserService {
 
     // 아이디 중복 확인
     @Override
-    public UserVO checkId(String user_id) {
+    public UserVO checkId(UserVO inputUser) {
         try {
-            return userMapper.selectUserById(user_id);
+            return userMapper.selectUserById(inputUser);
         } catch (Exception e) {
             throw new ServiceException("아이디 중복 확인 실패", e);
         }
@@ -38,6 +48,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public int register(UserVO userVO) {
         try {
+        	// 비밀번호 암호화
+            String encodedPw = passwordEncoder.encode(userVO.getUser_pw());
+            userVO.setUser_pw(encodedPw);
             return userMapper.insertUser(userVO);
         } catch (Exception e) {
             throw new ServiceException("회원가입 실패", e);

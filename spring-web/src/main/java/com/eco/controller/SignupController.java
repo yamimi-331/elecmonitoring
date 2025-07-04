@@ -5,7 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -33,9 +32,9 @@ public class SignupController {
 	// 아이디 중복체크(GET /signup/checkId?user_id=xxx)
 	@GetMapping(value = "/checkId", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> checkId(@RequestParam("user_id") String userId) {
-		log.info("아이디 중복 체크 요청: " + userId);
-		UserVO user = userService.checkId(userId);
+	public ResponseEntity<String> checkId(UserVO vo) {
+		log.info("아이디 중복 체크 요청: " +  vo.getUser_id());
+		UserVO user = userService.checkId(vo);
 		if (user == null) {
 			return ResponseEntity.ok("사용 가능");
 		} else {

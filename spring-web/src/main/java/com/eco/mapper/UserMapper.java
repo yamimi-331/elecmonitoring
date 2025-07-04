@@ -11,7 +11,7 @@ public interface UserMapper {
     public UserVO selectUserByIdAndPw(@Param("user_id") String user_id, @Param("user_pw") String user_pw);
 
     // 아이디 중복 확인
-    public UserVO selectUserById(@Param("user_id") String user_id);
+    public UserVO selectUserById(UserVO userVO);
 
     // 회원가입
     public int insertUser(UserVO userVO);

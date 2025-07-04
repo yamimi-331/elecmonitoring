@@ -35,7 +35,7 @@ public class LoginController {
 	public String userLogin(UserVO vo, HttpSession session, RedirectAttributes redirectAttrs) {
 		log.info("일반 사용자 로그인 시도: " + vo);
 
-        UserVO loginUser = userService.login(vo.getUser_id(), vo.getUser_pw());
+        UserVO loginUser = userService.login(vo);
 
         if (loginUser != null) {
             log.info("로그인 성공: " + loginUser.getUser_id());

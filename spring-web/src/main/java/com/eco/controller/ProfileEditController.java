@@ -34,7 +34,6 @@ public class ProfileEditController {
 		ProfileEditDTO dto = new ProfileEditDTO();
 		if ("common".equals(type)) {
 			UserVO currentUser = (UserVO) session.getAttribute("currentUserInfo");
-			log.info(currentUser);
 			dto.setId(currentUser.getUser_id());
 			dto.setPw(currentUser.getUser_pw());
 			dto.setNm(currentUser.getUser_nm());
@@ -56,7 +55,6 @@ public class ProfileEditController {
 
 	@PostMapping("")
 	public String profileEdit(ProfileEditDTO dto, HttpSession session, RedirectAttributes redirectAttrs) {
-		log.info(dto);
 		String type = (String) session.getAttribute("userType");
 		boolean result = false;
 		if ("common".equals(type)) {
@@ -66,14 +64,10 @@ public class ProfileEditController {
 			vo.setUser_nm(dto.getNm());
 			vo.setUser_addr(dto.getAddr());
 			vo.setUser_mail(dto.getMail());
-			log.info(vo);
 			result = userService.modify(vo);
-			log.info(result);
-			
 			if (result) {
 				// DB에서 최신 정보 다시 조회
-				UserVO updatedUser = userService.login(vo);
-				log.info(updatedUser);
+				UserVO updatedUser = userService.checkId(vo);
 				session.setAttribute("currentUserInfo", updatedUser);
 			}
 		} else if ("staff".equals(type) || "admin".equals(type)) {
@@ -94,8 +88,7 @@ public class ProfileEditController {
 		} else {
 			redirectAttrs.addFlashAttribute("message", "회원 정보가 수정을 실패했습니다.");
 		}
-
-		return "redirect:/profileEdit";
+		return "redirect:/";
 	}
 
 	// 비밀번호 일치 확인 (AJAX)

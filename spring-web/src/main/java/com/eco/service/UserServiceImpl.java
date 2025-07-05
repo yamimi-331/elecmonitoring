@@ -8,10 +8,8 @@ import com.eco.exception.ServiceException;
 import com.eco.mapper.UserMapper;
 
 import lombok.AllArgsConstructor;
-import lombok.extern.log4j.Log4j;
 
 @Service
-@Log4j
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
 	// 사용자 매퍼
@@ -25,13 +23,10 @@ public class UserServiceImpl implements UserService {
         try {
        	   // DB에서 해당 아이디로 사용자 정보 조회
             UserVO dbUser = userMapper.selectUserById(inputUser); // inputUser.user_id 사용
-            log.info("조회결과 : " + dbUser);
             // 조회된 사용자 있고, 입력한 PW가 암호화 PW와 일치하면
             if (dbUser != null && passwordEncoder.matches(inputUser.getUser_pw(), dbUser.getUser_pw())) {
-                log.info("비번확인 성공");
             	return dbUser; // 로그인 성공
             }
-            log.info("비번확인 실패");
             return null; // 로그인 실패
         } catch (Exception e) {
             throw new ServiceException("사용자 로그인 실패", e);

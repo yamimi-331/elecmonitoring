@@ -116,5 +116,12 @@
 	</div>
 	<footer>
 	</footer>
+	
+	<c:if test="${not empty message}">
+<script>
+    alert('${message}');
+</script>
+</c:if>
+	
 </body>
 </html>

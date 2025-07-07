@@ -106,6 +106,10 @@ table tr:hover {
     <%@ include file="/WEB-INF/views/common/commonHeader.jsp" %>
     <main class="main">
       <h2>AS 일정 목록</h2>
+      <div id="searchSection">
+		  <input type="date" id="searchDate" />
+		  <button id="btnSearch">조회</button>
+		</div>
       <table>
         <thead>
           <tr>

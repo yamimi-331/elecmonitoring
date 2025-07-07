@@ -1,10 +1,12 @@
 package com.eco.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.eco.domain.ASListDTO;
+import com.eco.domain.ASVO;
 import com.eco.exception.ServiceException;
 import com.eco.mapper.AsMapper;
 
@@ -48,6 +50,16 @@ public class AsServiceImpl implements AsService {
 		} catch (Exception e) {
 			throw new ServiceException("항목 상세 조회 실패", e);
 		}
+	}
+
+	@Override
+	public List<ASVO> getScheduleByUserAndDate(int user_cd, LocalDate date) {
+		return asMapper.selectScheduleByUserAndDate(user_cd, date);
+	}
+
+	@Override
+	public List<ASVO> getScheduleByStaffAndDate(int staff_cd, LocalDate date) {
+		return asMapper.selectScheduleByStaffAndDate(staff_cd, date);
 	}
 
 }

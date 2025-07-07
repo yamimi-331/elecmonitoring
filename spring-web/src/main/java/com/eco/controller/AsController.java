@@ -1,5 +1,7 @@
 package com.eco.controller;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -14,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.eco.domain.ASListDTO;
+import com.eco.domain.ASVO;
 import com.eco.domain.StaffVO;
+import com.eco.domain.UserVO;
 import com.eco.service.AsService;
 
 import lombok.AllArgsConstructor;
@@ -45,8 +49,36 @@ public class AsController {
 
 		return "/as/asOrder";
 	}
+	
+	// 기간별 조회
+	@GetMapping("/schedule")
+	@ResponseBody
+	public List<ASVO> getScheduleByDate(@RequestParam String date, HttpSession session) {
+	    Object obj = session.getAttribute("currentUserInfo");
+	    
+	    if (obj == null) {
+	        // 로그인 정보 없으면 빈 리스트 반환 (또는 예외처리)
+	        return List.of();
+	    }
+	    
+	    log.info(date);
+	    LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ISO_DATE);
+	    log.info(localDate);
+	    
+	    if (obj instanceof UserVO) {
+	        UserVO user = (UserVO) obj;
+	        return asService.getScheduleByUserAndDate(user.getUser_cd(), localDate);
+	    } else if (obj instanceof StaffVO) {
+	        StaffVO staff = (StaffVO) obj;
+	        return asService.getScheduleByStaffAndDate(staff.getStaff_cd(), localDate);
+	    } else {
+	        // 예외 케이스 처리, 빈 리스트 반환
+	        return List.of();
+	    }
+	}
 
-	// 클릭시 
+
+	// AS List 표의 하나의 행의 상세정보 버튼 클릭
 	@GetMapping(value = "/detail/{as_cd}", produces = "application/json")
 	@ResponseBody
 	public ASListDTO getAsDetail(@PathVariable("as_cd") int as_cd) {
@@ -64,6 +96,6 @@ public class AsController {
 	    asService.updateStatus(as_cd, as_status);
 	    return "success";
 	}
-
+	
 	
 }

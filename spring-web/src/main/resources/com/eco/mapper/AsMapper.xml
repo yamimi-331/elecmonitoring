@@ -82,6 +82,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    ]]>
 	</select>
 
+   <!-- 사용자별 날짜별 AS 일정 조회 -->
+    <select id="selectScheduleByUserAndDate" parameterType="map" resultType="com.eco.domain.ASVO">
+        <![CDATA[
+        SELECT *
+        FROM T_AS
+        WHERE user_cd = #{user_cd}
+          AND DATE(as_date) = #{date}
+        ORDER BY as_date
+        ]]>
+    </select>
+
+    <!-- 직원별 날짜별 AS 일정 조회 -->
+    <select id="selectScheduleByStaffAndDate" parameterType="map" resultType="com.eco.domain.ASVO">
+        <![CDATA[
+        SELECT *
+        FROM T_AS
+        WHERE staff_cd = #{staff_cd}
+          AND DATE(as_date) = #{date}
+        ORDER BY as_date
+        ]]>
+    </select>
 	<!-- INSERT -->
 
 

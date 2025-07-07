@@ -16,21 +16,28 @@
 			<table border="1">
 			    <thead>
 			        <tr>
-			            <th>시설물</th>
-			            <th>문제 종류</th>
-			            <th>상세 내용</th>
-			            <th>예약일시</th>
-			            <th>진행상태</th>
+			        	<th>번호</th>
+			            <th>신고 내역</th>
+			            <th>예약 일시</th>
+			            <th>진행 상태</th>
+			            <th>상세 정보</th>
 			        </tr>
 			    </thead>
 			    <tbody>
 			        <c:forEach var="as" items="${userList}">
 			            <tr>
-			                <td><a href="/as/edit?as_cd=${as.as_cd}">${as.as_facility}</a></td>
-			                <td>${as.as_title}</td>
-			                <td>${as.as_content}</td>
+			            	<td>${as.as_cd}</td>
+			            	<td>
+			            		<form action="/as/edit" method="post" style="display:inline;">
+								    <input type="hidden" name="as_cd" value="${as.as_cd}">
+								    <button type="submit">
+								        ${as.as_title}
+								    </button>
+								</form>
+			            	</td>
 			                <td>${as.as_date}</td>
 			                <td>${as.as_status}</td>
+			                <td>정보.....</td>
 			            </tr>
 			        </c:forEach>
 				    </tbody>

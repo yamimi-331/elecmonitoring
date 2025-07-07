@@ -88,12 +88,23 @@
 						</div>
 					</div>
 				</div>
-				<button type="submit">수정하기</button>
+				<c:if test="${asVO.as_status == '신고 접수' || asVO.as_status == '기사 배정 중' || asVO.as_status == '기사 배정 완료'}">
+					<button type="submit">수정하기</button>
+				</c:if>
 			</form>
-			<form action="/as/cancleCommon" method="post">
-				<input type="hidden" name="as_cd" value="${asVO.as_cd}" />
-				<button type="submit">예약 취소</button>
-			</form>
+			<c:choose>
+				<c:when test="${asVO.as_status == '신고 접수' || asVO.as_status == '기사 배정 중' || asVO.as_status == '기사 배정 완료'}">
+					<form action="/as/cancleCommon" method="post">
+						<input type="hidden" name="as_cd" value="${asVO.as_cd}" />
+						<button type="submit">예약 취소</button>
+					</form>
+				</c:when>
+				<c:otherwise>
+					<form action="/as/detail" method="get">
+						<button type="submit">돌아가기</button>
+					</form>
+				</c:otherwise>
+			</c:choose>
 		</main>
 	</div>
 

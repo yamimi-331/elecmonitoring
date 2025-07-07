@@ -3,8 +3,11 @@ package com.eco.controller;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -99,15 +102,41 @@ public class AsController {
 		}
 		int user_cd = user.getUser_cd();
 		List<ASVO> asvo = asService.getUserAsList(user_cd);
+		
+		// 날짜/시간 분리
+		List<Map<String, Object>> parsedList = new ArrayList<>();
+		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 
-		model.addAttribute("userList", asvo);
+		for (ASVO vo : asvo) {
+			Map<String, Object> map = new HashMap<>();
+			map.put("as", vo);
+			if (vo.getAs_date() != null) {
+				map.put("as_date_str", vo.getAs_date().format(dateFormatter));
+				map.put("as_time_str", vo.getAs_date().format(timeFormatter));
+			} else {
+				map.put("as_date_str", "");
+				map.put("as_time_str", "");
+			}
+			parsedList.add(map);
+		}
+		
+		model.addAttribute("userList", parsedList);
 		return "/as/asDetail";
 	}
 
 	// as신고 수정 화면
-	@GetMapping("/edit")
-	public String asEdit(@RequestParam("as_cd") int as_cd, Model model) {
+	@PostMapping("/edit")
+	public String asEdit(@RequestParam("as_cd") int as_cd, Model model, HttpSession session, RedirectAttributes redirectAttrs) {
+		UserVO user = (UserVO) session.getAttribute("currentUserInfo");
 		ASVO asvo = asService.readAsDetailByUser(as_cd);
+		
+		// 본인 확인 로직 추가 (보안 강화)
+		if (asvo == null || asvo.getUser_cd() != user.getUser_cd()) {
+			redirectAttrs.addFlashAttribute("message", "유효하지 않은 요청이거나 권한이 없습니다.");
+			return "redirect:/as/detail";
+		}
+		
 		model.addAttribute("asVO", asvo);
 		return "/as/asEdit";
 	}
@@ -133,6 +162,13 @@ public class AsController {
 		if ("기타".equals(vo.getAs_title()) && as_title_custom != null && !as_title_custom.isBlank()) {
 			vo.setAs_title(as_title_custom);
 		}
+		
+		// 수정 가능한 상태인지 체크
+		String status = vo.getAs_status();
+		if (!("신고 접수".equals(status) || "기사 배정 중".equals(status) || "기사 배정 완료".equals(status))) {
+			redirectAttrs.addFlashAttribute("message", "현재 상태에서는 수정할 수 없습니다.");
+			return "redirect:/as/detail";
+		}
 
 		boolean result = asService.editAsListByCommon(vo);
 		if (result) {
@@ -146,14 +182,22 @@ public class AsController {
 	// 일반 회원 신고 삭제
 	@PostMapping("/cancleCommon")
 	public String asCancle(@RequestParam("as_cd") int as_cd, RedirectAttributes redirectAttrs) {
+		ASVO vo = asService.readAsDetailByUser(as_cd);
+		String status = vo.getAs_status();
+		// 취소 가능한 상태인지 체크
+		if (!("신고 접수".equals(status) || "기사 배정 중".equals(status) || "기사 배정 완료".equals(status))) {
+			redirectAttrs.addFlashAttribute("message", "현재 상태에서는 취소할 수 없습니다.");
+			return "redirect:/as/detail";
+		}
 		boolean result = asService.cancleAsListByCommon(as_cd);
 		if (result) {
 			redirectAttrs.addFlashAttribute("message", "AS 신청을 취소하였습니다.");
 		} else {
-			redirectAttrs.addFlashAttribute("message", "AS 신청 취소를 실패하였습니다.");
+			redirectAttrs.addFlashAttribute("message", "AS 신청 취소에 실패하였습니다.");
 		}
 		return "redirect:/as/detail";
 	}
+
 
 	@GetMapping("/order")
 	public String asOderPage(HttpSession session, Model model) {

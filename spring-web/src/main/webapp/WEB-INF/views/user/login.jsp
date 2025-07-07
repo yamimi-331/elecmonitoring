@@ -53,7 +53,7 @@
 		
 			<!-- 일반 로그인 폼 -->
 			<div id="user" class="login-form active">
-				<form action="/login/user" method="post">
+				<form action="/login/user" method="post" onsubmit="return validateLoginForm('user')">
 					<input type="text" name="user_id" placeholder="아이디" autocomplete="off"><br>
 					<input type="password" name="user_pw" placeholder="비밀번호" autocomplete="off"><br>
 					<button type="submit">로그인</button>
@@ -63,7 +63,7 @@
 		
 			<!-- 직원 로그인 폼 -->
 			<div id="staff" class="login-form">
-				<form action="/login/staff" method="post">
+				<form action="/login/staff" method="post" onsubmit="return validateLoginForm('staff')">
 					<input type="text" name="staff_id" placeholder="직원 ID" autocomplete="off"><br>
 					<input type="password" name="staff_pw" placeholder="비밀번호" autocomplete="off"><br>
 					<button type="submit">직원 로그인</button>
@@ -72,7 +72,7 @@
 		  
 			<!-- 비회원 로그인 폼 -->
 		  	<div id="guest" class="login-form">
-				<form action="/login/guset" method="post">
+				<form action="/login/guset" method="post" onsubmit="return validateLoginForm('guest')">
 					<input type="text" name="guset_nm" placeholder="이름" autocomplete="off"><br>
 					<input type="text" name="guset_mail" placeholder="이메일" autocomplete="off"><br>
 					<button type="submit">비회원 로그인</button>
@@ -107,6 +107,23 @@
 				});
 			});
 		});
+		
+		// 게스트 인증 부분 분리해야해서.. 다시 보기(staff 랑 user만 반영)
+		function validateLoginForm(formType) {
+			const prefix = formType === "staff" ? "#staff" : formType === "guest" ? "#guest" : "#user";
+
+			const id = document.querySelector(prefix + ' input[name="' + (formType === "guest" ? "guset_nm" : formType + "_id") + '"]')?.value.trim();
+			const pw = document.querySelector(prefix + ' input[name="' + (formType === "guest" ? "guset_mail" : formType + "_pw") + '"]')?.value.trim();
+			if (!id) {
+				alert('아이디를 입력하세요.');
+				return false;
+			}
+			if (formType !== "guest" && !pw) {
+				alert('비밀번호를 입력하세요.');
+				return false;
+			}
+			return true;
+		}
 	</script>
 
 </body>

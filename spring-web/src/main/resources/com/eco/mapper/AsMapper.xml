@@ -4,6 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.eco.mapper.AsMapper">
 	<!-- SELECT -->
+	<!-- AS 신고내역 전체 조회 -->
 	<select id="selectAllAsList" resultType="com.eco.domain.ASVO">
 		<![CDATA[
 		SELECT * FROM T_AS
@@ -19,9 +20,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         AND use_yn = 'Y'
         ]]>
 	</select>
+	<select id="selectAsListByUser"
+		resultType="com.eco.domain.ASVO" parameterType="int">
+        <![CDATA[
+        SELECT * FROM T_AS
+        WHERE user_cd = #{user_cd}
+        AND use_yn = 'Y'
+        ]]>
+	</select>
 
 
 	<!-- INSERT -->
+	<!-- 일반 회원의 AS 신고 -->
+	<insert id="insertAsListByCommon" parameterType="com.eco.domain.ASVO">
+        <![CDATA[
+		    INSERT INTO t_as(staff_cd, user_cd, user_mail, as_title, as_content, as_date, as_addr, as_facility)
+		    VALUES(5, #{user_cd}, #{user_mail}, #{as_title}, #{as_content}, #{as_date}, #{as_addr}, #{as_facility});
+	    ]]>
+	</insert>
 
 
 	<!-- UPDATE -->

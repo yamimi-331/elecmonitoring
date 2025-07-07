@@ -28,16 +28,21 @@ function logoutConfirm() {
 				<a href="#" class="nav-link" data-target="mega-etc">기타</a>
 			</li>
 		</ul>
-
-		<c:when test="${not empty currentUserInfo and userType == 'common'}">
-		    <p>${currentUserInfo.user_nm}님 환영합니다.</p>
-		    <button class="logout-btn" onclick="logoutConfirm()">🚪 로그아웃</button>
-		</c:when>
-		
-		<c:when test="${not empty currentUserInfo and (userType == 'staff' or userType == 'admin')}">
-		    <p>${currentUserInfo.staff_nm}님 환영합니다.</p>
-		    <button class="logout-btn" onclick="logoutConfirm()">🚪 로그아웃</button>
-		</c:when>
+		<c:choose>
+			 <c:when test="${empty currentUserInfo}">
+		        <button class="login-btn" onclick="location.href='/login'">🔑 로그인</button>
+		    </c:when>
+			<c:when test="${not empty currentUserInfo and userType == 'common'}">
+			    <p>${currentUserInfo.user_nm}님 환영합니다.</p>
+			    <button class="logout-btn" onclick="logoutConfirm()">🚪 로그아웃</button>
+			</c:when>
+			
+			<c:when test="${not empty currentUserInfo and (userType == 'staff' or userType == 'admin')}">
+			    <p>${currentUserInfo.staff_nm}님 환영합니다.</p>
+			    <button class="logout-btn" onclick="logoutConfirm()">🚪 로그아웃</button>
+			</c:when>
+	
+		</c:choose>
 
 	</nav>
 

@@ -106,4 +106,6 @@ document.addEventListener('DOMContentLoaded', function() {
             closeMegaMenu();
         }
     });
+
 });
+

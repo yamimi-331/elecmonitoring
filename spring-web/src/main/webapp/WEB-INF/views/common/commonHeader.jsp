@@ -4,7 +4,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!-- --------------------------- 공통 헤더 영역 Start --------------------------- -->
 <link rel="stylesheet" href="../../resources/css/commonHeader.css?after" />
-
+<script>
+//로그아웃 로직
+function logoutConfirm() {
+    if (confirm('정말 로그아웃 하시겠습니까?')) {
+        window.location.href = '/logout';
+    }
+}
+</script>
 <header class="main-header">
 	<nav class="main-nav">
 		<ul class="nav-list">
@@ -28,7 +35,7 @@
 		    </c:when>
 		    <c:otherwise>
 		    	<p>${ currentUserInfo.user_nm }님 환영합니다.</p>
-		    	<button class="logout-btn" onclick="location.href='/logout'">🚪 로그아웃</button>
+		    	<button class="logout-btn" onclick="logoutConfirm()">🚪 로그아웃</button>
 		    </c:otherwise>
 		</c:choose>	
 	</nav>

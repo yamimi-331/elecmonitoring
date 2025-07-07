@@ -147,6 +147,7 @@ table tr:hover {
       <div class="modal-info"><strong>코드번호:</strong> <span id="modalAsCd"></span></div>
       <div class="modal-info"><strong>신고 제목:</strong> <span id="modalAsTitle"></span></div>
       <div class="modal-info"><strong>담당자명:</strong> <span id="modalStaffNm"></span></div>
+      <div class="modal-info"><strong>신청자명:</strong> <span id="modalUserNm"></span></div>
       <div class="modal-info"><strong>상세 정보:</strong> <span id="modalAsContent"></span></div>
       <div class="modal-info"><strong>예약 일시:</strong> <span id="modalAsDate"></span></div>
       <div class="modal-info"><strong>위치:</strong> <span id="modalAsAddr"></span></div>

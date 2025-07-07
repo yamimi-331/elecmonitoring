@@ -6,21 +6,41 @@ function openModal(asCd) {
   $.ajax({
     url: `/as/detail/${asCd}`,
     method: 'GET',
+    dataType: 'json',
     success: function(asData) {
-      // 모달 내 각 요소에 데이터 세팅
-      document.getElementById('modalAsCd').innerText = asData.as_cd;
-      document.getElementById('modalAsTitle').innerText = asData.as_title;
-      document.getElementById('modalStaffNm').innerText = asData.staff_nm || '미지정';
-      document.getElementById('modalAsContent').innerText = asData.as_content;
-      document.getElementById('modalAsDate').innerText = asData.as_date;
-      document.getElementById('modalAsAddr').innerText = asData.as_addr;
-      document.getElementById('modalAsFacility').innerText = asData.as_facility;
-
-      // 진행 상태 select 초기화 및 옵션 생성
-      const select = document.getElementById('statusSelect');
+	  console.log(asData);
+	
+	  const dateObj = asData.as_date;
+	  let formattedDate = '';
+	  if (typeof dateObj === 'object') {
+	    formattedDate = `${dateObj.year}-${String(dateObj.monthValue).padStart(2, '0')}-${String(dateObj.dayOfMonth).padStart(2, '0')} ${String(dateObj.hour).padStart(2, '0')}:${String(dateObj.minute).padStart(2, '0')}`;
+	  } else {
+	    formattedDate = asData.as_date;
+	  }
+	
+	  document.getElementById('modalAsCd').innerText = asData.as_cd;
+	  document.getElementById('modalAsTitle').innerText = asData.as_title;
+	  document.getElementById('modalStaffNm').innerText = asData.staff_nm || '미지정';
+	  document.getElementById('modalAsContent').innerText = asData.as_content;
+	  document.getElementById('modalAsDate').innerText = formattedDate;
+	  document.getElementById('modalAsAddr').innerText = asData.as_addr;
+	  document.getElementById('modalAsFacility').innerText = asData.as_facility;
+	
+	  // 신청자 이름!
+	  document.getElementById('modalUserNm').innerText = asData.user_nm || '신청자 정보 없음';
+	
+	  const select = document.getElementById('statusSelect');
       select.innerHTML = '';
+
       const statusList = ['신고 접수', '기사 배정 중', '기사 배정 완료', 'A/S 작업 중', '작업 완료', '작업 취소'];
-      statusList.forEach(status => {
+
+      // 현재 상태 위치 찾기
+      const currentIndex = statusList.indexOf(asData.as_status);
+
+      // currentIndex부터 끝까지 상태만 필터링
+      const allowedStatuses = currentIndex >= 0 ? statusList.slice(currentIndex) : statusList;
+
+      allowedStatuses.forEach(status => {
         const option = document.createElement('option');
         option.value = status;
         option.text = status;
@@ -28,10 +48,10 @@ function openModal(asCd) {
         select.appendChild(option);
       });
 
-      // 모달 보여주기
       document.getElementById('statusModal').style.display = 'block';
-    },
-    error: function() {
+	},
+    error: function(xhr) {
+    	console.log( xhr.responseText);
       alert('상세 정보를 불러오는 중 오류가 발생했습니다.');
     }
   });

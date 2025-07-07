@@ -47,7 +47,7 @@ public class AsController {
 	}
 
 	// 클릭시 
-	@GetMapping("/detail/{as_cd}")
+	@GetMapping(value = "/detail/{as_cd}", produces = "application/json")
 	@ResponseBody
 	public ASListDTO getAsDetail(@PathVariable("as_cd") int as_cd) {
 		ASListDTO result =  asService.getAsDetail(as_cd);

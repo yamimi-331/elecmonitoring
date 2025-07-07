@@ -83,7 +83,7 @@ function renderTable(data) {
  */
 function openModal(asCd) {
   $.ajax({
-    url: `/as/detail/${asCd}`, // 상세정보 API 호출
+    url: `/as/task/${asCd}`, // 상세정보 API 호출
     method: 'GET',
     dataType: 'json',
     success: function(asData) {

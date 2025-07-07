@@ -4,7 +4,66 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.eco.mapper.AsMapper">
 	<!-- SELECT -->
-	<select id="selectAllAsList"
+	<!-- AS 신고내역 전체 조회 -->
+	<select id="selectAllAsList" resultType="com.eco.domain.ASVO">
+		<![CDATA[
+		SELECT * FROM T_AS
+		WHERE use_yn = 'Y'
+		]]>
+	</select>
+	
+	<select id="selectAsListByStaff"
+		resultType="com.eco.domain.ASVO" parameterType="int">
+        <![CDATA[
+        SELECT * FROM T_AS
+        WHERE staff_cd = #{staffCd}
+        AND use_yn = 'Y'
+        ]]>
+	</select>
+	<select id="selectAsListByUser"
+		resultType="com.eco.domain.ASVO" parameterType="int">
+        <![CDATA[
+        SELECT * FROM T_AS
+        WHERE user_cd = #{user_cd}
+        AND use_yn = 'Y'
+        ]]>
+	</select>
+	<!-- 신고 수정 화면 -->
+	<select id="selectAsDetailByCommon" resultType="com.eco.domain.ASVO">
+        <![CDATA[
+        SELECT * FROM T_AS
+        WHERE as_cd = #{as_cd}
+        AND use_yn = 'Y'
+        ]]>
+	</select>
+
+
+	<!-- INSERT -->
+	<!-- 일반 회원의 AS 신고 -->
+	<insert id="insertAsListByCommon" parameterType="com.eco.domain.ASVO">
+        <![CDATA[
+		    INSERT INTO t_as(staff_cd, user_cd, user_mail, as_title, as_content, as_date, as_addr, as_facility)
+		    VALUES(5, #{user_cd}, #{user_mail}, #{as_title}, #{as_content}, #{as_date}, #{as_addr}, #{as_facility});
+	    ]]>
+	</insert>
+
+
+	<!-- UPDATE -->
+	<update id="updateAsListByCommon" parameterType="com.eco.domain.ASVO">
+        <![CDATA[
+		    UPDATE t_as set staff_cd=5, user_mail=#{user_mail}, as_title=#{as_title}, as_content=#{as_content}, as_date=#{as_date}, as_addr=#{as_addr}, as_facility=#{as_facility}
+		    WHERE as_cd=#{as_cd}
+	    ]]>
+	</update>
+	<!-- UPDATE -->
+	<update id="deleteAsListByCommon" parameterType="com.eco.domain.ASVO">
+        <![CDATA[
+		    UPDATE t_as set use_yn="N"
+		    WHERE as_cd=#{as_cd}
+	    ]]>
+	</update>
+	
+	<select id="selectAllAsDtoList"
 		resultType="com.eco.domain.ASListDTO">
 		<![CDATA[
 		SELECT
@@ -36,7 +95,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		]]>
 	</select>
 
-	<select id="selectAsListByStaff"
+	<select id="selectAsDtoListByStaff"
 		resultType="com.eco.domain.ASListDTO" parameterType="int">
         <![CDATA[
         SELECT
@@ -68,9 +127,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		  AND A.use_yn = 'Y'
         ]]>
 	</select>
+	<select id="selectAsDtoListByUser"
+		resultType="com.eco.domain.ASVO" parameterType="int">
+        <![CDATA[
+        SELECT * FROM T_AS
+        WHERE user_cd = #{user_cd}
+        AND use_yn = 'Y'
+        ]]>
+	</select>
 
 	<!-- 상세 조회 -->
-	<select id="selectAsDetail" resultType="com.eco.domain.ASListDTO"
+	<select id="selectAsTask" resultType="com.eco.domain.ASListDTO"
 		parameterType="int">
 	    <![CDATA[
 	    SELECT a.*, s.staff_nm, u.user_nm
@@ -103,7 +170,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         ORDER BY as_date
         ]]>
     </select>
-	<!-- INSERT -->
 
 
 	<!-- UPDATE -->

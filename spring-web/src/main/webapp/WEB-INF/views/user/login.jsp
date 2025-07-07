@@ -54,8 +54,8 @@
 			<!-- 일반 로그인 폼 -->
 			<div id="user" class="login-form active">
 				<form action="/login/user" method="post">
-					<input type="text" name="user_id" placeholder="아이디"><br>
-					<input type="password" name="user_pw" placeholder="비밀번호"><br>
+					<input type="text" name="user_id" placeholder="아이디" autocomplete="off"><br>
+					<input type="password" name="user_pw" placeholder="비밀번호" autocomplete="off"><br>
 					<button type="submit">로그인</button>
 				</form>
 				<a href="/signup">회원가입</a>
@@ -64,8 +64,8 @@
 			<!-- 직원 로그인 폼 -->
 			<div id="staff" class="login-form">
 				<form action="/login/staff" method="post">
-					<input type="text" name="staff_id" placeholder="직원 ID"><br>
-					<input type="password" name="staff_pw" placeholder="비밀번호"><br>
+					<input type="text" name="staff_id" placeholder="직원 ID" autocomplete="off"><br>
+					<input type="password" name="staff_pw" placeholder="비밀번호" autocomplete="off"><br>
 					<button type="submit">직원 로그인</button>
 				</form>
 			</div>
@@ -73,8 +73,8 @@
 			<!-- 비회원 로그인 폼 -->
 		  	<div id="guest" class="login-form">
 				<form action="/login/guset" method="post">
-					<input type="text" name="guset_nm" placeholder="이름"><br>
-					<input type="text" name="guset_mail" placeholder="이메일"><br>
+					<input type="text" name="guset_nm" placeholder="이름" autocomplete="off"><br>
+					<input type="text" name="guset_mail" placeholder="이메일" autocomplete="off"><br>
 					<button type="submit">비회원 로그인</button>
 				</form>
 				<a href="/signup">회원가입</a>

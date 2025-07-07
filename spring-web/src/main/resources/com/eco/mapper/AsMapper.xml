@@ -4,26 +4,94 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.eco.mapper.AsMapper">
 	<!-- SELECT -->
-	<select id="selectAllAsList" resultType="com.eco.domain.ASVO">
+	<select id="selectAllAsList"
+		resultType="com.eco.domain.ASListDTO">
 		<![CDATA[
-		SELECT * FROM T_AS
-		WHERE use_yn = 'Y'
+		SELECT
+		  A.as_cd,
+		  A.as_title,
+		  A.as_content,
+		  A.as_date,
+		  A.as_addr,
+		  A.as_facility,
+		  A.as_status,
+		  A.user_cd,
+		  U.user_id,
+		  U.user_nm,
+		  U.user_mail,
+		  U.user_addr,
+		  U.user_social,
+		  A.staff_cd,
+		  S.staff_id,
+		  S.staff_nm,
+		  S.staff_addr,
+		  S.staff_role,
+		  A.guest_mail,
+		  A.guest_nm,
+		  A.use_yn
+		FROM t_as A
+		LEFT JOIN t_user U ON A.user_cd = U.user_cd
+		LEFT JOIN t_staff S ON A.staff_cd = S.staff_cd
+		WHERE A.use_yn = 'Y'
 		]]>
 	</select>
-	
+
 	<select id="selectAsListByStaff"
-		resultType="com.eco.domain.ASVO" parameterType="int">
+		resultType="com.eco.domain.ASListDTO" parameterType="int">
         <![CDATA[
-        SELECT * FROM T_AS
-        WHERE staff_cd = #{staffCd}
-        AND use_yn = 'Y'
+        SELECT
+		  A.as_cd,
+		  A.as_title,
+		  A.as_content,
+		  A.as_date,
+		  A.as_addr,
+		  A.as_facility,
+		  A.as_status,
+		  A.user_cd,
+		  U.user_id,
+		  U.user_nm,
+		  U.user_mail,
+		  U.user_addr,
+		  U.user_social,
+		  A.staff_cd,
+		  S.staff_id,
+		  S.staff_nm,
+		  S.staff_addr,
+		  S.staff_role,
+		  A.guest_mail,
+		  A.guest_nm,
+		  A.use_yn
+		FROM T_AS A
+		LEFT JOIN T_USER U ON A.user_cd = U.user_cd
+		LEFT JOIN T_STAFF S ON A.staff_cd = S.staff_cd
+		WHERE A.staff_cd = #{staffCd}
+		  AND A.use_yn = 'Y'
         ]]>
 	</select>
 
+	<!-- 상세 조회 -->
+	<select id="selectAsDetail" resultType="com.eco.domain.ASListDTO"
+		parameterType="int">
+	    <![CDATA[
+	    SELECT a.*, s.staff_nm, u.user_nm
+	    FROM t_as a
+	    LEFT JOIN t_staff s ON a.staff_cd = s.staff_cd
+	    LEFT JOIN t_user u ON a.user_cd = u.user_cd
+	    WHERE a.as_cd = #{asCd}
+	    AND a.use_yn = 'Y'
+	    ]]>
+	</select>
 
 	<!-- INSERT -->
 
 
 	<!-- UPDATE -->
+	<update id="updateStatusByCd">
+	    <![CDATA[
+	    UPDATE T_AS
+	    SET as_status = #{as_status}
+	    WHERE as_cd = #{as_cd}
+	    ]]>
+	</update>
 
 </mapper>

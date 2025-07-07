@@ -24,19 +24,19 @@
 			        </tr>
 			    </thead>
 			    <tbody>
-			        <c:forEach var="as" items="${userList}">
+			        <c:forEach var="item" items="${userList}">
 			            <tr>
-			            	<td>${as.as_cd}</td>
+			            	<td>${item.as.as_cd}</td>
 			            	<td>
 			            		<form action="/as/edit" method="post" style="display:inline;">
-								    <input type="hidden" name="as_cd" value="${as.as_cd}">
+								    <input type="hidden" name="as_cd" value="${item.as.as_cd}">
 								    <button type="submit">
-								        ${as.as_title}
+								        ${item.as.as_title}
 								    </button>
 								</form>
 			            	</td>
-			                <td>${as.as_date}</td>
-			                <td>${as.as_status}</td>
+			                <td>${item.as_date_str} ${item.as_time_str}</td>
+			                <td>${item.as.as_status}</td>
 			                <td>정보.....</td>
 			            </tr>
 			        </c:forEach>

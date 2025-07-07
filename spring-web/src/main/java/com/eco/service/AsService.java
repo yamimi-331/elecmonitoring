@@ -41,7 +41,9 @@ public interface AsService {
 	public ASListDTO getAsTask(int as_cd);
 
 	public List<ASListDTO> getScheduleByUserAndDate(@Param("user_cd") int user_cd, @Param("date") LocalDate date);
-
+	// 직원의 모든 스케쥴 조회
 	public  List<ASListDTO> getScheduleByStaffAndDate(@Param("staff_cd") int staff_cd, @Param("date") LocalDate date);
+	// 관리자의 모든 스케쥴 조회
+	public List<ASListDTO> getScheduleByDate(LocalDate localDate);
 
 }

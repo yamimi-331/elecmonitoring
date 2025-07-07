@@ -44,7 +44,9 @@ public interface AsMapper {
 
 
 	public List<ASListDTO> selectScheduleByUserAndDate(@Param("user_cd") int user_cd, @Param("date") LocalDate date);
-
+	// 직원의 모든 스케쥴 조회
 	public List<ASListDTO> selectScheduleByStaffAndDate(@Param("staff_cd") int staff_cd, @Param("date") LocalDate date);
+	// 관리자의 모든 스케쥴 조회
+	public List<ASListDTO> selectScheduleByDate(@Param("date") LocalDate localDate);
 
 }

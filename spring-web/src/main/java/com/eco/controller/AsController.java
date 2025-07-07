@@ -241,7 +241,13 @@ public class AsController {
 			return asService.getScheduleByUserAndDate(user.getUser_cd(), localDate);
 		} else if (obj instanceof StaffVO) {
 			StaffVO staff = (StaffVO) obj;
-			return asService.getScheduleByStaffAndDate(staff.getStaff_cd(), localDate);
+			if ("admin".equalsIgnoreCase(staff.getStaff_role())) {
+				// 관리자면 모든 사용자 다 조회
+				return asService.getScheduleByDate(localDate);
+			} else {
+				// 일반 직원이면 본인 스케줄만 조회
+				return asService.getScheduleByStaffAndDate(staff.getStaff_cd(), localDate);
+			}
 		} else {
 			// 예외 케이스 처리, 빈 리스트 반환
 			return List.of();

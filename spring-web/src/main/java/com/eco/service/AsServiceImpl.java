@@ -94,6 +94,7 @@ public class AsServiceImpl implements AsService {
 		}
 	}
 
+	//상태 업데이트
 	@Override
 	public void updateStatus(int as_cd, String as_status) {
 		try {
@@ -103,6 +104,7 @@ public class AsServiceImpl implements AsService {
 		}
 	}
 
+	//항목 상세 조회
 	@Override
 	public ASListDTO getAsTask(int as_cd) {
 		try {
@@ -116,10 +118,15 @@ public class AsServiceImpl implements AsService {
 	public List<ASListDTO> getScheduleByUserAndDate(int user_cd, LocalDate date) {
 		return asMapper.selectScheduleByUserAndDate(user_cd, date);
 	}
-
+	// 직원의 모든 스케쥴 조회
 	@Override
 	public List<ASListDTO> getScheduleByStaffAndDate(int staffCd, LocalDate localDate) {
 	    return asMapper.selectScheduleByStaffAndDate(staffCd, localDate);
+	}
+	// 관리자의 모든 스케쥴 조회
+	@Override
+	public List<ASListDTO> getScheduleByDate(LocalDate localDate) {
+		return asMapper.selectScheduleByDate(localDate);
 	}
 
 

@@ -1,5 +1,6 @@
 package com.eco.service;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.eco.domain.StaffVO;
@@ -13,15 +14,23 @@ import lombok.AllArgsConstructor;
 public class StaffServiceImpl implements StaffService {
 
     private final StaffMapper staffMapper;
+    // 비밀번호 암호화
+    private BCryptPasswordEncoder passwordEncoder;
 
     // 직원 로그인
     @Override
-    public StaffVO login(String staff_id, String staff_pw) {
+    public StaffVO login(StaffVO inputStaff) {
         try {
-            return staffMapper.selectStaffByIdAndPw(staff_id, staff_pw);
-        } catch (Exception e) {
-            throw new ServiceException("직원 로그인 실패", e);
-        }
+        	   // DB에서 해당 아이디로 사용자 정보 조회
+             StaffVO dbstaff = staffMapper.selectStaffById(inputStaff.getStaff_id());
+             // 조회된 사용자 있고, 입력한 PW가 암호화 PW와 일치하면
+             if (dbstaff != null && passwordEncoder.matches(inputStaff.getStaff_pw(), dbstaff.getStaff_pw())) {
+             	return dbstaff; // 로그인 성공
+             }
+             return null; // 로그인 실패
+         } catch (Exception e) {
+             throw new ServiceException("사용자 로그인 실패", e);
+         }
     }
 
     // 아이디 중복 확인
@@ -38,10 +47,13 @@ public class StaffServiceImpl implements StaffService {
     @Override
     public boolean register(StaffVO staffVO) {
         try {
+        	// 비밀번호 암호화
+            String encodedPw = passwordEncoder.encode(staffVO.getStaff_pw());
+            staffVO.setStaff_pw(encodedPw);
             int result = staffMapper.insertStaff(staffVO);
             return result > 0;
         } catch (Exception e) {
-            throw new ServiceException("직원 계정 생성 실패", e);
+            throw new ServiceException("회원가입 실패", e);
         }
     }
 
@@ -49,10 +61,16 @@ public class StaffServiceImpl implements StaffService {
     @Override
     public boolean modify(StaffVO staffVO) {
         try {
+        	// 비밀번호가 null이 아니고 빈 값이 아니라면 -> 암호화해서 덮어씀
+            if (staffVO.getStaff_pw() != null && !staffVO.getStaff_pw().isEmpty()) {
+                String encodedPw = passwordEncoder.encode(staffVO.getStaff_pw());
+                staffVO.setStaff_pw(encodedPw);
+            }
+            
             int result = staffMapper.updateStaff(staffVO);
             return result > 0;
         } catch (Exception e) {
-            throw new ServiceException("직원 정보 수정 실패", e);
+            throw new ServiceException("회원 정보 수정 실패", e);
         }
     }
 }

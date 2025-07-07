@@ -54,7 +54,7 @@ public class LoginController {
 	public String staffLogin(StaffVO vo, HttpSession session, RedirectAttributes redirectAttrs) {
 		log.info("직원 로그인 시도");
 
-        StaffVO loginStaff = staffService.login(vo.getStaff_id(), vo.getStaff_pw());
+        StaffVO loginStaff = staffService.login(vo);
 
         if (loginStaff != null) {
         	log.info("로그인 성공");

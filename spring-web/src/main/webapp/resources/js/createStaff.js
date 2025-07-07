@@ -17,10 +17,10 @@ function checkDuplicateId(formType) {
         return;
     }
 
-    fetch("/signup/check-id?user_id="+userId)
+    fetch("/createStaff/checkId?staff_id="+userId)
         .then(res => res.text())
         .then(result => {
-            if (result === "duplicate") {
+            if (result === "이미 사용 중인 아이디입니다.") {
                 msgEl.textContent = "이미 사용 중인 아이디입니다.";
                 msgEl.style.color = "red";
                 formState[formType].isIdChecked = false;

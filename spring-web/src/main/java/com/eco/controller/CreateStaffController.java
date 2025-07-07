@@ -33,9 +33,9 @@ public class CreateStaffController {
 		log.info("아이디 중복 체크 요청: " +  vo.getStaff_id());
 		StaffVO staff = staffService.checkId(vo.getStaff_id());
 		if (staff == null) {
-			return ResponseEntity.ok("available");
+			return ResponseEntity.ok("사용가능");
 		} else {
-			return ResponseEntity.ok("duplicate");
+			return ResponseEntity.ok("이미 사용 중인 아이디입니다.");
 		}
 	}
 	

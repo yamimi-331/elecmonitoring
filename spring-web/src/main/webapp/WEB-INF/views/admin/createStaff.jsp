@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="../../../resources/js/createStaff.js?after"></script>
 <style>
 	/* 폼 숨기기/보이기 */
 	.newStaff-form { display: none; }
@@ -50,12 +51,12 @@
 		
 			<!-- 직원 계정 생성 폼 -->
 			<div id="staff" class="newStaff-form active">
-				<form action="/newStaff/staff" method="post">
+				<form action="/createStaff/staff" method="post">
 					<div class="i">
 						<label for="staff_id_staff">아이디</label><br>
 						<input type="text" name="staff_id" id="staff_id_staff" autocomplete="off"><br>
 						<button type="button" id="staff_id_ck_staff">아이디 중복 확인</button>
-						<small id="idCheckMsgStaff"></small>
+						<small id="idCheckMsg_staff"></small>
 					</div>
 	
 					<div class="i">
@@ -66,32 +67,32 @@
 					<div class="i">
 						<label for="staff_pw_ck">새 비밀번호 확인</label><br>
 						<input type="password" name="staff_pw_ck" id="staff_pw_ck_staff" autocomplete="new-password"><br>
-						<small id="pwCheckMsgStaff"></small>
+						<small id="pwCheckMsg_staff"></small>
 					</div>
 					
 					<div class="i">
-						<label for="staff_nm">이름</label><br>
+						<label for="staff_nm_staff">이름</label><br>
 						<input type="text" name="staff_nm" id="staff_nm_staff" autocomplete="off"><br>
 					</div>
 					
 					<div class="i">
-						<label for="staff_addr">담당 주소</label><br>
+						<label for="staff_addr_staff">담당 주소</label><br>
 						<input type="text" name="staff_addr" id="staff_addr_staff" autocomplete="off"><br>
 					</div>
 					
 					<input type="hidden" name="staff_role" id="staff_role_staff" value="staff"><br>
-					<button type="submit" id="submitBtnStaff">직원 계정 생성</button>
+					<button type="submit" id="submitBtn_staff">직원 계정 생성</button>
 				</form>
 			</div>
 		
 			<!-- 관리자 계정 생성 폼 -->
 			<div id="admin" class="newStaff-form">
-				<form action="/newStaff/admin" method="post">
+				<form action="/createStaff/admin" method="post">
 					<div class="i">
 						<label for="staff_id_admin">아이디</label><br>
 						<input type="text" name="staff_id" id="staff_id_admin" autocomplete="off"><br>
 						<button type="button" id="staff_id_ck_admin">아이디 중복 확인</button>
-						<small id="idCheckMsgAdmin"></small>
+						<small id="idCheckMsg_admin"></small>
 					</div>
 	
 					<div class="i">
@@ -102,16 +103,16 @@
 					<div class="i">
 						<label for="staff_pw_ck">새 비밀번호 확인</label><br>
 						<input type="password" name="staff_pw_ck" id="staff_pw_ck_admin" autocomplete="new-password"><br>
-						<small id="pwCheckMsgAdmin"></small>
+						<small id="pwCheckMsg_admin"></small>
 					</div>
 					
 					<div class="i">
-						<label for="staff_nm">이름</label><br>
+						<label for="staff_nm_admin">이름</label><br>
 						<input type="text" name="staff_nm" id="staff_nm_admin" autocomplete="off"><br>
 					</div>
 					
 					<input type="hidden" name="staff_role" id="staff_role_admin" value="admin"><br>
-					<button type="submit" id="submitBtnAdmin">관리자 계정 생성</button>
+					<button type="submit" id="submitBtn_admin">관리자 계정 생성</button>
 				</form>
 			</div>
 		</main>

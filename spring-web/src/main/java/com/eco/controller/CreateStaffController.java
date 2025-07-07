@@ -17,13 +17,13 @@ import lombok.extern.log4j.Log4j;
 @Controller
 @Log4j
 @AllArgsConstructor
-@RequestMapping("/newStaff")
-public class NewStaffController {
+@RequestMapping("/createStaff")
+public class CreateStaffController {
 	private final StaffService staffService;
 	
 	@GetMapping("")
 	public String newStaffPage() {
-		return "admin/newStaff";
+		return "admin/createStaff";
 	}
 	
 	// 아이디 중복체크(GET /signup/checkId?user_id=xxx)
@@ -33,9 +33,9 @@ public class NewStaffController {
 		log.info("아이디 중복 체크 요청: " +  vo.getStaff_id());
 		StaffVO staff = staffService.checkId(vo.getStaff_id());
 		if (staff == null) {
-			return ResponseEntity.ok("사용 가능");
+			return ResponseEntity.ok("available");
 		} else {
-			return ResponseEntity.ok("이미 사용 중인 아이디입니다.");
+			return ResponseEntity.ok("duplicate");
 		}
 	}
 	
@@ -48,7 +48,7 @@ public class NewStaffController {
 		} else {
 			redirectAttrs.addFlashAttribute("message", "계정 생성 실패");
 		}
-		return "redirect:/newStaff";
+		return "redirect:/createStaff";
 	}
 	
 	@PostMapping("/admin")
@@ -60,7 +60,7 @@ public class NewStaffController {
 		} else {
 			redirectAttrs.addFlashAttribute("message", "계정 생성 실패");
 		}
-		return "redirect:/newStaff";
+		return "redirect:/createStaff";
 	}
 
 }

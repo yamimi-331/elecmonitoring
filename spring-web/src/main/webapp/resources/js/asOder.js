@@ -25,6 +25,7 @@ $(function() {
 
   // 초기 로드 시 오늘 날짜 일정 조회
   fetchSchedule(today);
+	  
 });
 
 /**
@@ -62,13 +63,14 @@ function renderTable(data) {
 
   // 일정 목록 행 추가
   data.forEach(item => {
+  console.log(item.as_time);	
     tbody.append(`
       <tr>
         <td>${item.as_cd}</td>
         <td>${item.as_title}</td>
         <td>${item.staff_nm || '미지정'}</td>
-        <td>${item.as_date}</td>
         <td>${item.as_status}</td>
+        <td>${item.as_time || '-'}</td>
         <td>
           <button onclick="openModal(${item.as_cd})">상세보기</button>
         </td>

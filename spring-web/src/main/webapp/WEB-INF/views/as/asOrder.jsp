@@ -110,13 +110,14 @@ table tr:hover {
 		  <input type="date" id="searchDate" />
 		  <button id="btnSearch">조회</button>
 		</div>
-      <table>
+      <table id="asTable">
         <thead>
           <tr>
             <th>코드번호</th>
             <th>신고 제목</th>
             <th>담당자명</th>
             <th>진행 상태</th>
+            <th>AS 예약 시간</th>
             <th>일정 확인</th>
           </tr>
         </thead>
@@ -127,9 +128,11 @@ table tr:hover {
               <td>${as.as_title}</td>
               <td>${as.staff_nm}</td>
               <td>${as.as_status}</td>
+              <td class="asTime">${as.as_time}</td>
               <td>
                 <button type="button" onclick="openModal(${as.as_cd})">일정 확인</button>
               </td>
+              
             </tr>
           </c:forEach>
           <c:if test="${empty asList}">

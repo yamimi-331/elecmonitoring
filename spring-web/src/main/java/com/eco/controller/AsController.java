@@ -3,6 +3,7 @@ package com.eco.controller;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -154,51 +155,57 @@ public class AsController {
 		return "redirect:/as/detail";
 	}
 
-	
 	@GetMapping("/order")
 	public String asOderPage(HttpSession session, Model model) {
 		log.info("asOrder 페이지로 이동");
-		
+
 		String userType = (String) session.getAttribute("userType");
-        int staffCd = 0;
+		int staffCd = 0;
 
-        if ("staff".equals(userType)) {
-            // staffVO의 staff_cd 가져오기
-            StaffVO staff = (StaffVO) session.getAttribute("currentUserInfo");
-            staffCd = staff.getStaff_cd();
-        }
+		if ("staff".equals(userType)) {
+			// staffVO의 staff_cd 가져오기
+			StaffVO staff = (StaffVO) session.getAttribute("currentUserInfo");
+			staffCd = staff.getStaff_cd();
+		}
 
-        List<ASListDTO> asList = asService.getAsDtoList(userType, staffCd);
-        model.addAttribute("asList", asList);
+		List<ASListDTO> asList = asService.getAsDtoList(userType, staffCd);
+		for (ASListDTO dto : asList) {
+			if (dto.getAs_date() != null) {
+				dto.setAs_time(dto.getAs_date().toLocalTime().toString().substring(0, 5));
+			}
+		}
+
+		// 시간 오름차순 정렬
+		asList.sort(Comparator.comparing(ASListDTO::getAs_time));
+
+		model.addAttribute("asList", asList);
 
 		return "/as/asOrder";
 	}
-	
+
 	// AS List 표의 하나의 행의 상세정보 버튼 클릭
 	@GetMapping(value = "/task/{as_cd}", produces = "application/json")
 	@ResponseBody
 	public ASListDTO getAsTask(@PathVariable("as_cd") int as_cd) {
-		ASListDTO result =  asService.getAsTask(as_cd);
+		ASListDTO result = asService.getAsTask(as_cd);
 		log.info(result);
-		
-	    return result;
+
+		return result;
 	}
 
 	// 상태정보 업데이트
 	@PostMapping("/updateStatus")
 	@ResponseBody
 	public String updateStatus(@RequestParam("as_cd") int as_cd, @RequestParam("as_status") String as_status) {
-	    log.info("AS 상태 업데이트 요청: " + as_cd + ", 새 상태: " + as_status);
-	    asService.updateStatus(as_cd, as_status);
-	    return "success";
+		log.info("AS 상태 업데이트 요청: " + as_cd + ", 새 상태: " + as_status);
+		asService.updateStatus(as_cd, as_status);
+		return "success";
 	}
-
-
 
 	// 기간별 조회
 	@GetMapping("/schedule")
 	@ResponseBody
-	public List<ASVO> getScheduleByDate(@RequestParam String date, HttpSession session) {
+	public List<ASListDTO> getScheduleByDate(@RequestParam String date, HttpSession session) {
 		Object obj = session.getAttribute("currentUserInfo");
 
 		if (obj == null) {
@@ -221,6 +228,5 @@ public class AsController {
 			return List.of();
 		}
 	}
-
 
 }

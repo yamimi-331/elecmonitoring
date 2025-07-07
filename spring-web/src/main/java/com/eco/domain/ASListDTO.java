@@ -34,5 +34,6 @@ public class ASListDTO {
     private String guest_mail;      // 비회원 메일
     private String guest_nm;        // 비회원 이름
 
+    private String as_time; // 가공된 시간만 저장
     private char use_yn;            // 사용 여부
 }

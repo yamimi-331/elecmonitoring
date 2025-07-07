@@ -113,13 +113,15 @@ public class AsServiceImpl implements AsService {
 	}
 
 	@Override
-	public List<ASVO> getScheduleByUserAndDate(int user_cd, LocalDate date) {
+	public List<ASListDTO> getScheduleByUserAndDate(int user_cd, LocalDate date) {
 		return asMapper.selectScheduleByUserAndDate(user_cd, date);
 	}
 
 	@Override
-	public List<ASVO> getScheduleByStaffAndDate(int staff_cd, LocalDate date) {
-		return asMapper.selectScheduleByStaffAndDate(staff_cd, date);
+	public List<ASListDTO> getScheduleByStaffAndDate(int staffCd, LocalDate localDate) {
+	    return asMapper.selectScheduleByStaffAndDate(staffCd, localDate);
 	}
+
+
 
 }

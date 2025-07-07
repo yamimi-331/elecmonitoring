@@ -43,8 +43,8 @@ public interface AsMapper {
 	public ASListDTO selectAsTask(int as_cd);
 
 
-	public List<ASVO> selectScheduleByUserAndDate(@Param("user_cd") int user_cd, @Param("date") LocalDate date);
+	public List<ASListDTO> selectScheduleByUserAndDate(@Param("user_cd") int user_cd, @Param("date") LocalDate date);
 
-	public List<ASVO> selectScheduleByStaffAndDate(@Param("staff_cd") int staff_cd, @Param("date") LocalDate date);
+	public List<ASListDTO> selectScheduleByStaffAndDate(@Param("staff_cd") int staff_cd, @Param("date") LocalDate date);
 
 }

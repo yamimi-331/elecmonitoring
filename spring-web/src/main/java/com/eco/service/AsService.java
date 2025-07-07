@@ -40,8 +40,8 @@ public interface AsService {
 	// as_cd로 정보 가져오기
 	public ASListDTO getAsTask(int as_cd);
 
-	public List<ASVO> getScheduleByUserAndDate(@Param("user_cd") int user_cd, @Param("date") LocalDate date);
+	public List<ASListDTO> getScheduleByUserAndDate(@Param("user_cd") int user_cd, @Param("date") LocalDate date);
 
-	public List<ASVO> getScheduleByStaffAndDate(@Param("staff_cd") int staff_cd, @Param("date") LocalDate date);
+	public  List<ASListDTO> getScheduleByStaffAndDate(@Param("staff_cd") int staff_cd, @Param("date") LocalDate date);
 
 }

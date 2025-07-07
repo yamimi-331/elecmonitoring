@@ -150,24 +150,46 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
    <!-- 사용자별 날짜별 AS 일정 조회 -->
-    <select id="selectScheduleByUserAndDate" parameterType="map" resultType="com.eco.domain.ASVO">
+    <select id="selectScheduleByUserAndDate" parameterType="map" resultType="com.eco.domain.ASListDTO">
         <![CDATA[
-        SELECT *
-        FROM T_AS
-        WHERE user_cd = #{user_cd}
-          AND DATE(as_date) = #{date}
-        ORDER BY as_date
+        SELECT 
+	      a.as_cd,
+	      a.as_title,
+	      a.as_content,
+	      a.as_date,
+	      DATE_FORMAT(a.as_date, '%H:%i') AS as_time,  -- MySQL 기준
+	      a.as_status,
+	      a.as_addr,
+	      a.as_facility,
+	      a.user_cd,
+	      s.staff_nm
+	    FROM T_AS a
+	    LEFT JOIN T_STAFF s ON a.staff_cd = s.staff_cd
+	    WHERE a.user_cd = #{user_cd}
+	      AND DATE(a.as_date) = #{date}
+	    ORDER BY a.as_date
         ]]>
     </select>
 
     <!-- 직원별 날짜별 AS 일정 조회 -->
-    <select id="selectScheduleByStaffAndDate" parameterType="map" resultType="com.eco.domain.ASVO">
+    <select id="selectScheduleByStaffAndDate" parameterType="map" resultType="com.eco.domain.ASListDTO">
         <![CDATA[
-        SELECT *
-        FROM T_AS
-        WHERE staff_cd = #{staff_cd}
-          AND DATE(as_date) = #{date}
-        ORDER BY as_date
+        SELECT 
+	      a.as_cd,
+	      a.as_title,
+	      a.as_content,
+	      a.as_date,
+	      TIME_FORMAT(a.as_date, '%H:%i') AS as_time, -- MySQL 기준. Oracle이면 TO_CHAR 써야 함.
+	      a.as_status,
+	      a.as_addr,
+	      a.as_facility,
+	      a.user_cd,
+	      s.staff_nm
+	    FROM T_AS a
+	    LEFT JOIN T_STAFF s ON a.staff_cd = s.staff_cd
+	    WHERE a.staff_cd = #{staff_cd}
+	      AND DATE(a.as_date) = #{date}
+	    ORDER BY a.as_date
         ]]>
     </select>
 

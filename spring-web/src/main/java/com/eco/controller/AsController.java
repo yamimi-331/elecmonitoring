@@ -202,28 +202,6 @@ public class AsController {
 	@GetMapping("/order")
 	public String asOderPage(HttpSession session, Model model) {
 		log.info("asOrder 페이지로 이동");
-
-		String userType = (String) session.getAttribute("userType");
-		int staffCd = 0;
-
-		if ("staff".equals(userType)) {
-			// staffVO의 staff_cd 가져오기
-			StaffVO staff = (StaffVO) session.getAttribute("currentUserInfo");
-			staffCd = staff.getStaff_cd();
-		}
-
-		List<ASListDTO> asList = asService.getAsDtoList(userType, staffCd);
-		for (ASListDTO dto : asList) {
-			if (dto.getAs_date() != null) {
-				dto.setAs_time(dto.getAs_date().toLocalTime().toString().substring(0, 5));
-			}
-		}
-
-		// 시간 오름차순 정렬
-		asList.sort(Comparator.comparing(ASListDTO::getAs_time));
-
-		model.addAttribute("asList", asList);
-
 		return "/as/asOrder";
 	}
 
@@ -231,10 +209,8 @@ public class AsController {
 	@GetMapping(value = "/task/{as_cd}", produces = "application/json")
 	@ResponseBody
 	public ASListDTO getAsTask(@PathVariable("as_cd") int as_cd) {
-		ASListDTO result = asService.getAsTask(as_cd);
-		log.info(result);
-
-		return result;
+		log.info("상세 정보 보기");
+		return asService.getAsTask(as_cd);
 	}
 
 	// 상태정보 업데이트
@@ -250,6 +226,7 @@ public class AsController {
 	@GetMapping("/schedule")
 	@ResponseBody
 	public List<ASListDTO> getScheduleByDate(@RequestParam String date, HttpSession session) {
+		log.info("기간별 조회");
 		Object obj = session.getAttribute("currentUserInfo");
 
 		if (obj == null) {
@@ -257,9 +234,7 @@ public class AsController {
 			return List.of();
 		}
 
-		log.info(date);
 		LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ISO_DATE);
-		log.info(localDate);
 
 		if (obj instanceof UserVO) {
 			UserVO user = (UserVO) obj;

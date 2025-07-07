@@ -10,11 +10,6 @@ $(function() {
 
   $('#searchDate').val(today);  // input에 오늘 날짜 기본값 설정
 
-  // jQuery UI datepicker 적용 (날짜 선택 UI)
-  //$('#searchDate').datepicker({
-  //  dateFormat: 'yy-mm-dd'
-  //});
-
   // 조회 버튼 클릭 시 선택한 날짜 일정 조회
   $('#btnSearch').click(function() {
     //const selectedDate = $('#searchDate').val();

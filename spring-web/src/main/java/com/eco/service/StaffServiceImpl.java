@@ -73,4 +73,15 @@ public class StaffServiceImpl implements StaffService {
             throw new ServiceException("회원 정보 수정 실패", e);
         }
     }
+    
+    // 비밀번호 일치 확인
+    @Override
+    public boolean checkPassword(String rawPw, String encodedPw) {
+        try {
+            return passwordEncoder.matches(rawPw, encodedPw);
+        } catch (Exception e) {
+            throw new ServiceException("비밀번호 확인 실패", e);
+        }
+    }
+
 }

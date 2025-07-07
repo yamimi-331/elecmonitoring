@@ -95,15 +95,21 @@ public class ProfileEditController {
 	@PostMapping(value = "/checkPassword", produces = "application/json")
 	@ResponseBody
 	public boolean checkPassword(@RequestParam("inputPw") String inputPw, HttpSession session) {
-		UserVO currentUser = (UserVO) session.getAttribute("currentUserInfo");
-
-		if (currentUser == null) {
-			return false; // 로그인 정보 없음
+		String type = (String) session.getAttribute("userType");
+		boolean match = false;
+		if ("common".equals(type)) {
+			UserVO currentUser = (UserVO) session.getAttribute("currentUserInfo");
+			if (currentUser == null) {
+				return false; // 로그인 정보 없음
+			}
+			match = userService.checkPassword(inputPw, currentUser.getUser_pw());
+		} else if ("staff".equals(type) || "admin".equals(type)) {
+			StaffVO currentstaff = (StaffVO) session.getAttribute("currentUserInfo");
+			if (currentstaff == null) {
+				return false; // 로그인 정보 없음
+			}
+			match = staffService.checkPassword(inputPw, currentstaff.getStaff_pw());
 		}
-
-		boolean match = userService.checkPassword(inputPw, currentUser.getUser_pw());
-
 		return match; // JSON true/false 로 응답!
 	}
-
 }

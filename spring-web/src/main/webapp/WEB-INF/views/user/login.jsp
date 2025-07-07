@@ -58,6 +58,7 @@
 					<input type="password" name="user_pw" placeholder="비밀번호"><br>
 					<button type="submit">로그인</button>
 				</form>
+				<a href="/signup">회원가입</a>
 			</div>
 		
 			<!-- 직원 로그인 폼 -->
@@ -76,9 +77,9 @@
 					<input type="text" name="guset_mail" placeholder="이메일"><br>
 					<button type="submit">비회원 로그인</button>
 				</form>
+				<a href="/signup">회원가입</a>
 			</div>
 		</main>
-		<a href="/signup">회원가입</a>
 	</div>
 
 	<c:if test="${not empty message}">

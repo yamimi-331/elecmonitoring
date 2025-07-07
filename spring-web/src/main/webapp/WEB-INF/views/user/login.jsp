@@ -72,7 +72,7 @@
 		  
 			<!-- 비회원 로그인 폼 -->
 		  	<div id="guest" class="login-form">
-				<form action="/login/guset" method="post" onsubmit="return validateLoginForm('guest')">
+				<form action="/login/guset" method="post">
 					<input type="text" name="guset_nm" placeholder="이름" autocomplete="off"><br>
 					<input type="text" name="guset_mail" placeholder="이메일" autocomplete="off"><br>
 					<button type="submit">비회원 로그인</button>
@@ -110,10 +110,10 @@
 		
 		// 게스트 인증 부분 분리해야해서.. 다시 보기(staff 랑 user만 반영)
 		function validateLoginForm(formType) {
-			const prefix = formType === "staff" ? "#staff" : formType === "guest" ? "#guest" : "#user";
+			const prefix = formType === "staff" ? "#staff" : "#user";
 
-			const id = document.querySelector(prefix + ' input[name="' + (formType === "guest" ? "guset_nm" : formType + "_id") + '"]')?.value.trim();
-			const pw = document.querySelector(prefix + ' input[name="' + (formType === "guest" ? "guset_mail" : formType + "_pw") + '"]')?.value.trim();
+			const id = document.querySelector(prefix + ' input[name="' + formType + '_id"]')?.value.trim();
+			const pw = document.querySelector(prefix + ' input[name="' + formType + '_pw"]')?.value.trim();
 			if (!id) {
 				alert('아이디를 입력하세요.');
 				return false;

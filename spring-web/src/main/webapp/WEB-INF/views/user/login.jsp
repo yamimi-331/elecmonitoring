@@ -36,6 +36,8 @@
 		border-bottom: 1px solid white;
 	}
 </style>
+<link rel="stylesheet" href="../../resources/css/common.css?after" />
+
 </head>
 <body>
 	<div class="wrapper">

@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="../../resources/css/common.css?after" />
 <style>
     .msg { font-size: 0.9em; margin-top: 4px; }
     .msg.success { color: green; }

@@ -4,12 +4,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.eco.mapper.AsMapper">
 	<!-- SELECT -->
-	<select id="selectAsList" resultType="com.eco.domain.ASVO">
+	<select id="selectAllAsList" resultType="com.eco.domain.ASVO">
 		<![CDATA[
 		SELECT * FROM T_AS
 		WHERE use_yn = 'Y'
 		]]>
 	</select>
+	
+	<select id="selectAsListByStaff"
+		resultType="com.eco.domain.ASVO" parameterType="int">
+        <![CDATA[
+        SELECT * FROM T_AS
+        WHERE staff_cd = #{staffCd}
+        AND use_yn = 'Y'
+        ]]>
+	</select>
+
+
 	<!-- INSERT -->
 
 

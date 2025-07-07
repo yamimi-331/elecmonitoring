@@ -72,7 +72,7 @@ function logoutConfirm() {
                 <h3>A/S 서비스 신청</h3>
                 <ul>
                     <li><a href="/asRegister">A/S 신청서 작성</a></li>
-                    <li><a href="/asRequestList">A/S 진행 현황</a></li>
+                    <li><a href="/as/order">A/S 진행 현황</a></li>
                     <li><a href="#">A/S 완료 내역</a></li>
                     <li><a href="#">FAQ: A/S 관련</a></li>
                 </ul>

@@ -10,6 +10,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="../../resources/js/dashboard.js?after"></script>
 <link rel="stylesheet" href="../../resources/css/index.css?after" />
+<link rel="stylesheet" href="../../resources/css/common.css?after" />
 </head>
 <body>
 	 <div class="wrapper">

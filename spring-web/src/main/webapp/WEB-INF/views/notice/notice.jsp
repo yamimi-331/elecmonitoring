@@ -45,8 +45,7 @@ tr:hover {
 		<main>
 			<div style="text-align: right;">
 				<button class="btn-insert"
-					onclick="location.href='/notice/detail?mode=insert'">+ 새
-					공지 등록</button>
+					onclick="location.href='/notice/detail?mode=insert'">공지 사항 등록</button>
 			</div>
 			<table>
 				<thead>
@@ -79,6 +78,8 @@ tr:hover {
 		</main>
 
 	</div>
+	
+	<footer></footer>
 
 </body>
 </html>

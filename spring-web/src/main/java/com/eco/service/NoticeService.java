@@ -6,7 +6,7 @@ import com.eco.domain.NoticeVO;
 
 public interface NoticeService {
 
-	public List<NoticeVO> getNoticeList();
+	public List<NoticeVO> getNoticeList(String userType);
 	public NoticeVO getNoticeDetail(int notice_cd);
 	public int insertNotice(NoticeVO notice);
 	public int updateNotice(NoticeVO notice);

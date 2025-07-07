@@ -29,15 +29,16 @@ function logoutConfirm() {
 			</li>
 		</ul>
 
-		<c:choose>
-		    <c:when test="${ empty currentUserInfo }">
-		        <button class="login-btn" onclick="location.href='/login'">🔑 로그인</button>
-		    </c:when>
-		    <c:otherwise>
-		    	<p>${ currentUserInfo.user_nm }님 환영합니다.</p>
-		    	<button class="logout-btn" onclick="logoutConfirm()">🚪 로그아웃</button>
-		    </c:otherwise>
-		</c:choose>	
+		<c:when test="${not empty currentUserInfo and userType == 'common'}">
+		    <p>${currentUserInfo.user_nm}님 환영합니다.</p>
+		    <button class="logout-btn" onclick="logoutConfirm()">🚪 로그아웃</button>
+		</c:when>
+		
+		<c:when test="${not empty currentUserInfo and (userType == 'staff' or userType == 'admin')}">
+		    <p>${currentUserInfo.staff_nm}님 환영합니다.</p>
+		    <button class="logout-btn" onclick="logoutConfirm()">🚪 로그아웃</button>
+		</c:when>
+
 	</nav>
 
     <div class="common-mega-menu-dropdown">

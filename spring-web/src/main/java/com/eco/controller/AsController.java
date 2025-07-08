@@ -52,9 +52,11 @@ public class AsController {
 	// 예약 차 있는 시간 선택 비활성화
 	@GetMapping("/form/booked-times")
 	@ResponseBody
-	public List<String> getBookedTimes(@RequestParam String selectedDate) {
+	public List<String> getBookedTimes(@RequestParam String selectedDate, @RequestParam String region) {
 		LocalDate date = LocalDate.parse(selectedDate);
-		return asService.getTotalAs(date);
+		List<String> result = asService.getFullyBookedSlots(date, region);
+		log.info("Fully booked slots: " + result);
+		return result;
 	}
 
 	// 일반회원의 as신청

@@ -10,8 +10,8 @@ import com.eco.domain.ASVO;
 
 public interface AsService {
 
-	// AS 신고내역 중 해당 날짜의 예약 시간 조회
-	public List<String> getTotalAs(LocalDate date);
+	// 지역 일자 기준 전 직원 스케줄 조회
+	public List<String> getFullyBookedSlots(LocalDate date, String region);
 
 	// 기사, 관리자의 AS 리스트 가져오는 함수
 	public List<ASVO> getAsList(String userType, int staffCd);

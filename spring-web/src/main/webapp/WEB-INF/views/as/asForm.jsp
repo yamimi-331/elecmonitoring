@@ -135,11 +135,17 @@ function searchAddress() {
 			dateInput.addEventListener("change", function () {
 				const selectedDate = this.value;
 				if (!selectedDate) return;
+				
+				const regionInput = document.getElementById("as_addr");
+				let fullRegion = regionInput.value;
 
+				// 공백 기준으로 앞자리만 가져오기 (예: "서울특별시")
+				let region = fullRegion.split(' ')[0];
+				
 				$.ajax({
 					url: "/as/form/booked-times",
 					method: "GET",
-					data: { selectedDate },
+					data: { selectedDate, region },
 					dataType: "json",
 					success: function (bookedTimes) {
 						renderTimeOptions(bookedTimes);

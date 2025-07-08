@@ -50,6 +50,6 @@ public interface AsMapper {
 	// 관리자의 모든 스케쥴 조회
 	public List<ASListDTO> selectScheduleByDate(@Param("date") LocalDate localDate);
 	
-	public List<AvailableStaffDTO> AvailableStaffDTO(@Param("region") String region);
+	public List<AvailableStaffDTO> selectAllAsListByRegion(@Param("date") LocalDate localDate, @Param("region") String region);
 
 }

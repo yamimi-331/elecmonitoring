@@ -1,0 +1,101 @@
+@charset "UTF-8";
+.container {
+  margin: 0;
+  padding: 0;
+  background: #f0f4f8;
+  min-height: 60vh;  
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  font-family: Arial, sans-serif;
+  gap: 20px;
+}
+
+/* 폼 숨기기/보이기 */
+.login-form { display: none; text-align:center;}
+.login-form.active { display: block; }
+	
+	/* 탭 스타일 */
+#login-tabs {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin-top: 50px;
+}
+
+#login-tabs li a {
+  padding: 10px 20px;
+  text-decoration: none;
+  background-color: #eee;
+  margin-right: 5px;
+  border-radius: 5px;
+  color: #333;
+  border: 1px solid #ccc;
+}
+	
+#login-tabs li a.active {
+  background-color: white;
+  font-weight: bold;
+}
+
+.input-box{
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.login-form-wrap {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  padding: 40px;
+  border: 2px solid #007BFF;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.login-form-wrap form {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.login-form-wrap input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 250px;
+  height: 25px;
+}
+
+.login-form-wrap input:focus {
+  border-color: #007BFF;
+  outline: none;
+}
+
+.login-form-wrap button:hover {
+  background: #0056b3;
+}
+
+.login-form-wrap button {
+  padding: 12px;
+  background: #007BFF;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  align-self: center;
+  height: 100px;
+  width: 100px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.login-form-wrap a{
+  text-align: center;
+  margin-top: 10px;
+  display: block;
+}

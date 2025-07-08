@@ -12,7 +12,7 @@
 </head>
 <body>
   <div class="wrapper">
-    <h2 class="header-title">전기재해 모니터링 시스템</h2>
+    <h2 class="header-title">AS 일정 목록</h2>
     <%@ include file="/WEB-INF/views/common/commonHeader.jsp" %>
     <main class="main">
       <h2>AS 일정 목록</h2>
@@ -28,7 +28,7 @@
             <th>담당자명</th>
             <th>진행 상태</th>
             <th>AS 예약 시간</th>
-            <th>일정 확인</th>
+            <th>상세 정보</th>
           </tr>
         </thead>
         <tbody>
@@ -40,7 +40,7 @@
               <td>${as.as_status}</td>
               <td class="asTime">${as.as_time}</td>
               <td>
-                <button type="button" onclick="openModal(${as.as_cd})">일정 확인</button>
+                <button type="button" onclick="openModal(${as.as_cd})">상세보기</button>
               </td>
               
             </tr>

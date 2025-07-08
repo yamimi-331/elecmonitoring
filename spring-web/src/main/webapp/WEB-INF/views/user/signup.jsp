@@ -8,6 +8,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <link rel="stylesheet" href="../../resources/css/common.css?after" />
+<link rel="stylesheet" href="../../resources/css/signup.css?after" />
 <script type="text/javascript">
 //주소 API
 function searchAddress() {
@@ -19,44 +20,40 @@ function searchAddress() {
     }).open();
 }
 </script>
-<style>
-    .msg { font-size: 0.9em; margin-top: 4px; }
-    .msg.success { color: green; }
-    .msg.error { color: red; }
-</style>
+
 </head>
 <body>
  <div class="wrapper">
 	<h2 class="header-title">회원 가입</h2>
     <%@ include file="/WEB-INF/views/common/commonHeader.jsp" %>
 	<main class="main">
-	
-	<form action="signup" method="post">
-	    <label for="user_id">아이디:</label><br />
-	    <input type="text" id="user_id" name="user_id" required maxlength="50" autocomplete="off" />
-	    <button type="button" id="checkIdBtn">중복검사</button>
-	    <div id="idMsg" class="msg"></div>
-	    <br />
-	
-	    <label for="user_pw">비밀번호:</label><br />
-	    <input type="password" id="user_pw" name="user_pw" required maxlength="50" /><br /><br />
-	    
-	    <label for="user_pw_confirm">비밀번호 확인:</label><br />
-	    <input type="password" id="user_pw_confirm" name="user_pw_confirm" required maxlength="50" /><br /><br />
-	    
-	    <label for="user_nm">이름:</label><br />
-	    <input type="text" id="user_nm" name="user_nm" required maxlength="100" /><br />
-	    
-	    <label for="user_addr">주소:</label><br />
-	    <input type="text" id="user_addr" name="user_addr" maxlength="200" readonly/>
-		<button type="button" onclick="searchAddress()">주소 검색</button><br />
-					    
-	    <label for="user_mail">이메일:</label><br />
-	    <input type="email" id="user_mail" name="user_mail" required maxlength="100" /><br /><br />
-	    
-	    <button type="submit" id="submitBtn" disabled>회원가입</button>
-	</form>
-	<a href="/"><button type="button">돌아가기</button></a>
+		<div class="container">
+			<form action="signup" method="post" class="signup-form">
+			    <label for="user_id">아이디</label>
+			    <input type="text" id="user_id" name="user_id" required maxlength="50" autocomplete="off" />
+			    <button type="button" id="checkIdBtn">중복검사</button>
+			    <div id="idMsg" class="msg"></div>
+			
+			    <label for="user_pw">비밀번호</label>
+			    <input type="password" id="user_pw" name="user_pw" required maxlength="50" />
+			    
+			    <label for="user_pw_confirm">비밀번호 확인</label>
+			    <input type="password" id="user_pw_confirm" name="user_pw_confirm" required maxlength="50" />
+			    
+			    <label for="user_nm">이름</label>
+			    <input type="text" id="user_nm" name="user_nm" required maxlength="100" autocomplete="off"/>
+			    
+			    <label for="user_addr">주소</label>
+			    <input type="text" id="user_addr" name="user_addr" maxlength="200" readonly/>
+				<button type="button" onclick="searchAddress()">주소 검색</button>
+							    
+			    <label for="user_mail">이메일</label>
+			    <input type="email" id="user_mail" name="user_mail" required maxlength="100"  autocomplete="off"/>
+			    
+			    <button type="submit" id="submitBtn" disabled>회원가입</button>
+				<button id="goback" type="button" onclick="location.href='/'">돌아가기</button>
+			</form>
+		</div>
 	</main>
 </div>	
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

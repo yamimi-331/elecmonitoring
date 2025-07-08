@@ -101,6 +101,33 @@ $(document).ready(function() {
     });
 
     // 이제 AJAX로 폼 submit 안함! 일반 제출
+    $('form').on('submit', function(e) {
+        const pw = $('#user_pw').val();
+        const pwConfirm = $('#user_pw_confirm').val();
+        const name = $('#user_nm').val().trim();
+        const mail = $('#user_mail').val().trim();
+        const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (name === '') {
+            alert('이름을 입력해주세요.');
+            $('#user_nm').focus();
+            e.preventDefault();
+            return;
+        }
+
+        if (pw !== pwConfirm) {
+            alert('비밀번호가 일치하지 않습니다.');
+            e.preventDefault();
+            return;
+        }
+
+        if (mail && !pattern.test(mail)) {
+            alert('이메일 형식을 확인해주세요.');
+            $('#user_mail').focus();
+            e.preventDefault();
+            return;
+        }
+    });
 });
 </script>
 

@@ -56,7 +56,7 @@ function searchAddress() {
 	    
 	    <button type="submit" id="submitBtn" disabled>회원가입</button>
 	</form>
-	
+	<a href="/"><button type="button">돌아가기</button></a>
 	</main>
 </div>	
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

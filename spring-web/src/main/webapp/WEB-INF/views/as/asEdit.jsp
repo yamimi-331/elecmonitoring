@@ -113,9 +113,7 @@ function searchAddress() {
 					<button type="submit">예약 취소</button>
 				</form>
 			</c:if>
-			<form action="/as/detail" method="get">
-				<button type="submit">돌아가기</button>
-			</form>
+			<a href="/as/detail"><button type="button">돌아가기</button></a>
 		</main>
 	</div>
 

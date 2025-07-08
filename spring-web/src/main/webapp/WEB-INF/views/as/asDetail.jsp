@@ -13,35 +13,34 @@
 		<h2 class="header-title">A/S 신고</h2>
 		<%@ include file="/WEB-INF/views/common/commonHeader.jsp" %>
 		<main class="main">
-			<table border="1">
-			    <thead>
-			        <tr>
-			        	<th>번호</th>
-			            <th>신고 내역</th>
-			            <th>예약 일시</th>
-			            <th>진행 상태</th>
-			            <th>상세 정보</th>
-			        </tr>
-			    </thead>
-			    <tbody>
-			        <c:forEach var="item" items="${userList}">
+			<h2>AS 신고 내역</h2>
+			<table class="custom-table">
+				<thead>
+					<tr>
+						<th>번호</th>
+						<th>신고 내역</th>
+						<th>예약 일시</th>
+						<th>진행 상태</th>
+						<th>상세 정보</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach var="item" items="${userList}">
 			            <tr>
-			            	<td>${item.as.as_cd}</td>
-			            	<td>
-			            		<form action="/as/edit" method="post" style="display:inline;">
-								    <input type="hidden" name="as_cd" value="${item.as.as_cd}">
-								    <button type="submit">
-								        ${item.as.as_title}
-								    </button>
+							<td>${item.as.as_cd}</td>
+							<td>${item.as.as_title}</td>
+							<td>${item.as_date_str} ${item.as_time_str}</td>
+							<td>${item.as.as_status}</td>
+							<td>
+								<form action="/as/edit" method="post" style="display:inline;">
+									<input type="hidden" name="as_cd" value="${item.as.as_cd}">
+									<button type="submit">상세보기</button>
 								</form>
-			            	</td>
-			                <td>${item.as_date_str} ${item.as_time_str}</td>
-			                <td>${item.as.as_status}</td>
-			                <td>정보.....</td>
-			            </tr>
-			        </c:forEach>
-				    </tbody>
-				</table>
+							</td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
 		</main>
 	</div>
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>

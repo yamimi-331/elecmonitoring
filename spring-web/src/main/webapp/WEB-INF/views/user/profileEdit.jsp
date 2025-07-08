@@ -75,6 +75,7 @@ function searchAddress() {
 
 						<button type="submit">제출하기</button>
 					</form>
+					<a href="/"><button type="button">돌아가기</button></a>
 				</c:when>
 				<%-- 사용자 타입이 일반인경우 -------------------------------------------------------- --%>
 				<%-- 사용자 타입이 직원인경우 -------------------------------------------------------- --%>
@@ -118,6 +119,7 @@ function searchAddress() {
 						</div>
 						<button type="submit">제출하기</button>
 					</form>
+					<a href="/"><button type="button">돌아가기</button></a>
 				</c:when>
 				<%-- 사용자 타입이 직원인경우 -------------------------------------------------------- --%>
 				<%-- 사용자 타입이 관리자인경우 -------------------------------------------------------- --%>
@@ -161,6 +163,7 @@ function searchAddress() {
 						</div>
 						<button type="submit">제출하기</button>
 					</form>
+					<a href="/"><button type="button">돌아가기</button></a>
 				</c:when>
 				<%-- 그외 --%>
 				<c:otherwise>

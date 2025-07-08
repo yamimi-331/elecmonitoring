@@ -91,6 +91,7 @@ function searchAddress() {
 				</div>
 				<button type="submit">제출하기</button>
 			</form>
+			<a href="/as/detail"><button type="button">돌아가기</button></a>
 		</main>
 	</div>
 

@@ -237,128 +237,81 @@
 .overlay.show {
     opacity: 1;
 }
-/* 
-반응형 디자인
-@media (max-width: 1200px) {
-    .common-mega-menu-dropdown {
-        padding: 20px 25px;
-    }
-    .mega-menu-content {
-        gap: 20px;
-    }
-    .mega-menu-column {
-        min-width: 160px;
-    }
-}
 
-@media (max-width: 992px) {
-    .main-header {
-        flex-direction: column;
+#profileArea {
+        position: relative;
+        display: inline-block;
+    }
+
+    #profileIcon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: #007bff;
+        color: white;
+        display: flex;
         align-items: center;
-        padding: 15px 20px;
-    }
-
-    .header-title {
-        font-size: 1.6em;
-        padding-bottom: 10px;
-    }
-
-    .main-nav {
-        width: 100%;
-        padding: 0 10px;
-        flex-wrap: wrap;
         justify-content: center;
-        border-radius: 5px; 모바일에서 메인 nav도 둥글게 유지
+        cursor: pointer;
+        user-select: none;
+        font-weight: bold;
     }
 
-    .nav-list {
-        flex-grow: 1;
-        justify-content: center;
-        margin-right: 10px;
+    #profilePopup {
+        position: absolute;
+        top: 50px;
+        right: 0;
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 10px;
+        width: 160px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     }
 
-    .nav-item {
-        margin: 0 5px;
+    #profilePopup.hidden {
+        display: none;
     }
 
-    .nav-link {
-        padding: 12px 15px;
-        font-size: 0.95em;
-    }
-
-    .login-btn {
-        margin-left: 0;
-        margin-top: 15px;
-        width: 100%;
-        padding: 12px 0;
-    }
-
-    공통 메가 메뉴 드롭다운 (모바일)
-    .common-mega-menu-dropdown {
-        left: 50%; 중앙 정렬
-        transform: translateX(-50%) translateY(-20px);
-        width: 95%; 화면 너비에 맞춤
-        top: 100%; 상단 헤더 아래에 위치
-        padding: 20px;
-        border-radius: 8px;
-        flex-direction: column; 컬럼을 세로로 쌓기
-        max-height: 80vh; 최대 높이 설정
-        overflow-y: auto; 내용이 길면 스크롤
-    }
-
-    .main-header.menu-open .common-mega-menu-dropdown {
-         transform: translateX(-50%) translateY(0);
-    }
-
-    .mega-menu-content {
-        flex-direction: column; 모바일에서 콘텐츠 컬럼도 세로로 쌓기
-        gap: 25px;
-        animation: none; 모바일에서는 페이드인 애니메이션 제거 (불필요)
-    }
-
-    .mega-menu-column {
-        margin-bottom: 25px; 세로 컬럼 간 간격
-        min-width: unset; 최소 너비 해제
-    }
-    .mega-menu-column:last-child {
-        margin-bottom: 0;
-    }
+    #profilePopup ul {
+    list-style: none;
+    padding: 0;
+    margin: 0; /* margin 초기화 */
 }
 
-@media (max-width: 768px) {
-    .header-title {
-        font-size: 1.4em;
-    }
-    .nav-link {
-        padding: 10px 12px;
-        font-size: 0.9em;
-    }
+#profilePopup li {
+    margin-bottom: 10px; /* mega-menu와 동일 */
 }
 
-@media (max-width: 480px) {
-    .main-header, .main-nav {
-        padding-left: 15px;
-        padding-right: 15px;
-    }
-    .header-title {
-        font-size: 1.2em;
-    }
-    .nav-list {
-        flex-direction: column; 세로로 메뉴 쌓기
-        align-items: center;
-        width: 100%;
-        margin-right: 0;
-    }
-    .nav-item {
-        width: 100%;
-        text-align: center;
-        margin: 5px 0;
-    }
-    .nav-link {
-        width: 100%;
-        padding: 10px 0;
-    }
-    .login-btn {
-        font-size: 0.9em;
-    }
-} */
+#profilePopup a,
+#profilePopup button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    padding: 5px 0; /* 동일 패딩 */
+    cursor: pointer;
+    text-decoration: none;
+    color: #555; /* mega-menu 컬러와 동일 */
+    position: relative;
+    padding-left: 15px; /* 화살표 공간 */
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+#profilePopup a::before,
+#profilePopup button::before {
+    content: '\203A'; /* > 문자 */
+    position: absolute;
+    left: 0;
+    color: #999;
+    font-size: 1.1em;
+    line-height: 1;
+}
+
+#profilePopup a:hover,
+#profilePopup button:hover {
+    color: #0056b3; /* hover 시 mega-menu 컬러와 동일 */
+    text-decoration: none; /* 밑줄 제거 */
+    transform: translateX(3px); /* 이동 효과 */
+}

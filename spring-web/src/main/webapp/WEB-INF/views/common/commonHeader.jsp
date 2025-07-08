@@ -2,16 +2,13 @@
 	pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <!-- --------------------------- 공통 헤더 영역 Start --------------------------- -->
 <link rel="stylesheet" href="../../resources/css/commonHeader.css?after" />
-<script>
-//로그아웃 로직
-function logoutConfirm() {
-    if (confirm('정말 로그아웃 하시겠습니까?')) {
-        window.location.href = '/logout';
-    }
-}
-</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
 <header class="main-header">
 	<nav class="main-nav">
 		<ul class="nav-list">
@@ -29,20 +26,38 @@ function logoutConfirm() {
 			</li>
 		</ul>
 		<c:choose>
-			 <c:when test="${empty currentUserInfo}">
-		        <button class="login-btn" onclick="location.href='/login'">🔑 로그인</button>
-		    </c:when>
-			<c:when test="${not empty currentUserInfo and userType == 'common'}">
-			    <p>${currentUserInfo.user_nm}님 환영합니다.</p>
-			    <button class="logout-btn" onclick="logoutConfirm()">🚪 로그아웃</button>
-			</c:when>
-			
-			<c:when test="${not empty currentUserInfo and (userType == 'staff' or userType == 'admin')}">
-			    <p>${currentUserInfo.staff_nm}님 환영합니다.</p>
-			    <button class="logout-btn" onclick="logoutConfirm()">🚪 로그아웃</button>
-			</c:when>
+	        <c:when test="${empty currentUserInfo}">
+	            <button class="login-btn" onclick="location.href='/login'">🔑 로그인</button>
+	        </c:when>
 	
-		</c:choose>
+	        <c:when test="${not empty currentUserInfo}">
+	            <!-- 사용자 이름 가져오기 -->
+	            <c:choose>
+	                <c:when test="${userType == 'common'}">
+	                    <c:set var="userName" value="${currentUserInfo.user_nm}" />
+	                </c:when>
+	                <c:otherwise>
+	                    <c:set var="userName" value="${currentUserInfo.staff_nm}" />
+	                </c:otherwise>
+	            </c:choose>
+	
+	            <!-- 헤더에 원형 프로필 아이콘 -->
+	            <div id="profileArea">
+	                <div id="profileIcon">
+	                    <span>${fn:substring(userName, 0, 1)}</span>
+	                </div>
+	
+	                <div id="profilePopup" class="hidden">
+	                    <p><strong>${userName}님</strong></p>
+	                    <ul>
+	                        <li><a href="/profileEdit">회원정보 수정</a></li>
+	                        <li><button onclick="logoutConfirm()">로그아웃</button></li>
+	                    </ul>
+	                </div>
+	            </div>
+	
+	        </c:when>
+	    </c:choose>
 
 	</nav>
 
@@ -93,6 +108,7 @@ function logoutConfirm() {
 				  
 				  <%-- 관리자(userType == 'admin') --%>
 			      <c:when test="${sessionScope.userType == 'admin'}">
+			        <li><a href="/as/order">A/S 진행 현황 관리</a></li>
 			        <li><a href="/as/task">전체 AS 일정 확인 페이지</a></li>
 			        <li><a href="/as/management">AS 기사 배정 승인 시스템</a></li>
 			      </c:when>

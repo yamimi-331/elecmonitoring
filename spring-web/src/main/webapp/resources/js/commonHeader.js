@@ -106,6 +106,25 @@ document.addEventListener('DOMContentLoaded', function() {
             closeMegaMenu();
         }
     });
+    
+    // 계정 아이콘
+    $("#profileIcon").click(function(event) {
+        $("#profilePopup").toggleClass("hidden");
+        event.stopPropagation();
+    });
 
+    $(document).click(function() {
+        $("#profilePopup").addClass("hidden");
+    });
+
+    $("#profilePopup").click(function(event) {
+        event.stopPropagation();
+    });
+
+    function logoutConfirm() {
+	    if(confirm("정말 로그아웃 하시겠습니까?")) {
+    	    location.href = "/logout";
+    	}
+	}
 });
 

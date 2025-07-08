@@ -111,7 +111,7 @@ function openModal(asCd) {
       const select = document.getElementById('statusSelect');
       select.innerHTML = '';
 
-      const statusList = ['신고 접수', '기사 배정 중', '기사 배정 완료', 'A/S 작업 중', '작업 완료', '작업 취소'];
+      const statusList = ['신고 접수', 'A/S 작업 중', '작업 완료', '작업 취소'];
 
       // 현재 상태 인덱스 찾기
       const currentIndex = statusList.indexOf(asData.as_status);

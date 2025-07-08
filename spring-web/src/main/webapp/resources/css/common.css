@@ -15,7 +15,7 @@
     font-weight: bold;
     color: #333; /* 검은 글씨 */
     text-align: center; /* 제목 중앙 정렬 */
-    padding-bottom: 15px; /* nav와의 분리 */
+    padding: 15px; /* nav와의 분리 */
 }
 .main {
 	 width: 1600px; /* 고정 폭 */

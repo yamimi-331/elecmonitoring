@@ -239,44 +239,44 @@
 }
 
 #profileArea {
-        position: relative;
-        display: inline-block;
-    }
+    position: relative;
+    display: inline-block;
+}
 
-    #profileIcon {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background-color: #007bff;
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        user-select: none;
-        font-weight: bold;
-    }
+#profileIcon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #d6d77c;
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+    font-weight: bold;
+}
 
-    #profilePopup {
-        position: absolute;
-        top: 50px;
-        right: 0;
-        background: white;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        padding: 10px;
-        width: 160px;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
+#profilePopup {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    width: 160px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
 
-    #profilePopup.hidden {
-        display: none;
-    }
+#profilePopup.hidden {
+    display: none;
+}
 
-    #profilePopup ul {
-    list-style: none;
-    padding: 0;
-    margin: 0; /* margin 초기화 */
+#profilePopup ul {
+	list-style: none;
+	padding: 0;
+	margin: 0; /* margin 초기화 */
 }
 
 #profilePopup li {
@@ -285,18 +285,18 @@
 
 #profilePopup a,
 #profilePopup button {
-    display: block;
-    width: 100%;
-    text-align: left;
-    background: none;
-    border: none;
-    padding: 5px 0; /* 동일 패딩 */
-    cursor: pointer;
-    text-decoration: none;
-    color: #555; /* mega-menu 컬러와 동일 */
-    position: relative;
-    padding-left: 15px; /* 화살표 공간 */
-    transition: color 0.2s ease, transform 0.2s ease;
+	display: block;
+	width: 100%;
+	text-align: left;
+	background: none;
+	border: none;
+	padding: 5px 0; /* 동일 패딩 */
+	cursor: pointer;
+	text-decoration: none;
+	color: #555; /* mega-menu 컬러와 동일 */
+	position: relative;
+	padding-left: 15px; /* 화살표 공간 */
+	transition: color 0.2s ease, transform 0.2s ease;
 }
 
 #profilePopup a::before,
@@ -311,7 +311,7 @@
 
 #profilePopup a:hover,
 #profilePopup button:hover {
-    color: #0056b3; /* hover 시 mega-menu 컬러와 동일 */
-    text-decoration: none; /* 밑줄 제거 */
-    transform: translateX(3px); /* 이동 효과 */
+   color: #0056b3; /* hover 시 mega-menu 컬러와 동일 */
+   text-decoration: none; /* 밑줄 제거 */
+   transform: translateX(3px); /* 이동 효과 */
 }

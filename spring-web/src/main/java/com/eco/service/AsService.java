@@ -20,13 +20,13 @@ public interface AsService {
 	public List<ASVO> getUserAsList(int user_cd);
 
 	// 일반 회원의 AS 신고
-	public boolean registerAsByCommon(ASVO asvo);
+	boolean registerAsByCommon(ASVO asvo);
 
 	// AS 신고 수정 화면
 	public ASVO readAsDetailByUser(int as_cd);
 
 	// AS 신고 수정
-	public boolean editAsListByCommon(ASVO asvo);
+	boolean editAsListByCommon(ASVO asvo);
 
 	// AS 신고 삭제
 	public boolean cancleAsListByCommon(int as_cd);

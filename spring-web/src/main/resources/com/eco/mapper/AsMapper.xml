@@ -75,18 +75,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- INSERT -->
 	<!-- 일반 회원의 AS 신고 -->
-	<insert id="insertAsListByCommon" parameterType="com.eco.domain.ASVO">
-        <![CDATA[
-		    INSERT INTO t_as(staff_cd, user_cd, user_mail, as_title, as_content, as_date, as_addr, as_facility)
-		    VALUES(5, #{user_cd}, #{user_mail}, #{as_title}, #{as_content}, #{as_date}, #{as_addr}, #{as_facility});
+	<insert id="insertAsListByCommon" parameterType="com.eco.domain.ASVO" useGeneratedKeys="true" keyProperty="as_cd">
+	  <![CDATA[
+	    INSERT INTO t_as(user_cd, user_mail, as_title, as_content, as_date, as_addr, as_facility)
+	    VALUES(#{user_cd}, #{user_mail}, #{as_title}, #{as_content},
+	           #{as_date}, #{as_addr}, #{as_facility});
 	    ]]>
 	</insert>
-
+	<!-- 기사 조회 배정 -->
+	<select id="selectAsStaff" resultType="int" parameterType="map">
+		<![CDATA[
+		    SELECT s.staff_cd
+		    FROM t_staff s
+		    JOIN t_as a ON a.staff_cd = s.staff_cd
+		    WHERE DATE(a.as_date) = #{date} AND s.staff_addr LIKE CONCAT('%', #{addr}, '%')
+		    AND TIME(a.as_date) != #{time} AND s.use_yn = 'Y' AND a.use_yn = 'Y'
+		    GROUP BY s.staff_cd ORDER BY COUNT(*) ASC LIMIT 1;
+		]]>
+	</select>
+	<update id="updateMatchStaff" parameterType="map">
+		<![CDATA[
+	    UPDATE t_as SET staff_cd = #{staff_cd} WHERE as_cd = #{as_cd};
+		]]>
+	</update>
 
 	<!-- UPDATE -->
 	<update id="updateAsListByCommon" parameterType="com.eco.domain.ASVO">
         <![CDATA[
-		    UPDATE t_as set staff_cd=5, user_mail=#{user_mail}, as_title=#{as_title}, as_content=#{as_content}, 
+		    UPDATE t_as set user_mail=#{user_mail}, as_title=#{as_title}, as_content=#{as_content}, 
 		    as_date=#{as_date}, as_addr=#{as_addr}, as_facility=#{as_facility}, as_status='신고 접수'
 		    WHERE as_cd=#{as_cd}
 	    ]]>

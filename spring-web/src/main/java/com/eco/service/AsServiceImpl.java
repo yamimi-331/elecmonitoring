@@ -1,12 +1,14 @@
 package com.eco.service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.eco.domain.ASListDTO;
 import com.eco.domain.ASVO;
@@ -42,9 +44,21 @@ public class AsServiceImpl implements AsService {
 
 	// 일반 회원의 AS 신고
 	@Override
+	@Transactional
 	public boolean registerAsByCommon(ASVO asvo) {
-		int result = asMapper.insertAsListByCommon(asvo);
-		return result > 0;
+		int insertCount = asMapper.insertAsListByCommon(asvo);
+        if (insertCount == 0) return false;
+
+        LocalDateTime dt = asvo.getAs_date();
+        String date = dt.toLocalDate().toString();
+        String time = String.format("%02d:00:00", dt.getHour());
+        String addr = asvo.getAs_addr().split(" ")[0];
+
+        Integer staffCd = asMapper.selectAsStaff(date, addr, time);
+        if (staffCd == null) return false;
+
+        int updated = asMapper.updateMatchStaff(staffCd, asvo.getAs_cd());
+        return updated > 0;
 	}
 
 	// AS 신고 수정 화면
@@ -55,9 +69,21 @@ public class AsServiceImpl implements AsService {
 
 	// AS 신고 수정
 	@Override
+	@Transactional
 	public boolean editAsListByCommon(ASVO asvo) {
-		int result = asMapper.updateAsListByCommon(asvo);
-		return result > 0;
+		int updated = asMapper.updateAsListByCommon(asvo);
+        if (updated == 0) return false;
+
+        LocalDateTime dt = asvo.getAs_date();
+        String date = dt.toLocalDate().toString();
+        String time = String.format("%02d:00:00", dt.getHour());
+        String addr = asvo.getAs_addr().split(" ")[0];
+
+        Integer staffCd = asMapper.selectAsStaff(date, addr, time);
+        if (staffCd == null) return false;
+
+        int reassigned = asMapper.updateMatchStaff(staffCd, asvo.getAs_cd());
+        return reassigned > 0;
 	}
 
 	// AS 신고 삭제

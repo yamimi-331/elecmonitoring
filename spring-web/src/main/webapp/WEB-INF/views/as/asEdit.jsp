@@ -18,6 +18,8 @@
 		<main class="main">
 			<form action="/as/updateCommon" method="post">
 				<input type="hidden" name="as_cd" value="${asVO.as_cd}" />
+				<input type="hidden" name="as_status" value="${asVO.as_status}" />
+				<input type="hidden" name="staff_cd" value="${asVO.staff_cd}" />
 				<div>
 					<span>신고자 정보</span>
 					<div class="i">
@@ -92,19 +94,15 @@
 					<button type="submit">수정하기</button>
 				</c:if>
 			</form>
-			<c:choose>
-				<c:when test="${asVO.as_status == '신고 접수' || asVO.as_status == '기사 배정 중' || asVO.as_status == '기사 배정 완료'}">
-					<form action="/as/cancleCommon" method="post">
-						<input type="hidden" name="as_cd" value="${asVO.as_cd}" />
-						<button type="submit">예약 취소</button>
-					</form>
-				</c:when>
-				<c:otherwise>
-					<form action="/as/detail" method="get">
-						<button type="submit">돌아가기</button>
-					</form>
-				</c:otherwise>
-			</c:choose>
+			<c:if test="${asVO.as_status == '신고 접수' || asVO.as_status == '기사 배정 중' || asVO.as_status == '기사 배정 완료'}">
+				<form action="/as/cancleCommon" method="post">
+					<input type="hidden" name="as_cd" value="${asVO.as_cd}" />
+					<button type="submit">예약 취소</button>
+				</form>
+			</c:if>
+			<form action="/as/detail" method="get">
+				<button type="submit">돌아가기</button>
+			</form>
 		</main>
 	</div>
 

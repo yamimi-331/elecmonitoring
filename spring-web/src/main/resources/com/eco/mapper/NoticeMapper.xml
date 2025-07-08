@@ -22,8 +22,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM
 		T_NOTICE
 		WHERE
-		notice_cd = #{notice_cd}  <!-- VO 또는 파라미터에서 notice_cd 값을 
-			전달받음 -->
+		notice_cd = #{notice_cd} 
 	</select>
 
 	<!-- 공지사항 등록 -->

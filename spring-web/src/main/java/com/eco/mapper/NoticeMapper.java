@@ -14,5 +14,6 @@ public interface NoticeMapper {
 	
 	public int updateNotice(NoticeVO notice);
 	
-	public int deleteNotice(int notice_cd);
+	public int deleteNotice(int notice_cd);  // 소프트 삭제
+
 }

@@ -7,6 +7,10 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" href="../../resources/css/common.css?after" />
 <style>
+
+
+
+
 .btn-insert {
 	display: inline-block;
 	padding: 8px 16px;
@@ -24,6 +28,8 @@
 table {
 	width: 100%;
 	border-collapse: collapse;
+	table-layout: fixed;
+	word-wrap: break-word; 
 }
 
 th, td {
@@ -32,7 +38,21 @@ th, td {
 	text-align: center;
 }
 
-tr:hover {
+td a{
+	display: inline-block;
+	max-width: 100%;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	color: #077bff;
+	text-decoration: none;
+}
+
+td a:hover{
+	text-decoration: underline;
+}
+
+th:hover {
 	background-color: #f9f9f9;
 }
 </style>

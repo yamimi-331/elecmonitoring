@@ -29,7 +29,7 @@
 					</c:choose>
 				</div>
 
-				<!-- 작성자 -->
+				<%-- 작성자 --%>
 				<div class="form-group">
 					<label for="user_nm">작성자</label>
 					<c:choose>
@@ -43,7 +43,7 @@
 					</c:choose>
 				</div>
 
-				<!-- 내용 입력 or 출력 -->
+				<%-- 조회 모드일 경우: 수정/삭제/목록 버튼 표시 --%>
 				<div class="form-group">
 					<label for="content">내용</label>
 					<c:choose>
@@ -57,7 +57,7 @@
 					</c:choose>
 				</div>
 
-				<!-- 버튼 영역 -->
+				<%-- 버튼 영역 --%>
 				<div class="button-group">
 					<c:choose>
 					

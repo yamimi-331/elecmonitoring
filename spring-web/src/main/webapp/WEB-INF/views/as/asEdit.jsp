@@ -8,7 +8,19 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <link rel="stylesheet" href="../../resources/css/common.css?after" />
+<script type="text/javascript">
+//주소 API
+function searchAddress() {
+    new daum.Postcode({
+        oncomplete: function(data) {
+            const fullAddress = data.roadAddress || data.jibunAddress;
+            document.getElementById("as_addr").value = fullAddress;
+        }
+    }).open();
+}
+</script>
 </head>
 <body>
 
@@ -53,7 +65,8 @@
 					</div>
 					<div class="i">
 						<label for="as_addr">주소</label><br> 
-						<input type="text" name="as_addr" id="as_addr" autocomplete="off" value="${asVO.as_addr}">
+						<input type="text" name="as_addr" id="as_addr" autocomplete="off" value="${asVO.as_addr}" readonly>
+						<button type="button" onclick="searchAddress()">주소 검색</button>
 					</div>
 				</div>
 				<div>
@@ -176,10 +189,18 @@
 	            timeOptions.innerHTML = "";
 	            return;
 	        }
+
+	    	const regionInput = document.getElementById("as_addr");
+			let fullRegion = regionInput.value;
+
+			// 공백 기준으로 앞자리만 가져오기 (예: "서울특별시")
+			let region = fullRegion.split(' ')[0];
+			
+			
 	        $.ajax({
 	            url: "/as/form/booked-times",
 	            method: "GET",
-	            data: { selectedDate: date },
+	            data: { selectedDate: date, region },
 	            dataType: "json",
 	            success: function(bookedTimes) {
 	                renderTimeOptions(bookedTimes);

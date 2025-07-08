@@ -7,7 +7,19 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <link rel="stylesheet" href="../../resources/css/common.css?after" />
+<script type="text/javascript">
+//주소 API
+function searchAddress() {
+    new daum.Postcode({
+        oncomplete: function(data) {
+            const fullAddress = data.roadAddress || data.jibunAddress;
+            document.getElementById("as_addr").value = fullAddress;
+        }
+    }).open();
+}
+</script>
 </head>
 <body>
 	<div class="wrapper">
@@ -52,7 +64,8 @@
 
 						<div class="i">
 							<label for="addr">주소</label><br> 
-							<input type="text" name="addr" id="addr" value="${profileInfo.addr}">
+							<input type="text" name="addr" id="addr" value="${profileInfo.addr}" readonly>
+							<button type="button" onclick="searchAddress()">주소 검색</button>
 						</div>
 
 						<div class="i">
@@ -156,6 +169,7 @@
 			</c:choose>
 		</main>
 	</div>
+	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 	<script>
 		$(document).ready(
 				function() {

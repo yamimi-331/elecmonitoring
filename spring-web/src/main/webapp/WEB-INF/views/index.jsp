@@ -115,14 +115,7 @@
 		</div>
 	</main>
 	</div>
-	<footer>
-	</footer>
-	
-	<c:if test="${not empty message}">
-<script>
-    alert('${message}');
-</script>
-</c:if>
+	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 	
 </body>
 </html>

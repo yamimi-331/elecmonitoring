@@ -6,7 +6,19 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <link rel="stylesheet" href="../../resources/css/common.css?after" />
+<script type="text/javascript">
+//주소 API
+function searchAddress() {
+    new daum.Postcode({
+        oncomplete: function(data) {
+            const fullAddress = data.roadAddress || data.jibunAddress;
+            document.getElementById("as_addr").value = fullAddress;
+        }
+    }).open();
+}
+</script>
 <style>
     .msg { font-size: 0.9em; margin-top: 4px; }
     .msg.success { color: green; }
@@ -16,44 +28,38 @@
 <body>
  <div class="wrapper">
 	<h2 class="header-title">회원 가입</h2>
-   <%@ include file="/WEB-INF/views/common/commonHeader.jsp" %>
+    <%@ include file="/WEB-INF/views/common/commonHeader.jsp" %>
 	<main class="main">
 	
+	<form action="signup" method="post">
+	    <label for="user_id">아이디:</label><br />
+	    <input type="text" id="user_id" name="user_id" required maxlength="50" autocomplete="off" />
+	    <button type="button" id="checkIdBtn">중복검사</button>
+	    <div id="idMsg" class="msg"></div>
+	    <br />
 	
-<form action="signup" method="post">
-    <label for="user_id">아이디:</label><br />
-    <input type="text" id="user_id" name="user_id" required maxlength="50" autocomplete="off" />
-    <button type="button" id="checkIdBtn">중복검사</button>
-    <div id="idMsg" class="msg"></div>
-    <br />
-
-    <label for="user_pw">비밀번호:</label><br />
-    <input type="password" id="user_pw" name="user_pw" required maxlength="50" /><br /><br />
-    
-    <label for="user_pw_confirm">비밀번호 확인:</label><br />
-    <input type="password" id="user_pw_confirm" name="user_pw_confirm" required maxlength="50" /><br /><br />
-    
-    <label for="user_nm">이름:</label><br />
-    <input type="text" id="user_nm" name="user_nm" required maxlength="100" /><br /><br />
-    
-    <label for="user_addr">주소:</label><br />
-    <input type="text" id="user_addr" name="user_addr" maxlength="200" /><br /><br />
-    
-    <label for="user_mail">이메일:</label><br />
-    <input type="email" id="user_mail" name="user_mail" required maxlength="100" /><br /><br />
-    
-    <button type="submit" id="submitBtn" disabled>회원가입</button>
-</form>
-	
-	
+	    <label for="user_pw">비밀번호:</label><br />
+	    <input type="password" id="user_pw" name="user_pw" required maxlength="50" /><br /><br />
+	    
+	    <label for="user_pw_confirm">비밀번호 확인:</label><br />
+	    <input type="password" id="user_pw_confirm" name="user_pw_confirm" required maxlength="50" /><br /><br />
+	    
+	    <label for="user_nm">이름:</label><br />
+	    <input type="text" id="user_nm" name="user_nm" required maxlength="100" /><br />
+	    
+	    <label for="user_addr">주소:</label><br />
+	    <input type="text" id="user_addr" name="user_addr" maxlength="200" readonly/>
+		<button type="button" onclick="searchAddress()">주소 검색</button><br />
+					    
+	    <label for="user_mail">이메일:</label><br />
+	    <input type="email" id="user_mail" name="user_mail" required maxlength="100" /><br /><br />
+	    
+	    <button type="submit" id="submitBtn" disabled>회원가입</button>
+	</form>
 	
 	</main>
 </div>	
-<c:if test="${not empty message}">
-    <script>
-        alert('${message}');
-    </script>
-</c:if>
+<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 <script>
 $(document).ready(function() {
     // 아이디 중복검사 버튼 클릭

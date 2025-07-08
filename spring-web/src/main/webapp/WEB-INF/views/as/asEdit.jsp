@@ -184,8 +184,8 @@ function searchAddress() {
 	        timeOptions.innerHTML = html;
 	    }
 	
-	    function fetchBookedTimes(date) {
-	    	if (!date) {
+	    function fetchBookedTimes(selectedDate) {
+	    	if (!selectedDate) {
 	            timeOptions.innerHTML = "";
 	            return;
 	        }
@@ -196,11 +196,10 @@ function searchAddress() {
 			// 공백 기준으로 앞자리만 가져오기 (예: "서울특별시")
 			let region = fullRegion.split(' ')[0];
 			
-			
 	        $.ajax({
 	            url: "/as/form/booked-times",
 	            method: "GET",
-	            data: { selectedDate: date, region },
+	            data: { selectedDate, region },
 	            dataType: "json",
 	            success: function(bookedTimes) {
 	                renderTimeOptions(bookedTimes);

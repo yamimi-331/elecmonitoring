@@ -55,7 +55,6 @@ public class AsController {
 	public List<String> getBookedTimes(@RequestParam String selectedDate, @RequestParam String region) {
 		LocalDate date = LocalDate.parse(selectedDate);
 		List<String> result = asService.getFullyBookedSlots(date, region);
-		log.info("Fully booked slots: " + result);
 		return result;
 	}
 
@@ -150,12 +149,12 @@ public class AsController {
 			RedirectAttributes redirectAttrs) {
 		UserVO user = (UserVO) session.getAttribute("currentUserInfo");
 		vo.setUser_cd(user.getUser_cd());
-
+		log.info("1" + vo);
 		// 예약 날짜 시간 합치기
 		LocalDate localDate = LocalDate.parse(reserve_date);
 		LocalDateTime combinedDateTime = LocalDateTime.parse(localDate.toString() + "T" + reserve_time + ":00");
 		vo.setAs_date(combinedDateTime);
-
+		log.info("2" + vo);
 		// 기타 입력 처리
 		if ("기타".equals(vo.getAs_facility()) && as_facility_custom != null && !as_facility_custom.isBlank()) {
 			vo.setAs_facility(as_facility_custom);
@@ -170,7 +169,7 @@ public class AsController {
 			redirectAttrs.addFlashAttribute("message", "현재 상태에서는 수정할 수 없습니다.");
 			return "redirect:/as/detail";
 		}
-
+		log.info("3" + vo);
 		boolean result = asService.editAsListByCommon(vo);
 		if (result) {
 			redirectAttrs.addFlashAttribute("message", "AS 수정이 완료되었습니다.");

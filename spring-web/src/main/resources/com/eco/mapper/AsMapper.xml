@@ -103,7 +103,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="updateAsListByCommon" parameterType="com.eco.domain.ASVO">
         <![CDATA[
 		    UPDATE t_as set user_mail=#{user_mail}, as_title=#{as_title}, as_content=#{as_content}, 
-		    as_date=#{as_date}, as_addr=#{as_addr}, as_facility=#{as_facility}, as_status='신고 접수'
+		    as_date=#{as_date}, as_addr=#{as_addr}, as_facility=#{as_facility}
 		    WHERE as_cd=#{as_cd}
 	    ]]>
 	</update>

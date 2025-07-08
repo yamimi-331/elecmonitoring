@@ -83,7 +83,7 @@ public class AsServiceImpl implements AsService {
         if (staffCd == null) return false;
 
         int reassigned = asMapper.updateMatchStaff(staffCd, asvo.getAs_cd());
-        return reassigned > 0;
+        return reassigned >= 0;
 	}
 
 	// AS 신고 삭제

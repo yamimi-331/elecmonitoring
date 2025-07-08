@@ -6,99 +6,9 @@
 <head>
 <meta charset="UTF-8">
 <title>AS 일정 목록</title>
-<link rel="stylesheet" href="../../resources/css/common.css?after" />
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<style>
-/* 테이블 스타일 */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-}
-
-table th, table td {
-  border: 1px solid #ddd;
-  padding: 10px;
-  text-align: center;
-}
-
-table thead {
-  background-color: #f2f2f2;
-}
-
-table tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
-
-table tr:hover {
-  background-color: #f1f1f1;
-}
-
-/* 모달 스타일 */
-.modal {
-  position: fixed;
-  z-index: 9999;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0,0,0,0.5);
-  display: none;
-}
-
-.modal-content {
-  background-color: #fff;
-  margin: 10% auto;
-  padding: 30px;
-  border: 1px solid #888;
-  width: 500px;
-  border-radius: 8px;
-  position: relative;
-}
-
-.modal-content .close {
-  position: absolute;
-  right: 15px;
-  top: 10px;
-  font-size: 24px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.modal-content h3 {
-  margin-top: 0;
-  margin-bottom: 20px;
-}
-
-.modal-content .modal-info {
-  margin-bottom: 10px;
-}
-
-.modal-content label {
-  display: block;
-  margin-top: 10px;
-}
-
-.modal-content select {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 20px;
-}
-
-.modal-content button {
-  padding: 8px 16px;
-  background-color: #1e90ff;
-  color: white;
-  border: none;
-  cursor: pointer;
-  border-radius: 4px;
-}
-
-.modal-content button:hover {
-  background-color: #005ecb;
-}
-</style>
+<link rel="stylesheet" href="../../resources/css/common.css?after" />
+<link rel="stylesheet" href="../../resources/css/asOder.css?after" />
 </head>
 <body>
   <div class="wrapper">
@@ -110,7 +20,7 @@ table tr:hover {
 		  <input type="date" id="searchDate" />
 		  <button id="btnSearch">조회</button>
 		</div>
-      <table id="asTable">
+      <table id="asTable" class="custom-table">
         <thead>
           <tr>
             <th>코드번호</th>

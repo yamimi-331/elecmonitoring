@@ -15,7 +15,7 @@ function searchAddress() {
     new daum.Postcode({
         oncomplete: function(data) {
             const fullAddress = data.roadAddress || data.jibunAddress;
-            document.getElementById("as_addr").value = fullAddress;
+            document.getElementById("user_addr").value = fullAddress;
         }
     }).open();
 }
@@ -39,7 +39,7 @@ function searchAddress() {
 			    
 			    <label for="user_pw_confirm">비밀번호 확인</label>
 			    <input type="password" id="user_pw_confirm" name="user_pw_confirm" required maxlength="50" />
-			    
+			    <div id="pwMsg" class="msg"></div>
 			    <label for="user_nm">이름</label>
 			    <input type="text" id="user_nm" name="user_nm" required maxlength="100" autocomplete="off"/>
 			    
@@ -59,13 +59,37 @@ function searchAddress() {
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 <script>
 $(document).ready(function() {
+
+    // 중복검사 결과 상태 저장
+    let isIdAvailable = false;
+    let isPwMatch = false;
+
+    function checkFormValid() {
+        const pw = $('#user_pw').val();
+        const pwConfirm = $('#user_pw_confirm').val();
+        const name = $('#user_nm').val().trim();
+        const mail = $('#user_mail').val().trim();
+        const mailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        const isNameValid = name.length > 0;
+        const isMailValid = mailPattern.test(mail);
+
+        // 여기서 isPwMatch 사용!
+        if (isIdAvailable && isPwMatch && isNameValid && isMailValid) {
+            $('#submitBtn').prop('disabled', false);
+        } else {
+            $('#submitBtn').prop('disabled', true);
+        }
+    }
+
     // 아이디 중복검사 버튼 클릭
     $('#checkIdBtn').on('click', function() {
         var userId = $('#user_id').val().trim();
 
         if (userId.length === 0) {
             $('#idMsg').text('아이디를 입력해주세요.').removeClass('success').addClass('error');
-            $('#submitBtn').prop('disabled', true);
+            isIdAvailable = false;
+            checkFormValid();
             return;
         }
 
@@ -76,62 +100,58 @@ $(document).ready(function() {
             success: function(response) {
                 if (response === '사용 가능') {
                     $('#idMsg').text('사용 가능한 아이디입니다.').removeClass('error').addClass('success');
-                    $('#submitBtn').prop('disabled', false);
+                    isIdAvailable = true;
                 } else {
                     $('#idMsg').text(response).removeClass('success').addClass('error');
-                    $('#submitBtn').prop('disabled', true);
+                    isIdAvailable = false;
                 }
+                checkFormValid();
             },
             error: function() {
                 $('#idMsg').text('서버 오류가 발생했습니다.').removeClass('success').addClass('error');
-                $('#submitBtn').prop('disabled', true);
+                isIdAvailable = false;
+                checkFormValid();
             }
         });
     });
 
-    // 비밀번호 확인 체크 (폼 제출 전 유효성)
+    // 비밀번호 입력 변경
+   	//  비밀번호, 비밀번호 확인 입력 시
     $('#user_pw, #user_pw_confirm').on('input', function() {
-        var pw = $('#user_pw').val();
-        var pwConfirm = $('#user_pw_confirm').val();
-
-        if (pw && pwConfirm && pw === pwConfirm) {
-            if ($('#idMsg').hasClass('success')) {
-                $('#submitBtn').prop('disabled', false);
-            }
-        } else {
-            $('#submitBtn').prop('disabled', true);
-        }
-    });
-
-    // 이제 AJAX로 폼 submit 안함! 일반 제출
-    $('form').on('submit', function(e) {
         const pw = $('#user_pw').val();
         const pwConfirm = $('#user_pw_confirm').val();
-        const name = $('#user_nm').val().trim();
-        const mail = $('#user_mail').val().trim();
-        const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-        if (name === '') {
-            alert('이름을 입력해주세요.');
-            $('#user_nm').focus();
-            e.preventDefault();
-            return;
+        if (pw && pwConfirm) {
+            if (pw === pwConfirm) {
+                $('#pwMsg').text('비밀번호가 일치합니다.').removeClass('error').addClass('success');
+                isPwMatch = true;
+            } else {
+                $('#pwMsg').text('비밀번호가 일치하지 않습니다.').removeClass('success').addClass('error');
+                isPwMatch = false;
+            }
+        } else {
+            $('#pwMsg').text('');
+            isPwMatch = false;
         }
 
-        if (pw !== pwConfirm) {
-            alert('비밀번호가 일치하지 않습니다.');
-            e.preventDefault();
-            return;
-        }
+        checkFormValid();
+    });
 
-        if (mail && !pattern.test(mail)) {
-            alert('이메일 형식을 확인해주세요.');
-            $('#user_mail').focus();
+    // 이름, 이메일 입력 변경
+    $('#user_nm, #user_mail').on('input', function() {
+        checkFormValid();
+    });
+
+    // submit 최종 유효성
+    $('form').on('submit', function(e) {
+        if ($('#submitBtn').prop('disabled')) {
             e.preventDefault();
             return;
         }
     });
+
 });
+
 </script>
 
 </body>

@@ -3,7 +3,7 @@
   margin: 0;
   padding: 0;
   background: #f0f4f8;
-  height: 80vh;
+  min-height: 90vh;  
   display: flex;
   justify-content: center;
   align-items: center;
@@ -63,6 +63,28 @@
   background: #5a6268;
 }
 
+/* 회원가입 버튼 기본 스타일 */
+.signup-form button[type="submit"] {
+  margin-top: 20px;
+  padding: 12px;
+  background: #007BFF;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.signup-form button[type="submit"]:hover {
+  background: #0056b3;
+}
+
+/* 비활성화 상태 */
+.signup-form button[type="submit"]:disabled {
+  background: #cccccc;
+  cursor: not-allowed;  /* 👉 커서 금지 표시 */
+  opacity: 0.7;         /* 살짝 흐리게 */
+}
 
 .msg { font-size: 0.9em; margin-top: 4px; }
 .msg.success { color: green; }

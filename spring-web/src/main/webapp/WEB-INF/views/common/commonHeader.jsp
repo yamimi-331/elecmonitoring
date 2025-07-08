@@ -47,6 +47,7 @@ function logoutConfirm() {
 	</nav>
 
     <div class="common-mega-menu-dropdown">
+    	<%-- 공지사항 메뉴 --%>
         <div id="mega-notice" class="mega-menu-content">
             <div class="mega-menu-column">
                 <h3>공지사항 안내</h3>
@@ -66,7 +67,8 @@ function logoutConfirm() {
                 <a href="#" class="menu-shortcut-btn">공지사항 전체보기</a>
                 <p style="text-align: center; font-size: 3em; margin-top: 15px;">📢</p> </div>
         </div>
-
+        
+		<%-- A/S 관련 메뉴 --%>
         <div id="mega-as" class="mega-menu-content">
             <div class="mega-menu-column">
                 <h3>A/S 서비스 신청</h3>
@@ -74,35 +76,33 @@ function logoutConfirm() {
                 <%-- 로그인 안한 경우 --%>
 			    <c:choose>
 			      <c:when test="${empty sessionScope.userType}">
-			        <li><a href="#" onclick="alert('로그인이 필요합니다.'); location.href='/login'; return false;">A/S 완료 내역</a></li>
-			        <li><a href="#" onclick="alert('로그인이 필요합니다.'); location.href='/login'; return false;">FAQ: A/S 관련</a></li>
+			        <li><a href="#" onclick="alert('로그인이 필요합니다.'); location.href='/login'; return false;">노후 시설 A/S 신고</a></li>
 			        <li><a href="#" onclick="alert('로그인이 필요합니다.'); location.href='/login'; return false;">A/S 진행 현황</a></li>
 			      </c:when>
 			
 			      <%-- 일반 사용자(userType == 'common') --%>
 			      <c:when test="${sessionScope.userType == 'common'}">
-			        <li><a href="/as/form">A/S 완료 내역</a></li>
-			        <li><a href="/as/detail">FAQ: A/S 관련</a></li>
-			        <li><a href="#" onclick="alert('직원 전용 메뉴입니다.'); return false;">A/S 진행 현황</a></li>
+			        <li><a href="/as/form">노후 시설 A/S 신고</a></li>
+			        <li><a href="/as/detail">A/S 진행 현황</a></li>
 			      </c:when>
 			
-			      <%-- 직원 또는 관리자(userType == 'staff' or 'admin') --%>
-			      <c:when test="${sessionScope.userType == 'staff' or sessionScope.userType == 'admin'}">
-			        <li><a href="#" onclick="alert('사용자 전용 메뉴입니다.'); return false;">A/S 완료 내역</a></li>
-			        <li><a href="#" onclick="alert('사용자 전용 메뉴입니다.'); return false;">FAQ: A/S 관련</a></li>
-			        <li><a href="/as/order">A/S 진행 현황</a></li>
+			      <%-- 직원 (userType == 'staff') --%>
+			      <c:when test="${sessionScope.userType == 'staff'}">
+			        <li><a href="/as/order">A/S 진행 현황 관리</a></li>
 			      </c:when>
-			
+				  
+				  <%-- 관리자(userType == 'admin') --%>
+			      <c:when test="${sessionScope.userType == 'admin'}">
+			        <li><a href="/as/task">전체 AS 일정 확인 페이지</a></li>
+			        <li><a href="/as/management">AS 기사 배정 승인 시스템</a></li>
+			      </c:when>
+			      
 			      <%-- 기타 예외 --%>
 			      <c:otherwise>
-			        <li><a href="#" onclick="alert('로그인이 필요합니다.'); location.href='/login'; return false;">A/S 완료 내역</a></li>
-			        <li><a href="#" onclick="alert('로그인이 필요합니다.'); location.href='/login'; return false;">FAQ: A/S 관련</a></li>
+			        <li><a href="#" onclick="alert('로그인이 필요합니다.'); location.href='/login'; return false;">노후 시설 A/S 신고</a></li>
 			        <li><a href="#" onclick="alert('로그인이 필요합니다.'); location.href='/login'; return false;">A/S 진행 현황</a></li>
 			      </c:otherwise>
 			    </c:choose>
-			
-			    <%-- 공통 메뉴 --%>
-			    <li><a href="/as/apply">A/S 신청서 작성</a></li>
                 </ul>
             </div>
             
@@ -117,7 +117,8 @@ function logoutConfirm() {
                 <p>📞 0000-1234</p>
             </div>
         </div>
-
+		
+		<%-- 페이지 메뉴 --%>
         <div id="mega-page" class="mega-menu-content">
             <div class="mega-menu-column">
                 <h3>사이트 정보</h3>
@@ -145,7 +146,8 @@ function logoutConfirm() {
                 </ul>
             </div>
         </div>
-
+        
+		<%-- 고객지원 메뉴 --%>
         <div id="mega-etc" class="mega-menu-content">
             <div class="mega-menu-column">
                 <h3>고객지원</h3>

@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.eco.domain.ASListDTO;
 import com.eco.domain.ASVO;
+import com.eco.domain.DTO.AvailableStaffDTO;
 
 public interface AsMapper {
 	// AS 신고내역 전체 조회
@@ -48,5 +49,7 @@ public interface AsMapper {
 	public List<ASListDTO> selectScheduleByStaffAndDate(@Param("staff_cd") int staff_cd, @Param("date") LocalDate date);
 	// 관리자의 모든 스케쥴 조회
 	public List<ASListDTO> selectScheduleByDate(@Param("date") LocalDate localDate);
+	
+	public List<AvailableStaffDTO> AvailableStaffDTO(@Param("region") String region);
 
 }

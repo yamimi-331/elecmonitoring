@@ -23,7 +23,6 @@ public class AsServiceImpl implements AsService {
 	@Override
 	public List<String> getTotalAs(LocalDate date) {
 		List<ASVO> allReservations = asMapper.selectAllAsList();
-
 		return allReservations.stream().filter(vo -> vo.getAs_date().toLocalDate().equals(date)) // 같은 날짜만
 				.map(vo -> {
 					// 시간은 HH:00으로 고정 (분은 무시)
@@ -128,7 +127,4 @@ public class AsServiceImpl implements AsService {
 	public List<ASListDTO> getScheduleByDate(LocalDate localDate) {
 		return asMapper.selectScheduleByDate(localDate);
 	}
-
-
-
 }

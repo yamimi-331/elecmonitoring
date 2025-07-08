@@ -11,6 +11,41 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE use_yn = 'Y'
 		]]>
 	</select>
+	<!-- 해당 지역의 AS 신고내역 전체 조회 -->
+	<select id="selectAllAsListByRegion" resultType="com.eco.domain.DTO.AvailableStaffDTO">
+		<![CDATA[		
+		WITH RECURSIVE time_slots AS (
+		  SELECT TIME('09:00:00') AS slot_time
+		  UNION ALL
+		  SELECT slot_time + INTERVAL 1 HOUR
+		  FROM time_slots
+		  WHERE slot_time < '17:00:00'
+		)
+
+		SELECT 
+		  s.staff_cd,
+		  s.staff_nm,
+		  s.staff_addr,
+		  ts.slot_time,
+		  a.as_cd,
+		  a.as_date,
+		  a.as_addr
+		FROM 
+		  T_STAFF s
+		CROSS JOIN 
+		  time_slots ts
+		LEFT JOIN 
+		  T_AS a 
+		  ON s.staff_cd = a.staff_cd 
+		  AND DATE(a.as_date) = CURRENT_DATE
+		  AND TIME(a.as_date) = ts.slot_time
+		  AND a.use_yn = 'Y'
+		WHERE 
+		  s.staff_addr LIKE CONCAT(#{region}, '%')
+		ORDER BY 
+		  s.staff_cd, ts.slot_time;
+		]]>
+	</select>
 	
 	<select id="selectAsListByStaff"
 		resultType="com.eco.domain.ASVO" parameterType="int">

@@ -35,7 +35,7 @@ public class NoticeController {
 		List<NoticeVO> noticeList = null;
 		// 등급별 공지사항 조회 목록 구분
 		if (obj instanceof UserVO) {
-			UserVO user = (UserVO) obj;
+			//UserVO user = (UserVO) obj;
 			// user의 특정 필드 접근 가능 (예: user.getUsername())
 			noticeList = noticeService.getNoticeList("common");
 		} else if (obj instanceof StaffVO) {

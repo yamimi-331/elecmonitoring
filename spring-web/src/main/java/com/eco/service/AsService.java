@@ -45,5 +45,5 @@ public interface AsService {
 	public  List<ASListDTO> getScheduleByStaffAndDate(@Param("staff_cd") int staff_cd, @Param("date") LocalDate date);
 	// 관리자의 모든 스케쥴 조회
 	public List<ASListDTO> getScheduleByDate(LocalDate localDate);
-
+	
 }

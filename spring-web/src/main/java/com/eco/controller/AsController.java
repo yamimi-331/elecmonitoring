@@ -166,7 +166,7 @@ public class AsController {
 		
 		// 수정 가능한 상태인지 체크
 		String status = vo.getAs_status();
-		if (!("신고 접수".equals(status) || "기사 배정 중".equals(status) || "기사 배정 완료".equals(status))) {
+		if (!("신고 접수".equals(status))) {
 			redirectAttrs.addFlashAttribute("message", "현재 상태에서는 수정할 수 없습니다.");
 			return "redirect:/as/detail";
 		}

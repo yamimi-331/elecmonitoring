@@ -103,11 +103,11 @@ function searchAddress() {
 						</div>
 					</div>
 				</div>
-				<c:if test="${asVO.as_status == '신고 접수' || asVO.as_status == '기사 배정 중' || asVO.as_status == '기사 배정 완료'}">
+				<c:if test="${asVO.as_status == '신고 접수'}">
 					<button type="submit">수정하기</button>
 				</c:if>
 			</form>
-			<c:if test="${asVO.as_status == '신고 접수' || asVO.as_status == '기사 배정 중' || asVO.as_status == '기사 배정 완료'}">
+			<c:if test="${asVO.as_status == '신고 접수'}">
 				<form action="/as/cancleCommon" method="post">
 					<input type="hidden" name="as_cd" value="${asVO.as_cd}" />
 					<button type="submit">예약 취소</button>

@@ -11,6 +11,18 @@
   font-family: Arial, sans-serif;
 }
 
+.profile-container {
+  margin: 0;
+  padding: 0;
+  background: #f0f4f8;
+  min-height: 100vh;  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-family: Arial, sans-serif;
+}
+
 .signup-form {
   display: flex;
   flex-direction: column;

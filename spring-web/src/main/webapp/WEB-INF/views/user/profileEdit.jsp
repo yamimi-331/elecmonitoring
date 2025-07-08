@@ -9,6 +9,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <link rel="stylesheet" href="../../resources/css/common.css?after" />
+<link rel="stylesheet" href="../../resources/css/signup.css?after" />
 <script type="text/javascript">
 //주소 API
 function searchAddress() {
@@ -29,141 +30,117 @@ function searchAddress() {
 			<c:choose>
 				<%-- 사용자 타입이 일반인경우 -------------------------------------------------------- --%>
 				<c:when test="${userType eq 'common'}">
-					<form action="/profileEdit" method="post">
-						<div class="i">
-							<label for="user_id">아이디</label><br> 
-							<input type="text" name="id" id="id" value="${profileInfo.id}" readonly><br>
-						</div>
-						<div class="i">
-							<label for="pw">기존 비밀번호 확인</label><br> 
-							<input type="password" name="prepw" id="prepw" autocomplete="new-password"><br>
-							<button type="button">비밀번호 확인</button>
-						</div>
-						<div id="pwVerifyMsg" style="color: red; margin: 3px 0;">
+				<div class="profile-container">
+					<form action="/profileEdit" method="post" class="signup-form">
+						<label for="user_id">아이디</label>  
+						<input type="text" name="id" id="id" value="${profileInfo.id}" readonly> 
+
+						<label for="pw">기존 비밀번호 확인</label>  
+						<input type="password" name="prepw" id="prepw" autocomplete="new-password"> 
+						<button type="button">비밀번호 확인</button>
+
+						<div id="pwVerifyMsg" class="msg">
 							<c:if test="${not empty errorMsg}">
 						        ${errorMsg}
 						    </c:if>
 						</div>
 
-						<div class="i">
-							<label for="new_pw">새 비밀번호</label><br> 
-							<input type="password" name="pw" id="pw" autocomplete="new-password"><br>
-							<small id="newPwMsg"></small>
-						</div>
+						<label for="new_pw">새 비밀번호</label>  
+						<input type="password" name="pw" id="pw" autocomplete="new-password"> 
+						<small id="newPwMsg" class="msg"></small>
 
-						<div class="i">
-							<label for="user_pw_ck">새 비밀번호 확인</label><br> 
-							<input type="password" name="user_pw_ck" id="user_pw_ck" autocomplete="new-password"><br> 
-							<small id="pwCheckMsg"></small>
-						</div>
+						<label for="user_pw_ck">새 비밀번호 확인</label>  
+						<input type="password" name="user_pw_ck" id="user_pw_ck" autocomplete="new-password">  
+						<small id="pwCheckMsg" class="msg"></small>
 
-						<div class="i">
-							<label for="nm">이름</label><br> 
-							<input type="text" name="nm" id="nm" value="${profileInfo.nm}"><br>
-						</div>
+						<label for="nm">이름</label>  
+						<input type="text" name="nm" id="nm" value="${profileInfo.nm}"> 
+						
+						<label for="addr">주소</label>  
+						<input type="text" name="addr" id="addr" value="${profileInfo.addr}" readonly>
+						<button type="button" onclick="searchAddress()">주소 검색</button>
 
-						<div class="i">
-							<label for="addr">주소</label><br> 
-							<input type="text" name="addr" id="addr" value="${profileInfo.addr}" readonly>
-							<button type="button" onclick="searchAddress()">주소 검색</button>
-						</div>
-
-						<div class="i">
-							<label for="mail">메일</label><br> 
-							<input type="text" name="mail" id="mail" value="${profileInfo.mail}">
-						</div>
+						<label for="mail">메일</label>  
+						<input type="text" name="mail" id="mail" value="${profileInfo.mail}">
 
 						<button type="submit">제출하기</button>
+						<button id="goback" type="button" onclick="location.href='/'">돌아가기</button>
 					</form>
-					<a href="/"><button type="button">돌아가기</button></a>
+				</div>
 				</c:when>
 				<%-- 사용자 타입이 일반인경우 -------------------------------------------------------- --%>
 				<%-- 사용자 타입이 직원인경우 -------------------------------------------------------- --%>
 				<c:when test="${userType eq 'staff'}">
-					<form action="/profileEdit" method="post">
-						<div class="i">
-							<label for="user_id">아이디</label><br> 
-							<input type="text" name="id" id="id" value="${profileInfo.id}" readonly><br>
-						</div>
-						<div class="i">
-							<label for="pw">기존 비밀번호 확인</label><br> 
-							<input type="password" name="prepw" id="prepw" autocomplete="new-password"><br>
-							<button type="button">비밀번호 확인</button>
-						</div>
-						<div id="pwVerifyMsg" style="color: red; margin: 3px 0;">
+				<div class="profile-container">
+					<form action="/profileEdit" method="post" class="signup-form">
+						<label for="user_id">아이디</label>  
+						<input type="text" name="id" id="id" value="${profileInfo.id}" readonly> 
+
+						<label for="pw">기존 비밀번호 확인</label>  
+						<input type="password" name="prepw" id="prepw" autocomplete="new-password"> 
+						<button type="button">비밀번호 확인</button>
+
+						<div id="pwVerifyMsg"  class="msg">
 							<c:if test="${not empty errorMsg}">
 						        ${errorMsg}
 						    </c:if>
 						</div>
 
-						<div class="i">
-							<label for="new_pw">새 비밀번호</label><br> 
-							<input type="password" name="pw" id="pw" autocomplete="new-password"><br>
-							<small id="newPwMsg"></small>
-						</div>
+						<label for="new_pw">새 비밀번호</label>
+						<input type="password" name="pw" id="pw" autocomplete="new-password">
+						<small id="newPwMsg" class="msg"></small>
 
-						<div class="i">
-							<label for="user_pw_ck">새 비밀번호 확인</label><br> 
-							<input type="password" name="user_pw_ck" id="user_pw_ck" autocomplete="new-password"><br> 
-							<small id="pwCheckMsg"></small>
-						</div>
+						<label for="user_pw_ck">새 비밀번호 확인</label>
+						<input type="password" name="user_pw_ck" id="user_pw_ck" autocomplete="new-password">
+						<small id="pwCheckMsg" class="msg"></small>
 
-						<div class="i">
-							<label for="nm">이름</label><br> 
-							<input type="text" name="nm" id="nm" value="${profileInfo.nm}"><br>
-						</div>
+						<label for="nm">이름</label>
+						<input type="text" name="nm" id="nm" value="${profileInfo.nm}">
 
-						<div class="i">
-							<label for="addr">담당 주소</label><br> 
-							<input type="text" name="addr" id="addr" value="${profileInfo.addr}" readonly>
-						</div>
+						<label for="addr">담당 주소</label>
+						<input type="text" name="addr" id="addr" value="${profileInfo.addr}" readonly>
+
 						<button type="submit">제출하기</button>
+						<button id="goback" type="button" onclick="location.href='/'">돌아가기</button>
 					</form>
-					<a href="/"><button type="button">돌아가기</button></a>
+				</div>
 				</c:when>
 				<%-- 사용자 타입이 직원인경우 -------------------------------------------------------- --%>
 				<%-- 사용자 타입이 관리자인경우 -------------------------------------------------------- --%>
 				<c:when test="${userType eq 'admin'}">
-					<form action="/profileEdit" method="post">
-						<div class="i">
-							<label for="user_id">아이디</label><br> 
-							<input type="text" name="id" id="id" value="${profileInfo.id}" readonly><br>
-						</div>
-						<div class="i">
-							<label for="pw">기존 비밀번호 확인</label><br> 
-							<input type="password" name="prepw" id="prepw" autocomplete="new-password"><br>
-							<button type="button">비밀번호 확인</button>
-						</div>
-						<div id="pwVerifyMsg" style="color: red; margin: 3px 0;">
+				<div class="profile-container">
+					<form action="/profileEdit" method="post" class="signup-form">
+						<label for="user_id">아이디</label>
+						<input type="text" name="id" id="id" value="${profileInfo.id}" readonly>
+
+						<label for="pw">기존 비밀번호 확인</label>
+						<input type="password" name="prepw" id="prepw" autocomplete="new-password">
+						<button type="button">비밀번호 확인</button>
+
+						<div id="pwVerifyMsg" class="msg">
 							<c:if test="${not empty errorMsg}">
 						        ${errorMsg}
 						    </c:if>
 						</div>
 
-						<div class="i">
-							<label for="new_pw">새 비밀번호</label><br> 
-							<input type="password" name="pw" id="pw" autocomplete="new-password"><br>
-							<small id="newPwMsg"></small>
-						</div>
+						<label for="new_pw">새 비밀번호</label>
+						<input type="password" name="pw" id="pw" autocomplete="new-password">
+						<small id="newPwMsg" class="msg"></small>
 
-						<div class="i">
-							<label for="user_pw_ck">새 비밀번호 확인</label><br> 
-							<input type="password" name="user_pw_ck" id="user_pw_ck" autocomplete="new-password"><br> 
-							<small id="pwCheckMsg"></small>
-						</div>
+						<label for="user_pw_ck">새 비밀번호 확인</label>
+						<input type="password" name="user_pw_ck" id="user_pw_ck" autocomplete="new-password">
+						<small id="pwCheckMsg" class="msg"></small>
 
-						<div class="i">
-							<label for="nm">이름</label><br> 
-							<input type="text" name="nm" id="nm" value="${profileInfo.nm}"><br>
-						</div>
+						<label for="nm">이름</label>
+						<input type="text" name="nm" id="nm" value="${profileInfo.nm}">
 
-						<div class="i">
-							<label for="addr">주소</label><br> 
-							<input type="text" name="addr" id="addr" value="${profileInfo.addr}">
-						</div>
+						<label for="addr">주소</label>  
+						<input type="text" name="addr" id="addr" value="${profileInfo.addr}">
+
 						<button type="submit">제출하기</button>
+						<button id="goback" type="button" onclick="location.href='/'">돌아가기</button>
 					</form>
-					<a href="/"><button type="button">돌아가기</button></a>
+				</div>
 				</c:when>
 				<%-- 그외 --%>
 				<c:otherwise>

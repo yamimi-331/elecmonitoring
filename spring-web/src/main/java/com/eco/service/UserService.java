@@ -24,7 +24,7 @@ public interface UserService {
    public boolean checkPassword(String rawPw, String encodedPw);
    
    // 계정 복구를 위한 검색
-   public List<UserVO> selectUserForRecover(UserVO userVO);
+   public List<UserVO> getUserForRecover(UserVO userVO);
    
    // 사용자 계정 복구
    public boolean recoverAccount(UserVO userVO);

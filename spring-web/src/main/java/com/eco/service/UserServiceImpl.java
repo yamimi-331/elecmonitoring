@@ -98,7 +98,7 @@ public class UserServiceImpl implements UserService {
 
     // 사용자 계정 복구를 위한 검색
 	@Override
-	public List<UserVO> selectUserForRecover(UserVO userVO) {
+	public List<UserVO> getUserForRecover(UserVO userVO) {
 		return userMapper.selectUserForRecover(userVO);
 	}
 

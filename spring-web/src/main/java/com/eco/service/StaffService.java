@@ -29,7 +29,7 @@ public interface StaffService {
    // 직원 계정 복구를 위한 검색, 조회
    public List<StaffVO> getStaffForRecover(StaffVO staffVO);
    
-   // 직원 배정 지역, 권한 변경
+   // 직원 배정 지역 변경
    public boolean modifyRegion(StaffVO staffVO);
    
    // 직원 계정 복구

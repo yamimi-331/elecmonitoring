@@ -117,7 +117,7 @@ public class StaffServiceImpl implements StaffService {
         }
 	}
 
-	// 직원 배정 지역 권한 변경
+	// 직원 배정 지역 변경
 	@Override
 	public boolean modifyRegion(StaffVO staffVO) {
 		try {

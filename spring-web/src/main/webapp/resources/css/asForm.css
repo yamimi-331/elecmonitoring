@@ -24,7 +24,6 @@
 }
 
 .container #goback {
-  margin-top: 10px;
   background: #6c757d;
 }
 
@@ -117,4 +116,18 @@
 
 .button-container{
 	text-align: center;
+}
+.multiform-button-container {
+    display: flex;
+    gap: 10px; /* 버튼 사이 간격 */
+    justify-content: center; /* 가운데 정렬 */
+}
+
+.multiform-button-container form {
+    display: inline; /* 폼이 옆으로 나란히 */
+}
+
+.multiform-button-container button {
+    padding: 10px 20px;
+    cursor: pointer;
 }

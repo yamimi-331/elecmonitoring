@@ -11,7 +11,7 @@
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="../../resources/js/asEdit.js?after"></script>
 <link rel="stylesheet" href="../../resources/css/common.css?after" />
-<link rel="stylesheet" href="../../resources/css/asEdit.css?after" />
+<link rel="stylesheet" href="../../resources/css/asForm.css?after" />
 <script type="text/javascript">
 //주소 API
 function searchAddress() {
@@ -40,18 +40,18 @@ function searchAddress() {
 				<div class="inner-container">
 					<span>신고자 정보</span>
 					<div class="i">
-						<label for="user_nm">이름</label><br> 
+						<label for="user_nm">이름</label>
 						<input type="text" name="user_nm" id="user_nm" value="${currentUserInfo.user_nm}" readonly>
 					</div>
 					<div class="i">
-						<label for="user_mail">이메일</label><br> 
+						<label for="user_mail">이메일</label> 
 						<input type="text" name="user_mail" id="user_mail" value="${asVO.user_mail}">
 					</div>
 				</div>
 				<div class="inner-container">
 					<span>시설물 정보</span>
 					<div class="select-container">
-						<label for="as_facility">종류</label><br>
+						<label for="as_facility">종류</label> 
 						<div class="select-inner-container">
 						<select id="as_facility" name="as_facility">
 							<option value="">-- 시설 선택 --</option>
@@ -71,7 +71,7 @@ function searchAddress() {
     					</div>
 					</div>
 					<div class="address-container">
-						<label for="as_addr">주소</label><br> 
+						<label for="as_addr">주소</label>  
 						<input type="text" name="as_addr" id="as_addr" autocomplete="off" value="${asVO.as_addr}" readonly>
 						<button type="button" onclick="searchAddress()">주소 검색</button>
 					</div>
@@ -79,7 +79,7 @@ function searchAddress() {
 				<div class="inner-container">
 					<span>상세 정보</span>
 					<div class="select-container">
-	                    <label for="as_title">문제 종류</label><br>
+	                    <label for="as_title">문제 종류</label> 
 	                    <div class="select-inner-container">
 	                    <select id="as_title" name="as_title">
 	                        <option value="">-- 문제 유형 선택 --</option>
@@ -99,32 +99,34 @@ function searchAddress() {
     					</div>
 	                </div>
 					<div class="i">
-						<label for="as_content">상세 정보</label><br> 
+						<label for="as_content">상세 정보</label>  
 						<input type="text" name="as_content" id="as_content" autocomplete="off" value="${asVO.as_content}">
 					</div>
 					<div class="i">
-						<label for="reserve_date">예약 일자</label><br> 
+						<label for="reserve_date">예약 일자</label>  
 						<input type="date" name="reserve_date" id="reserve_date" value="${fn:substring(asVO.as_date.toString(),0,10)}">
 					</div>
 					<div class="time-container">
-						<span>예약 시간</span><br>
+						<label>예약 시간</label>
 						<div>
 							<div id="time-options-first" class="time-options" data-existing-time="${fn:substring(asVO.as_date.toString(), 11,16)}"></div>
 							<div id="time-options-second" class="time-options"></div>
 						</div>
 					</div>
 				</div>
-				<c:if test="${asVO.as_status == '신고 접수'}">
-					<button type="submit">수정하기</button>
-				</c:if>
 			</form>
-			<c:if test="${asVO.as_status == '신고 접수'}">
-				<form action="/as/cancleCommon" method="post" class="inner-container">
-					<input type="hidden" name="as_cd" value="${asVO.as_cd}" />
-					<button type="submit">예약 취소</button>
-				</form>
-			</c:if>
+			<form id="cancleForm" action="/as/cancleCommon" method="post">
+				<input type="hidden" name="as_cd" value="${asVO.as_cd}" />
+			</form>
+			<div class="multiform-button-container">
+				<c:if test="${asVO.as_status == '신고 접수'}">
+					<button type="submit" form="updateForm">수정하기</button>
+				</c:if>
+				<c:if test="${asVO.as_status == '신고 접수'}">
+					<button type="submit" form="cancleForm">예약 취소</button>
+				</c:if>
 				<button id="goback" type="button" onclick="location.href='/as/detail'">돌아가기</button>
+			</div>
 			
 			</div>
 			

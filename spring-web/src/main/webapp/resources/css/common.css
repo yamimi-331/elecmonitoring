@@ -2,9 +2,7 @@
 
 body {
 	margin: 0;
-    overflow: auto; /* 스크롤 가능하게 유지 */
-    scrollbar-width: none;  /* Firefox */
-    -ms-overflow-style: none; /* IE, Edge */
+	background: #f9f9f9;
 }
 
 body::-webkit-scrollbar {

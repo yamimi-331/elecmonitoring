@@ -13,7 +13,13 @@
 	<h2 class="header-title">전기재해 모니터링 및 노후시설 A/S 신고 관리 시스템</h2>
     <%@ include file="/WEB-INF/views/common/commonHeader.jsp" %>
 	<main class="main">
-		<div>메인페이지</div>
+		<div class="container">
+			<button onclick="location.href='/as/form'">AS 신고하기</button>
+			
+			<button onclick="location.href='/as/detail'">나의 신고내역 확인하기</button>
+			
+			<button onclick="location.href='/dashboard'">전기 재해 모니터일 바로가기</button>
+		</div>
 	</main>
 	</div>
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>

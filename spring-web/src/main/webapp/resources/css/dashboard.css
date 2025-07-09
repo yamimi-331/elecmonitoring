@@ -1,13 +1,6 @@
 @charset "UTF-8";
 
 /* 공통 */
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  background: #f9f9f9;
-}
-
-
 .data-table {
   border-collapse: collapse;
   width: 100%;

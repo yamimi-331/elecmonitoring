@@ -1,5 +1,7 @@
 package com.eco.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -21,5 +23,10 @@ public interface UserMapper {
     
     // 회원 탈퇴
     public int deleteUser(UserVO userVO);
+    
+    // 계정 복구를 위한 검색
+    public List<UserVO> selectUserForRecover(UserVO userVO);
+    // 사용자 계정 복구
+    public int updateRecoverUser(UserVO userVO);
 
 }

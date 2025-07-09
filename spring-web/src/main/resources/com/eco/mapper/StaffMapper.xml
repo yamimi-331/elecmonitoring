@@ -19,7 +19,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		]]>
 	</select>
 	<!-- 직원 권한 변경 혹은 지역 배정을 위한 검색, 조회 -->
-	<select id="selectStaffByNm" resultType="com.eco.domain.StaffVO">
+	<select id="selectStaffByNm" resultType="com.eco.domain.StaffVO" parameterType="String">>
 		<![CDATA[
 		SELECT * FROM t_staff
 		WHERE use_yn = 'Y' AND staff_nm = #{staff_nm}
@@ -57,10 +57,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    WHERE staff_id = #{staff_id}
 	    ]]>
 	</update>
-	<!-- 직원 배정 지역 변경 -->
+	<!-- 직원 배정 지역, 권한 변경 -->
 	<update id="updateRegionStaff" parameterType="com.eco.domain.StaffVO">
 		<![CDATA[
-		    UPDATE t_staff SET staff_addr = #{staff_addr}
+		    UPDATE t_staff SET staff_addr = #{staff_addr}, staff_role = #{staff_role}
 		    WHERE staff_id = #{staff_id}
 	    ]]>
 	</update>

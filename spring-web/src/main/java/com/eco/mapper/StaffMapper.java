@@ -29,4 +29,10 @@ public interface StaffMapper {
     
     // 직원 계정 복구를 위한 검색, 조회
     public List<StaffVO> selectStaffForRecover(StaffVO staffVO);
+    
+    // 직원 배정 지역 변경
+    public int updateRegionStaff(StaffVO staffVO);
+    
+    // 직원 계정 복구
+    public int updateRecoverStaff(StaffVO staffVO);
 }

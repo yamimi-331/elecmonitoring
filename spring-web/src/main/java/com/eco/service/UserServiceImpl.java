@@ -1,5 +1,7 @@
 package com.eco.service;
 
+import java.util.List;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -39,7 +41,7 @@ public class UserServiceImpl implements UserService {
         try {
             return userMapper.selectUserById(inputUser);
         } catch (Exception e) {
-            throw new ServiceException("아이디 중복 확인 실패", e);
+            throw new ServiceException("사용자 아이디 중복 확인 실패", e);
         }
     }
 
@@ -52,7 +54,7 @@ public class UserServiceImpl implements UserService {
             userVO.setUser_pw(encodedPw);
             return userMapper.insertUser(userVO);
         } catch (Exception e) {
-            throw new ServiceException("회원가입 실패", e);
+            throw new ServiceException("사용자 회원가입 실패", e);
         }
     }
 
@@ -69,7 +71,7 @@ public class UserServiceImpl implements UserService {
             int result = userMapper.updateUser(userVO);
             return result > 0;
         } catch (Exception e) {
-            throw new ServiceException("회원 정보 수정 실패", e);
+            throw new ServiceException("사용자 회원 정보 수정 실패", e);
         }
     }
     
@@ -80,7 +82,7 @@ public class UserServiceImpl implements UserService {
     		int result = userMapper.deleteUser(userVO);
     		return result>0;
     	} catch(Exception e) {
-    		throw new ServiceException("회원 탈퇴 실패", e);
+    		throw new ServiceException("사용자 회원 탈퇴 실패", e);
     	}
     }
     
@@ -94,4 +96,22 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    // 사용자 계정 복구를 위한 검색
+	@Override
+	public List<UserVO> selectUserForRecover(UserVO userVO) {
+		return userMapper.selectUserForRecover(userVO);
+	}
+
+	// 사용자 계정 복구
+	@Override
+	public boolean recoverAccount(UserVO userVO) {
+		try {
+			int result = userMapper.updateRecoverUser(userVO);
+    		return result>0;
+        } catch (Exception e) {
+            throw new ServiceException("사용자 계정 복구 실패", e);
+        }
+	}
+
+	
 }

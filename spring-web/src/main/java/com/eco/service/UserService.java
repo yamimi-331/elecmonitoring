@@ -1,5 +1,7 @@
 package com.eco.service;
 
+import java.util.List;
+
 import com.eco.domain.UserVO;
 
 public interface UserService {
@@ -20,4 +22,10 @@ public interface UserService {
    
    // 비밀 번호 확인 
    public boolean checkPassword(String rawPw, String encodedPw);
+   
+   // 계정 복구를 위한 검색
+   public List<UserVO> selectUserForRecover(UserVO userVO);
+   
+   // 사용자 계정 복구
+   public boolean recoverAccount(UserVO userVO);
 }

@@ -31,7 +31,7 @@ public class StaffServiceImpl implements StaffService {
              }
              return null; // 로그인 실패
          } catch (Exception e) {
-             throw new ServiceException("사용자 로그인 실패", e);
+             throw new ServiceException("직원 로그인 실패", e);
          }
     }
 
@@ -55,7 +55,7 @@ public class StaffServiceImpl implements StaffService {
             int result = staffMapper.insertStaff(staffVO);
             return result > 0;
         } catch (Exception e) {
-            throw new ServiceException("회원가입 실패", e);
+            throw new ServiceException("직원 계정 생성 실패", e);
         }
     }
 
@@ -72,7 +72,7 @@ public class StaffServiceImpl implements StaffService {
             int result = staffMapper.updateStaff(staffVO);
             return result > 0;
         } catch (Exception e) {
-            throw new ServiceException("회원 정보 수정 실패", e);
+            throw new ServiceException("직원 회원 정보 수정 실패", e);
         }
     }
     
@@ -83,7 +83,7 @@ public class StaffServiceImpl implements StaffService {
     		int result = staffMapper.deleteStaff(staffVO);
     		return result>0;
     	} catch(Exception e) {
-    		throw new ServiceException("회원 탈퇴 실패", e);
+    		throw new ServiceException("직원 회원 탈퇴 실패", e);
     	}
     }
     
@@ -93,20 +93,50 @@ public class StaffServiceImpl implements StaffService {
         try {
             return passwordEncoder.matches(rawPw, encodedPw);
         } catch (Exception e) {
-            throw new ServiceException("비밀번호 확인 실패", e);
+            throw new ServiceException("직원 비밀번호 확인 실패", e);
         }
     }
 
     // 직원 권한 변경 혹은 지역 배정을 위한 검색, 조회
 	@Override
 	public List<StaffVO> getStaffList(StaffVO staffVO) {
-		return staffMapper.selectStaffByNm(staffVO);
+		try {
+			return staffMapper.selectStaffByNm(staffVO);
+        } catch (Exception e) {
+            throw new ServiceException("직원 계정 조회 실패", e);
+        }
 	}
 
 	// 직원 계정 복구를 위한 검색, 조회
 	@Override
 	public List<StaffVO> getStaffForRecover(StaffVO staffVO) {
-		return staffMapper.selectStaffForRecover(staffVO);
+		try {
+			return staffMapper.selectStaffForRecover(staffVO);
+        } catch (Exception e) {
+            throw new ServiceException("비활성화 직원 조회 실패", e);
+        }
+	}
+
+	// 직원 배정 지역 권한 변경
+	@Override
+	public boolean modifyRegion(StaffVO staffVO) {
+		try {
+            int result = staffMapper.updateRegionStaff(staffVO);
+            return result>0;
+        } catch (Exception e) {
+            throw new ServiceException("직원 배정 지역 권한 변경 실패", e);
+        }
+	}
+
+	// 직원 계정 복구
+	@Override
+	public boolean recoverAccount(StaffVO staffVO) {
+		try {
+            int result = staffMapper.updateRecoverStaff(staffVO);
+            return result>0;
+        } catch (Exception e) {
+            throw new ServiceException("직원 계정 복구 실패", e);
+        }
 	}
 
 }

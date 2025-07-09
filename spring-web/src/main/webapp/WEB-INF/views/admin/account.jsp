@@ -61,8 +61,8 @@
   padding: 8px 16px;
   cursor: pointer;
 }
-
 </style>
+<link rel="stylesheet" href="../../resources/css/common.css?after" />
 </head>
 <body>
 	<div class="wrapper">
@@ -76,7 +76,7 @@
 				<button onclick="searchStaff()">조회</button>
 				<button onclick="createStaff()">계정 생성</button>
 			</div>
-			<table id="account-table">
+			<table id="account-table" class="custom-table">
 				<thead>
 					<tr>
 						<th style="width: 15%">직원번호</th>
@@ -104,7 +104,7 @@
 				<input type="search" id="searchDeletedUserById" placeholder="ID 입력" autocomplete="off" />
 				<button onclick="searchDeletedAccount()">조회</button>
 			</div>
-			<table id="rollback-table">
+			<table id="rollback-table" class="custom-table">
 				<thead>
 					<tr>
 						<th style="width: 25%">계정 번호</th>

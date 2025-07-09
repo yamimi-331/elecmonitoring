@@ -135,22 +135,37 @@
 	
 	        <div class="form-group">
 	          <label for="modal-staff-nm">이름</label>
-	          <input type="text" name="staff_nm" id="modal-staff-nm" required />
+	          <input type="text" name="staff_nm" id="modal-staff-nm" required readonly/>
 	        </div>
 	
 	        <div class="form-group">
 	          <label for="modal-staff-role">직급</label>
-	          <select name="staff_role" id="modal-staff-role">
-	            <option value="ADMIN">관리자</option>
-	            <option value="MANAGER">매니저</option>
-	            <option value="STAFF">직원</option>
-	          </select>
+	          <input name="staff_role" id="modal-staff-role" readonly/>
 	        </div>
 	
 	        <div class="form-group">
-	          <label for="modal-staff-addr">주소</label>
-	          <input type="text" name="staff_addr" id="modal-staff-addr" />
-	        </div>
+			  <label for="modal-staff-addr">주소 (시/도)</label>
+			  <select name="staff_addr" id="modal-staff-addr">
+			    <option value="서울">서울특별시</option>
+			    <option value="부산">부산광역시</option>
+			    <option value="대구">대구광역시</option>
+			    <option value="인천">인천광역시</option>
+			    <option value="광주">광주광역시</option>
+			    <option value="대전">대전광역시</option>
+			    <option value="울산">울산광역시</option>
+			    <option value="세종">세종특별자치시</option>
+			    <option value="경기">경기도</option>
+			    <option value="강원">강원도</option>
+			    <option value="충북">충청북도</option>
+			    <option value="충남">충청남도</option>
+			    <option value="전북">전라북도</option>
+			    <option value="전남">전라남도</option>
+			    <option value="경북">경상북도</option>
+			    <option value="경남">경상남도</option>
+			    <option value="제주">제주특별자치도</option>
+			  </select>
+			</div>
+
 	
 	        <div class="modal-actions">
 	          <button type="button" onclick="closeModal()">취소</button>
@@ -184,15 +199,14 @@
 					tbody.append(noStaffsRow);
 				} else {
 					staffs.forEach(staff => {
-						console.log(staff);
 						 // 각 항목을 안전하게 문자열로 변환
 						  const rowHtml =
 							  '<tr>' +
 							  '<td>' + staff.staff_cd + '</td>' +
 							    '<td>' + staff.staff_id + '</td>' +
 							    '<td>' + staff.staff_nm + '</td>' +
-							    '<td>' + staff.staff_addr.split(' ')[0] + '</td>' +
 							    '<td>' + staff.staff_role + '</td>' +
+							    '<td>' + staff.staff_addr.split(' ')[0] + '</td>' +
 							    '<td><button onclick="accountDetail(\'' + staff.staff_id + '\')">상세 보기</button></td>' +
 							  '</tr>';
 						    tbody.append(rowHtml);
@@ -310,18 +324,28 @@
 	}
 	function accountDetail(staffId) {
 		  $.ajax({
-		    url: "/admin/get-staff-detail",
+		    url: "/admin/search-users",
 		    type: "GET",
 		    data: { staffId: staffId },
 		    dataType: "json",
 		    success: function(staff) {
 		      // 모달에 값 세팅
-		      $("#modal-staff-cd").val(staff.staff_cd);
-		      $("#modal-staff-id").val(staff.staff_id);
-		      $("#modal-staff-nm").val(staff.staff_nm);
-		      $("#modal-staff-role").val(staff.staff_role);
-		      $("#modal-staff-addr").val(staff.staff_addr);
+		      $("#modal-staff-cd").val(staff[0].staff_cd);
+		      $("#modal-staff-id").val(staff[0].staff_id);
+		      $("#modal-staff-nm").val(staff[0].staff_nm);
+		      $("#modal-staff-role").val(staff[0].staff_role);
 
+		      let fullAddr = staff[0].staff_addr; // 예: "울산광역시 남구"
+
+		      // select option 돌면서 포함 여부 확인 후 선택
+		      $("#modal-staff-addr option").each(function() {
+		        const optVal = $(this).val();
+		        if (fullAddr.includes(optVal)) {
+		          $("#modal-staff-addr").val(optVal);
+		          return false; 
+		        }
+		      });
+		      
 		      // 모달 열기
 		      $("#staff-modal").show();
 		    },

@@ -15,6 +15,9 @@ public interface StaffService {
    // 직원 정보 수정
    public boolean modify(StaffVO staffVO);
    
+   // 회원 탈퇴
+   public boolean deleteAccount(StaffVO staffVO);
+   
    // 비밀 번호 확인 
    public boolean checkPassword(String rawPw, String encodedPw);
 }

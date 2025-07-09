@@ -35,4 +35,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    WHERE staff_id = #{staff_id}
 	    ]]>
 	</update>
+	<!-- 직원 회원 탈퇴 -->
+	<update id="deleteStaff" parameterType="com.eco.domain.StaffVO">
+		<![CDATA[
+		    UPDATE t_staff SET use_yn='N'
+		    WHERE staff_id = #{staff_id}
+	    ]]>
+	</update>
 </mapper>

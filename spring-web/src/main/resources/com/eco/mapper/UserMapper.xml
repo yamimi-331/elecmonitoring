@@ -36,4 +36,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    WHERE user_id = #{user_id}
 	    ]]>
 	</update>
+	<!-- 사용자 회원 탈퇴 -->
+	<update id="deleteUser" parameterType="com.eco.domain.UserVO">
+		<![CDATA[
+		    UPDATE t_user SET use_yn='N'
+		    WHERE user_id = #{user_id}
+	    ]]>
+	</update>
 </mapper>

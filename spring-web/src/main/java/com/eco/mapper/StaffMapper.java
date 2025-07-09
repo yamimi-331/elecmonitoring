@@ -18,4 +18,7 @@ public interface StaffMapper {
     
     // 직원 정보 수정
     public int updateStaff(StaffVO staffVO);
+    
+    // 회원 탈퇴
+    public int deleteStaff(StaffVO staffVO);
 }

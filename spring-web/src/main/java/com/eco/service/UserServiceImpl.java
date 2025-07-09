@@ -73,6 +73,17 @@ public class UserServiceImpl implements UserService {
         }
     }
     
+    // 회원 탈퇴
+    @Override
+    public boolean deleteAccount(UserVO userVO) {
+    	try {
+    		int result = userMapper.deleteUser(userVO);
+    		return result>0;
+    	} catch(Exception e) {
+    		throw new ServiceException("회원 탈퇴 실패", e);
+    	}
+    }
+    
     // 비밀번호 일치 확인
     @Override
     public boolean checkPassword(String rawPw, String encodedPw) {

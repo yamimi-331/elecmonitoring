@@ -74,6 +74,17 @@ public class StaffServiceImpl implements StaffService {
         }
     }
     
+ // 회원 탈퇴
+    @Override
+    public boolean deleteAccount(StaffVO staffVO) {
+    	try {
+    		int result = staffMapper.deleteStaff(staffVO);
+    		return result>0;
+    	} catch(Exception e) {
+    		throw new ServiceException("회원 탈퇴 실패", e);
+    	}
+    }
+    
     // 비밀번호 일치 확인
     @Override
     public boolean checkPassword(String rawPw, String encodedPw) {

@@ -28,6 +28,7 @@ public class ProfileEditController {
 	private final UserService userService;
 	private final StaffService staffService;
 
+	//회원 정보 수정 페이지 접속
 	@GetMapping("")
 	public String profilePage(HttpSession session, Model model) {
 		String type = (String) session.getAttribute("userType");
@@ -52,7 +53,8 @@ public class ProfileEditController {
 
 		return "user/profileEdit";
 	}
-
+	
+	//회원 정보 수정
 	@PostMapping("")
 	public String profileEdit(ProfileEditDTO dto, HttpSession session, RedirectAttributes redirectAttrs) {
 		String type = (String) session.getAttribute("userType");
@@ -89,6 +91,47 @@ public class ProfileEditController {
 			redirectAttrs.addFlashAttribute("message", "회원 정보가 수정을 실패했습니다.");
 		}
 		return "redirect:/";
+	}
+	
+	//회원 탈퇴
+	@GetMapping("/delete")
+	public String deleteAccount(HttpSession session, RedirectAttributes redirectAttrs) {
+		log.info("함수 진입");
+		Object obj = session.getAttribute("currentUserInfo");
+		log.info("currentUserInfo: " + obj);
+		
+		if (obj == null) {
+			// 로그인 정보 없으면 빈 리스트 반환 (또는 예외처리)
+			return "";
+		}
+
+		boolean result = false;
+		if (obj instanceof UserVO) {
+			UserVO user = (UserVO) obj;
+			result = userService.deleteAccount(user);
+			if (result) {
+				redirectAttrs.addFlashAttribute("message", "회원 탈퇴가 완료되었습니다.");
+				session.invalidate();
+				return "redirect:/";
+			} else {
+				redirectAttrs.addFlashAttribute("message", "회원 탈퇴를 실패했습니다.");
+				return "redirect:/profileEdit";
+			}
+		} else if (obj instanceof StaffVO) {
+			StaffVO staff = (StaffVO) obj;
+			result = staffService.deleteAccount(staff);
+			if (result) {
+				redirectAttrs.addFlashAttribute("message", "회원 탈퇴가 완료되었습니다.");
+				session.invalidate();
+				return "redirect:/";
+			} else {
+				redirectAttrs.addFlashAttribute("message", "회원 탈퇴를 실패했습니다.");
+				return "redirect:/profileEdit";
+			}
+		} else {
+			redirectAttrs.addFlashAttribute("message", "사용자 타입 오류 발생.");
+			return "redirect:/profileEdit";
+		}
 	}
 
 	// 비밀번호 일치 확인 (AJAX)

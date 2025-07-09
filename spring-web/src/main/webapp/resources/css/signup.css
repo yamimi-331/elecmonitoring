@@ -22,6 +22,18 @@
   flex-direction: column;
   font-family: Arial, sans-serif;
 }
+.profile-container a{
+	background-color: none;
+	border: none;
+	font-size: 14px;
+    text-decoration: none;
+    color: #ff0000;
+    text-align: center;
+    margin-top: 5px;
+}
+.profile-container a:hover{
+    text-decoration: underline;
+}
 
 .signup-form {
   display: flex;

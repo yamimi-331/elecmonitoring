@@ -253,5 +253,11 @@ public class AsController {
 			return List.of();
 		}
 	}
-
+	
+	// AS 기사 배정 지역 변경
+	@GetMapping("/management")
+	public String managementPage() {
+		
+		return "/as/asManagement";
+	}
 }

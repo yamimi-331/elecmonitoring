@@ -25,7 +25,7 @@ public interface StaffMapper {
     public int deleteStaff(StaffVO staffVO);
     
     // 직원 권한 변경 혹은 지역 배정을 위한 검색, 조회
-    public List<StaffVO> selectStaffByNm(StaffVO staffVO);
+    public List<StaffVO> selectStaffByIdAndUseyn(StaffVO staffVO);
     
     // 직원 계정 복구를 위한 검색, 조회
     public List<StaffVO> selectStaffForRecover(StaffVO staffVO);

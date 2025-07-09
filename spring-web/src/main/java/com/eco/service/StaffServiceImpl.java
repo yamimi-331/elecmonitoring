@@ -101,7 +101,7 @@ public class StaffServiceImpl implements StaffService {
 	@Override
 	public List<StaffVO> getStaffList(StaffVO staffVO) {
 		try {
-			return staffMapper.selectStaffByNm(staffVO);
+			return staffMapper.selectStaffByIdAndUseyn(staffVO);
         } catch (Exception e) {
             throw new ServiceException("직원 계정 조회 실패", e);
         }

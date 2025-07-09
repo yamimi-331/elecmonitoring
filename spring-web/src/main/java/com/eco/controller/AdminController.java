@@ -34,9 +34,9 @@ public class AdminController {
 	//이름으로 직원 정보 조회
 	@GetMapping("/search-users")
 	@ResponseBody
-	public List<StaffVO> searchStaffbyName(@RequestParam String staff_nm) {
+	public List<StaffVO> searchStaffbyName(@RequestParam("staffId") String staff_id) {
 		StaffVO staffVO = new StaffVO();
-		staffVO.setStaff_nm(staff_nm);
+		staffVO.setStaff_id(staff_id);
 		return staffService.getStaffList(staffVO);
 	}
 	

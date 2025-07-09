@@ -19,10 +19,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		]]>
 	</select>
 	<!-- 직원 권한 변경 혹은 지역 배정을 위한 검색, 조회 -->
-	<select id="selectStaffByNm" resultType="com.eco.domain.StaffVO" parameterType="String">>
+	<select id="selectStaffByIdAndUseyn" resultType="com.eco.domain.StaffVO" parameterType="com.eco.domain.StaffVO">
 		<![CDATA[
 		SELECT * FROM t_staff
-		WHERE use_yn = 'Y' AND staff_nm = #{staff_nm}
+		WHERE use_yn = 'Y' AND staff_id = #{staff_id}
 		]]>
 	</select>
 	<!-- 직원 계정 복구를 위한 검색, 조회 -->

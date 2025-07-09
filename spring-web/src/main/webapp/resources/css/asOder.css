@@ -13,55 +13,101 @@
   background-color: rgba(0,0,0,0.5);
   display: none;
 }
-
+.modal::-webkit-scrollbar {
+    display: none; /* Chrome, Safari */
+}
 .modal-content {
   background-color: #fff;
   margin: 10% auto;
-  padding: 30px;
+  padding: 30px 40px;
   border: 1px solid #888;
   width: 500px;
   border-radius: 8px;
   position: relative;
+  font-size: 18px;
+  font-weight: 500;
 }
 
-.modal-content .close {
-  position: absolute;
-  right: 15px;
-  top: 10px;
-  font-size: 24px;
-  font-weight: bold;
-  cursor: pointer;
+/* modal-info flex 정렬 */
+.modal-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
 }
 
-.modal-content h3 {
-  margin-top: 0;
-  margin-bottom: 20px;
+.modal-info strong {
+  width: 120px;
+  flex-shrink: 0;
+  font-weight: 700;
 }
 
-.modal-content .modal-info {
-  margin-bottom: 10px;
-}
-
-.modal-content label {
-  display: block;
-  margin-top: 10px;
-}
-
-.modal-content select {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 20px;
-}
-
-.modal-content button {
-  padding: 8px 16px;
-  background-color: #1e90ff;
-  color: white;
-  border: none;
-  cursor: pointer;
+.modal-info span,
+.modal-info select {
+  flex-grow: 1;
+  max-width: 320px;
+  padding: 6px 10px;
+  font-size: 16px;
+  box-sizing: border-box;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  border: 1px solid #ccc;
   border-radius: 4px;
 }
 
-.modal-content button:hover {
+/* select 포커스시 효과 */
+.modal-info select:focus {
+  box-shadow: 0 6px 15px rgba(30, 144, 255, 0.4);
+  transform: translateY(-3px);
+  outline: none;
+  border-color: #1e90ff;
+}
+
+/* 버튼 컨테이너: 두 버튼을 좌우로 배치 */
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+  gap: 20px;
+}
+
+/* 버튼 공통 스타일 */
+.modal-buttons button {
+  padding: 12px 28px;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* 저장 버튼 - 파란색 */
+.modal-buttons .save-btn {
+  background-color: #1e90ff;
+  color: white;
+}
+
+.modal-buttons .save-btn:hover {
   background-color: #005ecb;
 }
+
+/* 닫기 버튼 - 기본 회색 */
+.modal-buttons .close-btn.gray {
+  background-color: #888;
+  color: white;
+}
+
+.modal-buttons .close-btn.gray:hover {
+  background-color: #555;
+}
+
+/* 닫기 버튼 - 붉은색 */
+.modal-buttons .close-btn.red {
+  background-color: #d9534f;
+  color: white;
+}
+
+.modal-buttons .close-btn.red:hover {
+  background-color: #b52b27;
+}
+

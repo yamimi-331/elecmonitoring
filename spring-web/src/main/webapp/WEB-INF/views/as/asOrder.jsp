@@ -56,25 +56,28 @@
   </div>
 
   <!-- 모달 -->
-  <div id="statusModal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal()">&times;</span>
-      <h3>AS 상세 정보</h3>
+	<div id="statusModal" class="modal">
+	  <div class="modal-content">
+	    <h3>AS 상세 정보</h3>
+	    <div class="modal-info"><strong>코드번호</strong> <span id="modalAsCd"></span></div>
+	    <div class="modal-info"><strong>신고 제목</strong> <span id="modalAsTitle"></span></div>
+	    <div class="modal-info"><strong>담당자명</strong> <span id="modalStaffNm"></span></div>
+	    <div class="modal-info"><strong>신청자명</strong> <span id="modalUserNm"></span></div>
+	    <div class="modal-info"><strong>상세 정보</strong> <span id="modalAsContent"></span></div>
+	    <div class="modal-info"><strong>예약 일시</strong> <span id="modalAsDate"></span></div>
+	    <div class="modal-info"><strong>위치</strong> <span id="modalAsAddr"></span></div>
+	    <div class="modal-info"><strong>시설물</strong> <span id="modalAsFacility"></span></div>
+	    <div class="modal-info"><strong>진행 상태</strong>
+	      <select id="statusSelect"></select>
+	    </div>
+	
+	    <div class="modal-buttons">
+	      <button class="save-btn" onclick="saveStatus()">변경사항 저장</button>
+	      <button class="close-btn red" onclick="closeModal()">닫기</button>
+	    </div>
+	  </div>
+	</div>
 
-      <div class="modal-info"><strong>코드번호:</strong> <span id="modalAsCd"></span></div>
-      <div class="modal-info"><strong>신고 제목:</strong> <span id="modalAsTitle"></span></div>
-      <div class="modal-info"><strong>담당자명:</strong> <span id="modalStaffNm"></span></div>
-      <div class="modal-info"><strong>신청자명:</strong> <span id="modalUserNm"></span></div>
-      <div class="modal-info"><strong>상세 정보:</strong> <span id="modalAsContent"></span></div>
-      <div class="modal-info"><strong>예약 일시:</strong> <span id="modalAsDate"></span></div>
-      <div class="modal-info"><strong>위치:</strong> <span id="modalAsAddr"></span></div>
-      <div class="modal-info"><strong>시설물:</strong> <span id="modalAsFacility"></span></div>
-      <div class="modal-info"><strong>진행 상태:</strong>
-        <select id="statusSelect"></select>
-      </div>
-      <button onclick="saveStatus()">변경사항 저장</button>
-    </div>
-  </div>
 
   <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 

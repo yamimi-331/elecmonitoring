@@ -10,6 +10,7 @@
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="../../resources/js/asForm.js?after"></script>
 <link rel="stylesheet" href="../../resources/css/common.css?after" />
+<link rel="stylesheet" href="../../resources/css/asForm.css?after" />
 <script type="text/javascript">
 //주소 API
 function searchAddress() {
@@ -21,123 +22,6 @@ function searchAddress() {
     }).open();
 }
 </script>
-<style>
-.container {
-	margin: 0;
-	padding: 0;
-	min-height: 90vh;  
-	display: flex;
-	justify-content: flex-start;
-	align-items: center;
-	flex-direction: column;
-	font-family: Arial, sans-serif;
-}
-.container button {
-  padding: 10px;
-  background: #007BFF;
-  color: #ffffff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.container button:hover {
-  background: #0056b3;
-}
-
-.container #goback,
-.container #form-submit {
-  margin-top: 10px;
-  background: #6c757d;
-}
-
-.container #goback:hover,
-.container #form-submit:hover {
-  background: #5a6268;
-}
-
-.inner-container{
-	margin: 30px 0;
-	display: flex;
-	justify-content: flex-start;
-	align-items: flex-start;
-	flex-direction: column;
-	gap: 10px;
-}
-.inner-container span{
-	font-size: 18px;
-	font-weight: bold;
-}
-.inner-container label{
-	width: 100px;
-	display: inline-block;
-}
-.inner-container input[type="text"]{
-	width: 350px;
-	height: 35px;
-}
-.inner-container select{
-	width: 357px;
-	height: 30px;
-}
-
-.address-container{
-	display: flex;
-    gap: 4px;
-    align-items: center;
-}
-.address-container input[type="text"]{
-	width: 274px;
-}
-.address-container button{
-	height: 40px;
-}
-
-.time-container{
-	display: flex;
-}
-.time-options {
-	display: flex;
-	gap: 5px;
-	margin: 5px 0;
-}
-.time-options input[type="radio"] {
-	display: none; /* 기본 라디오 숨김 */
-}
-.time-options label {
-	padding: 5px 10px;
-	width: 40px;
-	font-size: 14px;
-	text-align: center;
-	border: 2px solid #ccc;
-	border-radius: 6px;
-	cursor: pointer;
-	background-color: #f9f9f9;
-	transition: all 0.2s ease-in-out;
-}
-.time-options input[type="radio"]:checked + label {
-	background-color: #0070C0;
-	color: white;
-	border-color: #0070C0;
-}
-.time-options input[type="radio"]:disabled + label{
-	background: #ccc;
-	cursor: not-allowed;  /* 👉 커서 금지 표시 */
-	opacity: 0.7;
-}
-
-.select-container{
-    display: flex;
-    gap: 5px;
-    align-items: center;
-}
-.select-inner-container{
-	display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-</style>
 </head>
 <body>
 <body>
@@ -215,8 +99,10 @@ function searchAddress() {
 							</div>
 						</div>
 					</div>
-					<button type="submit" id="form-submit">제출하기</button>
-					<button id="goback" type="button" onclick="location.href='/as/detail'">돌아가기</button>
+					<div class="button-container">
+						<button type="submit" id="form-submit">제출하기</button>
+						<button id="goback" type="button" onclick="location.href='/as/detail'">돌아가기</button>
+					</div>
 				</form>
 			</div>
 		</main>

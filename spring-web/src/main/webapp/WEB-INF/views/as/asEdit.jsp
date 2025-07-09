@@ -50,8 +50,9 @@ function searchAddress() {
 				</div>
 				<div class="inner-container">
 					<span>시설물 정보</span>
-					<div class="i">
+					<div class="select-container">
 						<label for="as_facility">종류</label><br>
+						<div class="select-inner-container">
 						<select id="as_facility" name="as_facility">
 							<option value="">-- 시설 선택 --</option>
 							<option value="전기배선" ${asVO.as_facility == '전기배선' ? 'selected' : ''}>전기배선</option>
@@ -67,8 +68,9 @@ function searchAddress() {
 						</select>
 						<input type="text" name="as_facility_custom" id="as_facility_custom" placeholder="직접 입력" autocomplete="off" style="display:none;"
     					value="<c:if test='${!facilityKnown}'>${asVO.as_facility}</c:if>"/>
+    					</div>
 					</div>
-					<div class="i">
+					<div class="address-container">
 						<label for="as_addr">주소</label><br> 
 						<input type="text" name="as_addr" id="as_addr" autocomplete="off" value="${asVO.as_addr}" readonly>
 						<button type="button" onclick="searchAddress()">주소 검색</button>
@@ -76,8 +78,9 @@ function searchAddress() {
 				</div>
 				<div class="inner-container">
 					<span>상세 정보</span>
-					<div class="i">
+					<div class="select-container">
 	                    <label for="as_title">문제 종류</label><br>
+	                    <div class="select-inner-container">
 	                    <select id="as_title" name="as_title">
 	                        <option value="">-- 문제 유형 선택 --</option>
 	                        <option value="합선 위험" ${asVO.as_title == '합선 위험' ? 'selected' : ''}>합선 위험</option>
@@ -93,6 +96,7 @@ function searchAddress() {
 						</select>
 	                    <input type="text" id="as_title_custom" name="as_title_custom" placeholder="직접 입력" autocomplete="off" style="display:none;"
     						value="<c:if test='${!titleKnown}'>${asVO.as_title}</c:if>"/>
+    					</div>
 	                </div>
 					<div class="i">
 						<label for="as_content">상세 정보</label><br> 
@@ -102,10 +106,12 @@ function searchAddress() {
 						<label for="reserve_date">예약 일자</label><br> 
 						<input type="date" name="reserve_date" id="reserve_date" value="${fn:substring(asVO.as_date.toString(),0,10)}">
 					</div>
-					<div class="i">
+					<div class="time-container">
 						<span>예약 시간</span><br>
-						<div id="time-options-first" class="time-options" data-existing-time="${fn:substring(asVO.as_date.toString(), 11,16)}"></div>
-						<div id="time-options-second" class="time-options"></div>
+						<div>
+							<div id="time-options-first" class="time-options" data-existing-time="${fn:substring(asVO.as_date.toString(), 11,16)}"></div>
+							<div id="time-options-second" class="time-options"></div>
+						</div>
 					</div>
 				</div>
 				<c:if test="${asVO.as_status == '신고 접수'}">

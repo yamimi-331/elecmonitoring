@@ -28,10 +28,34 @@ function searchAddress() {
 	min-height: 90vh;  
 	display: flex;
 	justify-content: flex-start;
-	align-items: flex-start;
+	align-items: center;
 	flex-direction: column;
 	font-family: Arial, sans-serif;
 }
+.container button {
+  padding: 10px;
+  background: #007BFF;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.container button:hover {
+  background: #0056b3;
+}
+
+.container #goback,
+.container #form-submit {
+  margin-top: 10px;
+  background: #6c757d;
+}
+
+.container #goback:hover,
+.container #form-submit:hover {
+  background: #5a6268;
+}
+
 .inner-container{
 	margin: 30px 0;
 	display: flex;
@@ -48,38 +72,69 @@ function searchAddress() {
 	width: 100px;
 	display: inline-block;
 }
+.inner-container input[type="text"]{
+	width: 350px;
+	height: 35px;
+}
+.inner-container select{
+	width: 357px;
+	height: 30px;
+}
 
+.address-container{
+	display: flex;
+    gap: 4px;
+    align-items: center;
+}
+.address-container input[type="text"]{
+	width: 274px;
+}
+.address-container button{
+	height: 40px;
+}
+
+.time-container{
+	display: flex;
+}
 .time-options {
 	display: flex;
 	gap: 5px;
 	margin: 5px 0;
 }
-
 .time-options input[type="radio"] {
 	display: none; /* 기본 라디오 숨김 */
 }
-
 .time-options label {
 	padding: 5px 10px;
 	width: 40px;
-	font-size: 15px;
+	font-size: 14px;
+	text-align: center;
 	border: 2px solid #ccc;
 	border-radius: 6px;
 	cursor: pointer;
 	background-color: #f9f9f9;
 	transition: all 0.2s ease-in-out;
 }
-
 .time-options input[type="radio"]:checked + label {
 	background-color: #0070C0;
 	color: white;
 	border-color: #0070C0;
 }
-
 .time-options input[type="radio"]:disabled + label{
 	background: #ccc;
 	cursor: not-allowed;  /* 👉 커서 금지 표시 */
 	opacity: 0.7;
+}
+
+.select-container{
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+.select-inner-container{
+	display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 </style>
@@ -106,8 +161,9 @@ function searchAddress() {
 					</div>
 					<div class="inner-container">
 						<span>시설물 정보</span>
-						<div class="i">
+						<div class="select-container">
 							<label for="as_facility">종류</label>
+							<div class="select-inner-container">
 							<select id="as_facility" name="as_facility">
 								<option value="">-- 시설 선택 --</option>
 								<option value="전기배선">전기배선</option>
@@ -118,8 +174,9 @@ function searchAddress() {
 								<option value="기타">기타 (직접 입력)</option>
 							</select>
 							<input type="text" name="as_facility_custom" id="as_facility_custom" placeholder="직접 입력" style="display:none;" autocomplete="off">
+							</div>
 						</div>
-						<div class="i">
+						<div class="address-container">
 							<label for="as_addr">주소</label>
 							<input type="text" name="as_addr" id="as_addr" autocomplete="off" readonly>
 							<button type="button" onclick="searchAddress()">주소 검색</button>
@@ -127,8 +184,9 @@ function searchAddress() {
 					</div>
 					<div class="inner-container">
 						<span>상세 정보</span>
-						<div class="i">
+						<div class="select-container">
 							<label for="as_title">문제 종류</label>
+							<div class="select-inner-container">
 							<select id="as_title" name="as_title">
 								<option value="">-- 문제 유형 선택 --</option>
 								<option value="합선 위험">합선 위험</option>
@@ -139,6 +197,7 @@ function searchAddress() {
 								<option value="기타">기타 (직접 입력)</option>
 							</select>
 							<input type="text" id="as_title_custom" name="as_title_custom" placeholder="직접 입력" style="display:none;" autocomplete="off">
+							</div>
 						</div>
 						<div class="i">
 							<label for="as_content">상세 정보</label>
@@ -148,13 +207,15 @@ function searchAddress() {
 							<label for="reserve_date">예약 일자</label>
 							<input type="date" name="reserve_date" id="reserve_date">
 						</div>
-						<div class="i">
+						<div class="time-container">
 							<label>예약 시간</label>
-							<div id="time-options-first" class="time-options"></div>
-							<div id="time-options-second" class="time-options"></div>
+							<div>
+								<div id="time-options-first" class="time-options"></div>
+								<div id="time-options-second" class="time-options"></div>
+							</div>
 						</div>
 					</div>
-					<button type="submit">제출하기</button>
+					<button type="submit" id="form-submit">제출하기</button>
 					<button id="goback" type="button" onclick="location.href='/as/detail'">돌아가기</button>
 				</form>
 			</div>

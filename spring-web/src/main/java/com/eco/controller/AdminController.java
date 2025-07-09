@@ -43,7 +43,7 @@ public class AdminController {
 	// 비활성화 계정 조회
 	@GetMapping("/search-deleted-users")
 	@ResponseBody
-	public List<?> getScheduleByDate(@RequestParam("userType") String userType, @RequestParam("id") String id) {
+	public List<?> searchDeleteUsers(@RequestParam("userType") String userType, @RequestParam("id") String id) {
 		if ("common".equals(userType)) {
 			UserVO userVO = new UserVO();
 			userVO.setUser_id(id);

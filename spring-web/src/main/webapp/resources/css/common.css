@@ -1,5 +1,7 @@
 @charset "UTF-8";
-
+body{
+	margin: 0;
+}
 /* header와 main 영역을 감싸는 div*/
 .wrapper {
   display: flex;

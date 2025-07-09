@@ -33,7 +33,8 @@ document.addEventListener("DOMContentLoaded", () => {
 	dateInput.min = minDate;
 	
 	// 예약된 시간 선택 비활성화
-	const timeOptions = document.getElementById("time-options");
+	const timeOptions1 = document.getElementById("time-options-first");
+	const timeOptions2 = document.getElementById("time-options-second");
 	dateInput.addEventListener("change", function () {
 		const selectedDate = this.value;
 		if (!selectedDate) return;
@@ -58,15 +59,29 @@ document.addEventListener("DOMContentLoaded", () => {
 		});
 	});
 	function renderTimeOptions(bookedTimes) {
-        let html = "";
-        for (let hour = 9; hour <= 17; hour++) {
+        let html1 = "";
+        let html2 = "";
+        for (let hour = 9; hour <= 13; hour++) {
             const hourStr = (hour < 10 ? "0" : "") + hour + ":00";
             const isBooked = bookedTimes.includes(hourStr);
-            html += "<label>";
-            html += "<input type='radio' name='reserve_time' value='" + hourStr + "' " + (isBooked ? "disabled" : "") + ">";
-            html += hourStr + "</label><br>";
+            
+            var id = "reserve_time_" + hourStr;
+
+			html1 += "<input type='radio' id='" + id + "' name='reserve_time' value='" + hourStr + "' " + (isBooked ? "disabled" : "") + ">";
+			html1 += "<label for='" + id + "'>" + hourStr + "</label>";
         }
-        timeOptions.innerHTML = html;
+        timeOptions1.innerHTML = html1;
+        
+        for (let hour = 14; hour <= 17; hour++) {
+            const hourStr = (hour < 10 ? "0" : "") + hour + ":00";
+            const isBooked = bookedTimes.includes(hourStr);
+            
+            var id = "reserve_time_" + hourStr;
+
+			html2 += "<input type='radio' id='" + id + "' name='reserve_time' value='" + hourStr + "' " + (isBooked ? "disabled" : "") + ">";
+			html2 += "<label for='" + id + "'>" + hourStr + "</label>";
+        }
+        timeOptions2.innerHTML = html2;
     }
 	
 	const form = document.querySelector('form[action="/as/insertCommon"]');

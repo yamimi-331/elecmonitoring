@@ -21,6 +21,68 @@ function searchAddress() {
     }).open();
 }
 </script>
+<style>
+.container {
+	margin: 0;
+	padding: 0;
+	min-height: 90vh;  
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-start;
+	flex-direction: column;
+	font-family: Arial, sans-serif;
+}
+.inner-container{
+	margin: 30px 0;
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-start;
+	flex-direction: column;
+	gap: 10px;
+}
+.inner-container span{
+	font-size: 18px;
+	font-weight: bold;
+}
+.inner-container label{
+	width: 100px;
+	display: inline-block;
+}
+
+.time-options {
+	display: flex;
+	gap: 5px;
+	margin: 5px 0;
+}
+
+.time-options input[type="radio"] {
+	display: none; /* 기본 라디오 숨김 */
+}
+
+.time-options label {
+	padding: 5px 10px;
+	width: 40px;
+	font-size: 15px;
+	border: 2px solid #ccc;
+	border-radius: 6px;
+	cursor: pointer;
+	background-color: #f9f9f9;
+	transition: all 0.2s ease-in-out;
+}
+
+.time-options input[type="radio"]:checked + label {
+	background-color: #0070C0;
+	color: white;
+	border-color: #0070C0;
+}
+
+.time-options input[type="radio"]:disabled + label{
+	background: #ccc;
+	cursor: not-allowed;  /* 👉 커서 금지 표시 */
+	opacity: 0.7;
+}
+
+</style>
 </head>
 <body>
 <body>
@@ -34,18 +96,18 @@ function searchAddress() {
 					<div class="inner-container">
 						<span>신고자 정보</span>
 						<div class="i">
-							<label for="user_nm">이름</label><br> 
+							<label for="user_nm">이름</label>
 							<input type="text" name="user_nm" id="user_nm" value="${currentUserInfo.user_nm}" readonly>
 						</div>
 						<div class="i">
-							<label for="user_mail">이메일</label><br> 
+							<label for="user_mail">이메일</label>
 							<input type="text" name="user_mail" id="user_mail" value="${currentUserInfo.user_mail}">
 						</div>
 					</div>
 					<div class="inner-container">
 						<span>시설물 정보</span>
 						<div class="i">
-							<label for="as_facility">종류</label><br>
+							<label for="as_facility">종류</label>
 							<select id="as_facility" name="as_facility">
 								<option value="">-- 시설 선택 --</option>
 								<option value="전기배선">전기배선</option>
@@ -58,7 +120,7 @@ function searchAddress() {
 							<input type="text" name="as_facility_custom" id="as_facility_custom" placeholder="직접 입력" style="display:none;" autocomplete="off">
 						</div>
 						<div class="i">
-							<label for="as_addr">주소</label><br> 
+							<label for="as_addr">주소</label>
 							<input type="text" name="as_addr" id="as_addr" autocomplete="off" readonly>
 							<button type="button" onclick="searchAddress()">주소 검색</button>
 						</div>
@@ -66,7 +128,7 @@ function searchAddress() {
 					<div class="inner-container">
 						<span>상세 정보</span>
 						<div class="i">
-							<label for="as_title">문제 종류</label><br>
+							<label for="as_title">문제 종류</label>
 							<select id="as_title" name="as_title">
 								<option value="">-- 문제 유형 선택 --</option>
 								<option value="합선 위험">합선 위험</option>
@@ -79,17 +141,17 @@ function searchAddress() {
 							<input type="text" id="as_title_custom" name="as_title_custom" placeholder="직접 입력" style="display:none;" autocomplete="off">
 						</div>
 						<div class="i">
-							<label for="as_content">상세 정보</label><br> 
+							<label for="as_content">상세 정보</label>
 							<input type="text" name="as_content" id="as_content" autocomplete="off">
 						</div>
 						<div class="i">
-							<label for="reserve_date">예약 일자</label><br> 
+							<label for="reserve_date">예약 일자</label>
 							<input type="date" name="reserve_date" id="reserve_date">
 						</div>
 						<div class="i">
-							<span>예약 시간</span><br>
-							<div id="time-options">
-							</div>
+							<label>예약 시간</label>
+							<div id="time-options-first" class="time-options"></div>
+							<div id="time-options-second" class="time-options"></div>
 						</div>
 					</div>
 					<button type="submit">제출하기</button>

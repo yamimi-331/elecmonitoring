@@ -7,6 +7,62 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="../../resources/css/common.css?after" />
+<style>
+.modal {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex; justify-content: center; align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  width: 400px;
+  position: relative;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 10px; right: 10px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.modal-actions button {
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+</style>
 </head>
 <body>
 	<div class="wrapper">
@@ -68,32 +124,43 @@
 	</div>
 	<%@ include file="/WEB-INF/views/common/footer.jsp"%>
 	<div id="modal-popup">
-		<!-- 모달 틀: 모달은 body 맨 아래 modal-popup에 JS로 넣기 -->
-		<div id="staff-modal" class="modal" style="display: none;">
-		  <div class="modal-content">
-		    <span class="close-btn" onclick="closeModal()">&times;</span>
-		    <h3>직원 상세 정보</h3>
-		    <form id="staff-detail-form">
-		      <input type="hidden" id="modal-staff-id" />
-		
-		      <label>이름:</label>
-		      <input type="text" id="modal-staff-nm" /><br>
-		
-		      <label>직급:</label>
-		      <select id="modal-staff-role">
-		        <option value="ADMIN">관리자</option>
-		        <option value="MANAGER">매니저</option>
-		        <option value="STAFF">직원</option>
-		      </select><br>
-		
-		      <label>주소:</label>
-		      <input type="text" id="modal-staff-addr" /><br>
-		
-		      <button type="button" onclick="updateStaff()">저장</button>
-		    </form>
-		  </div>
-		</div>
+	  <!-- 모달 -->
+	  <div id="staff-modal" class="modal" style="display: none;">
+	    <div class="modal-content">
+	      <h3>직원 상세 정보</h3>
+	      <!-- 직원 상세 폼 -->
+	      <form id="staff-detail-form" method="post" action="/admin/update-staff">
+	        <input type="hidden" name="staff_cd" id="modal-staff-cd" />
+	        <input type="hidden" name="staff_id" id="modal-staff-id" />
+	
+	        <div class="form-group">
+	          <label for="modal-staff-nm">이름</label>
+	          <input type="text" name="staff_nm" id="modal-staff-nm" required />
+	        </div>
+	
+	        <div class="form-group">
+	          <label for="modal-staff-role">직급</label>
+	          <select name="staff_role" id="modal-staff-role">
+	            <option value="ADMIN">관리자</option>
+	            <option value="MANAGER">매니저</option>
+	            <option value="STAFF">직원</option>
+	          </select>
+	        </div>
+	
+	        <div class="form-group">
+	          <label for="modal-staff-addr">주소</label>
+	          <input type="text" name="staff_addr" id="modal-staff-addr" />
+	        </div>
+	
+	        <div class="modal-actions">
+	          <button type="button" onclick="closeModal()">취소</button>
+	          <button type="submit">저장</button>
+	        </div>
+	      </form>
+	    </div>
+	  </div>
 	</div>
+
 	
 	<script>
 	// 직원 정보수정 테이블의 조회 버튼 클릭
@@ -211,32 +278,37 @@
 		});
 	}
 	// 모달로 정보보고 수정
-	function accountDetail(staffId) {
-		jQuery.ajax({
-			url: "/admin/get-staff-detail",
-			type: "GET",
-			data: { staffId },
-			dataType: "json",
-			success: function(staff) {
-				// 가져온 정보 세팅
-				$("#modal-staff-id").val(staff.staff_id);
-				$("#modal-staff-nm").val(staff.staff_nm);
-				$("#modal-staff-role").val(staff.staff_role);
-				$("#modal-staff-addr").val(staff.staff_addr);
+	 $("#staff-detail-form").on("submit", function(e) {
+	    e.preventDefault(); // 기본 submit 막음
 	
-				// 모달 열기
-				$("#staff-modal").show();
-			},
-			error: function(xhr) {
-				alert("상세 정보 불러오기 실패");
-				console.error(xhr.responseText);
-			}
-		});
-	}
+	    const staffData = {
+	      staff_cd: $("#modal-staff-cd").val(),
+	      staff_id: $("#modal-staff-id").val(),
+	      staff_nm: $("#modal-staff-nm").val(),
+	      staff_role: $("#modal-staff-role").val(),
+	      staff_addr: $("#modal-staff-addr").val(),
+	    };
+	
+	    $.ajax({
+	      url: "/admin/update-staff",
+	      type: "POST",
+	      data: staffData,
+	      success: function() {
+	        alert("수정 완료!");
+	        closeModal();
+	        searchStaff(); // 테이블 갱신
+	      },
+	      error: function() {
+	        alert("오류 발생");
+	      }
+	    });
+	  });
+		
 	// 모달 닫기
 	function closeModal() {
-		$("#staff-modal").hide();
+	  $("#staff-modal").hide();
 	}
+
 	// 정보 수정
 	function updateStaff() {
 		const staffId = $("#modal-staff-id").val();

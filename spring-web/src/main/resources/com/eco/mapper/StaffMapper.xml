@@ -11,14 +11,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE use_yn = 'Y' AND staff_id = #{staff_id} AND staff_pw = #{staff_pw}
 		]]>
 	</select>
-	
 	<!-- 아이디 중복 조회 -->
 	<select id="selectStaffById" resultType="com.eco.domain.StaffVO">
 		<![CDATA[
 		SELECT * FROM t_staff
-		WHERE use_yn = 'Y' AND staff_id = #{staff_id}
+		WHERE staff_id = #{staff_id}
 		]]>
 	</select>
+	<!-- 직원 권한 변경 혹은 지역 배정을 위한 검색, 조회 -->
+	<select id="selectStaffByNm" resultType="com.eco.domain.StaffVO">
+		<![CDATA[
+		SELECT * FROM t_staff
+		WHERE use_yn = 'Y' AND staff_nm = #{staff_nm}
+		]]>
+	</select>
+	<!-- 직원 계정 복구를 위한 검색, 조회 -->
+	<select id="selectStaffForRecover" resultType="com.eco.domain.StaffVO">
+		<![CDATA[
+		SELECT * FROM t_staff
+		WHERE use_yn = 'N' AND staff_id = #{staff_id}
+		]]>
+	</select>
+
 	<!-- INSERT -->
 	<!-- 직원 회원 가입 -->
 	<insert id="insertStaff" parameterType="com.eco.domain.StaffVO">
@@ -27,7 +41,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    VALUES(#{staff_id}, #{staff_pw}, #{staff_nm}, #{staff_addr}, #{staff_role})
 	    ]]>
 	</insert>
-	<!-- UPDATE -->
+	
+	<!-- UPDATE-->
 	<!-- 직원 정보 수정 -->
 	<update id="updateStaff" parameterType="com.eco.domain.StaffVO">
 		<![CDATA[
@@ -39,6 +54,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="deleteStaff" parameterType="com.eco.domain.StaffVO">
 		<![CDATA[
 		    UPDATE t_staff SET use_yn='N'
+		    WHERE staff_id = #{staff_id}
+	    ]]>
+	</update>
+	<!-- 직원 배정 지역 변경 -->
+	<update id="updateRegionStaff" parameterType="com.eco.domain.StaffVO">
+		<![CDATA[
+		    UPDATE t_staff SET staff_addr = #{staff_addr}
+		    WHERE staff_id = #{staff_id}
+	    ]]>
+	</update>
+	<!-- 직원 계정 복구 -->
+	<update id="updateRecoverStaff" parameterType="com.eco.domain.StaffVO">
+		<![CDATA[
+		    UPDATE t_staff SET use_yn='Y'
 		    WHERE staff_id = #{staff_id}
 	    ]]>
 	</update>

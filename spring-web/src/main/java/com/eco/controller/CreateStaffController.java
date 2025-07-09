@@ -39,6 +39,7 @@ public class CreateStaffController {
 		}
 	}
 	
+	// 직원 계정 생성
 	@PostMapping("/staff")
 	public String registerNewStaff(StaffVO vo, RedirectAttributes redirectAttrs) {
 		log.info("직원 생성 요청: " + vo);
@@ -51,6 +52,8 @@ public class CreateStaffController {
 		return "redirect:/createStaff";
 	}
 	
+	
+	// 관리자 계정 생성
 	@PostMapping("/admin")
 	public String guestLogin(StaffVO vo, RedirectAttributes redirectAttrs) {
 		log.info("직원 생성 요청: " + vo);
@@ -62,5 +65,8 @@ public class CreateStaffController {
 		}
 		return "redirect:/createStaff";
 	}
+	
+	// 직원 및 관리자 계정 조회
+	
 
 }

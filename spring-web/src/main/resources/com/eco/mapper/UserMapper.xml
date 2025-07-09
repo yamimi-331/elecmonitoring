@@ -16,7 +16,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectUserById" resultType="com.eco.domain.UserVO">
 		<![CDATA[
 		SELECT * FROM t_user
-		WHERE use_yn = 'Y' AND user_id = #{user_id}
+		WHERE user_id = #{user_id}
+		]]>
+	</select>
+	<!-- 일반 사용자 계정 복구를 위한 검색, 조회 -->
+	<select id="selectUserForRecover" resultType="com.eco.domain.UserVO">
+		<![CDATA[
+		SELECT * FROM t_user
+		WHERE use_yn = 'N' AND user_id = #{user_id}
 		]]>
 	</select>
 	<!-- INSERT -->
@@ -40,6 +47,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="deleteUser" parameterType="com.eco.domain.UserVO">
 		<![CDATA[
 		    UPDATE t_user SET use_yn='N'
+		    WHERE user_id = #{user_id}
+	    ]]>
+	</update>
+	<!-- 사용자 계정 복구 -->
+	<update id="updateRecoverUser" parameterType="com.eco.domain.UserVO">
+		<![CDATA[
+		    UPDATE t_user SET use_yn='Y'
 		    WHERE user_id = #{user_id}
 	    ]]>
 	</update>

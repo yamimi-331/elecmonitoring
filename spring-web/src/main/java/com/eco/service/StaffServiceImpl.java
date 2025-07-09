@@ -1,5 +1,7 @@
 package com.eco.service;
 
+import java.util.List;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -94,5 +96,17 @@ public class StaffServiceImpl implements StaffService {
             throw new ServiceException("비밀번호 확인 실패", e);
         }
     }
+
+    // 직원 권한 변경 혹은 지역 배정을 위한 검색, 조회
+	@Override
+	public List<StaffVO> getStaffList(StaffVO staffVO) {
+		return staffMapper.selectStaffByNm(staffVO);
+	}
+
+	// 직원 계정 복구를 위한 검색, 조회
+	@Override
+	public List<StaffVO> getStaffForRecover(StaffVO staffVO) {
+		return staffMapper.selectStaffForRecover(staffVO);
+	}
 
 }

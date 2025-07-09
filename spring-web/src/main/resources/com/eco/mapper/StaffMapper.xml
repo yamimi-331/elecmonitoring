@@ -22,14 +22,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectStaffByIdAndUseyn" resultType="com.eco.domain.StaffVO" parameterType="com.eco.domain.StaffVO">
 		<![CDATA[
 		SELECT * FROM t_staff
-		WHERE use_yn = 'Y' AND staff_id = #{staff_id}
+		WHERE use_yn = 'Y' AND staff_id LIKE CONCAT('%', #{staff_id}, '%')
 		]]>
 	</select>
 	<!-- 직원 계정 복구를 위한 검색, 조회 -->
 	<select id="selectStaffForRecover" resultType="com.eco.domain.StaffVO">
 		<![CDATA[
 		SELECT * FROM t_staff
-		WHERE use_yn = 'N' AND staff_id = #{staff_id}
+		WHERE use_yn = 'N' AND staff_id LIKE CONCAT('%', #{staff_id}, '%')
 		]]>
 	</select>
 

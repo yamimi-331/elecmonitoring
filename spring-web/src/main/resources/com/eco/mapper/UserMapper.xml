@@ -23,7 +23,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectUserForRecover" resultType="com.eco.domain.UserVO">
 		<![CDATA[
 		SELECT * FROM t_user
-		WHERE use_yn = 'N' AND user_id = #{user_id}
+		WHERE use_yn = 'N' AND user_id LIKE CONCAT('%', #{user_id}, '%')
 		]]>
 	</select>
 	<!-- INSERT -->

@@ -16,15 +16,17 @@ public interface AsMapper {
 	// 기사에 해당하는 AS 신고내역 조회
 	public List<ASVO> selectAsListByStaff(int staffCd);
 
-	// 기사에 해당하는 AS 신고내역 조회
+	// 사용자에 해당하는 AS 신고내역 조회
 	public List<ASVO> selectAsListByUser(int user_cd);
 
 	// 일반 회원의 AS 신고
 	public int insertAsListByCommon(ASVO asvo);
-	// 기사 조회 배정
+	
+	// 기사 조회 및 배정
 	public Integer selectAsStaff(@Param("date") String date, @Param("addr") String addr, @Param("time") String time);
 	public int updateMatchStaff(@Param("staff_cd") int staffCd, @Param("as_cd") int asCd);
-	// AS 신고 수정 화면
+	
+	// AS 신고 수정 화면에 해당 신고 정보 출력
 	public ASVO selectAsDetailByCommon(int as_cd);
 
 	// AS 신고 수정

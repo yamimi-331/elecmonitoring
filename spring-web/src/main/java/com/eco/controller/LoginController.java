@@ -26,11 +26,14 @@ public class LoginController {
     private final UserService userService;
     private final StaffService staffService;
 
+    //로그인 페이지로 이동
 	@GetMapping("")
 	public String loginPage() {
+		log.info("로그인 페이지로 이동");
 		return "user/login";
 	}
 
+	//일반 사용자 로그인
 	@PostMapping("/user")
 	public String userLogin(UserVO vo, HttpSession session, RedirectAttributes redirectAttrs) {
 		log.info("일반 사용자 로그인 시도");
@@ -50,6 +53,7 @@ public class LoginController {
         }
 	}
 
+	//직원 로그인
 	@PostMapping("/staff")
 	public String staffLogin(StaffVO vo, HttpSession session, RedirectAttributes redirectAttrs) {
 		log.info("직원 로그인 시도");

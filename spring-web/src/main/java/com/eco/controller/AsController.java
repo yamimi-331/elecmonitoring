@@ -44,7 +44,7 @@ public class AsController {
 		UserVO user = (UserVO) session.getAttribute("currentUserInfo");
 		if (user == null) {
 			redirectAttrs.addFlashAttribute("message", "로그인 후 이용해주세요.");
-			return "redirect:/login"; // 💡 로그인 페이지 URL에 맞게 수정
+			return "redirect:/login";
 		}
 		return "/as/asForm";
 	}
@@ -53,6 +53,7 @@ public class AsController {
 	@GetMapping("/form/booked-times")
 	@ResponseBody
 	public List<String> getBookedTimes(@RequestParam String selectedDate, @RequestParam String region) {
+		log.info("as 예약 불가능 한 시간 선택 비활성화");
 		LocalDate date = LocalDate.parse(selectedDate);
 		List<String> result = asService.getFullyBookedSlots(date, region);
 		return result;
@@ -82,7 +83,6 @@ public class AsController {
 		}
 
 		boolean result = asService.registerAsByCommon(vo);
-		log.info("insert 결과: " + result);
 		if (result) {
 			redirectAttrs.addFlashAttribute("message", "AS 신고가 완료되었습니다.");
 		} else {
@@ -98,7 +98,7 @@ public class AsController {
 		UserVO user = (UserVO) session.getAttribute("currentUserInfo");
 		if (user == null) {
 			redirectAttrs.addFlashAttribute("message", "로그인 후 이용해주세요.");
-			return "redirect:/login"; // 💡 로그인 페이지 URL에 맞게 수정
+			return "redirect:/login";
 		}
 		int user_cd = user.getUser_cd();
 		List<ASVO> asvo = asService.getUserAsList(user_cd);
@@ -128,6 +128,7 @@ public class AsController {
 	// as신고 수정 화면
 	@PostMapping("/edit")
 	public String asEdit(@RequestParam("as_cd") int as_cd, Model model, HttpSession session, RedirectAttributes redirectAttrs) {
+		log.info("as 예약 수정 화면 접속");
 		UserVO user = (UserVO) session.getAttribute("currentUserInfo");
 		ASVO asvo = asService.readAsDetailByUser(as_cd);
 		
@@ -147,14 +148,15 @@ public class AsController {
 			@RequestParam(required = false) String as_facility_custom,
 			@RequestParam(required = false) String as_title_custom, HttpSession session,
 			RedirectAttributes redirectAttrs) {
+		log.info("일반 회원의 as 예약 수정");
 		UserVO user = (UserVO) session.getAttribute("currentUserInfo");
 		vo.setUser_cd(user.getUser_cd());
-		log.info("1" + vo);
+		
 		// 예약 날짜 시간 합치기
 		LocalDate localDate = LocalDate.parse(reserve_date);
 		LocalDateTime combinedDateTime = LocalDateTime.parse(localDate.toString() + "T" + reserve_time + ":00");
 		vo.setAs_date(combinedDateTime);
-		log.info("2" + vo);
+
 		// 기타 입력 처리
 		if ("기타".equals(vo.getAs_facility()) && as_facility_custom != null && !as_facility_custom.isBlank()) {
 			vo.setAs_facility(as_facility_custom);
@@ -169,7 +171,7 @@ public class AsController {
 			redirectAttrs.addFlashAttribute("message", "현재 상태에서는 수정할 수 없습니다.");
 			return "redirect:/as/detail";
 		}
-		log.info("3" + vo);
+
 		boolean result = asService.editAsListByCommon(vo);
 		if (result) {
 			redirectAttrs.addFlashAttribute("message", "AS 수정이 완료되었습니다.");
@@ -182,13 +184,15 @@ public class AsController {
 	// 일반 회원 신고 삭제
 	@PostMapping("/cancleCommon")
 	public String asCancle(@RequestParam("as_cd") int as_cd, RedirectAttributes redirectAttrs) {
+		log.info("일반 회원의 as 예약 취소");
 		ASVO vo = asService.readAsDetailByUser(as_cd);
 		String status = vo.getAs_status();
 		// 취소 가능한 상태인지 체크
-		if (!("신고 접수".equals(status) || "기사 배정 중".equals(status) || "기사 배정 완료".equals(status))) {
+		if (!("신고 접수".equals(status))) {
 			redirectAttrs.addFlashAttribute("message", "현재 상태에서는 취소할 수 없습니다.");
 			return "redirect:/as/detail";
 		}
+		
 		boolean result = asService.cancleAsListByCommon(as_cd);
 		if (result) {
 			redirectAttrs.addFlashAttribute("message", "AS 신청을 취소하였습니다.");
@@ -198,10 +202,10 @@ public class AsController {
 		return "redirect:/as/detail";
 	}
 
-
+	//asOrder 페이지로 이동
 	@GetMapping("/order")
 	public String asOderPage(HttpSession session, Model model) {
-		log.info("asOrder 페이지로 이동");
+		log.info("직원, 관리자의 as목록 확인 페이지로 이동");
 		return "/as/asOrder";
 	}
 
@@ -257,7 +261,6 @@ public class AsController {
 	// AS 기사 배정 지역 변경
 	@GetMapping("/management")
 	public String managementPage() {
-		
 		return "/as/asManagement";
 	}
 }

@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+	// select에서 '기타' 선택 시 input 등장
     const facilitySelect = document.getElementById("as_facility");
     const facilityInput = document.getElementById("as_facility_custom");
     
@@ -13,7 +14,8 @@ document.addEventListener("DOMContentLoaded", () => {
             inputElem.value = "";
         }
     }
-
+    
+	// 이벤트 연결
     facilitySelect.addEventListener("change", () => {
         toggleCustomInput(facilitySelect, facilityInput);
     });
@@ -41,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const existingDate = dateInput.value;
     const existingTime = timeOptions1.dataset.existingTime || "";
 
-
+	// 예약 시간 선택란 반복문으로 출력
     function renderTimeOptions(bookedTimes) {
         let html1 = "";
         let html2 = "";
@@ -88,6 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
         timeOptions2.innerHTML = html2;
     }
 
+	// 예약이 완료된 시간 json 형태로 받아오기
     function fetchBookedTimes(selectedDate) {
     	if (!selectedDate) {
             timeOptions.innerHTML = "";
@@ -124,6 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
         fetchBookedTimes(this.value);
     });
     
+    // 유효성 검증
     const form = document.querySelector('form[action="/as/updateCommon"]');
     form.addEventListener("submit", function (e) {
         const userMail = document.getElementById("user_mail");

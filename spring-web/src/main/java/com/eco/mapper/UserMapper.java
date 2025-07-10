@@ -26,6 +26,7 @@ public interface UserMapper {
     
     // 계정 복구를 위한 검색
     public List<UserVO> selectUserForRecover(UserVO userVO);
+    
     // 사용자 계정 복구
     public int updateRecoverUser(UserVO userVO);
 

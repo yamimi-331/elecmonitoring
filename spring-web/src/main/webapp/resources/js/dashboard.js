@@ -1,5 +1,6 @@
 /**
- *
+ * 각 지역의 전기 화재 예측 건수 및 예측 피해액
+ * 선택한 기간만큼의 예측 건수와 예측 피해액을 가져오는 함수
  */
 function getPrediction(region = null) {
 	
@@ -144,12 +145,13 @@ $(document).ready(function() {
     loadReasonChart(currentReasonType);
   });
 
-  // 원인 버튼
+  // 원인 버튼(화재)
   $('#fireBtn').click(function() {
     currentReasonType = 'fire';
     loadReasonChart('fire');
   });
 
+  // 원인 버튼(감전)
   $('#shockBtn').click(function() {
     currentReasonType = 'shock';
     loadReasonChart('shock');
@@ -177,7 +179,7 @@ $(document).ready(function() {
     }
   );
 
-  // 🔹 지도 클릭
+  // 지도 클릭
   $mapElements.on('click', function() {
     const clickedId = $(this).attr('id');
 
@@ -225,9 +227,8 @@ $(document).ready(function() {
 });
 
 
-// 나머지 함수들은 그대로 유지
+// 지역별 전기화재 예측 복합차트 생성 함수
 let myChart;
-
 function drawComboChart(data) {
   const ctx = document.getElementById('myChart').getContext('2d');
 
@@ -336,7 +337,7 @@ function drawComboChart(data) {
 }
 
 
-// 전체 화재수 대비 전기 화재수의 비율
+// 전체 화재수 대비 전기 화재수의 비율 그래프 생성 함수
 fetch('http://127.0.0.1:8000/elec-rate')
   .then(response => response.json())
   .then(data => {
@@ -402,9 +403,8 @@ fetch('http://127.0.0.1:8000/elec-rate')
   });
 
 
-// 화재 및 감전 원인
+// 화재 및 감전 원인의 비율 차트 생성 함수
 let reason = null;
-
 function loadReasonChart(type) {
   const year = $('#yearSelect').val();
   const url = type === 'fire' ? 'http://127.0.0.1:8000/fire_reason?year=' + year : 'http://127.0.0.1:8000/shock_reason?year=' + year;
@@ -474,14 +474,14 @@ function loadReasonChart(type) {
 }
 
 
-// 테이블의 값들을 넣을 <td>들을 미리 셀렉트
+// 테이블에서 값을 넣을 <td>들을 미리 셀렉트
 const tableCells = document.querySelectorAll('table tr td:nth-child(2)');
-// select 값 테이블로 보여주기
+// 지역별 해당 연도의 전기 재해 현황 테이블에 출력하는 함수
 function updateSummary() {
   const region = selectedRegionName;
   const year = $('#yearSelect').val();
   summaryCaption.textContent = `${year}년 ${selectedRegionName} 전기 재해 통계`;
-
+  
   fetch("http://127.0.0.1:8000/summary?region=" + encodeURIComponent(region) + "&year=" + year)
     .then(response => response.json())
     .then(data => {

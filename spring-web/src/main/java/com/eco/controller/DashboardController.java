@@ -11,9 +11,10 @@ import lombok.extern.log4j.Log4j;
 @RequestMapping("/dashboard")
 public class DashboardController {
 
+	//대시보드 페이지 이동
 	@GetMapping("")
 	public String dashboardPage() {
-		log.info("대시보드 페이지");
+		log.info("대시보드 페이지로 이동");
 		return "/monitor/dashboard";
 	}
 }

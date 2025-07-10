@@ -1,4 +1,3 @@
-
 // 상태 변수 폼별로 분리
 const formState = {
     staff: { isIdChecked: false, isPwdValid: false },
@@ -38,7 +37,7 @@ function checkDuplicateId(formType) {
         });
 }
 
-//비밀번호 확인
+//비밀번호 일치 확인
 function checkPwd(formType) {
     const pw = document.querySelector("#staff_pw_" + formType).value;
     const pw_ck = document.querySelector("#staff_pw_ck_"+formType).value;

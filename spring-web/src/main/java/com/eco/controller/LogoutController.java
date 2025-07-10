@@ -14,8 +14,10 @@ import lombok.extern.log4j.Log4j;
 @RequestMapping("/logout")
 public class LogoutController {
 
+	//로그아웃
     @GetMapping("")
     public String logout(HttpSession session, RedirectAttributes redirectAttrs) {
+    	log.info("로그아웃 시도");
         session.removeAttribute("currentUserInfo");
         session.removeAttribute("userType");
         redirectAttrs.addFlashAttribute("message", "로그아웃이 완료되었습니다.");

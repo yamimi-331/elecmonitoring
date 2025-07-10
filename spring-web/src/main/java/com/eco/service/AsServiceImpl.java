@@ -27,19 +27,27 @@ public class AsServiceImpl implements AsService {
 	// 기사, 관리자의 AS 리스트 가져오는 함수
 	@Override
 	public List<ASVO> getAsList(String userType, int staffCd) {
-		if ("admin".equals(userType)) {
-			return asMapper.selectAllAsList();
-		} else if ("staff".equals(userType)) {
-			return asMapper.selectAsListByStaff(staffCd);
-		} else {
-			return null; // 접근 불가
-		}
+		try {
+			if ("admin".equals(userType)) {
+				return asMapper.selectAllAsList();
+			} else if ("staff".equals(userType)) {
+				return asMapper.selectAsListByStaff(staffCd);
+			} else {
+				return null; // 접근 불가
+			}
+        } catch (Exception e) {
+            throw new ServiceException("기사, 관리자의 AS 리스트 가져오기 실패", e);
+        }
 	}
 
 	// 사용자의의 AS 리스트 가져오는 함수
 	@Override
 	public List<ASVO> getUserAsList(int user_cd) {
-		return asMapper.selectAsListByUser(user_cd);
+		try {
+			return asMapper.selectAsListByUser(user_cd);
+        } catch (Exception e) {
+            throw new ServiceException("사용자의의 AS 리스트 가져오기 실패", e);
+        }
 	}
 
 	// 일반 회원의 AS 신고
@@ -61,10 +69,14 @@ public class AsServiceImpl implements AsService {
         return updated > 0;
 	}
 
-	// AS 신고 수정 화면
+	// AS 신고 수정 화면에 해당 신고 정보 출력
 	@Override
 	public ASVO readAsDetailByUser(int as_cd) {
-		return asMapper.selectAsDetailByCommon(as_cd);
+		try {
+			return asMapper.selectAsDetailByCommon(as_cd);
+        } catch (Exception e) {
+            throw new ServiceException("AS 신고 수정 화면에 해당 신고 정보 출력 실패", e);
+        }
 	}
 
 	// AS 신고 수정
@@ -89,8 +101,12 @@ public class AsServiceImpl implements AsService {
 	// AS 신고 삭제
 	@Override
 	public boolean cancleAsListByCommon(int as_cd) {
-		int result = asMapper.deleteAsListByCommon(as_cd);
-		return result > 0;
+		try {
+			int result = asMapper.deleteAsListByCommon(as_cd);
+			return result > 0;
+        } catch (Exception e) {
+            throw new ServiceException("AS 신고 삭제 실패", e);
+        }
 	}
 
 	// 기사, 관리자의 AS 리스트 가져오는 함수
@@ -109,7 +125,7 @@ public class AsServiceImpl implements AsService {
 		}
 	}
 
-	//상태 업데이트
+	//관리자/기사의 상황 업데이트
 	@Override
 	public void updateStatus(int as_cd, String as_status) {
 		try {

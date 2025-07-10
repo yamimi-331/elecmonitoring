@@ -99,7 +99,11 @@ public class UserServiceImpl implements UserService {
     // 사용자 계정 복구를 위한 검색
 	@Override
 	public List<UserVO> getUserForRecover(UserVO userVO) {
-		return userMapper.selectUserForRecover(userVO);
+		try {
+			return userMapper.selectUserForRecover(userVO);
+        } catch (Exception e) {
+            throw new ServiceException("비활성화 된 계정 목록 불러오기 실패", e);
+        }
 	}
 
 	// 사용자 계정 복구

@@ -24,7 +24,7 @@ public interface StaffMapper {
     // 회원 탈퇴
     public int deleteStaff(StaffVO staffVO);
     
-    // 직원 권한 변경 혹은 지역 배정을 위한 검색, 조회
+    // 직원 지역 배정을 위한 검색, 조회
     public List<StaffVO> selectStaffByIdAndUseyn(StaffVO staffVO);
     
     // 직원 계정 복구를 위한 검색, 조회

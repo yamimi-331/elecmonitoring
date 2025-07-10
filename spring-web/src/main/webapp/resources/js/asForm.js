@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-	// 기타 선택시 직접 입력 input 보이게
+	// select에서 '기타' 선택 시 input 등장
 	const facilitySelect = document.getElementById("as_facility");
 	const facilityInput = document.getElementById("as_facility_custom");
 
@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+	// 이벤트 연결
     facilitySelect.addEventListener("change", () => {
         toggleCustomInput(facilitySelect, facilityInput);
     });
@@ -35,6 +36,8 @@ document.addEventListener("DOMContentLoaded", () => {
 	// 예약된 시간 선택 비활성화
 	const timeOptions1 = document.getElementById("time-options-first");
 	const timeOptions2 = document.getElementById("time-options-second");
+	
+	// 예약이 완료된 시간 json 형태로 받아오기
 	dateInput.addEventListener("change", function () {
 		const selectedDate = this.value;
 		if (!selectedDate) return;
@@ -58,6 +61,8 @@ document.addEventListener("DOMContentLoaded", () => {
 			}
 		});
 	});
+	
+	// 예약 시간 선택란 반복문으로 출력
 	function renderTimeOptions(bookedTimes) {
         let html1 = "";
         let html2 = "";
@@ -84,6 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
         timeOptions2.innerHTML = html2;
     }
 	
+	// 유효성 검증
 	const form = document.querySelector('form[action="/as/insertCommon"]');
     form.addEventListener("submit", function (e) {
         const userMail = document.getElementById("user_mail");

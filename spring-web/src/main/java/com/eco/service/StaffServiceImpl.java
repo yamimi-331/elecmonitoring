@@ -76,7 +76,7 @@ public class StaffServiceImpl implements StaffService {
         }
     }
     
- // 회원 탈퇴
+    // 회원 탈퇴
     @Override
     public boolean deleteAccount(StaffVO staffVO) {
     	try {
@@ -97,7 +97,7 @@ public class StaffServiceImpl implements StaffService {
         }
     }
 
-    // 직원 권한 변경 혹은 지역 배정을 위한 검색, 조회
+    // 직원 지역 배정을 위한 검색, 조회
 	@Override
 	public List<StaffVO> getStaffList(StaffVO staffVO) {
 		try {

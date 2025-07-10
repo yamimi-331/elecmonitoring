@@ -22,7 +22,7 @@ public interface AsService {
 	// 일반 회원의 AS 신고
 	boolean registerAsByCommon(ASVO asvo);
 
-	// AS 신고 수정 화면
+	// AS 신고 수정 화면에 해당 신고 정보 출력
 	public ASVO readAsDetailByUser(int as_cd);
 
 	// AS 신고 수정
@@ -37,12 +37,15 @@ public interface AsService {
 	// 기사 관리자의 상태 업데이트
 	public void updateStatus(int as_cd, String as_status);
 
-	// as_cd로 정보 가져오기
+	// 항목 상세 조회
 	public ASListDTO getAsTask(int as_cd);
 
+	//사용자별 날짜별 AS 일정 조회
 	public List<ASListDTO> getScheduleByUserAndDate(@Param("user_cd") int user_cd, @Param("date") LocalDate date);
+	
 	// 직원의 모든 스케쥴 조회
 	public  List<ASListDTO> getScheduleByStaffAndDate(@Param("staff_cd") int staff_cd, @Param("date") LocalDate date);
+	
 	// 관리자의 모든 스케쥴 조회
 	public List<ASListDTO> getScheduleByDate(LocalDate localDate);
 	

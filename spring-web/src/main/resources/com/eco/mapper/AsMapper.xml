@@ -46,7 +46,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		  s.staff_cd, ts.slot_time;
 		]]>
 	</select>
-	
+	<!-- 기사에 해당하는 AS 신고내역 조회 -->
 	<select id="selectAsListByStaff"
 		resultType="com.eco.domain.vo.ASVO" parameterType="int">
         <![CDATA[
@@ -55,15 +55,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         AND use_yn = 'Y'
         ]]>
 	</select>
-	<select id="selectAsListByUser"
-		resultType="com.eco.domain.vo.ASVO" parameterType="int">
+	<!-- 사용자에 해당하는 AS 신고내역 조회 -->
+	<select id="selectAsListByUser" resultType="com.eco.domain.vo.ASVO" parameterType="int">
         <![CDATA[
         SELECT * FROM T_AS
         WHERE user_cd = #{user_cd}
         AND use_yn = 'Y'
         ]]>
 	</select>
-	<!-- 신고 수정 화면 -->
+	<!-- AS 신고 수정 화면에 해당 신고 정보 출력 -->
 	<select id="selectAsDetailByCommon" resultType="com.eco.domain.vo.ASVO">
         <![CDATA[
         SELECT * FROM T_AS
@@ -71,7 +71,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         AND use_yn = 'Y'
         ]]>
 	</select>
-
 
 	<!-- INSERT -->
 	<!-- 일반 회원의 AS 신고 -->
@@ -82,7 +81,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	           #{as_date}, #{as_addr}, #{as_facility});
 	    ]]>
 	</insert>
-	<!-- 기사 조회 배정 -->
+	<!-- 기사 조회 -->
 	<select id="selectAsStaff" resultType="int" parameterType="map">
 		<![CDATA[
 		    SELECT s.staff_cd
@@ -93,13 +92,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    GROUP BY s.staff_cd ORDER BY COUNT(*) ASC LIMIT 1;
 		]]>
 	</select>
+	
+	<!-- UPDATE -->
+	<!-- 기사 배정 -->
 	<update id="updateMatchStaff" parameterType="map">
 		<![CDATA[
 	    UPDATE t_as SET staff_cd = #{staff_cd} WHERE as_cd = #{as_cd};
 		]]>
 	</update>
 
-	<!-- UPDATE -->
+	<!-- AS 신고 수정 -->
 	<update id="updateAsListByCommon" parameterType="com.eco.domain.vo.ASVO">
         <![CDATA[
 		    UPDATE t_as set user_mail=#{user_mail}, as_title=#{as_title}, as_content=#{as_content}, 
@@ -107,7 +109,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    WHERE as_cd=#{as_cd}
 	    ]]>
 	</update>
-	<!-- UPDATE -->
+	<!-- AS 신고 삭제 -->
 	<update id="deleteAsListByCommon" parameterType="com.eco.domain.vo.ASVO">
         <![CDATA[
 		    UPDATE t_as set use_yn="N"
@@ -115,6 +117,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    ]]>
 	</update>
 	
+	<!-- AS 신고내역 전체 조회 -->
 	<select id="selectAllAsDtoList"
 		resultType="com.eco.domain.DTO.ASListDTO">
 		<![CDATA[
@@ -147,6 +150,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		]]>
 	</select>
 
+	<!-- 기사에 해당하는 AS 신고내역 조회 -->
 	<select id="selectAsDtoListByStaff"
 		resultType="com.eco.domain.DTO.ASListDTO" parameterType="int">
         <![CDATA[
@@ -179,15 +183,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		  AND A.use_yn = 'Y'
         ]]>
 	</select>
-	
-	<select id="selectAsDtoListByUser"
-		resultType="com.eco.domain.vo.ASVO" parameterType="int">
-        <![CDATA[
-        SELECT * FROM T_AS
-        WHERE user_cd = #{user_cd}
-        AND use_yn = 'Y'
-        ]]>
-	</select>
 
 	<!-- 상세 조회 -->
 	<select id="selectAsTask" resultType="com.eco.domain.DTO.ASListDTO"
@@ -202,7 +197,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    ]]>
 	</select>
 
-   <!-- 사용자별 날짜별 AS 일정 조회 -->
+	<!-- 사용자별 날짜별 AS 일정 조회 -->
     <select id="selectScheduleByUserAndDate" parameterType="map" resultType="com.eco.domain.DTO.ASListDTO">
         <![CDATA[
         SELECT 
@@ -267,6 +262,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
 	<!-- UPDATE -->
+	<!-- 관리자/기사의 상황 업데이트 -->
 	<update id="updateStatusByCd">
 	    <![CDATA[
 	    UPDATE T_AS

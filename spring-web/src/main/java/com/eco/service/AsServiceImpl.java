@@ -54,19 +54,23 @@ public class AsServiceImpl implements AsService {
 	@Override
 	@Transactional
 	public boolean registerAsByCommon(ASVO asvo) {
-		int insertCount = asMapper.insertAsListByCommon(asvo);
-        if (insertCount == 0) return false;
+        try {
+        	int insertCount = asMapper.insertAsListByCommon(asvo);
+            if (insertCount == 0) return false;
 
-        LocalDateTime dt = asvo.getAs_date();
-        String date = dt.toLocalDate().toString();
-        String time = String.format("%02d:00:00", dt.getHour());
-        String addr = asvo.getAs_addr().split(" ")[0];
+            LocalDateTime dt = asvo.getAs_date();
+            String date = dt.toLocalDate().toString();
+            String time = String.format("%02d:00:00", dt.getHour());
+            String addr = asvo.getAs_addr().split(" ")[0];
 
-        Integer staffCd = asMapper.selectAsStaff(date, addr, time);
-        if (staffCd == null) return false;
+            Integer staffCd = asMapper.selectAsStaff(date, addr, time);
+            if (staffCd == null) return false;
 
-        int updated = asMapper.updateMatchStaff(staffCd, asvo.getAs_cd());
-        return updated > 0;
+            int updated = asMapper.updateMatchStaff(staffCd, asvo.getAs_cd());
+            return updated > 0;
+        } catch (Exception e) {
+            throw new ServiceException("일반 회원의 AS 신고 실패", e);
+        }
 	}
 
 	// AS 신고 수정 화면에 해당 신고 정보 출력
@@ -83,19 +87,23 @@ public class AsServiceImpl implements AsService {
 	@Override
 	@Transactional
 	public boolean editAsListByCommon(ASVO asvo) {
-		int updated = asMapper.updateAsListByCommon(asvo);
-        if (updated == 0) return false;
+        try {
+        	int updated = asMapper.updateAsListByCommon(asvo);
+            if (updated == 0) return false;
 
-        LocalDateTime dt = asvo.getAs_date();
-        String date = dt.toLocalDate().toString();
-        String time = String.format("%02d:00:00", dt.getHour());
-        String addr = asvo.getAs_addr().split(" ")[0];
+            LocalDateTime dt = asvo.getAs_date();
+            String date = dt.toLocalDate().toString();
+            String time = String.format("%02d:00:00", dt.getHour());
+            String addr = asvo.getAs_addr().split(" ")[0];
 
-        Integer staffCd = asMapper.selectAsStaff(date, addr, time);
-        if (staffCd == null) return false;
+            Integer staffCd = asMapper.selectAsStaff(date, addr, time);
+            if (staffCd == null) return false;
 
-        int reassigned = asMapper.updateMatchStaff(staffCd, asvo.getAs_cd());
-        return reassigned >= 0;
+            int reassigned = asMapper.updateMatchStaff(staffCd, asvo.getAs_cd());
+            return reassigned >= 0;
+        } catch (Exception e) {
+            throw new ServiceException("AS 신고 수정 실패", e);
+        }
 	}
 
 	// AS 신고 삭제
@@ -125,7 +133,7 @@ public class AsServiceImpl implements AsService {
 		}
 	}
 
-	//관리자/기사의 상황 업데이트
+	//관리자/기사의 상태 업데이트
 	@Override
 	public void updateStatus(int as_cd, String as_status) {
 		try {
@@ -135,7 +143,7 @@ public class AsServiceImpl implements AsService {
 		}
 	}
 
-	//항목 상세 조회
+	// 항목 상세 조회
 	@Override
 	public ASListDTO getAsTask(int as_cd) {
 		try {
@@ -145,10 +153,12 @@ public class AsServiceImpl implements AsService {
 		}
 	}
 
+	//사용자별 날짜별 AS 일정 조회
 	@Override
 	public List<ASListDTO> getScheduleByUserAndDate(int user_cd, LocalDate date) {
 		return asMapper.selectScheduleByUserAndDate(user_cd, date);
 	}
+	
 	// 직원의 모든 스케쥴 조회
 	@Override
 	public List<ASListDTO> getScheduleByStaffAndDate(int staffCd, LocalDate localDate) {
@@ -169,7 +179,7 @@ public class AsServiceImpl implements AsService {
 		}
 	}
 
-	// AS 신고내역 중 해당 날짜의 예약 시간 조회
+	// 지역 일자 기준 전 직원 스케줄 조회
 	@Override
 	public List<String> getFullyBookedSlots(LocalDate date, String region) {
 		try {

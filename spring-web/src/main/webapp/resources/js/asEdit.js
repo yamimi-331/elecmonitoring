@@ -128,7 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     
     // 유효성 검증
-    const form = document.querySelector('form[action="/as/updateCommon"]');
+    const form = document.querySelector('#updateForm');
     form.addEventListener("submit", function (e) {
         const userMail = document.getElementById("user_mail");
         const asFacility = document.getElementById("as_facility");

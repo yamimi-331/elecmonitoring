@@ -84,12 +84,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 기사 조회 -->
 	<select id="selectAsStaff" resultType="int" parameterType="map">
 		<![CDATA[
-		    SELECT s.staff_cd
-		    FROM t_staff s
-		    JOIN t_as a ON a.staff_cd = s.staff_cd
-		    WHERE DATE(a.as_date) = #{date} AND s.staff_addr LIKE CONCAT('%', #{addr}, '%')
-		    AND TIME(a.as_date) != #{time} AND s.use_yn = 'Y' AND a.use_yn = 'Y'
-		    GROUP BY s.staff_cd ORDER BY COUNT(*) ASC LIMIT 1;
+		    SELECT s.staff_cd FROM t_staff s LEFT JOIN t_as a ON a.staff_cd = s.staff_cd
+			AND DATE(a.as_date) = '2025-07-30' AND TIME(a.as_date) = STR_TO_DATE('12:00:00', '%H:%i:%s') AND a.use_yn = 'Y'
+			WHERE s.staff_addr LIKE CONCAT('%', '부산', '%') AND s.use_yn = 'Y' AND s.staff_role = 'staff'
+			GROUP BY s.staff_cd ORDER BY COUNT(a.as_cd) ASC LIMIT 1;
 		]]>
 	</select>
 	
@@ -246,6 +244,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    UPDATE T_AS
 	    SET as_status = #{as_status}
 	    WHERE as_cd = #{as_cd}
+	    ]]>
+	</update>
+	<!-- 회원 탈퇴시 미래 예약건 취소 -->
+	<update id="deleteAsListBydeleteUser">
+	    <![CDATA[
+	    UPDATE T_AS SET use_yn = 'N'
+	    WHERE user_cd = #{user_cd} AND as_date > CURRENT_DATE() AND as_status = '신고 접수'
 	    ]]>
 	</update>
 

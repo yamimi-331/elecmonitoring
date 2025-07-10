@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.eco.domain.DTO.ASListDTO;
 import com.eco.domain.vo.ASVO;
+import com.eco.domain.vo.UserVO;
 
 public interface AsService {
 
@@ -39,5 +40,8 @@ public interface AsService {
 	
 	// 관리자의 모든 스케쥴 조회
 	public List<ASListDTO> getScheduleByDate(LocalDate localDate);
+	
+	// 회원 탈퇴시 미래 예약건 취소
+	public boolean cancleAsListBydeleteUser(UserVO userVO);
 	
 }

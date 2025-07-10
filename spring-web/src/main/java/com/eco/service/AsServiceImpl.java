@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.eco.domain.DTO.ASListDTO;
 import com.eco.domain.DTO.AvailableStaffDTO;
 import com.eco.domain.vo.ASVO;
+import com.eco.domain.vo.UserVO;
 import com.eco.exception.ServiceException;
 import com.eco.mapper.AsMapper;
 
@@ -46,11 +47,15 @@ public class AsServiceImpl implements AsService {
             String date = dt.toLocalDate().toString();
             String time = String.format("%02d:00:00", dt.getHour());
             String addr = asvo.getAs_addr().split(" ")[0];
-
+            System.out.println("date "+date);
+            System.out.println("addr "+addr);
+            System.out.println("time "+time);
+            
             Integer staffCd = asMapper.selectAsStaff(date, addr, time);
+            
             if (staffCd == null) return false;
 
-            int updated = asMapper.updateMatchStaff(staffCd, asvo.getAs_cd());
+            int updated = asMapper.updateMatchStaff((int)staffCd, asvo.getAs_cd());
             return updated > 0;
         } catch (Exception e) {
             throw new ServiceException("일반 회원의 AS 신고 실패", e);
@@ -171,6 +176,17 @@ public class AsServiceImpl implements AsService {
 		} catch (Exception e) {
 			throw new ServiceException("항목 상세 조회 실패", e);
 		}
+	}
+
+	// 회원 탈퇴시 미래 예약건 취소
+	@Override
+	public boolean cancleAsListBydeleteUser(UserVO userVO) {
+		try {
+    		int result = asMapper.deleteAsListBydeleteUser(userVO);
+    		return result>0;
+    	} catch(Exception e) {
+    		throw new ServiceException("사용자 회원 탈퇴 실패", e);
+    	}
 	}
 
 }

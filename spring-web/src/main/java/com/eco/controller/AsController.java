@@ -66,6 +66,7 @@ public class AsController {
 			@RequestParam(required = false) String as_title_custom, HttpSession session,
 			RedirectAttributes redirectAttrs) {
 		log.info("일반회원의 as신청");
+		log.info("합수 접속" + vo);
 		UserVO user = (UserVO) session.getAttribute("currentUserInfo");
 		vo.setUser_cd(user.getUser_cd());
 
@@ -73,7 +74,8 @@ public class AsController {
 		LocalDate localDate = LocalDate.parse(reserve_date);
 		LocalDateTime combinedDateTime = LocalDateTime.parse(localDate.toString() + "T" + reserve_time + ":00");
 		vo.setAs_date(combinedDateTime);
-
+		log.info("날짜 set" + vo);
+		
 		// 기타 입력 처리
 		if ("기타".equals(vo.getAs_facility()) && as_facility_custom != null && !as_facility_custom.isBlank()) {
 			vo.setAs_facility(as_facility_custom);
@@ -83,6 +85,7 @@ public class AsController {
 		}
 
 		boolean result = asService.registerAsByCommon(vo);
+		log.info("날짜 set" + vo);
 		if (result) {
 			redirectAttrs.addFlashAttribute("message", "AS 신고가 완료되었습니다.");
 		} else {

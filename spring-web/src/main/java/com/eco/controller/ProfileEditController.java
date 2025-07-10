@@ -13,6 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.eco.domain.vo.StaffVO;
 import com.eco.domain.vo.UserVO;
+import com.eco.service.AsService;
 import com.eco.service.StaffService;
 import com.eco.service.UserService;
 
@@ -26,10 +27,12 @@ import lombok.extern.log4j.Log4j;
 public class ProfileEditController {
 	private final UserService userService;
 	private final StaffService staffService;
+	private final AsService asService;
 
 	//회원 정보 수정 페이지 접속
 	@GetMapping("")
 	public String profilePage(HttpSession session, RedirectAttributes redirectAttrs, Model model) {
+		log.info("회원 정보 수정 화면 접속");
 		String type = (String) session.getAttribute("userType");
 		Object currentUser = session.getAttribute("currentUserInfo");
 
@@ -51,6 +54,7 @@ public class ProfileEditController {
 	//회원 정보 수정
 	@PostMapping("/common")
 	public String profileEditCommon(UserVO inputVO, HttpSession session, RedirectAttributes redirectAttrs) {
+		log.info("사용자 회원 정보 수정");
 		boolean result = false;
 	
 		result = userService.modify(inputVO);
@@ -71,6 +75,7 @@ public class ProfileEditController {
 	
 	@PostMapping("/staff")
 	public String profileEditStaff(StaffVO inputVO, HttpSession session, RedirectAttributes redirectAttrs) {
+		log.info("직원 회원 정보 수정");
 		boolean result = false;
 		
 		result = staffService.modify(inputVO);
@@ -93,7 +98,7 @@ public class ProfileEditController {
 	//회원 탈퇴
 	@GetMapping("/delete")
 	public String deleteAccount(HttpSession session, RedirectAttributes redirectAttrs) {
-		log.info("함수 진입");
+		log.info("사용자 회원 탈퇴");
 		Object obj = session.getAttribute("currentUserInfo");
 		
 		if (obj == null) {
@@ -104,8 +109,17 @@ public class ProfileEditController {
 		boolean result = false;
 		if (obj instanceof UserVO) {
 			UserVO user = (UserVO) obj;
+					
+			try {
+				asService.cancleAsListBydeleteUser(user);
+			} catch(Exception e) {
+				log.error("예약 취소 중 오류 발생", e);
+				redirectAttrs.addFlashAttribute("message", "회원 탈퇴 중 오류가 발생하엿습니다.");
+				return "redirect:/";
+			}
+			
 			result = userService.deleteAccount(user);
-			if (result) {
+			if (result) {	
 				redirectAttrs.addFlashAttribute("message", "회원 탈퇴가 완료되었습니다.");
 				session.invalidate();
 				return "redirect:/";

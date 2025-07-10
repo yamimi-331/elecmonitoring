@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import com.eco.domain.DTO.ASListDTO;
 import com.eco.domain.DTO.AvailableStaffDTO;
 import com.eco.domain.vo.ASVO;
+import com.eco.domain.vo.UserVO;
 
 public interface AsMapper {
 	// AS 신고내역 전체 조회
@@ -55,5 +56,8 @@ public interface AsMapper {
 	
 	// 지역 일자 기준 전 직원 스케줄 조회
 	public List<AvailableStaffDTO> selectAllAsListByRegion(@Param("date") LocalDate localDate, @Param("region") String region);
+	
+	// 회원 탈퇴시 미래 예약건 취소
+	public int deleteAsListBydeleteUser(UserVO userVO);
 
 }

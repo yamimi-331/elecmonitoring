@@ -57,6 +57,7 @@ public class AdminController {
 			List<StaffVO> result = staffService.getStaffForRecover(staffVO);
 			return result;
 		} else {
+			log.info("알수없는 user type");
 			return null;
 		}
 	}
@@ -83,6 +84,7 @@ public class AdminController {
 	@PostMapping("/update-staff")
 	@ResponseBody
 	public void updateStaff(StaffVO staffVO) {
+		log.info("직원 정보 수정 버튼 클릭 함수 진입");
 		boolean result = false;
 		result = staffService.modifyRegion(staffVO);
 		if(!result) {

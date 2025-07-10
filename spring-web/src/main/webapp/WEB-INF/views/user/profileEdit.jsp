@@ -31,9 +31,10 @@ function searchAddress() {
 				<%-- 사용자 타입이 일반인경우 -------------------------------------------------------- --%>
 				<c:when test="${userType eq 'common'}">
 				<div class="profile-container">
-					<form action="/profileEdit" method="post" class="signup-form">
-						<label for="user_id">아이디</label>  
-						<input type="text" name="id" id="id" value="${profileInfo.id}" readonly> 
+					<form action="/profileEdit/common" method="post" class="signup-form">
+						<input type="hidden" name="user_cd" value="${profileInfo.user_cd }">
+						<label for="id">아이디</label>  
+						<input type="text" name="user_id" id="id" value="${profileInfo.user_id}" readonly> 
 
 						<label for="pw">기존 비밀번호 확인</label>  
 						<input type="password" name="prepw" id="prepw" autocomplete="new-password"> 
@@ -45,8 +46,8 @@ function searchAddress() {
 						    </c:if>
 						</div>
 
-						<label for="new_pw">새 비밀번호</label>  
-						<input type="password" name="pw" id="pw" autocomplete="new-password"> 
+						<label for="pw">새 비밀번호</label>  
+						<input type="password" name="user_pw" id="pw" autocomplete="new-password"> 
 						<small id="newPwMsg" class="msg"></small>
 
 						<label for="user_pw_ck">새 비밀번호 확인</label>  
@@ -54,15 +55,17 @@ function searchAddress() {
 						<small id="pwCheckMsg" class="msg"></small>
 
 						<label for="nm">이름</label>  
-						<input type="text" name="nm" id="nm" value="${profileInfo.nm}"> 
+						<input type="text" name="user_nm" id="nm" value="${profileInfo.user_nm}"> 
 						
 						<label for="addr">주소</label>  
-						<input type="text" name="addr" id="addr" value="${profileInfo.addr}" readonly>
+						<input type="text" name="user_addr" id="addr" value="${profileInfo.user_addr}" readonly>
 						<button type="button" onclick="searchAddress()">주소 검색</button>
 
 						<label for="mail">메일</label>  
-						<input type="text" name="mail" id="mail" value="${profileInfo.mail}">
-
+						<input type="text" name="user_mail" id="mail" value="${profileInfo.user_mail}">
+						
+						<input type="hidden" name="user_social" value="${profileInfo.user_social}">
+						
 						<button type="submit">제출하기</button>
 						<button id="goback" type="button" onclick="location.href='/'">돌아가기</button>
 						<a href="/profileEdit/delete" onclick="return confirmDelete();">회원 탈퇴</a>
@@ -73,11 +76,11 @@ function searchAddress() {
 				<%-- 사용자 타입이 직원인경우 -------------------------------------------------------- --%>
 				<c:when test="${userType eq 'staff'}">
 				<div class="profile-container">
-					<form action="/profileEdit" method="post" class="signup-form">
-						<label for="user_id">아이디</label>  
-						<input type="text" name="id" id="id" value="${profileInfo.id}" readonly> 
+					<form action="/profileEdit/staff" method="post" class="signup-form">
+						<label for="id">아이디</label>  
+						<input type="text" name="staff_id" id="id" value="${profileInfo.staff_id}" readonly> 
 
-						<label for="pw">기존 비밀번호 확인</label>  
+						<label for="prepw">기존 비밀번호 확인</label>  
 						<input type="password" name="prepw" id="prepw" autocomplete="new-password"> 
 						<button type="button">비밀번호 확인</button>
 
@@ -87,8 +90,8 @@ function searchAddress() {
 						    </c:if>
 						</div>
 
-						<label for="new_pw">새 비밀번호</label>
-						<input type="password" name="pw" id="pw" autocomplete="new-password">
+						<label for="pw">새 비밀번호</label>
+						<input type="password" name="staff_pw" id="pw" autocomplete="new-password">
 						<small id="newPwMsg" class="msg"></small>
 
 						<label for="user_pw_ck">새 비밀번호 확인</label>
@@ -96,10 +99,10 @@ function searchAddress() {
 						<small id="pwCheckMsg" class="msg"></small>
 
 						<label for="nm">이름</label>
-						<input type="text" name="nm" id="nm" value="${profileInfo.nm}">
+						<input type="text" name="staff_nm" id="nm" value="${profileInfo.staff_nm}">
 
 						<label for="addr">담당 주소</label>
-						<input type="text" name="addr" id="addr" value="${profileInfo.addr}" readonly>
+						<input type="text" name="staff_addr" id="addr" value="${profileInfo.staff_addr}" readonly>
 
 						<button type="submit">제출하기</button>
 						<button id="goback" type="button" onclick="location.href='/'">돌아가기</button>
@@ -112,10 +115,10 @@ function searchAddress() {
 				<c:when test="${userType eq 'admin'}">
 				<div class="profile-container">
 					<form action="/profileEdit" method="post" class="signup-form">
-						<label for="user_id">아이디</label>
-						<input type="text" name="id" id="id" value="${profileInfo.id}" readonly>
+						<label for="id">아이디</label>
+						<input type="text" name="staff_id" id="id" value="${profileInfo.staff_id}" readonly>
 
-						<label for="pw">기존 비밀번호 확인</label>
+						<label for="prepw">기존 비밀번호 확인</label>
 						<input type="password" name="prepw" id="prepw" autocomplete="new-password">
 						<button type="button">비밀번호 확인</button>
 
@@ -125,19 +128,19 @@ function searchAddress() {
 						    </c:if>
 						</div>
 
-						<label for="new_pw">새 비밀번호</label>
-						<input type="password" name="pw" id="pw" autocomplete="new-password">
+						<label for="pw">새 비밀번호</label>
+						<input type="password" name="staff_pw" id="pw" autocomplete="new-password">
 						<small id="newPwMsg" class="msg"></small>
 
 						<label for="user_pw_ck">새 비밀번호 확인</label>
 						<input type="password" name="user_pw_ck" id="user_pw_ck" autocomplete="new-password">
 						<small id="pwCheckMsg" class="msg"></small>
 
-						<label for="nm">이름</label>
-						<input type="text" name="nm" id="nm" value="${profileInfo.nm}">
+						<label for="staff_nm">이름</label>
+						<input type="text" name="staff_nm" id="nm" value="${profileInfo.staff_nm}">
 
 						<label for="addr">주소</label>  
-						<input type="text" name="addr" id="addr" value="${profileInfo.addr}">
+						<input type="text" name="staff_addr" id="addr" value="${profileInfo.staff_addr}">
 
 						<button type="submit">제출하기</button>
 						<button id="goback" type="button" onclick="location.href='/'">돌아가기</button>
@@ -238,15 +241,18 @@ function searchAddress() {
 						e.preventDefault();
 						return false;
 					}
-					if (!isNewPwValid) {
-						alert('새 비밀번호가 유효하지 않습니다.');
-						e.preventDefault();
-						return false;
-					}
-					if (!isPwMatch) {
-						alert('새 비밀번호가 일치하지 않습니다.');
-						e.preventDefault();
-						return false;
+					var newPw = $('#pw').val();
+					if (newPw.trim() !== '') {  // 새 비밀번호가 입력되었을 때만 검사
+						if (!isNewPwValid) {
+							alert('새 비밀번호가 유효하지 않습니다.');
+							e.preventDefault();
+							return false;
+						}
+						if (!isPwMatch) {
+							alert('새 비밀번호가 일치하지 않습니다.');
+							e.preventDefault();
+							return false;
+						}
 					}
 				});
 				

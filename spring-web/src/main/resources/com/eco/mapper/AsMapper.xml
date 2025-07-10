@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.eco.mapper.AsMapper">
 	<!-- SELECT -->
 	<!-- AS 신고내역 전체 조회 -->
-	<select id="selectAllAsList" resultType="com.eco.domain.ASVO">
+	<select id="selectAllAsList" resultType="com.eco.domain.vo.ASVO">
 		<![CDATA[
 		SELECT * FROM T_AS
 		WHERE use_yn = 'Y'
@@ -48,7 +48,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="selectAsListByStaff"
-		resultType="com.eco.domain.ASVO" parameterType="int">
+		resultType="com.eco.domain.vo.ASVO" parameterType="int">
         <![CDATA[
         SELECT * FROM T_AS
         WHERE staff_cd = #{staffCd}
@@ -56,7 +56,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         ]]>
 	</select>
 	<select id="selectAsListByUser"
-		resultType="com.eco.domain.ASVO" parameterType="int">
+		resultType="com.eco.domain.vo.ASVO" parameterType="int">
         <![CDATA[
         SELECT * FROM T_AS
         WHERE user_cd = #{user_cd}
@@ -64,7 +64,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         ]]>
 	</select>
 	<!-- 신고 수정 화면 -->
-	<select id="selectAsDetailByCommon" resultType="com.eco.domain.ASVO">
+	<select id="selectAsDetailByCommon" resultType="com.eco.domain.vo.ASVO">
         <![CDATA[
         SELECT * FROM T_AS
         WHERE as_cd = #{as_cd}
@@ -75,7 +75,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- INSERT -->
 	<!-- 일반 회원의 AS 신고 -->
-	<insert id="insertAsListByCommon" parameterType="com.eco.domain.ASVO" useGeneratedKeys="true" keyProperty="as_cd">
+	<insert id="insertAsListByCommon" parameterType="com.eco.domain.vo.ASVO" useGeneratedKeys="true" keyProperty="as_cd">
 	  <![CDATA[
 	    INSERT INTO t_as(user_cd, user_mail, as_title, as_content, as_date, as_addr, as_facility)
 	    VALUES(#{user_cd}, #{user_mail}, #{as_title}, #{as_content},
@@ -100,7 +100,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 
 	<!-- UPDATE -->
-	<update id="updateAsListByCommon" parameterType="com.eco.domain.ASVO">
+	<update id="updateAsListByCommon" parameterType="com.eco.domain.vo.ASVO">
         <![CDATA[
 		    UPDATE t_as set user_mail=#{user_mail}, as_title=#{as_title}, as_content=#{as_content}, 
 		    as_date=#{as_date}, as_addr=#{as_addr}, as_facility=#{as_facility}
@@ -108,7 +108,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    ]]>
 	</update>
 	<!-- UPDATE -->
-	<update id="deleteAsListByCommon" parameterType="com.eco.domain.ASVO">
+	<update id="deleteAsListByCommon" parameterType="com.eco.domain.vo.ASVO">
         <![CDATA[
 		    UPDATE t_as set use_yn="N"
 		    WHERE as_cd=#{as_cd}
@@ -116,7 +116,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 	<select id="selectAllAsDtoList"
-		resultType="com.eco.domain.ASListDTO">
+		resultType="com.eco.domain.DTO.ASListDTO">
 		<![CDATA[
 		SELECT
 		  A.as_cd,
@@ -148,7 +148,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 	<select id="selectAsDtoListByStaff"
-		resultType="com.eco.domain.ASListDTO" parameterType="int">
+		resultType="com.eco.domain.DTO.ASListDTO" parameterType="int">
         <![CDATA[
         SELECT
 		  A.as_cd,
@@ -181,7 +181,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="selectAsDtoListByUser"
-		resultType="com.eco.domain.ASVO" parameterType="int">
+		resultType="com.eco.domain.vo.ASVO" parameterType="int">
         <![CDATA[
         SELECT * FROM T_AS
         WHERE user_cd = #{user_cd}
@@ -190,7 +190,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 	<!-- 상세 조회 -->
-	<select id="selectAsTask" resultType="com.eco.domain.ASListDTO"
+	<select id="selectAsTask" resultType="com.eco.domain.DTO.ASListDTO"
 		parameterType="int">
 	    <![CDATA[
 	    SELECT a.*, s.staff_nm, u.user_nm
@@ -203,7 +203,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
    <!-- 사용자별 날짜별 AS 일정 조회 -->
-    <select id="selectScheduleByUserAndDate" parameterType="map" resultType="com.eco.domain.ASListDTO">
+    <select id="selectScheduleByUserAndDate" parameterType="map" resultType="com.eco.domain.DTO.ASListDTO">
         <![CDATA[
         SELECT 
 	      a.as_cd,
@@ -225,7 +225,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <!-- 직원별 날짜별 AS 일정 조회 -->
-    <select id="selectScheduleByStaffAndDate" parameterType="map" resultType="com.eco.domain.ASListDTO">
+    <select id="selectScheduleByStaffAndDate" parameterType="map" resultType="com.eco.domain.DTO.ASListDTO">
         <![CDATA[
         SELECT 
 	      a.as_cd,
@@ -246,7 +246,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         ]]>
     </select>
     <!-- 관리자의 날짜별 AS 일정 조회 -->
-	<select id="selectScheduleByDate" parameterType="map" resultType="com.eco.domain.ASListDTO">
+	<select id="selectScheduleByDate" parameterType="map" resultType="com.eco.domain.DTO.ASListDTO">
         <![CDATA[
         SELECT 
 	      a.as_cd,

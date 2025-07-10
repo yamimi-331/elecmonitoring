@@ -5,28 +5,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.eco.mapper.StaffMapper">
 	<!-- SELECT -->
 	<!-- 직원 로그인 -->
-	<select id="selectStaffByIdAndPw" resultType="com.eco.domain.StaffVO">
+	<select id="selectStaffByIdAndPw" resultType="com.eco.domain.vo.StaffVO">
 		<![CDATA[
 		SELECT * FROM t_staff
 		WHERE use_yn = 'Y' AND staff_id = #{staff_id} AND staff_pw = #{staff_pw}
 		]]>
 	</select>
 	<!-- 아이디 중복 조회 -->
-	<select id="selectStaffById" resultType="com.eco.domain.StaffVO">
+	<select id="selectStaffById" resultType="com.eco.domain.vo.StaffVO">
 		<![CDATA[
 		SELECT * FROM t_staff
 		WHERE staff_id = #{staff_id}
 		]]>
 	</select>
 	<!-- 직원 권한 변경 혹은 지역 배정을 위한 검색, 조회 -->
-	<select id="selectStaffByIdAndUseyn" resultType="com.eco.domain.StaffVO" parameterType="com.eco.domain.StaffVO">
+	<select id="selectStaffByIdAndUseyn" resultType="com.eco.domain.vo.StaffVO" parameterType="com.eco.domain.vo.StaffVO">
 		<![CDATA[
 		SELECT * FROM t_staff
 		WHERE use_yn = 'Y' AND staff_id LIKE CONCAT('%', #{staff_id}, '%')
 		]]>
 	</select>
 	<!-- 직원 계정 복구를 위한 검색, 조회 -->
-	<select id="selectStaffForRecover" resultType="com.eco.domain.StaffVO">
+	<select id="selectStaffForRecover" resultType="com.eco.domain.vo.StaffVO">
 		<![CDATA[
 		SELECT * FROM t_staff
 		WHERE use_yn = 'N' AND staff_id LIKE CONCAT('%', #{staff_id}, '%')
@@ -35,7 +35,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- INSERT -->
 	<!-- 직원 회원 가입 -->
-	<insert id="insertStaff" parameterType="com.eco.domain.StaffVO">
+	<insert id="insertStaff" parameterType="com.eco.domain.vo.StaffVO">
 		<![CDATA[
 		    INSERT INTO t_staff(staff_id, staff_pw, staff_nm, staff_addr, staff_role)
 		    VALUES(#{staff_id}, #{staff_pw}, #{staff_nm}, #{staff_addr}, #{staff_role})
@@ -44,28 +44,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- UPDATE-->
 	<!-- 직원 정보 수정 -->
-	<update id="updateStaff" parameterType="com.eco.domain.StaffVO">
+	<update id="updateStaff" parameterType="com.eco.domain.vo.StaffVO">
 		<![CDATA[
-		    UPDATE t_staff SET staff_pw = #{staff_pw}, staff_nm = #{staff_nm}
+		    UPDATE t_staff 
+		    <set>
+		      <if test="staff_pw != null and staff_pw != ''">
+		      	staff_pw = #{staff_pw},
+		      </if>
+		      staff_nm = #{staff_nm}
+		    </set>
 		    WHERE staff_id = #{staff_id}
 	    ]]>
 	</update>
 	<!-- 직원 회원 탈퇴 -->
-	<update id="deleteStaff" parameterType="com.eco.domain.StaffVO">
+	<update id="deleteStaff" parameterType="com.eco.domain.vo.StaffVO">
 		<![CDATA[
 		    UPDATE t_staff SET use_yn='N'
 		    WHERE staff_id = #{staff_id}
 	    ]]>
 	</update>
 	<!-- 직원 배정 지역 변경 -->
-	<update id="updateRegionStaff" parameterType="com.eco.domain.StaffVO">
+	<update id="updateRegionStaff" parameterType="com.eco.domain.vo.StaffVO">
 		<![CDATA[
 		    UPDATE t_staff SET staff_addr = #{staff_addr}
 		    WHERE staff_id = #{staff_id}
 	    ]]>
 	</update>
 	<!-- 직원 계정 복구 -->
-	<update id="updateRecoverStaff" parameterType="com.eco.domain.StaffVO">
+	<update id="updateRecoverStaff" parameterType="com.eco.domain.vo.StaffVO">
 		<![CDATA[
 		    UPDATE t_staff SET use_yn='Y'
 		    WHERE staff_id = #{staff_id}

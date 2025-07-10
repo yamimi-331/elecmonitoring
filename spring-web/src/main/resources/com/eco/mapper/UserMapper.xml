@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.eco.mapper.UserMapper">
 	<!-- SELECT -->
 	<!-- 사용자 일반 로그인 -->
-	<select id="selectUserByIdAndPw" resultType="com.eco.domain.UserVO">
+	<select id="selectUserByIdAndPw" resultType="com.eco.domain.vo.UserVO">
 		<![CDATA[
 		SELECT * FROM t_user
 		WHERE use_yn = 'Y' AND user_id = #{user_id} AND user_pw = #{user_pw} AND user_social = 'Basic'
@@ -13,14 +13,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 아이디 중복 조회 -->
-	<select id="selectUserById" resultType="com.eco.domain.UserVO">
+	<select id="selectUserById" resultType="com.eco.domain.vo.UserVO">
 		<![CDATA[
 		SELECT * FROM t_user
 		WHERE user_id = #{user_id}
 		]]>
 	</select>
 	<!-- 일반 사용자 계정 복구를 위한 검색, 조회 -->
-	<select id="selectUserForRecover" resultType="com.eco.domain.UserVO">
+	<select id="selectUserForRecover" resultType="com.eco.domain.vo.UserVO">
 		<![CDATA[
 		SELECT * FROM t_user
 		WHERE use_yn = 'N' AND user_id LIKE CONCAT('%', #{user_id}, '%')
@@ -28,7 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	<!-- INSERT -->
 	<!-- 사용자 회원가입 -->
-	<insert id="insertUser" parameterType="com.eco.domain.UserVO">
+	<insert id="insertUser" parameterType="com.eco.domain.vo.UserVO">
 		<![CDATA[
 		    INSERT INTO t_user(user_id, user_pw, user_nm, user_addr, user_mail)
 		    VALUES(#{user_id}, #{user_pw}, #{user_nm}, #{user_addr}, #{user_mail})
@@ -37,21 +37,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- UPDATE -->
 	<!-- 사용자 정보 수정 -->
-	<update id="updateUser" parameterType="com.eco.domain.UserVO">
+	<update id="updateUser" parameterType="com.eco.domain.vo.UserVO">
 		<![CDATA[
-		    UPDATE t_user SET user_pw = #{user_pw}, user_nm = #{user_nm}, user_addr = #{user_addr}, user_mail = #{user_mail}
-		    WHERE user_id = #{user_id}
+		    UPDATE t_user 
+		    <set>
+		        <if test="user_pw != null and user_pw != ''">
+		            user_pw = #{user_pw},
+		        </if>
+		        user_nm = #{user_nm},
+		        user_addr = #{user_addr},
+		        user_mail = #{user_mail}
+		    </set>
+    		WHERE user_id = #{user_id}
 	    ]]>
 	</update>
 	<!-- 사용자 회원 탈퇴 -->
-	<update id="deleteUser" parameterType="com.eco.domain.UserVO">
+	<update id="deleteUser" parameterType="com.eco.domain.vo.UserVO">
 		<![CDATA[
 		    UPDATE t_user SET use_yn='N'
 		    WHERE user_id = #{user_id}
 	    ]]>
 	</update>
 	<!-- 사용자 계정 복구 -->
-	<update id="updateRecoverUser" parameterType="com.eco.domain.UserVO">
+	<update id="updateRecoverUser" parameterType="com.eco.domain.vo.UserVO">
 		<![CDATA[
 		    UPDATE t_user SET use_yn='Y'
 		    WHERE user_id = #{user_id}

@@ -32,57 +32,49 @@ public class ProfileEditController {
 	@GetMapping("")
 	public String profilePage(HttpSession session, Model model) {
 		String type = (String) session.getAttribute("userType");
-		ProfileEditDTO dto = new ProfileEditDTO();
-		if ("common".equals(type)) {
-			UserVO currentUser = (UserVO) session.getAttribute("currentUserInfo");
-			dto.setId(currentUser.getUser_id());
-			dto.setPw(currentUser.getUser_pw());
-			dto.setNm(currentUser.getUser_nm());
-			dto.setAddr(currentUser.getUser_addr());
-			dto.setMail(currentUser.getUser_mail());
-		} else if ("staff".equals(type) || "admin".equals(type)) {
-			StaffVO currentUser = (StaffVO) session.getAttribute("currentUserInfo");
-			dto.setId(currentUser.getStaff_id());
-			dto.setPw(currentUser.getStaff_pw());
-			dto.setNm(currentUser.getStaff_nm());
-			dto.setAddr(currentUser.getStaff_addr());
-			dto.setMail(currentUser.getStaff_role());
-		}
-
-		model.addAttribute("profileInfo", dto);
+		Object currentUser = session.getAttribute("currentUserInfo");
+		 
+	    if ("common".equals(type)) {
+	        UserVO user = (UserVO) currentUser;
+	        model.addAttribute("profileInfo", user);
+	    } else if ("staff".equals(type) || "admin".equals(type)) {
+	        StaffVO staff = (StaffVO) currentUser;
+	        model.addAttribute("profileInfo", staff);
+	    }
 
 		return "user/profileEdit";
 	}
 	
 	//회원 정보 수정
-	@PostMapping("")
-	public String profileEdit(ProfileEditDTO dto, HttpSession session, RedirectAttributes redirectAttrs) {
-		String type = (String) session.getAttribute("userType");
+	@PostMapping("/common")
+	public String profileEditCommon(UserVO inputVO, HttpSession session, RedirectAttributes redirectAttrs) {
 		boolean result = false;
-		if ("common".equals(type)) {
-			UserVO vo = new UserVO();
-			vo.setUser_id(dto.getId());
-			vo.setUser_pw(dto.getPw());
-			vo.setUser_nm(dto.getNm());
-			vo.setUser_addr(dto.getAddr());
-			vo.setUser_mail(dto.getMail());
-			result = userService.modify(vo);
-			if (result) {
-				// DB에서 최신 정보 다시 조회
-				UserVO updatedUser = userService.checkId(vo);
-				session.setAttribute("currentUserInfo", updatedUser);
-			}
-		} else if ("staff".equals(type) || "admin".equals(type)) {
-			StaffVO vo = new StaffVO();
-			vo.setStaff_id(dto.getId());
-			vo.setStaff_pw(dto.getPw());
-			vo.setStaff_nm(dto.getNm());
-			vo.setStaff_addr(dto.getAddr());
-			vo.setStaff_role(dto.getStaff_role());
+	
+		result = userService.modify(inputVO);
+		if (result) {
+			// DB에서 최신 정보 다시 조회
+			UserVO updatedUser = userService.checkId(inputVO);
+			session.setAttribute("currentUserInfo", updatedUser);
+		}
 
-			result = staffService.modify(vo);
-			// 세션 갱신!
-			session.setAttribute("currentUserInfo", vo);
+		if (result) {
+			redirectAttrs.addFlashAttribute("message", "회원 정보가 수정되었습니다.");
+		} else {
+			redirectAttrs.addFlashAttribute("message", "회원 정보가 수정을 실패했습니다.");
+		}
+		return "redirect:/";
+	}
+	
+	@PostMapping("/staff")
+	public String profileEditStaff(StaffVO inputVO, HttpSession session, RedirectAttributes redirectAttrs) {
+		boolean result = false;
+		
+		result = staffService.modify(inputVO);
+		// 세션 갱신!
+		if (result) {
+			// DB에서 최신 정보 다시 조회
+			StaffVO updatedStaff = staffService.checkId(inputVO.getStaff_id());
+			session.setAttribute("currentUserInfo", updatedStaff);
 		}
 
 		if (result) {

@@ -23,22 +23,6 @@ import lombok.AllArgsConstructor;
 public class AsServiceImpl implements AsService {
 
 	private final AsMapper asMapper;
-	
-	// 기사, 관리자의 AS 리스트 가져오는 함수
-	@Override
-	public List<ASVO> getAsList(String userType, int staffCd) {
-		try {
-			if ("admin".equals(userType)) {
-				return asMapper.selectAllAsList();
-			} else if ("staff".equals(userType)) {
-				return asMapper.selectAsListByStaff(staffCd);
-			} else {
-				return null; // 접근 불가
-			}
-        } catch (Exception e) {
-            throw new ServiceException("기사, 관리자의 AS 리스트 가져오기 실패", e);
-        }
-	}
 
 	// 사용자의의 AS 리스트 가져오는 함수
 	@Override
@@ -46,7 +30,7 @@ public class AsServiceImpl implements AsService {
 		try {
 			return asMapper.selectAsListByUser(user_cd);
         } catch (Exception e) {
-            throw new ServiceException("사용자의의 AS 리스트 가져오기 실패", e);
+            throw new ServiceException("사용자의 AS 리스트 가져오기 실패", e);
         }
 	}
 
@@ -116,23 +100,7 @@ public class AsServiceImpl implements AsService {
             throw new ServiceException("AS 신고 삭제 실패", e);
         }
 	}
-
-	// 기사, 관리자의 AS 리스트 가져오는 함수
-	@Override
-	public List<ASListDTO> getAsDtoList(String userType, int staffCd) {
-		try {
-			if ("admin".equals(userType)) {
-				return asMapper.selectAllAsDtoList();
-			} else if ("staff".equals(userType)) {
-				return asMapper.selectAsDtoListByStaff(staffCd);
-			} else {
-				return null; // 접근 불가
-			}
-		} catch (Exception e) {
-			throw new ServiceException("AS 리스트 조회 실패", e);
-		}
-	}
-
+	
 	//관리자/기사의 상태 업데이트
 	@Override
 	public void updateStatus(int as_cd, String as_status) {

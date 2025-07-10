@@ -17,7 +17,7 @@ function searchAddress() {
     new daum.Postcode({
         oncomplete: function(data) {
             const fullAddress = data.roadAddress || data.jibunAddress;
-            document.getElementById("as_addr").value = fullAddress;
+            document.getElementById("as_addr_display").value = fullAddress;
         }
     }).open();
 }

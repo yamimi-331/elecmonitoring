@@ -52,3 +52,32 @@
   padding: 8px 16px;
   cursor: pointer;
 }
+
+/* 폼 숨기기/보이기 */
+.newStaff-form { display: none; }
+.newStaff-form.active { display: block; }
+
+/* 탭 스타일 */
+#newStaff-tabs {
+	display: flex;
+	list-style: none;
+	padding: 0;
+	margin-bottom: 20px;
+}
+
+#newStaff-tabs li a {
+	padding: 10px 20px;
+	text-decoration: none;
+	background-color: #eee;
+	margin-right: 5px;
+	border-radius: 5px 5px 0 0;
+	color: #333;
+	border: 1px solid #ccc;
+	border-bottom: none;
+}
+
+#newStaff-tabs li a.active {
+	background-color: white;
+	font-weight: bold;
+	border-bottom: 1px solid white;
+}

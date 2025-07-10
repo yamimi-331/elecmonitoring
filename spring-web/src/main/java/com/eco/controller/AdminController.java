@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -117,5 +118,45 @@ public class AdminController {
 			  return "fail"; // 실패면 fail
 		}
 		 return "success"; // 
+	}
+	
+	// 아이디 중복체크(GET /signup/checkId?user_id=xxx)
+	@GetMapping(value = "/checkId", produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public ResponseEntity<String> checkId(StaffVO vo) {
+		log.info("아이디 중복 체크 요청: " +  vo.getStaff_id());
+		StaffVO staff = staffService.checkId(vo.getStaff_id());
+		if (staff == null) {
+			return ResponseEntity.ok("사용가능");
+		} else {
+			return ResponseEntity.ok("이미 사용 중인 아이디입니다.");
+		}
+	}
+	
+	// 직원 계정 생성
+	@PostMapping("/staff")
+	public String registerNewStaff(StaffVO vo, RedirectAttributes redirectAttrs) {
+		log.info("직원 생성 요청");
+		boolean result = staffService.register(vo);
+		if (result) {
+			redirectAttrs.addFlashAttribute("message", "직원 계정이 생성되었습니다.");
+		} else {
+			redirectAttrs.addFlashAttribute("message", "계정 생성 실패");
+		}
+		return "redirect:/admin/account";
+	}
+	
+	
+	// 관리자 계정 생성
+	@PostMapping("/admin")
+	public String guestLogin(StaffVO vo, RedirectAttributes redirectAttrs) {
+		log.info("직원 생성 요청");
+		boolean result = staffService.register(vo);
+		if (result) {
+			redirectAttrs.addFlashAttribute("message", "관리자 계정이 생성되었습니다.");
+		} else {
+			redirectAttrs.addFlashAttribute("message", "계정 생성 실패");
+		}
+		return "redirect:/admin/account";
 	}
 }

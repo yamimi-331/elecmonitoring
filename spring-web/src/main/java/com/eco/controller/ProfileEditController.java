@@ -70,6 +70,7 @@ public class ProfileEditController {
 		boolean result = false;
 		
 		result = staffService.modify(inputVO);
+		
 		// 세션 갱신!
 		if (result) {
 			// DB에서 최신 정보 다시 조회
@@ -90,7 +91,6 @@ public class ProfileEditController {
 	public String deleteAccount(HttpSession session, RedirectAttributes redirectAttrs) {
 		log.info("함수 진입");
 		Object obj = session.getAttribute("currentUserInfo");
-		log.info("currentUserInfo: " + obj);
 		
 		if (obj == null) {
 			// 로그인 정보 없으면 빈 리스트 반환 (또는 예외처리)

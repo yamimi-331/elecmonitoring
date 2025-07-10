@@ -38,18 +38,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- UPDATE -->
 	<!-- 사용자 정보 수정 -->
 	<update id="updateUser" parameterType="com.eco.domain.vo.UserVO">
-		<![CDATA[
-		    UPDATE t_user 
+		<![CDATA[ UPDATE t_user ]]>
 		    <set>
 		        <if test="user_pw != null and user_pw != ''">
-		            user_pw = #{user_pw},
+		            <![CDATA[ user_pw = #{user_pw}, ]]>
 		        </if>
-		        user_nm = #{user_nm},
-		        user_addr = #{user_addr},
-		        user_mail = #{user_mail}
+		        <![CDATA[
+			        user_nm = #{user_nm},
+			        user_addr = #{user_addr},
+			        user_mail = #{user_mail}
+		        ]]>
 		    </set>
-    		WHERE user_id = #{user_id}
-	    ]]>
+    		<![CDATA[ WHERE user_id = #{user_id} ]]>
 	</update>
 	<!-- 사용자 회원 탈퇴 -->
 	<update id="deleteUser" parameterType="com.eco.domain.vo.UserVO">

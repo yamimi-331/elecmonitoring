@@ -108,12 +108,14 @@ public class AdminController {
 	// 직원 정보 수정
 	@PostMapping("/update-staff")
 	@ResponseBody
-	public void updateStaff(StaffVO staffVO) {
+	public String  updateStaff(StaffVO staffVO) {
 		log.info("직원 정보 수정 버튼 클릭 함수 진입");
 		boolean result = false;
 		result = staffService.modifyRegion(staffVO);
 		if(!result) {
 			log.info("직원 정보 수정 중 오류 발생");
+			  return "fail"; // 실패면 fail
 		}
+		 return "success"; // 
 	}
 }

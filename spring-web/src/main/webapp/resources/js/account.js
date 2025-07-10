@@ -22,6 +22,10 @@ function searchStaff() {
       } else {
         staffs.forEach((staff) => {
           // 각 항목을 안전하게 문자열로 변환
+          const addr = staff.staff_addr && staff.staff_addr.trim() !== ""
+						  ? staff.staff_addr.split(" ")[0]
+						  : "-";
+						          
           const rowHtml =
             "<tr>" +
             "<td>" +
@@ -37,7 +41,7 @@ function searchStaff() {
             staff.staff_role +
             "</td>" +
             "<td>" +
-            staff.staff_addr.split(" ")[0] +
+            addr +
             "</td>" +
             "<td><button onclick=\"accountDetail('" +
             staff.staff_id +
@@ -146,9 +150,9 @@ function restoreAccount(id, userType) {
   });
 }
 // 모달로 정보보고 수정
-$("#staff-detail-form").on("submit", function (e) {
+$(document).on("submit", "#staff-detail-form", function (e) {
   e.preventDefault(); // 기본 submit 막음
-
+	
   const staffData = {
     staff_cd: $("#modal-staff-cd").val(),
     staff_id: $("#modal-staff-id").val(),
@@ -161,7 +165,7 @@ $("#staff-detail-form").on("submit", function (e) {
     url: "/admin/update-staff",
     type: "POST",
     data: staffData,
-    success: function () {
+    success: function (response) {
       alert("수정 완료!");
       closeModal();
       searchStaff(); // 테이블 갱신
@@ -189,16 +193,23 @@ function accountDetail(staffId) {
       $("#modal-staff-nm").val(staff[0].staff_nm);
       $("#modal-staff-role").val(staff[0].staff_role);
 
-      let fullAddr = staff[0].staff_addr; // 예: "울산광역시 남구"
+     let fullAddr = staff[0].staff_addr || ""; // null 방지
 
-      // select option 돌면서 포함 여부 확인 후 선택
-      $("#modal-staff-addr option").each(function () {
-        const optVal = $(this).val();
-        if (fullAddr.includes(optVal)) {
-          $("#modal-staff-addr").val(optVal);
-          return false;
-        }
-      });
+	let matched = false;
+	
+	$("#modal-staff-addr option").each(function () {
+	  const optVal = $(this).val();
+	  if (fullAddr.includes(optVal)) {
+	    $("#modal-staff-addr").val(optVal);
+	    matched = true;
+	    return false; // 첫 일치에서 종료
+	  }
+	});
+	
+	// 아무것도 못 찾으면 "-" 선택
+	if (!matched) {
+	  $("#modal-staff-addr").val("-"); // 기본 '없음' 옵션 선택
+	}
 
       // 모달 열기
       $("#staff-modal").show();

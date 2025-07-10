@@ -121,6 +121,11 @@ public class StaffServiceImpl implements StaffService {
 	@Override
 	public boolean modifyRegion(StaffVO staffVO) {
 		try {
+			// 여기서 "-" 들어오면 null로 변환
+	        if ("-".equals(staffVO.getStaff_addr())) {
+	            staffVO.setStaff_addr(null);
+	        }
+	        
             int result = staffMapper.updateRegionStaff(staffVO);
             return result>0;
         } catch (Exception e) {

@@ -110,6 +110,7 @@
 			    <option value="경북">경상북도</option>
 			    <option value="경남">경상남도</option>
 			    <option value="제주">제주특별자치도</option>
+			    <option value="-">없음</option>
 			  </select>
 			</div>
 

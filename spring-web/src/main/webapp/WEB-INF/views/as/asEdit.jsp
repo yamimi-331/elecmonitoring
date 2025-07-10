@@ -74,6 +74,10 @@ function searchAddress() {
 							<input type="text" name="as_addr" id="as_addr" autocomplete="off" value="${asVO.as_addr}" readonly>
 							<button type="button" onclick="searchAddress()">주소 검색</button>
 						</div>
+						<div class="i">
+							<label for="as_detail">상세 주소</label>
+							<input type="text" name="as_detail" id="as_detail" autocomplete="off">
+						</div>
 					</div>
 					<div class="inner-container">
 						<span>상세 정보</span>

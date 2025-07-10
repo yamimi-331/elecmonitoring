@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		const selectedDate = this.value;
 		if (!selectedDate) return;
 		
-		const regionInput = document.getElementById("as_addr");
+		const regionInput = document.getElementById("as_addr_display");
 		let fullRegion = regionInput.value;
 
 		// 공백 기준으로 앞자리만 가져오기 (예: "서울특별시")
@@ -95,7 +95,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const userMail = document.getElementById("user_mail");
         const asFacility = document.getElementById("as_facility");
         const asFacilityCustom = document.getElementById("as_facility_custom");
-        const asAddr = document.getElementById("as_addr");
         const asTitle = document.getElementById("as_title");
         const asTitleCustom = document.getElementById("as_title_custom");
         const asContent = document.getElementById("as_content");
@@ -161,4 +160,21 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
     });
+    
+    //상세주소 문자열 합치기
+    function combineAddress() {
+    	const baseAddr = document.getElementById('as_addr_display').value.trim();
+    	const detailAddr = document.getElementById('as_addr_detail').value.trim();
+    	
+    	let combined = baseAddr;
+    	if(detailAddr){
+    		combined += ':' + detailAddr;
+    	}
+    	
+    	document.getElementById('as_addr_hidden').value = combined;
+    }
+    
+    document.querySelector('.as-form').addEventListener('submit', function(e) {
+  		combineAddress();
+	});
 });

@@ -31,7 +31,7 @@ function searchAddress() {
 		<main class="main">
 			<h2>A/S 신고</h2>
 			<div class=container>
-				<form action="/as/insertCommon" method="post" class="as-form">
+				<form action="/as/insertCommon" method="post" class="as-form" id="as-form">
 					<div class="inner-container">
 						<span>신고자 정보</span>
 						<div class="i">
@@ -62,8 +62,13 @@ function searchAddress() {
 						</div>
 						<div class="address-container">
 							<label for="as_addr">주소</label>
-							<input type="text" name="as_addr" id="as_addr" autocomplete="off" readonly>
+							<input type="text" id="as_addr_display" autocomplete="off" readonly>
 							<button type="button" onclick="searchAddress()">주소 검색</button>
+							<input type="hidden" name="as_addr" id="as_addr_hidden" autocomplete="off">
+						</div>
+						<div class="i">
+							<label for="as_detail">상세 주소</label>
+							<input type="text" name="as_detail" id="as_addr_detail" autocomplete="off">
 						</div>
 					</div>
 					<div class="inner-container">

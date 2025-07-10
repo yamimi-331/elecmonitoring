@@ -2,12 +2,15 @@ package com.eco.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.eco.domain.vo.StaffVO;
 import com.eco.domain.vo.UserVO;
@@ -24,11 +27,33 @@ import lombok.extern.log4j.Log4j;
 public class AdminController {
 	private final UserService userService;
 	private final StaffService staffService;
-
+	
+	// 계정관리 페이지 접속
 	@GetMapping("/account")
-	public String adminPage() {
-		log.info("관리자 페이지 이동");
-		return "/admin/account";
+	public String adminPage(HttpSession session, RedirectAttributes redirectAttrs) {
+		Object currentUser = session.getAttribute("currentUserInfo");
+		// 비정상적 루트로 접근 제한
+		boolean accessAllow = false;
+		if (currentUser instanceof UserVO) {
+			accessAllow = false;
+		} else if(currentUser instanceof StaffVO) {
+			StaffVO vo = (StaffVO) currentUser;
+			if("admin".equals(vo.getStaff_role())) {
+				accessAllow = true;
+			}else {
+				accessAllow = false;
+			}
+		} else {
+			accessAllow = false;
+		}
+		
+		if (accessAllow) {
+			log.info("관리자 페이지 이동");
+			return "/admin/account";
+		} else {
+			redirectAttrs.addFlashAttribute("message", "잘못된 접근입니다.");
+			return "redirect:/";
+		}
 	}
 	
 	//이름으로 직원 정보 조회

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.eco.domain.DTO.ProfileEditDTO;
 import com.eco.domain.vo.StaffVO;
 import com.eco.domain.vo.UserVO;
 import com.eco.service.StaffService;
@@ -30,10 +29,14 @@ public class ProfileEditController {
 
 	//회원 정보 수정 페이지 접속
 	@GetMapping("")
-	public String profilePage(HttpSession session, Model model) {
+	public String profilePage(HttpSession session, RedirectAttributes redirectAttrs, Model model) {
 		String type = (String) session.getAttribute("userType");
 		Object currentUser = session.getAttribute("currentUserInfo");
-		 
+
+		if(currentUser == null) {
+			redirectAttrs.addFlashAttribute("message", "잘못된 접근입니다.");
+			return "redirect:/";
+		}
 	    if ("common".equals(type)) {
 	        UserVO user = (UserVO) currentUser;
 	        model.addAttribute("profileInfo", user);
@@ -51,6 +54,7 @@ public class ProfileEditController {
 		boolean result = false;
 	
 		result = userService.modify(inputVO);
+		
 		if (result) {
 			// DB에서 최신 정보 다시 조회
 			UserVO updatedUser = userService.checkId(inputVO);
@@ -93,8 +97,8 @@ public class ProfileEditController {
 		Object obj = session.getAttribute("currentUserInfo");
 		
 		if (obj == null) {
-			// 로그인 정보 없으면 빈 리스트 반환 (또는 예외처리)
-			return "";
+			redirectAttrs.addFlashAttribute("message", "잘못된 접근입니다.");
+			return "redirect:/";
 		}
 
 		boolean result = false;

@@ -115,8 +115,8 @@
 			</div>
 
 	        <div class="modal-actions">
-	          <button type="button" onclick="closeModal()">취소</button>
-	          <button type="submit">저장</button>
+	          <button type="button" class="modal-btn" onclick="closeModal()">취소</button>
+	          <button type="submit" class="modal-btn">저장</button>
 	        </div>
 	      </form>
 	    </div>
@@ -125,29 +125,33 @@
 	  <!-- 모달2 -->
 	  <div id="new-staff-modal" class="modal" style="display: none;">
 	    <div class="modal-content">
-	      	<!-- 로그인 유형 탭 -->
-			<ul id="newStaff-tabs">
-				<li><a href="#" data-tab="staff" class="active">직원 계정 생성</a></li>
-				<li><a href="#" data-tab="admin">관리자 계정 생성</a></li>
-			</ul>
+	    	<div class="tab-container">
+		      	<!-- 로그인 유형 탭 -->
+				<ul id="newStaff-tabs">
+					<li><a href="#" data-tab="staff" class="active">직원 계정 생성</a></li>
+					<li><a href="#" data-tab="admin">관리자 계정 생성</a></li>
+				</ul>
+	    	</div>
 		
 			<!-- 직원 계정 생성 폼 -->
 			<div id="staff" class="newStaff-form active">
 				<form action="/admin/staff" method="post">
 					<div class="form-group">
 						<label for="staff_id_staff">아이디</label>
-						<input type="text" name="staff_id" id="staff_id_staff" autocomplete="off">
-						<button type="button" id="staff_id_ck_staff">아이디 중복 확인</button>
+						<div class="inner-form-group">
+							<input type="text" name="staff_id" id="staff_id_staff" autocomplete="off">
+							<button type="button" id="staff_id_ck_staff" class="modal-btn">아이디 중복 확인</button>
+						</div>
 						<small id="idCheckMsg_staff"></small>
 					</div>
 	
 					<div class="form-group">
-						<label for="staff_pw">새 비밀번호</label>
+						<label for="staff_pw">비밀번호</label>
 						<input type="password" name="staff_pw" id="staff_pw_staff" autocomplete="new-password">
 					</div>
 				  
 					<div class="form-group">
-						<label for="staff_pw_ck">새 비밀번호 확인</label>
+						<label for="staff_pw_ck">비밀번호 확인</label>
 						<input type="password" name="staff_pw_ck" id="staff_pw_ck_staff" autocomplete="new-password">
 						<small id="pwCheckMsg_staff"></small>
 					</div>
@@ -184,8 +188,8 @@
 					<input type="hidden" name="staff_role" id="staff_role_staff" value="staff">
 					
 			        <div class="modal-actions">
-						<button type="submit" id="submitBtn_staff">직원 계정 생성</button>
-						<button type="button" onclick="closeModal()">취소</button>
+						<button type="submit" class="modal-btn" id="submitBtn_staff">직원 계정 생성</button>
+						<button type="button" class="modal-btn" onclick="closeModal()">취소</button>
 		    	    </div>
 				</form>
 			</div>
@@ -195,18 +199,20 @@
 				<form action="/admin/admin" method="post">
 					<div class="form-group">
 						<label for="staff_id_admin">아이디</label>
-						<input type="text" name="staff_id" id="staff_id_admin" autocomplete="off">
-						<button type="button" id="staff_id_ck_admin">아이디 중복 확인</button>
+						<div class="inner-form-group">
+							<input type="text" name="staff_id" id="staff_id_admin" autocomplete="off">
+							<button type="button" class="modal-btn"  id="staff_id_ck_admin">아이디 중복 확인</button>
+						</div>
 						<small id="idCheckMsg_admin"></small>
 					</div>
 	
 					<div class="form-group">
-						<label for="staff_pw">새 비밀번호</label>
+						<label for="staff_pw">비밀번호</label>
 						<input type="password" name="staff_pw" id="staff_pw_admin" autocomplete="new-password">
 					</div>
 				  
 					<div class="form-group">
-						<label for="staff_pw_ck">새 비밀번호 확인</label>
+						<label for="staff_pw_ck">비밀번호 확인</label>
 						<input type="password" name="staff_pw_ck" id="staff_pw_ck_admin" autocomplete="new-password">
 						<small id="pwCheckMsg_admin"></small>
 					</div>
@@ -219,8 +225,8 @@
 					<input type="hidden" name="staff_role" id="staff_role_admin" value="admin">
 					
 			        <div class="modal-actions">
-						<button type="submit" id="submitBtn_admin">관리자 계정 생성</button>
-						<button type="button" onclick="closeModal()">취소</button>
+						<button type="submit" class="modal-btn"  id="submitBtn_admin">관리자 계정 생성</button>
+						<button type="button" class="modal-btn"  onclick="closeModal()">취소</button>
 					</div>
 				</form>
 			</div>

@@ -18,7 +18,7 @@ function searchAddress() {
     new daum.Postcode({
         oncomplete: function(data) {
             const fullAddress = data.roadAddress || data.jibunAddress;
-            document.getElementById("as_addr").value = fullAddress;
+            document.getElementById("as_addr_display").value = fullAddress;
         }
     }).open();
 }
@@ -70,13 +70,14 @@ function searchAddress() {
 	    					</div>
 						</div>
 						<div class="address-container">
-							<label for="as_addr">주소</label>  
-							<input type="text" name="as_addr" id="as_addr" autocomplete="off" value="${asVO.as_addr}" readonly>
+							<label for="as_addr">주소</label>
+							<input type="text" id="as_addr_display" autocomplete="off" readonly>
 							<button type="button" onclick="searchAddress()">주소 검색</button>
+							<input type="hidden" name="as_addr" id="as_addr_hidden" autocomplete="off">
 						</div>
 						<div class="i">
 							<label for="as_detail">상세 주소</label>
-							<input type="text" name="as_detail" id="as_detail" autocomplete="off">
+							<input type="text" name="as_detail" id="as_addr_detail" autocomplete="off">
 						</div>
 					</div>
 					<div class="inner-container">

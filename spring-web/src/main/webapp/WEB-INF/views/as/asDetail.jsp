@@ -7,6 +7,22 @@
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" href="../../resources/css/common.css?after" />
+<script>
+function loadData(sortType) {
+    $.ajax({
+      url: '/as/detail/list',
+      type: 'GET',
+      data: { sort: sortType },
+      success: function(data) {
+        $('#listArea').html(data);
+      },
+      error: function(err) {
+        console.error(err);
+      }
+    });
+  }
+</script>
+
 </head>
 <body>
 	<div class="wrapper">
@@ -14,6 +30,10 @@
 		<%@ include file="/WEB-INF/views/common/commonHeader.jsp" %>
 		<main class="main">
 			<h2>AS 신고 내역</h2>
+			<div class="custom-table">
+				<button onclick="loadData('reportDate')">신고일자순</button>
+				<button  onclick="loadData('reservationDate')">예약일자순</button>
+			</div>
 			<table class="custom-table">
 				<thead>
 					<tr>
@@ -24,7 +44,7 @@
 						<th>상세 정보</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody id="listArea">
 					<c:choose>
 						<c:when test="${empty userList }">
 							<tr>

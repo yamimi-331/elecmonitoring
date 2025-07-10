@@ -43,5 +43,7 @@ public interface AsService {
 	
 	// 회원 탈퇴시 미래 예약건 취소
 	public boolean cancleAsListBydeleteUser(UserVO userVO);
+	// 일자순으로 정렬
+	public List<ASVO> getUserAsListOrderByAsDate(int user_cd);
 	
 }

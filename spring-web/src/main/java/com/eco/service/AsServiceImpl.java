@@ -189,4 +189,14 @@ public class AsServiceImpl implements AsService {
     	}
 	}
 
+	// 날짜순으로 조회
+	@Override
+	public List<ASVO> getUserAsListOrderByAsDate(int user_cd) {
+		try {
+			return asMapper.getUserAsListOrderByAsDate(user_cd);
+        } catch (Exception e) {
+            throw new ServiceException("사용자의 AS 리스트 가져오기 실패", e);
+        }
+	}
+
 }

@@ -59,5 +59,7 @@ public interface AsMapper {
 	
 	// 회원 탈퇴시 미래 예약건 취소
 	public int deleteAsListBydeleteUser(UserVO userVO);
+	// AS 일정 날짜순으로 정렬
+	public List<ASVO> getUserAsListOrderByAsDate(int user_cd);
 
 }

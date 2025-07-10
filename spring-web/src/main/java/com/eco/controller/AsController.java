@@ -91,40 +91,101 @@ public class AsController {
 		return "redirect:/as/detail";
 	}
 
-	// as신고 내역
+	// 최초 전체 페이지
 	@GetMapping("/detail")
 	public String asDetail(HttpSession session, RedirectAttributes redirectAttrs, Model model) {
-		log.info("as신청 내역 상세 페이지 요청");
-		UserVO user = (UserVO) session.getAttribute("currentUserInfo");
-		if (user == null) {
-			redirectAttrs.addFlashAttribute("message", "로그인 후 이용해주세요.");
-			return "redirect:/login";
-		}
-		int user_cd = user.getUser_cd();
-		List<ASVO> asvo = asService.getUserAsList(user_cd);
-		
-		// 날짜/시간 분리
-		List<Map<String, Object>> parsedList = new ArrayList<>();
-		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+	    log.info("as신청 내역 상세 페이지 요청");
+	    UserVO user = (UserVO) session.getAttribute("currentUserInfo");
+	    if (user == null) {
+	        redirectAttrs.addFlashAttribute("message", "로그인 후 이용해주세요.");
+	        return "redirect:/login";
+	    }
+	    int user_cd = user.getUser_cd();
+	    List<ASVO> asvo = asService.getUserAsList(user_cd);
 
-		for (ASVO vo : asvo) {
-			Map<String, Object> map = new HashMap<>();
-			map.put("as", vo);
-			//날짜, 시간
-			if (vo.getAs_date() != null) {
-				map.put("as_date_str", vo.getAs_date().format(dateFormatter));
-				map.put("as_time_str", vo.getAs_date().format(timeFormatter));
-			} else {
-				map.put("as_date_str", "");
-				map.put("as_time_str", "");
-			}
-			parsedList.add(map);
-		}
-		
-		model.addAttribute("userList", parsedList);
-		return "/as/asDetail";
+	    List<Map<String, Object>> parsedList = parseAsList(asvo);
+	    model.addAttribute("userList", parsedList);
+
+	    return "/as/asDetail";
 	}
+	
+	// AJAX: fragment만 반환
+	@GetMapping("/detail/list")
+	public String asDetailList(HttpSession session, Model model, @RequestParam String sort) {
+	  log.info("as신청 내역 fragment 요청, sort = " + sort);
+	  UserVO user = (UserVO) session.getAttribute("currentUserInfo");
+	  if (user == null) return "redirect:/login";
+
+	  int user_cd = user.getUser_cd();
+	  List<ASVO> asvo;
+	  if ("reservationDate".equals(sort)) {
+	    asvo = asService.getUserAsListOrderByAsDate(user_cd);
+	  } else {
+	    asvo = asService.getUserAsList(user_cd);
+	  }
+
+	  List<Map<String, Object>> parsedList = parseAsList(asvo);
+	  model.addAttribute("userList", parsedList);
+
+	  return "/as/asList"; // include 안쓰니까 그대로 JSP
+	}
+
+
+	// 날짜/시간 파싱 함수
+	private List<Map<String, Object>> parseAsList(List<ASVO> asvo) {
+	    List<Map<String, Object>> parsedList = new ArrayList<>();
+	    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	    DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+
+	    for (ASVO vo : asvo) {
+	        Map<String, Object> map = new HashMap<>();
+	        map.put("as", vo);
+	        if (vo.getAs_date() != null) {
+	            map.put("as_date_str", vo.getAs_date().format(dateFormatter));
+	            map.put("as_time_str", vo.getAs_date().format(timeFormatter));
+	        } else {
+	            map.put("as_date_str", "");
+	            map.put("as_time_str", "");
+	        }
+	        parsedList.add(map);
+	    }
+	    return parsedList;
+	}
+
+
+//	@GetMapping("/detail")
+//	public String asDetail(HttpSession session, RedirectAttributes redirectAttrs, Model model) {
+//		log.info("as신청 내역 상세 페이지 요청");
+//		UserVO user = (UserVO) session.getAttribute("currentUserInfo");
+//		if (user == null) {
+//			redirectAttrs.addFlashAttribute("message", "로그인 후 이용해주세요.");
+//			return "redirect:/login";
+//		}
+//		int user_cd = user.getUser_cd();
+//		List<ASVO> asvo = asService.getUserAsList(user_cd);
+//		
+//		// 날짜/시간 분리
+//		List<Map<String, Object>> parsedList = new ArrayList<>();
+//		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+//
+//		for (ASVO vo : asvo) {
+//			Map<String, Object> map = new HashMap<>();
+//			map.put("as", vo);
+//			//날짜, 시간
+//			if (vo.getAs_date() != null) {
+//				map.put("as_date_str", vo.getAs_date().format(dateFormatter));
+//				map.put("as_time_str", vo.getAs_date().format(timeFormatter));
+//			} else {
+//				map.put("as_date_str", "");
+//				map.put("as_time_str", "");
+//			}
+//			parsedList.add(map);
+//		}
+//		
+//		model.addAttribute("userList", parsedList);
+//		return "/as/asDetail";
+//	}
 
 	// as신고 수정 화면
 	@PostMapping("/edit")

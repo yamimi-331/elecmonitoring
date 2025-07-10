@@ -204,9 +204,25 @@ public class AsController {
 
 	//asOrder 페이지로 이동
 	@GetMapping("/order")
-	public String asOderPage(HttpSession session, Model model) {
-		log.info("직원, 관리자의 as목록 확인 페이지로 이동");
-		return "/as/asOrder";
+	public String asOderPage(HttpSession session, RedirectAttributes redirectAttrs) {
+		Object currentUser = session.getAttribute("currentUserInfo");
+        // 비정상적 루트로 접근 제한
+        boolean accessAllow = false;
+        if (currentUser instanceof UserVO) {
+        	accessAllow = false;
+        } else if(currentUser instanceof StaffVO) {
+        	accessAllow = true;
+        } else {
+        	accessAllow = false;
+        }
+        
+        if (accessAllow) {
+        	log.info("직원, 관리자의 as목록 확인 페이지로 이동");
+        	return "/as/asOrder";
+        } else {
+        	redirectAttrs.addFlashAttribute("message", "잘못된 접근입니다.");
+        	return "redirect:/";
+        }
 	}
 
 	// AS List 표의 하나의 행의 상세정보 버튼 클릭

@@ -204,4 +204,21 @@ document.addEventListener("DOMContentLoaded", () => {
 			"정말로 예약을 취소하시겠습니까?\n동일 시간으로 다시 예약하실 수 없을 수 있습니다."
 		);
 	};
+	
+	//상세주소 문자열 합치기
+    function combineAddress() {
+    	const baseAddr = document.getElementById('as_addr_display').value.trim();
+    	const detailAddr = document.getElementById('as_addr_detail').value.trim();
+    	
+    	let combined = baseAddr;
+    	if(detailAddr){
+    		combined += ':' + detailAddr;
+    	}
+    	
+    	document.getElementById('as_addr_hidden').value = combined;
+    }
+    
+    document.querySelector('#updateForm').addEventListener('submit', function(e) {
+  		combineAddress();
+	});
 });

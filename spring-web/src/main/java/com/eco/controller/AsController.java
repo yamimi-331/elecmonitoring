@@ -119,16 +119,6 @@ public class AsController {
 				map.put("as_date_str", "");
 				map.put("as_time_str", "");
 			}
-			//주소 분리
-			String fullAddr = vo.getAs_addr();
-			if(fullAddr != null && fullAddr.contains(":")) {
-				String[] parts = fullAddr.split(":", 2);
-				map.put("base_addr", parts[0]);
-				map.put("detail_addr", parts[1]);
-			} else {
-				map.put("base_addr", fullAddr != null ? fullAddr : "");
-				map.put("detail_addr", "");
-			}
 			parsedList.add(map);
 		}
 		
@@ -148,8 +138,22 @@ public class AsController {
 			redirectAttrs.addFlashAttribute("message", "유효하지 않은 요청이거나 권한이 없습니다.");
 			return "redirect:/as/detail";
 		}
-		
+
+		String fullAddr = asvo.getAs_addr();
+		String baseAddr = "";
+		String detailAddr = "";
+		if(fullAddr != null && fullAddr.contains(":")) {
+			String[] parts = fullAddr.split(":", 2);
+			baseAddr = parts[0];
+			detailAddr = parts[1];
+		} else {
+			baseAddr = fullAddr != null ? fullAddr : "";
+			detailAddr = "";
+		}
+
 		model.addAttribute("asVO", asvo);
+		model.addAttribute("base_addr", baseAddr);
+		model.addAttribute("detail_addr", detailAddr);
 		return "/as/asEdit";
 	}
 

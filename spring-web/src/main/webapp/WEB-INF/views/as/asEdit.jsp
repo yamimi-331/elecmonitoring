@@ -71,13 +71,13 @@ function searchAddress() {
 						</div>
 						<div class="address-container">
 							<label for="as_addr">주소</label>
-							<input type="text" id="as_addr_display" autocomplete="off" readonly>
+							<input type="text" id="as_addr_display" autocomplete="off" readonly value="${base_addr}">
 							<button type="button" onclick="searchAddress()">주소 검색</button>
 							<input type="hidden" name="as_addr" id="as_addr_hidden" autocomplete="off">
 						</div>
 						<div class="i">
 							<label for="as_detail">상세 주소</label>
-							<input type="text" name="as_detail" id="as_addr_detail" autocomplete="off">
+							<input type="text" name="as_detail" id="as_addr_detail" autocomplete="off" value="${detail_addr}">
 						</div>
 					</div>
 					<div class="inner-container">

@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.eco.domain.NoticeVO;
-import com.eco.domain.StaffVO;
-import com.eco.domain.UserVO;
+import com.eco.domain.vo.NoticeVO;
+import com.eco.domain.vo.StaffVO;
+import com.eco.domain.vo.UserVO;
 import com.eco.service.NoticeService;
 
 import lombok.AllArgsConstructor;

@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.eco.domain.ProfileEditDTO;
-import com.eco.domain.StaffVO;
-import com.eco.domain.UserVO;
+import com.eco.domain.DTO.ProfileEditDTO;
+import com.eco.domain.vo.StaffVO;
+import com.eco.domain.vo.UserVO;
 import com.eco.service.StaffService;
 import com.eco.service.UserService;
 

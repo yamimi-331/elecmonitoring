@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.eco.domain.ASListDTO;
-import com.eco.domain.ASVO;
+import com.eco.domain.DTO.ASListDTO;
+import com.eco.domain.vo.ASVO;
 
 public interface AsService {
 

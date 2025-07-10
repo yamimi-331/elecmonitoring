@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.eco.domain.StaffVO;
-import com.eco.domain.UserVO;
+import com.eco.domain.vo.StaffVO;
+import com.eco.domain.vo.UserVO;
 import com.eco.service.StaffService;
 import com.eco.service.UserService;
 
@@ -35,6 +35,7 @@ public class AdminController {
 	@GetMapping("/search-users")
 	@ResponseBody
 	public List<StaffVO> searchStaffbyName(@RequestParam("staffId") String staff_id) {
+		log.info("직원 정보 조회함수 진입");
 		StaffVO staffVO = new StaffVO();
 		staffVO.setStaff_id(staff_id);
 		return staffService.getStaffList(staffVO);
@@ -44,6 +45,7 @@ public class AdminController {
 	@GetMapping("/search-deleted-users")
 	@ResponseBody
 	public List<?> searchDeleteUsers(@RequestParam("userType") String userType, @RequestParam("id") String id) {
+		log.info("비활성화 계정 조회함수 진입");
 		if ("common".equals(userType)) {
 			UserVO userVO = new UserVO();
 			userVO.setUser_id(id);
@@ -63,6 +65,7 @@ public class AdminController {
 	@PostMapping("/restore-account")
 	@ResponseBody
 	public void restoreAccount(@RequestParam("userType") String userType, @RequestParam("id") String id) {
+		log.info("계정 복구 버튼 클릭 함수 진입");
 		if ("common".equals(userType)) {
 			UserVO userVO = new UserVO();
 			userVO.setUser_id(id);

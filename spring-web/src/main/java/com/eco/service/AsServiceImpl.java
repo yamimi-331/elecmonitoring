@@ -10,9 +10,9 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.eco.domain.ASListDTO;
-import com.eco.domain.ASVO;
+import com.eco.domain.DTO.ASListDTO;
 import com.eco.domain.DTO.AvailableStaffDTO;
+import com.eco.domain.vo.ASVO;
 import com.eco.exception.ServiceException;
 import com.eco.mapper.AsMapper;
 

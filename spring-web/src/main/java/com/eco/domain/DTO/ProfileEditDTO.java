@@ -1,4 +1,4 @@
-package com.eco.domain;
+package com.eco.domain.DTO;
 
 import lombok.Data;
 

@@ -2,7 +2,7 @@ package com.eco.service;
 
 import java.util.List;
 
-import com.eco.domain.StaffVO;
+import com.eco.domain.vo.StaffVO;
 
 public interface StaffService {
 	// 직원 로그인

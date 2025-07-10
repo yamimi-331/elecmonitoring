@@ -2,7 +2,7 @@ package com.eco.service;
 
 import java.util.List;
 
-import com.eco.domain.UserVO;
+import com.eco.domain.vo.UserVO;
 
 public interface UserService {
    // 일반 사용자 로그인

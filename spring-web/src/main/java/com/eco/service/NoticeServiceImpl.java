@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.eco.domain.NoticeVO;
+import com.eco.domain.vo.NoticeVO;
 import com.eco.exception.ServiceException;
 import com.eco.mapper.NoticeMapper;
 

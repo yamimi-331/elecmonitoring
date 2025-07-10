@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.eco.domain.UserVO;
+import com.eco.domain.vo.UserVO;
 import com.eco.service.UserService;
 
 import lombok.AllArgsConstructor;

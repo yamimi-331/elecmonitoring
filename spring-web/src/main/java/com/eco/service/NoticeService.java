@@ -2,7 +2,7 @@ package com.eco.service;
 
 import java.util.List;
 
-import com.eco.domain.NoticeVO;
+import com.eco.domain.vo.NoticeVO;
 
 public interface NoticeService {
 

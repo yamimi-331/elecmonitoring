@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.eco.domain.UserVO;
+import com.eco.domain.vo.UserVO;
 import com.eco.exception.ServiceException;
 import com.eco.mapper.UserMapper;
 

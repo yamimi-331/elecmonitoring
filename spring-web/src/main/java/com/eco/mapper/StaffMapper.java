@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.eco.domain.StaffVO;
+import com.eco.domain.vo.StaffVO;
 
 @Mapper
 public interface StaffMapper {

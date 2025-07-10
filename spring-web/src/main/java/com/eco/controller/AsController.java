@@ -256,10 +256,7 @@ public class AsController {
 
 		LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ISO_DATE);
 
-		if (obj instanceof UserVO) {
-			UserVO user = (UserVO) obj;
-			return asService.getScheduleByUserAndDate(user.getUser_cd(), localDate);
-		} else if (obj instanceof StaffVO) {
+		if (obj instanceof StaffVO) {
 			StaffVO staff = (StaffVO) obj;
 			if ("admin".equalsIgnoreCase(staff.getStaff_role())) {
 				// 관리자면 모든 사용자 다 조회

@@ -120,12 +120,6 @@ public class AsServiceImpl implements AsService {
 			throw new ServiceException("항목 상세 조회 실패", e);
 		}
 	}
-
-	//사용자별 날짜별 AS 일정 조회
-	@Override
-	public List<ASListDTO> getScheduleByUserAndDate(int user_cd, LocalDate date) {
-		return asMapper.selectScheduleByUserAndDate(user_cd, date);
-	}
 	
 	// 직원의 모든 스케쥴 조회
 	@Override

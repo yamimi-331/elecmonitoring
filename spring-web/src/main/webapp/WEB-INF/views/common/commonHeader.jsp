@@ -135,7 +135,7 @@ function logoutConfirm() {
 				  <%-- 관리자(userType == 'admin') --%>
 			      <c:when test="${sessionScope.userType == 'admin'}">
 			        <li><a href="/as/order">A/S 진행 현황 관리</a></li>
-			        <li><a href="/as/task">전체 AS 일정 확인 페이지</a></li>
+			        <li><a href="#">전체 AS 일정 확인 페이지</a></li>
 			        <li><a href="/admin/account">계정 관리 페이지</a></li>
 			      </c:when>
 			      

@@ -31,7 +31,7 @@ function searchAddress() {
 		<main class="main">
 			<h2>A/S 신고</h2>
 			<div class=container>
-				<form action="/as/insertCommon" method="post">
+				<form action="/as/insertCommon" method="post" class="as-form">
 					<div class="inner-container">
 						<span>신고자 정보</span>
 						<div class="i">

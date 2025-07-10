@@ -2,9 +2,10 @@
 .container {
 	margin: 0;
 	padding: 0;
-	min-height: 90vh;  
+	background: #f0f4f8;
+	min-height: 80vh;  
 	display: flex;
-	justify-content: flex-start;
+	justify-content: center;
 	align-items: center;
 	flex-direction: column;
 	font-family: Arial, sans-serif;
@@ -29,6 +30,17 @@
 
 .container #goback:hover {
   background: #5a6268;
+}
+
+.as-form{
+	display: flex;
+	flex-direction: column;
+	width: 470px;
+	padding: 40px;
+	border: 2px solid #007BFF;
+	border-radius: 8px;
+	background: #ffffff;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .inner-container{

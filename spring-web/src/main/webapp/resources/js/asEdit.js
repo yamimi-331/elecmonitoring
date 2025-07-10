@@ -199,4 +199,10 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
     });
+    
+	window.confirmCancel = function () {
+		return confirm(
+			"정말로 예약을 취소하시겠습니까?\n동일 시간으로 다시 예약하실 수 없을 수 있습니다."
+		);
+	};
 });

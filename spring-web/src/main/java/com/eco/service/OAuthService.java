@@ -9,7 +9,7 @@ public interface OAuthService {
 	public UserVO processGoogleLogin(String code);
 
 	// Naver OAuth
-//	public String getNaverLoginUrl();
-//
-//	public UserVO processNaverLogin(String code, String state);
+	public String getNaverLoginUrl();
+
+	public UserVO processNaverLogin(String code, String state);
 }

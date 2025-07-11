@@ -32,12 +32,12 @@ public class OAuthServiceImpl implements OAuthService {
 	private String GOOGLE_REDIRECT_URI;
 
 	// Naver OAuth2 Info
-//	@Value("${naver.client.id}")
-//	private String NAVER_CLIENT_ID;
-//	@Value("${naver.client.secret}")
-//	private String NAVER_CLIENT_SECRET;
-//	@Value("${naver.redirect.uri}")
-//	private String NAVER_REDIRECT_URI;
+	@Value("${naver.client.id}")
+	private String NAVER_CLIENT_ID;
+	@Value("${naver.client.secret}")
+	private String NAVER_CLIENT_SECRET;
+	@Value("${naver.redirect.uri}")
+	private String NAVER_REDIRECT_URI;
 
 	private final UserService userService; // UserVO 관련 서비스
 
@@ -105,7 +105,7 @@ public class OAuthServiceImpl implements OAuthService {
 				user.setUser_mail(email);
 				user.setUser_social(type);
 				user.setUser_addr("울산");
-				int result = userService.register(user);
+				userService.register(user);
 			}
 			return user;
 		} catch (Exception e) {
@@ -113,83 +113,83 @@ public class OAuthServiceImpl implements OAuthService {
 		}
 	}
 
-//	@Override
-//	public String getNaverLoginUrl() {
-//		String state = UUID.randomUUID().toString();
-//		try {
-//			return "https://nid.naver.com/oauth2.0/authorize?response_type=code" + "&client_id=" + NAVER_CLIENT_ID
-//					+ "&redirect_uri=" + URLEncoder.encode(NAVER_REDIRECT_URI, "UTF-8") + "&state=" + state
-//					+ "&prompt=login";
-//		} catch (UnsupportedEncodingException e) {
-//			throw new RuntimeException("인코딩 실패", e);
-//		}
-//	}
-//
-//	@Override
-//	public UserVO processNaverLogin(String code, String state) {
-//		// TODO: 실제 서비스에서는 전달받은 state 값을 세션 등에 저장된 값과 비교해 검증해야 함
-//		try {
-//			// 1. Access Token 요청
-//			String tokenUrl = "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code" + "&client_id="
-//					+ NAVER_CLIENT_ID + "&client_secret=" + NAVER_CLIENT_SECRET + "&code=" + code + "&state=" + state
-//					+ "&redirect_uri=" + URLEncoder.encode(NAVER_REDIRECT_URI, "UTF-8");
-//
-//			URL url = new URL(tokenUrl);
-//			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-//			conn.setRequestMethod("GET");
-//
-//			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-//			StringBuilder sb = new StringBuilder();
-//			String line;
-//			while ((line = br.readLine()) != null) {
-//				sb.append(line);
-//			}
-//			br.close();
-//
-//			JSONObject json = new JSONObject(sb.toString());
-//			String accessToken = json.getString("access_token");
-//
-//			// 2. 사용자 정보 조회
-//			URL userInfoUrl = new URL("https://openapi.naver.com/v1/nid/me");
-//			HttpURLConnection userConn = (HttpURLConnection) userInfoUrl.openConnection();
-//			userConn.setRequestMethod("GET");
-//			userConn.setRequestProperty("Authorization", "Bearer " + accessToken);
-//
-//			BufferedReader userBr = new BufferedReader(new InputStreamReader(userConn.getInputStream()));
-//			StringBuilder userSb = new StringBuilder();
-//			String userLine;
-//			while ((userLine = userBr.readLine()) != null) {
-//				userSb.append(userLine);
-//			}
-//			userBr.close();
-//
-//			JSONObject userInfoJson = new JSONObject(userSb.toString());
-//			JSONObject responseJson = userInfoJson.getJSONObject("response");
-//
-//			String email = responseJson.getString("email");
-//			String name = responseJson.getString("name");
-//
-//			String type = "N";
-//
-////			UserVO user = userService.findByUserId(email, type);
-////			if (user == null) {
-////				user = new UserVO();
-////				user.setUser_id(email);
-////				user.setUser_pw("");
-////				user.setUser_nm(name);
-////				user.setUse_yn('Y');
-////				user.setUser_type(type);
-////				user.setUser_local("서울");
-////				user.setUser_email(email);
-////				userService.signup(user);
-////			}
-//
-////			return user;
-//			return null;
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return null;
-//		}
-//	}
+	@Override
+	public String getNaverLoginUrl() {
+		String state = UUID.randomUUID().toString();
+		try {
+			return "https://nid.naver.com/oauth2.0/authorize?response_type=code" + "&client_id=" + NAVER_CLIENT_ID
+					+ "&redirect_uri=" + URLEncoder.encode(NAVER_REDIRECT_URI, "UTF-8") + "&state=" + state
+					+ "&prompt=login";
+		} catch (Exception e) {
+			throw new ServiceException("인코딩 실패", e);
+		}
+	}
+
+	@Override
+	public UserVO processNaverLogin(String code, String state) {
+		// TODO: 실제 서비스에서는 전달받은 state 값을 세션 등에 저장된 값과 비교해 검증해야 함
+		try {
+			// 1. Access Token 요청
+			String tokenUrl = "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code" + "&client_id="
+					+ NAVER_CLIENT_ID + "&client_secret=" + NAVER_CLIENT_SECRET + "&code=" + code + "&state=" + state
+					+ "&redirect_uri=" + URLEncoder.encode(NAVER_REDIRECT_URI, "UTF-8");
+
+			URL url = new URL(tokenUrl);
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestMethod("GET");
+
+			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			StringBuilder sb = new StringBuilder();
+			String line;
+			while ((line = br.readLine()) != null) {
+				sb.append(line);
+			}
+			br.close();
+
+			JSONObject json = new JSONObject(sb.toString());
+			String accessToken = json.getString("access_token");
+
+			// 2. 사용자 정보 조회
+			URL userInfoUrl = new URL("https://openapi.naver.com/v1/nid/me");
+			HttpURLConnection userConn = (HttpURLConnection) userInfoUrl.openConnection();
+			userConn.setRequestMethod("GET");
+			userConn.setRequestProperty("Authorization", "Bearer " + accessToken);
+
+			BufferedReader userBr = new BufferedReader(new InputStreamReader(userConn.getInputStream()));
+			StringBuilder userSb = new StringBuilder();
+			String userLine;
+			while ((userLine = userBr.readLine()) != null) {
+				userSb.append(userLine);
+			}
+			userBr.close();
+
+			JSONObject userInfoJson = new JSONObject(userSb.toString());
+			JSONObject responseJson = userInfoJson.getJSONObject("response");
+			
+			String id = "naver_" + responseJson.getString("id");
+			String email = responseJson.getString("email");
+			String name = responseJson.getString("name");
+
+			String type = "Naver";
+			UserVO checkIdvo = new UserVO();
+			checkIdvo.setUser_id(id);
+			UserVO user = userService.checkId(checkIdvo);
+
+			if (user == null) {
+				user = new UserVO();
+				user.setUser_id(id);
+				user.setUser_pw("");
+				user.setUser_nm(name);
+				user.setUser_social(type);
+				user.setUse_yn('Y');
+				user.setUser_mail(email);
+				user.setUser_addr("울산");
+				userService.register(user);
+			}
+			return user;
+		} catch (Exception e) {
+			throw new ServiceException("네이버 로그인 실패 ", e);
+		}
+	}
 
 }

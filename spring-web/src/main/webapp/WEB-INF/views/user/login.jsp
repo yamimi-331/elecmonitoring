@@ -42,11 +42,11 @@
 		            </div>
 		            
 		            <!-- 소셜로그인(네이버) --> 
-		  			<!-- <div class="form-group-center">
+		  			<div class="form-group-center">
 		            	<a href="/login/naverLogin"> 
 		            		<img class="login-button" src="../../resources/img/naver_login.png" alt="네이버 로그인">
 		            	</a>
-		            </div> -->
+		            </div>
 				</div>
 			
 				<!-- 직원 로그인 폼 -->

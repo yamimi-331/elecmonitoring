@@ -17,7 +17,7 @@ function searchAddress() {
     new daum.Postcode({
         oncomplete: function(data) {
             const fullAddress = data.roadAddress || data.jibunAddress;
-            document.getElementById("as_addr").value = fullAddress;
+            document.getElementById("addr").value = fullAddress;
         }
     }).open();
 }
@@ -36,25 +36,25 @@ function searchAddress() {
 						<input type="hidden" name="user_cd" value="${profileInfo.user_cd }">
 						<label for="id">아이디</label>  
 						<input type="text" name="user_id" id="id" value="${profileInfo.user_id}" readonly> 
-
-						<label for="pw">기존 비밀번호 확인</label>  
-						<input type="password" name="prepw" id="prepw" autocomplete="new-password"> 
-						<button type="button">비밀번호 확인</button>
-
-						<div id="pwVerifyMsg" class="msg">
-							<c:if test="${not empty errorMsg}">
-						        ${errorMsg}
-						    </c:if>
-						</div>
-
-						<label for="pw">새 비밀번호</label>  
-						<input type="password" name="user_pw" id="pw" autocomplete="new-password"> 
-						<small id="newPwMsg" class="msg"></small>
-
-						<label for="user_pw_ck">새 비밀번호 확인</label>  
-						<input type="password" name="user_pw_ck" id="user_pw_ck" autocomplete="new-password">  
-						<small id="pwCheckMsg" class="msg"></small>
-
+						<c:if test="${profileInfo.user_social eq 'Basic'}">
+							<label for="pw">기존 비밀번호 확인</label>  
+							<input type="password" name="prepw" id="prepw" autocomplete="new-password"> 
+							<button type="button">비밀번호 확인</button>
+	
+							<div id="pwVerifyMsg" class="msg">
+								<c:if test="${not empty errorMsg}">
+							        ${errorMsg}
+							    </c:if>
+							</div>
+	
+							<label for="pw">새 비밀번호</label>  
+							<input type="password" name="user_pw" id="pw" autocomplete="new-password"> 
+							<small id="newPwMsg" class="msg"></small>
+	
+							<label for="user_pw_ck">새 비밀번호 확인</label>  
+							<input type="password" name="user_pw_ck" id="user_pw_ck" autocomplete="new-password">  
+							<small id="pwCheckMsg" class="msg"></small>
+						</c:if>
 						<label for="nm">이름</label>  
 						<input type="text" name="user_nm" id="nm" value="${profileInfo.user_nm}"> 
 						
@@ -65,7 +65,7 @@ function searchAddress() {
 						<label for="mail">메일</label>  
 						<input type="text" name="user_mail" id="mail" value="${profileInfo.user_mail}">
 						
-						<input type="hidden" name="user_social" value="${profileInfo.user_social}">
+						<input type="hidden" name="user_social" id="user_social" value="${profileInfo.user_social}">
 						
 						<button type="submit">제출하기</button>
 						<button id="goback" type="button" onclick="location.href='/'">돌아가기</button>

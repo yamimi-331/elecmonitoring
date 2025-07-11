@@ -30,8 +30,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 사용자 회원가입 -->
 	<insert id="insertUser" parameterType="com.eco.domain.vo.UserVO">
 		<![CDATA[
-		    INSERT INTO t_user(user_id, user_pw, user_nm, user_addr, user_mail)
-		    VALUES(#{user_id}, #{user_pw}, #{user_nm}, #{user_addr}, #{user_mail})
+		    INSERT INTO t_user(user_id, user_pw, user_nm, user_addr, user_mail, user_social)
+		    VALUES(#{user_id}, #{user_pw}, #{user_nm}, #{user_addr}, #{user_mail}, #{user_social})
 	    ]]>
 	</insert>
 	

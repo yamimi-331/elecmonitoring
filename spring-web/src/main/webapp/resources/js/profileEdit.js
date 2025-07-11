@@ -4,6 +4,12 @@ $(document).ready(function () {
   let isNewPwValid = false;
   let isPwMatch = false;
 
+  const userSocial = $("#user_social").val(); // hidden input 값 가져옴
+  // Basic이 아니면 기존 비밀번호 확인은 PASS 처리
+  if (userSocial !== "Basic") {
+    isPwVerified = true;
+  }
+  
   // 기존 비밀번호 입력 시 상태 초기화
   $("#prepw").on("input", function () {
     $("#pwVerifyMsg").text("").css("color", "");

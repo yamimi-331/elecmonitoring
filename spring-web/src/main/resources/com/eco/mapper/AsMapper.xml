@@ -181,7 +181,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    WHERE DATE(a.as_date) BETWEEN #{start} AND #{end} and a.use_yn = 'Y'
 		AND (
 			s.staff_nm LIKE CONCAT('%', #{staffInfo}, '%')
-			OR s.staff_cd LIKE CONCAT('%', #{staffInfo}, '%')
+			OR s.staff_id LIKE CONCAT('%', #{staffInfo}, '%')
 		)
 	    ORDER BY a.as_date
         ]]>

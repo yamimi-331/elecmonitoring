@@ -24,13 +24,6 @@ $(function() {
 		const endDate = $('#endDate').val().substring(0, 10);
 		const staffInfo = $('#searchStaff').val() || '';
 		
-		const startDate = new Date(startDateStr);
-		const endDate = new Date(endDateStr);
-		if (isNaN(startDate) || isNaN(endDate)) {
-			alert('올바른 날짜를 입력해주세요.');
-			return;
-		}
-
 		if (startDate > endDate) {
 			alert('시작일은 종료일보다 이전이어야 합니다.');
 			return;

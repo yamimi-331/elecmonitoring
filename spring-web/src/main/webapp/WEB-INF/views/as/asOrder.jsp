@@ -21,9 +21,9 @@
 				<c:if test="${currentUserInfo.staff_role eq 'admin'}">
 					<input type="text" id="searchStaff" placeholder="담당자">
 				</c:if>
-				<c:if test="${currentUserInfo.staff_role ne 'admin'}">
-					<input type="text" id="searchStaff" value="${currentUserInfo.staff_nm}" readonly>
-				</c:if>
+<%-- 				<c:if test="${currentUserInfo.staff_role ne 'admin'}">
+					<input type="hidden" id="searchStaff" value="${currentUserInfo.staff_nm}" readonly>
+				</c:if> --%>
 				<button id="btnSearch">조회</button>
 			</div>
 			<table id="asTable" class="custom-table">

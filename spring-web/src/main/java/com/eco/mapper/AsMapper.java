@@ -49,17 +49,18 @@ public interface AsMapper {
 	public ASListDTO selectAsTask(int as_cd);
 
 	// 직원의 모든 스케쥴 조회
-	public List<ASListDTO> selectScheduleByStaffAndDate(@Param("staff_cd") int staff_cd, @Param("date") LocalDate date);
+	public List<ASListDTO> selectScheduleByStaffAndDate(@Param("start") LocalDate start, @Param("end") LocalDate end, @Param("staffInfo") String staffInfo);
 	
 	// 관리자의 모든 스케쥴 조회
-	public List<ASListDTO> selectScheduleByDate(@Param("date") LocalDate localDate);
+	public List<ASListDTO> selectScheduleByDate(@Param("start") LocalDate start, @Param("end") LocalDate end, @Param("staffInfo") String staffInfo);
 	
 	// 지역 일자 기준 전 직원 스케줄 조회
 	public List<AvailableStaffDTO> selectAllAsListByRegion(@Param("date") LocalDate localDate, @Param("region") String region);
 	
 	// 회원 탈퇴시 미래 예약건 취소
 	public int deleteAsListBydeleteUser(UserVO userVO);
+	
 	// AS 일정 날짜순으로 정렬
-	public List<ASVO> getUserAsListOrderByAsDate(int user_cd);
+    public List<ASVO> getUserAsListOrderByAsDate(int user_cd);
 
 }

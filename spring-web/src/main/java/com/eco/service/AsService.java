@@ -36,14 +36,14 @@ public interface AsService {
 	public ASListDTO getAsTask(int as_cd);
 
 	// 직원의 모든 스케쥴 조회
-	public  List<ASListDTO> getScheduleByStaffAndDate(@Param("staff_cd") int staff_cd, @Param("date") LocalDate date);
+	public  List<ASListDTO> getScheduleByStaffAndDate(LocalDate start, LocalDate end, String staffInfo);
 	
 	// 관리자의 모든 스케쥴 조회
-	public List<ASListDTO> getScheduleByDate(LocalDate localDate);
+	public List<ASListDTO> getScheduleByPeriodAndStaff(LocalDate start, LocalDate end, String staffInfo);
 	
 	// 회원 탈퇴시 미래 예약건 취소
 	public boolean cancleAsListBydeleteUser(UserVO userVO);
-	// 일자순으로 정렬
-	public List<ASVO> getUserAsListOrderByAsDate(int user_cd);
 	
+	// 일자순으로 정렬
+    public List<ASVO> getUserAsListOrderByAsDate(int user_cd);
 }

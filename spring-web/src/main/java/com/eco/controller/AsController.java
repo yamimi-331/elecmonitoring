@@ -321,25 +321,38 @@ public class AsController {
 	// 기간별 조회
 	@GetMapping("/schedule")
 	@ResponseBody
-	public List<ASListDTO> getScheduleByDate(@RequestParam String date, HttpSession session) {
-		log.info("기간별 조회");
+	public List<ASListDTO> getScheduleByPeriodAndStaff(@RequestParam String startDate, @RequestParam String endDate, 
+		@RequestParam(required = false) String staffInfo, HttpSession session) {
+		log.info("기간/담당자명 기준 조회");
 		Object obj = session.getAttribute("currentUserInfo");
 
 		if (obj == null) {
 			// 로그인 정보 없으면 빈 리스트 반환 (또는 예외처리)
 			return List.of();
 		}
-
-		LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ISO_DATE);
+		
+		log.info("startDate:"+ startDate);
+		log.info("endDate:"+ endDate);
+		log.info("staffInfo:"+ staffInfo);
+		LocalDate start = LocalDate.parse(startDate, DateTimeFormatter.ISO_DATE);
+		LocalDate end = LocalDate.parse(endDate, DateTimeFormatter.ISO_DATE);
+		log.info("start:"+ start);
+		log.info("end:"+ end);
+		
+		if (staffInfo == null) {
+	        staffInfo = "";
+	    }
 
 		if (obj instanceof StaffVO) {
 			StaffVO staff = (StaffVO) obj;
 			if ("admin".equalsIgnoreCase(staff.getStaff_role())) {
 				// 관리자면 모든 사용자 다 조회
-				return asService.getScheduleByDate(localDate);
+				return asService.getScheduleByPeriodAndStaff(start, end, staffInfo);
 			} else {
 				// 일반 직원이면 본인 스케줄만 조회
-				return asService.getScheduleByStaffAndDate(staff.getStaff_cd(), localDate);
+				staffInfo = ((StaffVO) obj).getStaff_id();
+				log.info("staffInfo:"+ staffInfo);
+				return asService.getScheduleByStaffAndDate(start, end, staffInfo);
 			}
 		} else {
 			// 예외 케이스 처리, 빈 리스트 반환

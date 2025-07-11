@@ -128,9 +128,9 @@ public class AsServiceImpl implements AsService {
 	
 	// 직원의 모든 스케쥴 조회
 	@Override
-	public List<ASListDTO> getScheduleByStaffAndDate(int staffCd, LocalDate localDate) {
+	public List<ASListDTO> getScheduleByStaffAndDate(LocalDate start, LocalDate end, String staffInfo) {
 		try {
-			return asMapper.selectScheduleByStaffAndDate(staffCd, localDate);
+			return asMapper.selectScheduleByStaffAndDate(start, end, staffInfo);
 		} catch (Exception e) {
 			throw new ServiceException("항목 상세 조회 실패", e);
 		}
@@ -138,9 +138,9 @@ public class AsServiceImpl implements AsService {
 
 	// 관리자의 모든 스케쥴 조회
 	@Override
-	public List<ASListDTO> getScheduleByDate(LocalDate localDate) {
+	public List<ASListDTO> getScheduleByPeriodAndStaff(LocalDate start, LocalDate end, String staffInfo) {
 		try {
-			return asMapper.selectScheduleByDate(localDate);
+			return asMapper.selectScheduleByDate(start, end, staffInfo);
 		} catch (Exception e) {
 			throw new ServiceException("항목 상세 조회 실패", e);
 		}
@@ -188,15 +188,15 @@ public class AsServiceImpl implements AsService {
     		throw new ServiceException("사용자 회원 탈퇴 실패", e);
     	}
 	}
-
-	// 날짜순으로 조회
-	@Override
-	public List<ASVO> getUserAsListOrderByAsDate(int user_cd) {
-		try {
-			return asMapper.getUserAsListOrderByAsDate(user_cd);
-        } catch (Exception e) {
-            throw new ServiceException("사용자의 AS 리스트 가져오기 실패", e);
-        }
-	}
+	
+    // 날짜순으로 조회
+    @Override
+    public List<ASVO> getUserAsListOrderByAsDate(int user_cd) {
+            try {
+                    return asMapper.getUserAsListOrderByAsDate(user_cd);
+    } catch (Exception e) {
+        throw new ServiceException("사용자의 AS 리스트 가져오기 실패", e);
+    }
+    }
 
 }

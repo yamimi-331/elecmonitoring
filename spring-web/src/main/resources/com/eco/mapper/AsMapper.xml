@@ -63,17 +63,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         AND use_yn = 'Y'
         ]]>
 	</select>
-
-	<!-- 사용자에 해당하는 AS 신고내역 조회(날짜순) -->
-	<select id="getUserAsListOrderByAsDate" resultType="com.eco.domain.vo.ASVO" parameterType="int">
-        <![CDATA[
-        SELECT * FROM T_AS
-        WHERE user_cd = #{user_cd}
-        AND use_yn = 'Y'
-        ORDER BY as_date;
-        ]]>
-	</select>	
-	
 	<!-- AS 신고 수정 화면에 해당 신고 정보 출력 -->
 	<select id="selectAsDetailByCommon" resultType="com.eco.domain.vo.ASVO">
         <![CDATA[
@@ -130,28 +119,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectAllAsDtoList"
 		resultType="com.eco.domain.DTO.ASListDTO">
 		<![CDATA[
-		SELECT
-		  A.as_cd,
-		  A.as_title,
-		  A.as_content,
-		  A.as_date,
-		  A.as_addr,
-		  A.as_facility,
-		  A.as_status,
-		  A.user_cd,
-		  U.user_id,
-		  U.user_nm,
-		  U.user_mail,
-		  U.user_addr,
-		  U.user_social,
-		  A.staff_cd,
-		  S.staff_id,
-		  S.staff_nm,
-		  S.staff_addr,
-		  S.staff_role,
-		  A.guest_mail,
-		  A.guest_nm,
-		  A.use_yn
+		SELECT A.as_cd, A.as_title, A.as_content, A.as_date, A.as_addr, A.as_facility, A.as_status, A.user_cd,
+				U.user_id, U.user_nm, U.user_mail, U.user_addr, U.user_social, A.staff_cd, S.staff_id,
+		  		S.staff_nm, S.staff_addr, S.staff_role, A.guest_mail, A.guest_nm, A.use_yn
 		FROM t_as A
 		LEFT JOIN t_user U ON A.user_cd = U.user_cd
 		LEFT JOIN t_staff S ON A.staff_cd = S.staff_cd
@@ -163,33 +133,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectAsDtoListByStaff"
 		resultType="com.eco.domain.DTO.ASListDTO" parameterType="int">
         <![CDATA[
-        SELECT
-		  A.as_cd,
-		  A.as_title,
-		  A.as_content,
-		  A.as_date,
-		  A.as_addr,
-		  A.as_facility,
-		  A.as_status,
-		  A.user_cd,
-		  U.user_id,
-		  U.user_nm,
-		  U.user_mail,
-		  U.user_addr,
-		  U.user_social,
-		  A.staff_cd,
-		  S.staff_id,
-		  S.staff_nm,
-		  S.staff_addr,
-		  S.staff_role,
-		  A.guest_mail,
-		  A.guest_nm,
-		  A.use_yn
+        SELECT A.as_cd, A.as_title, A.as_content, A.as_date, A.as_addr, A.as_facility, A.as_status, A.user_cd,
+		  		U.user_id, U.user_nm, U.user_mail, U.user_addr, U.user_social, A.staff_cd, S.staff_id,
+		  		S.staff_nm, S.staff_addr, S.staff_role, A.guest_mail, A.guest_nm, A.use_yn
 		FROM T_AS A
 		LEFT JOIN T_USER U ON A.user_cd = U.user_cd
 		LEFT JOIN T_STAFF S ON A.staff_cd = S.staff_cd
-		WHERE A.staff_cd = #{staffCd}
-		  AND A.use_yn = 'Y'
+		WHERE A.staff_cd = #{staffCd} AND A.use_yn = 'Y'
         ]]>
 	</select>
 
@@ -207,43 +157,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
     <!-- 직원별 날짜별 AS 일정 조회 -->
-    <select id="selectScheduleByStaffAndDate" parameterType="map" resultType="com.eco.domain.DTO.ASListDTO">
+    <select id="selectScheduleByStaffAndDate" resultType="com.eco.domain.DTO.ASListDTO">
         <![CDATA[
-        SELECT 
-	      a.as_cd,
-	      a.as_title,
-	      a.as_content,
-	      a.as_date,
+        SELECT  a.as_cd, a.as_title, a.as_content, a.as_date,
 	      TIME_FORMAT(a.as_date, '%H:%i') AS as_time, -- MySQL 기준. Oracle이면 TO_CHAR 써야 함.
-	      a.as_status,
-	      a.as_addr,
-	      a.as_facility,
-	      a.user_cd,
-	      s.staff_nm
+	      a.as_status, a.as_addr, a.as_facility, a.user_cd, s.staff_nm
 	    FROM T_AS a
 	    LEFT JOIN T_STAFF s ON a.staff_cd = s.staff_cd
-	    WHERE a.staff_cd = #{staff_cd}
-	      AND DATE(a.as_date) = #{date} and a.use_yn = 'Y'
+	    WHERE DATE(a.as_date) BETWEEN #{start} AND #{end} and a.use_yn = 'Y'
+	    AND s.staff_id LIKE CONCAT('%', #{staffInfo}, '%')
 	    ORDER BY a.as_date
         ]]>
     </select>
     <!-- 관리자의 날짜별 AS 일정 조회 -->
-	<select id="selectScheduleByDate" parameterType="map" resultType="com.eco.domain.DTO.ASListDTO">
+	<select id="selectScheduleByDate" resultType="com.eco.domain.DTO.ASListDTO">
         <![CDATA[
         SELECT 
-	      a.as_cd,
-	      a.as_title,
-	      a.as_content,
-	      a.as_date,
+	      a.as_cd, a.as_title, a.as_content, a.as_date,
 	      TIME_FORMAT(a.as_date, '%H:%i') AS as_time, -- MySQL 기준. Oracle이면 TO_CHAR 써야 함.
-	      a.as_status,
-	      a.as_addr,
-	      a.as_facility,
-	      a.user_cd,
-	      s.staff_nm
+	      a.as_status, a.as_addr, a.as_facility, a.user_cd, s.staff_nm
 	    FROM T_AS a
 	    LEFT JOIN T_STAFF s ON a.staff_cd = s.staff_cd
-	    WHERE DATE(a.as_date) = #{date} and a.use_yn = 'Y'
+	    WHERE DATE(a.as_date) BETWEEN #{start} AND #{end} and a.use_yn = 'Y'
+		AND (
+			s.staff_nm LIKE CONCAT('%', #{staffInfo}, '%')
+			OR s.staff_cd LIKE CONCAT('%', #{staffInfo}, '%')
+		)
 	    ORDER BY a.as_date
         ]]>
     </select>
@@ -264,5 +203,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    WHERE user_cd = #{user_cd} AND as_date > CURRENT_DATE() AND as_status = '신고 접수'
 	    ]]>
 	</update>
+	
+	<!-- 사용자에 해당하는 AS 신고내역 조회(날짜순) -->
+    <select id="getUserAsListOrderByAsDate" resultType="com.eco.domain.vo.ASVO" parameterType="int">
+	    <![CDATA[
+	    SELECT * FROM T_AS
+	    WHERE user_cd = #{user_cd}
+	    AND use_yn = 'Y'
+	    ORDER BY as_date;
+	    ]]>
+    </select>        
+	
 
 </mapper>

@@ -6,32 +6,55 @@
  * - 페이지 로드 시 오늘 날짜 일정 조회
  */
 $(function() {
-  const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD 형식 오늘 날짜
+	const today = new Date();
+	const sevenDaysLater = new Date();
+	sevenDaysLater.setDate(today.getDate() + 7);
+	
+	const formatDate = (date) => date.toISOString().split('T')[0]; // YYYY-MM-DD 형식 오늘 날짜
 
-  $('#searchDate').val(today);  // input에 오늘 날짜 기본값 설정
+	$('#startDate').val(formatDate(today));  // input에 오늘 날짜 기본값 설정
+	$('#endDate').val(formatDate(sevenDaysLater));
+	const staffInfo = $('#searchStaff').val() || '';
+	
+	fetchSchedule(formatDate(today), formatDate(sevenDaysLater), '');
+	
+	// 조회 버튼 클릭 시 선택한 날짜 일정 조회
+	$('#btnSearch').click(function() {
+		const startDate = $('#startDate').val().substring(0, 10);
+		const endDate = $('#endDate').val().substring(0, 10);
+		const staffInfo = $('#searchStaff').val() || '';
+		
+		const startDate = new Date(startDateStr);
+		const endDate = new Date(endDateStr);
+		if (isNaN(startDate) || isNaN(endDate)) {
+			alert('올바른 날짜를 입력해주세요.');
+			return;
+		}
 
-  // 조회 버튼 클릭 시 선택한 날짜 일정 조회
-  $('#btnSearch').click(function() {
-    //const selectedDate = $('#searchDate').val();
-    const selectedDate = $('#searchDate').val().substring(0, 10);
-    console.log(selectedDate);
-    fetchSchedule(selectedDate);
-  });
-
-  // 초기 로드 시 오늘 날짜 일정 조회
-  fetchSchedule(today);
-	  
+		if (startDate > endDate) {
+			alert('시작일은 종료일보다 이전이어야 합니다.');
+			return;
+		}
+		
+		const maxRange = 93;
+		const dateDiff = (new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24);
+		if(dateDiff > maxRange) {
+			alert("조회기간은 최대 3개월 까지만 가능합니다.");
+			return;
+		}
+    	fetchSchedule(startDate, endDate, staffInfo);
+  }); 
 });
 
 /**
  * 지정한 날짜에 해당하는 AS 일정 데이터를 서버에서 가져오는 AJAX 함수
  * @param {string} date - 조회할 날짜 (YYYY-MM-DD)
  */
-function fetchSchedule(date) {
+function fetchSchedule(startDate, endDate, staffInfo) {
   $.ajax({
     url: `/as/schedule`,  // 서버 API 엔드포인트
     method: 'GET',
-    data: { date: date }, // 쿼리 파라미터로 날짜 전달
+    data: { startDate, endDate, staffInfo }, // 쿼리 파라미터로 날짜 전달
     dataType: 'json',
     success: function(data) {
       renderTable(data);  // 받아온 데이터로 테이블 그리기
@@ -52,7 +75,7 @@ function renderTable(data) {
 
   if (data.length === 0) {
     // 일정 없을 때 메시지 표시
-    tbody.append('<tr><td colspan="7">해당 날짜에 일정이 없습니다.</td></tr>');
+    tbody.append('<tr><td colspan="6">해당 날짜에 일정이 없습니다.</td></tr>');
     return;
   }
 

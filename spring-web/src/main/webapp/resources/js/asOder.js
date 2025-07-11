@@ -211,22 +211,35 @@ document.addEventListener('DOMContentLoaded', function () {
 		events: function(fetchInfo, successCallback, failureCallback) {
 			$.ajax({
 				url: '/as/calendar',
-				method: 'GET',
+				type: 'GET',
+				dataType: "json",
 				success: function(data) {
-					console.log('calendar API response:', data);
 					const role = data.role;
-					console.log('role:', role);
-					console.log('events raw:', data.events);
-					
-					const events = data.events.map(item => {
-								console.log('event item:', item);  // 각각의 이벤트 객체 확인
-							    console.log('as_date:', item.as_date);
-							    console.log('as_time:', item.as_time);
+					const rowEvents = data.events;
+					const events = rowEvents.map(item => {
+						const asDate = item.as_date;
+						let startDateStr = '';
+
+						if (typeof asDate === 'string') {
+							startDateStr = asDate.replace(' ', 'T')
+						} else if (asDate && typeof asDate === 'object' && asDate.year) {
+							const dateObj = new Date(
+								asDate.year,
+								asDate.monthValue - 1, // JS는 0부터 시작
+								asDate.dayOfMonth,
+								asDate.hour || 0,
+								asDate.minute || 0,
+								asDate.second || 0
+							);
+							startDateStr = dateObj.toISOString();
+						} else {
+							startDateStr = new Date().toISOString();
+						}
 						return {
 							title: (role === 'admin')
 							? `[${item.staff_nm}] ${item.as_status}`  // 관리자용
 							: `${item.as_status}`,                   // 직원용
-							start: item.as_date,
+							start: startDateStr,
 							extendedProps: {
 				                asCd: item.as_cd,
 				                status: item.as_status,
@@ -235,11 +248,12 @@ document.addEventListener('DOMContentLoaded', function () {
 							}
 						};
 					});
-					console.log('processed events:', events);
 					successCallback(events);
 	    		},
-				error: function() {
-					alert('캘린더 데이터를 불러오는 데 실패했습니다.');
+				error: function(xhr) {
+					const message = xhr?.responseJSON?.message || xhr?.statusText || '알 수 없는 오류입니다.';
+					console.error('캘린더 요청 실패:', message);
+					alert('캘린더 데이터를 불러오는 데 실패했습니다.\n' + message);
 					failureCallback();
 				}
 			});

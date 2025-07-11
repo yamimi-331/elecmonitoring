@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.eco.domain.DTO.ASCallenderDTO;
 import com.eco.domain.DTO.ASListDTO;
 import com.eco.domain.vo.ASVO;
 import com.eco.domain.vo.StaffVO;
@@ -361,11 +363,11 @@ public class AsController {
 	}
 	
 	// 캘린더
-	@GetMapping(value = "/calendar", produces = "application/json")
+	@GetMapping(value = "/calendar", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public Map<String, Object> getAllScheduleForCalendar(HttpSession session) {
+	public ASCallenderDTO getAllScheduleForCalendar(HttpSession session) {
 	    Object obj = session.getAttribute("currentUserInfo");
-	    Map<String, Object> result = new HashMap<>();
+		ASCallenderDTO calander = new ASCallenderDTO();
 		List<ASListDTO> scheduleList;
 		String role = "";
 		
@@ -383,16 +385,32 @@ public class AsController {
 	    		// 직원은 본인 일정만
 	    		scheduleList = asService.getScheduleByStaffAndDate(startDate, endDate, staff.getStaff_id());
 	    	}
+	    	
+	    	for (ASListDTO dto : scheduleList) {
+	            if (dto.getAs_status() != null) {
+	                dto.setAs_status(dto.getAs_status().replace("\u0000", ""));
+	            }
+	            if (dto.getAs_title() != null) {
+	                dto.setAs_title(dto.getAs_title().replace("\u0000", ""));
+	            }
+	            if (dto.getStaff_nm() != null) {
+	                dto.setStaff_nm(dto.getStaff_nm().replace("\u0000", ""));
+	            }
+	        }
+	    	
 	    } else {
-	    	result.put("error", "unauthorized");
-	        result.put("role", "none");
-	        result.put("events", List.of());
-	        return result;
+	    	calander.setError("unauthorized");
+	    	calander.setRole("none");
+	    	calander.setEvents(List.of());
+	        return calander;
 		}
 	    System.out.println("scheduleList size: " + scheduleList.size());
-	    result.put("role", role);
-	    result.put("events", scheduleList);
-	    return result;
+	    calander.setError("");
+	    calander.setRole(role);
+	    calander.setEvents(scheduleList);
+	    log.info(role);
+	    log.info(scheduleList);
+        return calander;
 	}
 	
 	// AS 기사 배정 지역 변경

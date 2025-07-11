@@ -16,7 +16,7 @@ Thumbs.db
 /spring-web/.classpath
 /spring-web/.project
 spring-web/.springBeans
-
+/spring-web/src/main/resources/secret.properties
 Servers/
 .metadata/
 

@@ -141,4 +141,19 @@ public class LoginController {
 		return "redirect:/";
 	}
 	// # Naver Login End ---------------------------------------------------
+	// # kakao Login Start ---------------------------------------------------
+	@GetMapping("/oauth2/callback/kakao")
+	public String kakaoCallback(@RequestParam("code") String code,
+			@RequestParam(value = "state", required = false) String state, HttpSession session) {
+		// 카카오에서 access token 받고 사용자 정보 받아오기
+		UserVO userInfo = oAuthService.getKakaoUserInfo(code);
+
+		// 세션에 로그인 정보 저장
+		session.setAttribute("currentUserInfo", userInfo);
+		session.setAttribute("userType", "common");
+
+		// 원하는 리다이렉트 페이지로 이동
+		return "redirect:/";
+	}
+	// # kakao Login End ---------------------------------------------------
 }

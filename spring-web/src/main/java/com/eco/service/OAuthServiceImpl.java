@@ -34,11 +34,20 @@ public class OAuthServiceImpl implements OAuthService {
 	// Naver OAuth2 Info
 	@Value("${naver.client.id}")
 	private String NAVER_CLIENT_ID;
+	
 	@Value("${naver.client.secret}")
 	private String NAVER_CLIENT_SECRET;
+	
 	@Value("${naver.redirect.uri}")
 	private String NAVER_REDIRECT_URI;
+	
+	// Kakao OAuth2 Info
+	@Value("${kakao.client.id}")
+    private String KAKAO_CLIENT_ID;
 
+    @Value("${kakao.redirect.uri}")
+    private String KAKAO_REDIRECT_URI;
+    
 	private final UserService userService; // UserVO 관련 서비스
 
 	// 구글 로그인 URL
@@ -189,6 +198,60 @@ public class OAuthServiceImpl implements OAuthService {
 			return user;
 		} catch (Exception e) {
 			throw new ServiceException("네이버 로그인 실패 ", e);
+		}
+	}
+	
+	@Override
+	public UserVO getKakaoUserInfo(String code) {
+		try {
+			// 1) 액세스 토큰 요청
+			String tokenUrl = "https://kauth.kakao.com/oauth/token" + "?grant_type=authorization_code" + "&client_id="
+					+ KAKAO_CLIENT_ID + "&redirect_uri=" + URLEncoder.encode(KAKAO_REDIRECT_URI, "UTF-8") + "&code="
+					+ code;
+
+			URL url = new URL(tokenUrl);
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestMethod("POST");
+			conn.setDoOutput(true);
+
+			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			StringBuilder sb = new StringBuilder();
+			String line;
+			while ((line = br.readLine()) != null)
+				sb.append(line);
+			br.close();
+
+			JSONObject tokenJson = new JSONObject(sb.toString());
+			String accessToken = tokenJson.getString("access_token");
+
+			// 2) 사용자 정보 조회
+			URL userInfoUrl = new URL("https://kapi.kakao.com/v2/user/me");
+			HttpURLConnection userConn = (HttpURLConnection) userInfoUrl.openConnection();
+			userConn.setRequestMethod("GET");
+			userConn.setRequestProperty("Authorization", "Bearer " + accessToken);
+
+			BufferedReader userBr = new BufferedReader(new InputStreamReader(userConn.getInputStream()));
+			StringBuilder userSb = new StringBuilder();
+			String userLine;
+			while ((userLine = userBr.readLine()) != null)
+				userSb.append(userLine);
+			userBr.close();
+
+			JSONObject userInfoJson = new JSONObject(userSb.toString());
+			JSONObject kakaoAccount = userInfoJson.getJSONObject("kakao_account");
+			String email = kakaoAccount.getString("email");
+			String nickname = kakaoAccount.getJSONObject("profile").getString("nickname");
+
+			// 3) 사용자 VO에 담아서 반환
+			UserVO userVO = new UserVO();
+			userVO.setUser_id(email);
+			userVO.setUser_nm(nickname);
+			userVO.setUser_social("KAKAO");
+
+			return userVO;
+
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 	}
 

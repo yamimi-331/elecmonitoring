@@ -141,15 +141,27 @@ public class LoginController {
 		return "redirect:/";
 	}
 	// # Naver Login End ---------------------------------------------------
+
 	// # kakao Login Start ---------------------------------------------------
+	@GetMapping("/kakaoLogin")
+	public void kakaoLogin(HttpServletResponse response) throws IOException {
+	    String kakaoAuthUrl = oAuthService.getKakaoLoginUrl();
+	    response.sendRedirect(kakaoAuthUrl);
+	}
+
 	@GetMapping("/oauth2/callback/kakao")
 	public String kakaoCallback(@RequestParam("code") String code,
-			@RequestParam(value = "state", required = false) String state, HttpSession session) {
+			@RequestParam(value = "state", required = false) String state, HttpSession session, Model model) {
 		// 카카오에서 access token 받고 사용자 정보 받아오기
-		UserVO userInfo = oAuthService.getKakaoUserInfo(code);
+		UserVO user = oAuthService.processKakaoLogin(code);
 
+		if (user == null) {
+			// 로그인 실패 처리
+			model.addAttribute("message", "카카오 로그인 실패");
+			return "redirect:/login";
+		}
 		// 세션에 로그인 정보 저장
-		session.setAttribute("currentUserInfo", userInfo);
+		session.setAttribute("currentUserInfo", user);
 		session.setAttribute("userType", "common");
 
 		// 원하는 리다이렉트 페이지로 이동

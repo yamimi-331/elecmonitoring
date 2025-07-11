@@ -14,5 +14,7 @@ public interface OAuthService {
 	public UserVO processNaverLogin(String code, String state);
 	
 	// Kakao OAuth
-	public UserVO getKakaoUserInfo(String code);
+	public String getKakaoLoginUrl();
+	
+	public UserVO processKakaoLogin(String code);
 }

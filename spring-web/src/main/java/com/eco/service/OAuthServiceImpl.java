@@ -3,7 +3,6 @@ package com.eco.service;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -200,59 +199,97 @@ public class OAuthServiceImpl implements OAuthService {
 			throw new ServiceException("네이버 로그인 실패 ", e);
 		}
 	}
-	
+	  
+	// 1️⃣ 카카오 로그인 URL 생성
 	@Override
-	public UserVO getKakaoUserInfo(String code) {
-		try {
-			// 1) 액세스 토큰 요청
-			String tokenUrl = "https://kauth.kakao.com/oauth/token" + "?grant_type=authorization_code" + "&client_id="
-					+ KAKAO_CLIENT_ID + "&redirect_uri=" + URLEncoder.encode(KAKAO_REDIRECT_URI, "UTF-8") + "&code="
-					+ code;
+	public String getKakaoLoginUrl() {
+	    String state = UUID.randomUUID().toString(); // 필요하면 사용
+	    try {
+	        return "https://kauth.kakao.com/oauth/authorize"
+	                + "?response_type=code"
+	                + "&client_id=" + KAKAO_CLIENT_ID
+	                + "&redirect_uri=" + URLEncoder.encode(KAKAO_REDIRECT_URI, "UTF-8")
+	                + "&state=" + state; // 카카오는 state 필수 아님
+	    } catch (Exception e) {
+	        throw new ServiceException("카카오 로그인 URL 인코딩 실패", e);
+	    }
+	}
+	
+	// 2️⃣ 카카오 콜백 처리 - Access Token 요청 & 사용자 정보 조회 & 회원가입/로그인 처리
+	@Override
+	public UserVO processKakaoLogin(String code) {
+	    try {
+	        // 1) Access Token 요청
+	        String tokenUrl = "https://kauth.kakao.com/oauth/token"
+	                + "?grant_type=authorization_code"
+	                + "&client_id=" + KAKAO_CLIENT_ID
+	                + "&redirect_uri=" + URLEncoder.encode(KAKAO_REDIRECT_URI, "UTF-8")
+	                + "&code=" + code;
 
-			URL url = new URL(tokenUrl);
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-			conn.setRequestMethod("POST");
-			conn.setDoOutput(true);
+	        URL url = new URL(tokenUrl);
+	        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+	        conn.setRequestMethod("POST");
+	        conn.setDoOutput(true);
 
-			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-			StringBuilder sb = new StringBuilder();
-			String line;
-			while ((line = br.readLine()) != null)
-				sb.append(line);
-			br.close();
+	        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+	        StringBuilder sb = new StringBuilder();
+	        String line;
+	        while ((line = br.readLine()) != null) {
+	            sb.append(line);
+	        }
+	        br.close();
 
-			JSONObject tokenJson = new JSONObject(sb.toString());
-			String accessToken = tokenJson.getString("access_token");
+	        JSONObject tokenJson = new JSONObject(sb.toString());
+	        String accessToken = tokenJson.getString("access_token");
 
-			// 2) 사용자 정보 조회
-			URL userInfoUrl = new URL("https://kapi.kakao.com/v2/user/me");
-			HttpURLConnection userConn = (HttpURLConnection) userInfoUrl.openConnection();
-			userConn.setRequestMethod("GET");
-			userConn.setRequestProperty("Authorization", "Bearer " + accessToken);
+	        // 2) 사용자 정보 요청
+	        URL userInfoUrl = new URL("https://kapi.kakao.com/v2/user/me");
+	        HttpURLConnection userConn = (HttpURLConnection) userInfoUrl.openConnection();
+	        userConn.setRequestMethod("GET");
+	        userConn.setRequestProperty("Authorization", "Bearer " + accessToken);
 
-			BufferedReader userBr = new BufferedReader(new InputStreamReader(userConn.getInputStream()));
-			StringBuilder userSb = new StringBuilder();
-			String userLine;
-			while ((userLine = userBr.readLine()) != null)
-				userSb.append(userLine);
-			userBr.close();
+	        BufferedReader userBr = new BufferedReader(new InputStreamReader(userConn.getInputStream()));
+	        StringBuilder userSb = new StringBuilder();
+	        String userLine;
+	        while ((userLine = userBr.readLine()) != null) {
+	            userSb.append(userLine);
+	        }
+	        userBr.close();
 
-			JSONObject userInfoJson = new JSONObject(userSb.toString());
-			JSONObject kakaoAccount = userInfoJson.getJSONObject("kakao_account");
-			String email = kakaoAccount.getString("email");
-			String nickname = kakaoAccount.getJSONObject("profile").getString("nickname");
+	        JSONObject userInfoJson = new JSONObject(userSb.toString());
+	        Long kakaoId = userInfoJson.getLong("id");
+	        
+	        JSONObject kakaoAccount = userInfoJson.getJSONObject("kakao_account");
 
-			// 3) 사용자 VO에 담아서 반환
-			UserVO userVO = new UserVO();
-			userVO.setUser_id(email);
-			userVO.setUser_nm(nickname);
-			userVO.setUser_social("KAKAO");
+	        String nickname = "";
+	        if (kakaoAccount.has("profile")) {
+	            JSONObject profile = kakaoAccount.getJSONObject("profile");
+	            nickname = profile.has("nickname") ? profile.getString("nickname") : "";
+	        }
 
-			return userVO;
+	        // 3) DB 사용자 존재 여부 확인 & 신규 가입 처리
+	        String id = "kakao_" + kakaoId;
+	        UserVO checkIdvo = new UserVO();
+	        checkIdvo.setUser_id(id);
 
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+	        UserVO user = userService.checkId(checkIdvo);
+
+	        if (user == null) {
+	            user = new UserVO();
+	            user.setUser_id(id);
+	            user.setUser_pw("");
+	            user.setUser_nm(nickname);
+	            user.setUser_social("KAKAO");
+	            user.setUser_mail("");
+	            user.setUser_addr("울산"); // 기본값
+	            userService.register(user);
+	        }
+
+	        return user;
+
+	    } catch (Exception e) {
+	        throw new ServiceException("카카오 로그인 처리 실패", e);
+	    }
 	}
 
 }

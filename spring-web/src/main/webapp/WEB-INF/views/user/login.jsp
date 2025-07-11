@@ -47,6 +47,13 @@
 		            		<img class="login-button" src="../../resources/img/naver_login.png" alt="네이버 로그인">
 		            	</a>
 		            </div>
+		            
+		            <!-- 소셜로그인(카카오) --> 
+		  			<div class="form-group-center">
+		            	<a href="/login/kakaoLogin"> 
+		            		<img class="login-button" src="../../resources/img/kakao_login.png" alt="카카오 로그인">
+		            	</a>
+		            </div>
 				</div>
 			
 				<!-- 직원 로그인 폼 -->

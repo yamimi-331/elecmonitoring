@@ -8,7 +8,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.protobuf.ServiceException;
 
+import lombok.extern.log4j.Log4j;
+
 @ControllerAdvice
+@Log4j
 public class GlobalExceptionHandler {
 	/**
 	 * ServiceException 예외를 처리하여 사용자에게 메시지와 상태코드 전달
@@ -19,6 +22,7 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(ServiceException.class)
 	@ResponseBody
 	public ResponseEntity<String> handleServiceException(ServiceException ex) {
+		log.info("ServiceException 발생: " + ex); 
 		// 예외 메시지를 포함하여 HTTP 500 응답 반환
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 				.header("Content-Type", "text/plain; charset=UTF-8").body(ex.getMessage());

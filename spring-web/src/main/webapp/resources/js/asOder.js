@@ -210,7 +210,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		height: 'auto',
 		events: function(fetchInfo, successCallback, failureCallback) {
 			$.ajax({
-				url: '/as/calendar',
+				url: '/as/calendar-data',
 				type: 'GET',
 				dataType: "json",
 				success: function(data) {

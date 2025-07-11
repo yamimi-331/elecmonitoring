@@ -332,14 +332,9 @@ public class AsController {
 			// 로그인 정보 없으면 빈 리스트 반환 (또는 예외처리)
 			return List.of();
 		}
-		
-		log.info("startDate:"+ startDate);
-		log.info("endDate:"+ endDate);
-		log.info("staffInfo:"+ staffInfo);
+
 		LocalDate start = LocalDate.parse(startDate, DateTimeFormatter.ISO_DATE);
 		LocalDate end = LocalDate.parse(endDate, DateTimeFormatter.ISO_DATE);
-		log.info("start:"+ start);
-		log.info("end:"+ end);
 		
 		if (staffInfo == null) {
 	        staffInfo = "";
@@ -353,7 +348,6 @@ public class AsController {
 			} else {
 				// 일반 직원이면 본인 스케줄만 조회
 				staffInfo = ((StaffVO) obj).getStaff_id();
-				log.info("staffInfo:"+ staffInfo);
 				return asService.getScheduleByStaffAndDate(start, end, staffInfo);
 			}
 		} else {
@@ -362,8 +356,31 @@ public class AsController {
 		}
 	}
 	
-	// 캘린더
-	@GetMapping(value = "/calendar", produces = MediaType.APPLICATION_JSON_VALUE)
+	// 전체 일정 확인 페이지 이동
+	@GetMapping("/calendar")
+	public String calendarPage(HttpSession session, RedirectAttributes redirectAttrs) {
+		Object currentUser = session.getAttribute("currentUserInfo");
+        // 비정상적 루트로 접근 제한
+        boolean accessAllow = false;
+        if (currentUser instanceof UserVO) {
+        	accessAllow = false;
+        } else if(currentUser instanceof StaffVO) {
+        	accessAllow = true;
+        } else {
+        	accessAllow = false;
+        }
+        
+        if (accessAllow) {
+        	log.info("직원, 관리자의 as목록 확인 페이지로 이동");
+        	return "/as/asCalendar";
+        } else {
+        	redirectAttrs.addFlashAttribute("message", "잘못된 접근입니다.");
+        	return "redirect:/";
+        }
+	}
+	
+	// 캘린더 데이터
+	@GetMapping(value = "/calendar-data", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public ASCallenderDTO getAllScheduleForCalendar(HttpSession session) {
 	    Object obj = session.getAttribute("currentUserInfo");
@@ -408,8 +425,6 @@ public class AsController {
 	    calander.setError("");
 	    calander.setRole(role);
 	    calander.setEvents(scheduleList);
-	    log.info(role);
-	    log.info(scheduleList);
         return calander;
 	}
 	

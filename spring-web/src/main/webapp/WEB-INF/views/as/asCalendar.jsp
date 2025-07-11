@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>AS 일정 목록</title>
+<title>AS 전체 일정</title>
 <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet" />
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
@@ -15,51 +15,11 @@
 </head>
 <body>
 	<div class="wrapper">
-		<h2 class="header-title">AS 일정 목록</h2>
+		<h2 class="header-title">AS 전체 일정</h2>
 		<%@ include file="/WEB-INF/views/common/commonHeader.jsp" %>
 		<main class="main">
-			<h2>AS 일정 목록</h2>
-			<div id="searchSection">
-				<input type="date" id="startDate" /> ~ <input type="date" id="endDate" />
-				<c:if test="${currentUserInfo.staff_role eq 'admin'}">
-					<input type="text" id="searchStaff" placeholder="담당자">
-				</c:if>
-<%-- 				<c:if test="${currentUserInfo.staff_role ne 'admin'}">
-					<input type="hidden" id="searchStaff" value="${currentUserInfo.staff_nm}" readonly>
-				</c:if> --%>
-				<button id="btnSearch">조회</button>
-			</div>
-			<table id="asTable" class="custom-table">
-				<thead>
-					<tr>
-						<th>코드번호</th>
-						<th>신고 제목</th>
-						<th>담당자명</th>
-						<th>진행 상태</th>
-						<th>AS 예약 시간</th>
-						<th>상세 정보</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach var="as" items="${asList}">
-						<tr>
-							<td>${as.as_cd}</td>
-							<td>${as.as_title}</td>
-							<td>${as.staff_nm}</td>
-							<td>${as.as_status}</td>
-							<td class="asTime">${as.as_time}</td>
-							<td>
-								<button type="button" onclick="openModal(${as.as_cd})">상세보기</button>
-							</td>
-						</tr>
-					</c:forEach>
-					<c:if test="${empty asList}">
-						<tr>
-							<td colspan="5">조회된 일정이 없습니다.</td>
-						</tr>
-					</c:if>
-				</tbody>
-			</table>
+			<h2>AS 전체 일정</h2>
+			<div id="calendar"></div>
 		</main>
 	</div>
 

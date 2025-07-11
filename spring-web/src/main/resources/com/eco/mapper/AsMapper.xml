@@ -165,7 +165,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    FROM T_AS a
 	    LEFT JOIN T_STAFF s ON a.staff_cd = s.staff_cd
 	    WHERE DATE(a.as_date) BETWEEN #{start} AND #{end} and a.use_yn = 'Y'
-	    AND s.staff_id LIKE CONCAT('%', #{staffInfo}, '%')
+	    AND s.staff_id = #{staffInfo}
 	    ORDER BY a.as_date
         ]]>
     </select>
@@ -181,7 +181,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    WHERE DATE(a.as_date) BETWEEN #{start} AND #{end} and a.use_yn = 'Y'
 		AND (
 			s.staff_nm LIKE CONCAT('%', #{staffInfo}, '%')
-			OR s.staff_id LIKE CONCAT('%', #{staffInfo}, '%')
+			OR s.staff_id = #{staffInfo}
 		)
 	    ORDER BY a.as_date
         ]]>

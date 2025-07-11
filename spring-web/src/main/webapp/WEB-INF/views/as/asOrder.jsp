@@ -6,7 +6,10 @@
 <head>
 <meta charset="UTF-8">
 <title>AS 일정 목록</title>
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet" />
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/locales/ko.global.js"></script>
 <link rel="stylesheet" href="../../resources/css/common.css?after" />
 <link rel="stylesheet" href="../../resources/css/asOder.css?after" />
 </head>
@@ -57,6 +60,7 @@
 					</c:if>
 				</tbody>
 			</table>
+			<div id="calendar"></div>
 		</main>
 	</div>
 

@@ -185,3 +185,73 @@ function saveStatus() {
     }
   });
 }
+
+function getStatusColor(status) {
+  switch (status) {
+    case '신고 접수':
+      return '#3498db';
+    case 'A/S 작업 중':
+      return '#2ecc71';
+    case '작업 완료':
+      return '#e74c3c';
+    case '작업 취소':
+      return '#ff0000';
+    default:
+      return '#95a5a6';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+	const calendarEl = document.getElementById('calendar');
+
+	const calendar = new FullCalendar.Calendar(calendarEl, {
+		initialView: 'dayGridMonth', // month view
+		locale: 'ko',
+		height: 'auto',
+		events: function(fetchInfo, successCallback, failureCallback) {
+			$.ajax({
+				url: '/as/calendar',
+				method: 'GET',
+				success: function(data) {
+					console.log('calendar API response:', data);
+					const role = data.role;
+					console.log('role:', role);
+					console.log('events raw:', data.events);
+					
+					const events = data.events.map(item => {
+								console.log('event item:', item);  // 각각의 이벤트 객체 확인
+							    console.log('as_date:', item.as_date);
+							    console.log('as_time:', item.as_time);
+						return {
+							title: (role === 'admin')
+							? `[${item.staff_nm}] ${item.as_status}`  // 관리자용
+							: `${item.as_status}`,                   // 직원용
+							start: item.as_date,
+							extendedProps: {
+				                asCd: item.as_cd,
+				                status: item.as_status,
+				                title: item.as_title,
+				                staff: item.staff_nm
+							}
+						};
+					});
+					console.log('processed events:', events);
+					successCallback(events);
+	    		},
+				error: function() {
+					alert('캘린더 데이터를 불러오는 데 실패했습니다.');
+					failureCallback();
+				}
+			});
+		},
+	    eventClick: function(info) {
+			const asCd = info.event.extendedProps?.asCd;
+			if (!asCd) {
+				alert('일정 정보를 찾을 수 없습니다.');
+				return;
+			}
+			openModal(asCd);
+	    }
+  });
+	calendar.render();
+});

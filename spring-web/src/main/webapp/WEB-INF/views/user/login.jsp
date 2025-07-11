@@ -34,6 +34,19 @@
 						<button type="submit">로그인</button>
 					</form>
 					<a href='/signup'>회원가입</a>
+					<!-- 소셜로그인(구글) -->       
+					<div class="form-group-center">
+		            	<a href="/login/googleLogin"> 
+		            		<img class="login-button" src="../../resources/img/google_signin.png" alt="Google 로그인">
+		            	</a>
+		            </div>
+		            
+		            <!-- 소셜로그인(네이버) --> 
+		  			<!-- <div class="form-group-center">
+		            	<a href="/login/naverLogin"> 
+		            		<img class="login-button" src="../../resources/img/naver_login.png" alt="네이버 로그인">
+		            	</a>
+		            </div> -->
 				</div>
 			
 				<!-- 직원 로그인 폼 -->

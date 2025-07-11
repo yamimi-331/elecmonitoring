@@ -360,6 +360,41 @@ public class AsController {
 		}
 	}
 	
+	// 캘린더
+	@GetMapping(value = "/calendar", produces = "application/json")
+	@ResponseBody
+	public Map<String, Object> getAllScheduleForCalendar(HttpSession session) {
+	    Object obj = session.getAttribute("currentUserInfo");
+	    Map<String, Object> result = new HashMap<>();
+		List<ASListDTO> scheduleList;
+		String role = "";
+		
+	    if (obj instanceof StaffVO) {
+	    	StaffVO staff = (StaffVO) obj;
+	    	role = staff.getStaff_role();
+	    	
+	    	LocalDate startDate = LocalDate.of(2020, 1, 1);
+	    	LocalDate endDate = LocalDate.of(2030, 12, 31);
+	    	
+	    	if ("admin".equalsIgnoreCase(role)) {
+	    		// 관리자는 모든 일정
+	    		scheduleList = asService.getScheduleByPeriodAndStaff(startDate, endDate, "");
+	    	} else {
+	    		// 직원은 본인 일정만
+	    		scheduleList = asService.getScheduleByStaffAndDate(startDate, endDate, staff.getStaff_id());
+	    	}
+	    } else {
+	    	result.put("error", "unauthorized");
+	        result.put("role", "none");
+	        result.put("events", List.of());
+	        return result;
+		}
+	    System.out.println("scheduleList size: " + scheduleList.size());
+	    result.put("role", role);
+	    result.put("events", scheduleList);
+	    return result;
+	}
+	
 	// AS 기사 배정 지역 변경
 	@GetMapping("/management")
 	public String managementPage() {

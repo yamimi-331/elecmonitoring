@@ -116,6 +116,7 @@ public class AsController {
 		log.info("as신청 내역 상세 페이지 요청");
 
 	    Object currentUser = session.getAttribute("currentUserInfo");
+
 	    if (currentUser == null) {
 	        redirectAttrs.addFlashAttribute("message", "로그인 후 이용해주세요.");
 	        return "redirect:/login";
@@ -133,7 +134,7 @@ public class AsController {
 	        redirectAttrs.addFlashAttribute("message", "로그인 정보가 올바르지 않습니다.");
 	        return "redirect:/login";
 	    }
-
+	    
 	    List<Map<String, Object>> parsedList = parseAsList(asvo);
 	    model.addAttribute("userList", parsedList);
 
@@ -178,6 +179,10 @@ public class AsController {
 	// 날짜/시간 파싱 함수
 	private List<Map<String, Object>> parseAsList(List<ASVO> asvo) {
 	    List<Map<String, Object>> parsedList = new ArrayList<>();
+	    if (asvo == null) {
+	    	return parsedList; 
+	    }
+	    
 	    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	    DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 

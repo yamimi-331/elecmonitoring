@@ -1,4 +1,9 @@
 /* 헤더 스타일 */
+a{
+	color: black;
+	text-decoration: none;
+}
+
 .main-header {
     width: 1600px; /* 고정 폭 */
   margin: 0 auto;

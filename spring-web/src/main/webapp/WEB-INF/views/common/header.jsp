@@ -38,11 +38,13 @@ function updateSessionTimer() {
 	const remainingSec = sessionTimeoutInSec - elapsedSec;
 
 	const timerEl = document.getElementById('session-timer');
+	const extendBtn = document.getElementById('extend-session-btn');
 	
 	if (remainingSec > 0) {
 		timerEl.textContent = '자동 로그아웃까지 남은 시간 : ' + formatTime(remainingSec);
 	} else {
 		timerEl.textContent = '세션이 만료되었습니다';
+		extendBtn.style.display = 'none';
 		clearInterval(timerInterval);
 	    location.href = '/logout';
 	}
@@ -53,6 +55,7 @@ function updateSessionTimer() {
 	<c:if test="${not empty sessionScope.currentUserInfo}">
 		<div id="session-timer-container"></div>
 		<span id="session-timer"></span>
+		<button id="extend-session-btn" style="display:none;">계속하기</button>
 		<script>
 			const timerInterval = setInterval(updateSessionTimer, 1000);
 			updateSessionTimer();

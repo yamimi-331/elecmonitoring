@@ -25,8 +25,7 @@ function searchAddress() {
 </head>
 <body>
 	<div class="wrapper">
-		<h2 class="header-title">회원 정보 수정</h2>
-		<%@ include file="/WEB-INF/views/common/commonHeader.jsp"%>
+		<%@ include file="/WEB-INF/views/common/header.jsp" %>
 		<main class="main">
 			<c:choose>
 				<%-- 사용자 타입이 일반인경우 -------------------------------------------------------- --%>

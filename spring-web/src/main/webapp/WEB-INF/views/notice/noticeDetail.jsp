@@ -10,8 +10,7 @@
 </head>
 <body>
 	<div class="wrapper">
-		<h2 class="header-title">공지사항 상세 페이지</h2>
-		<%@ include file="/WEB-INF/views/common/commonHeader.jsp"%>
+		<%@ include file="/WEB-INF/views/common/header.jsp" %>
 		<main>
 			<form action="/notice/${mode}" method="post">
 				<input type="hidden" name="notice_cd" value="${notice.notice_cd}">

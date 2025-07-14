@@ -13,9 +13,8 @@
 <link rel="stylesheet" href="../../resources/css/common.css?after" />
 </head>
 <body>
-	 <div class="wrapper">
-	<h2 class="header-title">전기재해 모니터링 시스템</h2>
-   <%@ include file="/WEB-INF/views/common/commonHeader.jsp" %>
+	<div class="wrapper">
+	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 	<main class="main">
 		<div class="container">
 			<div class="content-wrapper">

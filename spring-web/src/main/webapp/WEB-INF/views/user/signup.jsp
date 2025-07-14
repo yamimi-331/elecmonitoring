@@ -24,8 +24,7 @@ function searchAddress() {
 </head>
 <body>
  <div class="wrapper">
-	<h2 class="header-title">회원 가입</h2>
-    <%@ include file="/WEB-INF/views/common/commonHeader.jsp" %>
+    <%@ include file="/WEB-INF/views/common/header.jsp" %>
 	<main class="main">
 		<div class="container">
 			<form action="signup" method="post" class="signup-form">

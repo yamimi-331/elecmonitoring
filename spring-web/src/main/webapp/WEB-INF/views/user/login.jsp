@@ -11,8 +11,7 @@
 </head>
 <body>
 	<div class="wrapper">
-		<h2 class="header-title">로그인</h2>
-		<%@ include file="/WEB-INF/views/common/commonHeader.jsp" %>
+		<%@ include file="/WEB-INF/views/common/header.jsp" %>
 		<main class="main">
 			<div class="container">
 			<div class="inner-container">

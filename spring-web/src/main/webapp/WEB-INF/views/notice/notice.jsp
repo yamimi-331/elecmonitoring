@@ -7,10 +7,6 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" href="../../resources/css/common.css?after" />
 <style>
-
-
-
-
 .btn-insert {
 	display: inline-block;
 	padding: 8px 16px;
@@ -60,8 +56,7 @@ th:hover {
 </head>
 <body>
 	<div class="wrapper">
-		<h2 class="header-title">공지사항</h2>
-		<%@ include file="/WEB-INF/views/common/commonHeader.jsp"%>
+		<%@ include file="/WEB-INF/views/common/header.jsp" %>
 		<main>
 			<div style="text-align: right;">
 				<button class="btn-insert"

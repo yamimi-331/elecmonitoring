@@ -16,7 +16,7 @@
 <body>
 	<div class="wrapper">
 		<h2 class="header-title">AS 전체 일정</h2>
-		<%@ include file="/WEB-INF/views/common/commonHeader.jsp" %>
+		<%@ include file="/WEB-INF/views/common/header.jsp" %>
 		<main class="main">
 			<h2>AS 전체 일정</h2>
 			<div class="container">

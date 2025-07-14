@@ -28,6 +28,7 @@ import com.eco.domain.vo.ASVO;
 import com.eco.domain.vo.StaffVO;
 import com.eco.domain.vo.UserVO;
 import com.eco.service.AsService;
+import com.eco.service.MailService;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -37,7 +38,9 @@ import lombok.extern.log4j.Log4j;
 @AllArgsConstructor
 @RequestMapping("/as")
 public class AsController {
+	
 	private final AsService asService;
+	private final MailService mailService;
 
 	// as신청폼 접속
 	@GetMapping("/form")
@@ -89,6 +92,7 @@ public class AsController {
 		Object currentUser = session.getAttribute("currentUserInfo");
 		
 		boolean result = false;
+		String mailAddr = "";
 		
 		if (currentUser instanceof UserVO) {
 			UserVO user = (UserVO) currentUser;
@@ -106,16 +110,13 @@ public class AsController {
 			if ("기타".equals(vo.getAs_title()) && as_title_custom != null && !as_title_custom.isBlank()) {
 				vo.setAs_title(as_title_custom);
 			}
-			
-			log.info(vo);
-			
+			mailAddr = vo.getUser_mail();
 			result = asService.registerAsByCommon(vo);
 		} else if (currentUser instanceof GuestDTO) {
 			// 예약 날짜 시간 합치기
 			LocalDate localDate = LocalDate.parse(reserve_date);
 			LocalDateTime combinedDateTime = LocalDateTime.parse(localDate.toString() + "T" + reserve_time + ":00");
 			vo.setAs_date(combinedDateTime);
-
 			// 기타 입력 처리
 			if ("기타".equals(vo.getAs_facility()) && as_facility_custom != null && !as_facility_custom.isBlank()) {
 				vo.setAs_facility(as_facility_custom);
@@ -124,8 +125,7 @@ public class AsController {
 				vo.setAs_title(as_title_custom);
 			}
 
-			log.info(vo);
-
+			mailAddr = vo.getGuest_mail();
 			result = asService.registerAsByGuest(vo);
 			
 		} else {
@@ -135,6 +135,8 @@ public class AsController {
 		
 		if (result) {
 			redirectAttrs.addFlashAttribute("message", "AS 신고가 완료되었습니다.");
+			vo.setAs_status("신고 접수");
+			mailService.sendAsStatus(mailAddr, vo);
 		} else {
 			redirectAttrs.addFlashAttribute("message", "AS 신고에 실패하였습니다.");
 		}
@@ -320,6 +322,7 @@ public class AsController {
 		boolean result = asService.editAsListByCommon(vo);
 		if (result) {
 			redirectAttrs.addFlashAttribute("message", "AS 수정이 완료되었습니다.");
+			mailService.sendAsStatus(vo.getUser_mail(), vo);
 		} else {
 			redirectAttrs.addFlashAttribute("message", "AS 수정에 실패하였습니다.");
 		}
@@ -363,7 +366,12 @@ public class AsController {
 	    }
 
 	    boolean result = asService.editAsListByGuest(vo);
-	    redirectAttrs.addFlashAttribute("message", result ? "AS 수정이 완료되었습니다." : "AS 수정에 실패하였습니다.");
+	    if (result) {
+			redirectAttrs.addFlashAttribute("message", "AS 수정이 완료되었습니다.");
+			mailService.sendAsStatus(vo.getGuest_mail(), vo);
+		} else {
+			redirectAttrs.addFlashAttribute("message", "AS 수정에 실패하였습니다.");
+		}
 	    return "redirect:/as/detail";
 	}
 
@@ -381,7 +389,20 @@ public class AsController {
 		
 		boolean result = asService.cancleAsListByCommon(as_cd);
 		if (result) {
+			log.info("예약 취소");
 			redirectAttrs.addFlashAttribute("message", "AS 신청을 취소하였습니다.");
+			String mailTo = vo.getUser_mail();
+			if (mailTo == null || mailTo.trim().isEmpty()) {
+			    mailTo = vo.getGuest_mail();
+			}
+
+			if (mailTo != null && !mailTo.trim().isEmpty()) {
+				vo.setAs_status("예약 취소");
+			    mailService.sendAsStatus(mailTo, vo);
+			} else {
+			    // 둘 다 없다면? 로그만 남기거나 예외 처리
+			    System.out.println("메일 발송 실패: 사용자 메일과 게스트 메일이 모두 null입니다.");
+			}
 		} else {
 			redirectAttrs.addFlashAttribute("message", "AS 신청 취소에 실패하였습니다.");
 		}
@@ -433,8 +454,25 @@ public class AsController {
 	@PostMapping("/updateStatus")
 	@ResponseBody
 	public String updateStatus(@RequestParam("as_cd") int as_cd, @RequestParam("as_status") String as_status) {
-		log.info("AS 상태 업데이트 요청: " + as_cd + ", 새 상태: " + as_status);
-		asService.updateStatus(as_cd, as_status);
+		// 1️ 상태 업데이트
+	    asService.updateStatus(as_cd, as_status);
+
+	    // 2️ 업데이트된 AS 정보 다시 가져오기 (상태 포함)
+	    ASVO vo = asService.readAsDetailByUser(as_cd); 
+
+	    // 3️ 메일 보낼 대상 선택
+	    String mailTo = vo.getUser_mail();
+	    if (mailTo == null || mailTo.trim().isEmpty()) {
+	        mailTo = vo.getGuest_mail();
+	    }
+
+	    // 4️ 메일 발송
+	    if (mailTo != null && !mailTo.trim().isEmpty()) {
+	        mailService.sendAsStatus(mailTo, vo);
+	    } else {
+	        System.out.println("메일 발송 실패: 사용자 메일과 게스트 메일이 모두 없음");
+	    }
+
 		return "success";
 	}
 

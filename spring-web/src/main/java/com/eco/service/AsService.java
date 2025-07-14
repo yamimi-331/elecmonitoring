@@ -50,6 +50,13 @@ public interface AsService {
 
     // 게스트의 상세 내역 조회
 	public List<ASVO> getGuestAsList(GuestDTO guest);
-	 // 게스트의 상세 내역 조회 (날짜 빠른순)
+	
+	// 게스트의 상세 내역 조회 (날짜 빠른순)
 	public List<ASVO> getGuestAsListOrderByAsDate(GuestDTO guest);
+	
+	// 게스트 AS 일정 등록
+	public boolean registerAsByGuest(ASVO vo);
+
+	// 게스트 AS 일정 수정
+	public boolean editAsListByGuest(ASVO vo);
 }

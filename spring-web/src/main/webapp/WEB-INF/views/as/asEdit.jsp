@@ -32,20 +32,48 @@ function searchAddress() {
 		<main class="main">
 			<h2>A/S 상세 정보</h2>
 			<div class="container">
-				<form action="/as/updateCommon" method="post" class="as-form" id="updateForm">
+				<form action="<c:choose>
+					            <c:when test='${sessionScope.userType == "common"}'>/as/updateCommon</c:when>
+					            <c:when test='${sessionScope.userType == "guest"}'>/as/updateGuest</c:when>
+					            <c:otherwise>/as/updateCommon</c:otherwise>
+					          </c:choose>" method="post" class="as-form" id="updateForm">
 					<input type="hidden" name="as_cd" value="${asVO.as_cd}" />
 					<input type="hidden" name="as_status" value="${asVO.as_status}" />
 					<input type="hidden" name="staff_cd" value="${asVO.staff_cd}" />
 					<div class="inner-container">
 						<span>신고자 정보</span>
-						<div class="i">
-							<label for="user_nm">이름</label>
-							<input type="text" name="user_nm" id="user_nm" value="${currentUserInfo.user_nm}" readonly>
-						</div>
-						<div class="i">
-							<label for="user_mail">이메일</label> 
-							<input type="text" name="user_mail" id="user_mail" value="${asVO.user_mail}">
-						</div>
+						<c:choose>
+						  <c:when test="${sessionScope.userType == 'common'}">
+							<div class="i">
+								<label for="user_nm">이름</label>
+								<input type="text" name="user_nm" id="user_nm" value="${asVO.user_nm}" readonly>
+							</div>
+							<div class="i">
+								<label for="user_mail">이메일</label>
+								<input type="text" name="user_mail" id="user_mail" value="${asVO.user_mail}">
+							</div>
+						  </c:when>
+						  <c:when test="${sessionScope.userType == 'guest'}">
+							   <div class="i">
+									<label for="user_nm">이름</label>
+								    <input type="text" name="guest_nm" id="guest_nm" value="${asVO.guest_nm}" readonly>
+								</div>
+								<div class="i">
+									<label for="user_mail">이메일</label>
+								    <input type="text" name="guest_mail" id="guest_mail" value="${asVO.guest_mail}">
+								</div>
+						  </c:when>
+						  <c:otherwise>
+							<div class="i">
+								<label for="user_nm">이름</label>
+								<input type="text" name="user_nm" id="user_nm" value="" readonly>
+							</div>
+							<div class="i">
+								<label for="user_mail">이메일</label>
+							    <input type="text" name="user_mail" id="user_mail" value="">
+							</div>    
+						  </c:otherwise>
+						</c:choose>
 					</div>
 					<div class="inner-container">
 						<span>시설물 정보</span>

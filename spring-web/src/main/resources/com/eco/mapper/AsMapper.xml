@@ -81,6 +81,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	           #{as_date}, #{as_addr}, #{as_facility});
 	    ]]>
 	</insert>
+	
+	<!-- 일반 회원의 AS 신고 -->
+	<insert id="insertAsListByGuest" parameterType="com.eco.domain.vo.ASVO" useGeneratedKeys="true" keyProperty="as_cd">
+	  <![CDATA[
+	    INSERT INTO t_as(as_title, as_content, as_date, as_addr, as_facility, guest_mail, guest_nm)
+	    VALUES(#{as_title}, #{as_content}, #{as_date}, 
+	    	#{as_addr}, #{as_facility}, #{guest_mail}, #{guest_nm});
+	    ]]>
+	</insert>
+	
+	
 	<!-- 기사 조회 -->
 	<select id="selectAsStaff" resultType="int" parameterType="map">
 		<![CDATA[
@@ -107,6 +118,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    WHERE as_cd=#{as_cd}
 	    ]]>
 	</update>
+	
+	<!-- AS 신고 수정(게스트) -->
+	<update id="updateAsListByGuest" parameterType="com.eco.domain.vo.ASVO">
+        <![CDATA[
+		    UPDATE t_as set guest_mail=#{guest_mail}, as_title=#{as_title}, as_content=#{as_content}, 
+		    as_date=#{as_date}, as_addr=#{as_addr}, as_facility=#{as_facility}
+		    WHERE as_cd=#{as_cd}
+	    ]]>
+	</update>
+	
 	<!-- AS 신고 삭제 -->
 	<update id="deleteAsListByCommon" parameterType="com.eco.domain.vo.ASVO">
         <![CDATA[

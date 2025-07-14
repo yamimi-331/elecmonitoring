@@ -69,5 +69,11 @@ public interface AsMapper {
 	
     // 게스트의 AS 일정 날짜순으로 정렬
 	public List<ASVO> selectGuestAsListOrderByAsDate(GuestDTO guest);
+	
+	// 게스트의 AS 일정 등록
+	public int insertAsListByGuest(ASVO vo);
+
+	// 게스트의 일정 수정
+	public int updateAsListByGuest(ASVO vo);
 
 }

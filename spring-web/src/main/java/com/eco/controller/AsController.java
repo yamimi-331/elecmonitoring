@@ -85,23 +85,54 @@ public class AsController {
 			@RequestParam(required = false) String as_title_custom, HttpSession session,
 			RedirectAttributes redirectAttrs) {
 		log.info("일반회원의 as신청");
-		UserVO user = (UserVO) session.getAttribute("currentUserInfo");
-		vo.setUser_cd(user.getUser_cd());
 
-		// 예약 날짜 시간 합치기
-		LocalDate localDate = LocalDate.parse(reserve_date);
-		LocalDateTime combinedDateTime = LocalDateTime.parse(localDate.toString() + "T" + reserve_time + ":00");
-		vo.setAs_date(combinedDateTime);
+		Object currentUser = session.getAttribute("currentUserInfo");
 		
-		// 기타 입력 처리
-		if ("기타".equals(vo.getAs_facility()) && as_facility_custom != null && !as_facility_custom.isBlank()) {
-			vo.setAs_facility(as_facility_custom);
-		}
-		if ("기타".equals(vo.getAs_title()) && as_title_custom != null && !as_title_custom.isBlank()) {
-			vo.setAs_title(as_title_custom);
-		}
+		boolean result = false;
+		
+		if (currentUser instanceof UserVO) {
+			UserVO user = (UserVO) currentUser;
+			vo.setUser_cd(user.getUser_cd());
 
-		boolean result = asService.registerAsByCommon(vo);
+			// 예약 날짜 시간 합치기
+			LocalDate localDate = LocalDate.parse(reserve_date);
+			LocalDateTime combinedDateTime = LocalDateTime.parse(localDate.toString() + "T" + reserve_time + ":00");
+			vo.setAs_date(combinedDateTime);
+			
+			// 기타 입력 처리
+			if ("기타".equals(vo.getAs_facility()) && as_facility_custom != null && !as_facility_custom.isBlank()) {
+				vo.setAs_facility(as_facility_custom);
+			}
+			if ("기타".equals(vo.getAs_title()) && as_title_custom != null && !as_title_custom.isBlank()) {
+				vo.setAs_title(as_title_custom);
+			}
+			
+			log.info(vo);
+			
+			result = asService.registerAsByCommon(vo);
+		} else if (currentUser instanceof GuestDTO) {
+			// 예약 날짜 시간 합치기
+			LocalDate localDate = LocalDate.parse(reserve_date);
+			LocalDateTime combinedDateTime = LocalDateTime.parse(localDate.toString() + "T" + reserve_time + ":00");
+			vo.setAs_date(combinedDateTime);
+
+			// 기타 입력 처리
+			if ("기타".equals(vo.getAs_facility()) && as_facility_custom != null && !as_facility_custom.isBlank()) {
+				vo.setAs_facility(as_facility_custom);
+			}
+			if ("기타".equals(vo.getAs_title()) && as_title_custom != null && !as_title_custom.isBlank()) {
+				vo.setAs_title(as_title_custom);
+			}
+
+			log.info(vo);
+
+			result = asService.registerAsByGuest(vo);
+			
+		} else {
+			redirectAttrs.addFlashAttribute("message", "등록 정보가 올바르지 않습니다.");
+			return "redirect:/as/form";
+		}		
+		
 		if (result) {
 			redirectAttrs.addFlashAttribute("message", "AS 신고가 완료되었습니다.");
 		} else {
@@ -202,35 +233,59 @@ public class AsController {
 	}
 
 	// as신고 수정 화면
+	// AS 신고 수정 화면
 	@PostMapping("/edit")
 	public String asEdit(@RequestParam("as_cd") int as_cd, Model model, HttpSession session, RedirectAttributes redirectAttrs) {
-		log.info("as 예약 수정 화면 접속");
-		UserVO user = (UserVO) session.getAttribute("currentUserInfo");
-		ASVO asvo = asService.readAsDetailByUser(as_cd);
-		
-		// 본인 확인 로직 추가 (보안 강화)
-		if (asvo == null || asvo.getUser_cd() != user.getUser_cd()) {
-			redirectAttrs.addFlashAttribute("message", "유효하지 않은 요청이거나 권한이 없습니다.");
-			return "redirect:/as/detail";
-		}
+	    log.info("as 예약 수정 화면 접속");
 
-		String fullAddr = asvo.getAs_addr();
-		String baseAddr = "";
-		String detailAddr = "";
-		if(fullAddr != null && fullAddr.contains(":")) {
-			String[] parts = fullAddr.split(":", 2);
-			baseAddr = parts[0];
-			detailAddr = parts[1];
-		} else {
-			baseAddr = fullAddr != null ? fullAddr : "";
-			detailAddr = "";
-		}
+	    Object currentUser = session.getAttribute("currentUserInfo");
+	    if (currentUser == null) {
+	        redirectAttrs.addFlashAttribute("message", "로그인 후 이용해주세요.");
+	        return "redirect:/login";
+	    }
 
-		model.addAttribute("asVO", asvo);
-		model.addAttribute("base_addr", baseAddr);
-		model.addAttribute("detail_addr", detailAddr);
-		return "/as/asEdit";
+	    ASVO asvo = asService.readAsDetailByUser(as_cd);
+
+	    // 본인 확인 로직
+	    boolean authorized = false;
+	    if (currentUser instanceof UserVO) {
+	        int user_cd = ((UserVO) currentUser).getUser_cd();
+	        if (asvo != null && asvo.getUser_cd() == user_cd) {
+	            authorized = true;
+	        }
+	    } else if (currentUser instanceof GuestDTO) {
+	        GuestDTO guest = (GuestDTO) currentUser;
+	        if (asvo != null && guest.getGuest_mail().equals(asvo.getGuest_mail())
+	                && guest.getGuest_nm().equals(asvo.getGuest_nm())) {
+	            authorized = true;
+	        }
+	    }
+
+	    if (!authorized) {
+	        redirectAttrs.addFlashAttribute("message", "유효하지 않은 요청이거나 권한이 없습니다.");
+	        return "redirect:/as/detail";
+	    }
+
+	    // 주소 분리
+	    String fullAddr = asvo.getAs_addr();
+	    String baseAddr = "";
+	    String detailAddr = "";
+	    if (fullAddr != null && fullAddr.contains(":")) {
+	        String[] parts = fullAddr.split(":", 2);
+	        baseAddr = parts[0];
+	        detailAddr = parts[1];
+	    } else {
+	        baseAddr = fullAddr != null ? fullAddr : "";
+	        detailAddr = "";
+	    }
+
+	    model.addAttribute("asVO", asvo);
+	    model.addAttribute("base_addr", baseAddr);
+	    model.addAttribute("detail_addr", detailAddr);
+
+	    return "/as/asEdit";
 	}
+
 
 	// 일반회원의 as수정
 	@PostMapping("/updateCommon")
@@ -269,6 +324,47 @@ public class AsController {
 			redirectAttrs.addFlashAttribute("message", "AS 수정에 실패하였습니다.");
 		}
 		return "redirect:/as/detail";
+	}
+
+	// 게스트의 AS 수정
+	@PostMapping("/updateGuest")
+	public String editAsByGuest(ASVO vo,
+	                             @RequestParam String reserve_time,
+	                             @RequestParam String reserve_date,
+	                             @RequestParam(required = false) String as_facility_custom,
+	                             @RequestParam(required = false) String as_title_custom,
+	                             HttpSession session,
+	                             RedirectAttributes redirectAttrs) {
+	    log.info("게스트의 as 예약 수정");
+
+	    GuestDTO guest = (GuestDTO) session.getAttribute("currentUserInfo");
+	    if (guest == null) {
+	        redirectAttrs.addFlashAttribute("message", "로그인 후 이용해주세요.");
+	        return "redirect:/login";
+	    }
+
+	    vo.setGuest_mail(guest.getGuest_mail());
+	    vo.setGuest_nm(guest.getGuest_nm());
+
+	    LocalDate localDate = LocalDate.parse(reserve_date);
+	    LocalDateTime combinedDateTime = LocalDateTime.parse(localDate + "T" + reserve_time + ":00");
+	    vo.setAs_date(combinedDateTime);
+
+	    if ("기타".equals(vo.getAs_facility()) && as_facility_custom != null && !as_facility_custom.isBlank()) {
+	        vo.setAs_facility(as_facility_custom);
+	    }
+	    if ("기타".equals(vo.getAs_title()) && as_title_custom != null && !as_title_custom.isBlank()) {
+	        vo.setAs_title(as_title_custom);
+	    }
+
+	    if (!"신고 접수".equals(vo.getAs_status())) {
+	        redirectAttrs.addFlashAttribute("message", "현재 상태에서는 수정할 수 없습니다.");
+	        return "redirect:/as/detail";
+	    }
+
+	    boolean result = asService.editAsListByGuest(vo);
+	    redirectAttrs.addFlashAttribute("message", result ? "AS 수정이 완료되었습니다." : "AS 수정에 실패하였습니다.");
+	    return "redirect:/as/detail";
 	}
 
 	// 일반 회원 신고 삭제

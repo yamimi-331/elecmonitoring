@@ -213,13 +213,63 @@ public class AsServiceImpl implements AsService {
 			throw new ServiceException("게스트의 AS 리스트 가져오기 실패", e);
 		}
 	}
-
+	
+	// 게스트의 전체 일정 조회(날짜순)
 	@Override
 	public List<ASVO> getGuestAsListOrderByAsDate(GuestDTO guest) {
 		try {
 			return asMapper.selectGuestAsListOrderByAsDate(guest);
 		} catch (Exception e) {
 			throw new ServiceException("게스트의 AS 리스트 가져오기 실패", e);
+		}
+	}
+
+	// 게스트의 일정 등록
+	@Override
+	public boolean registerAsByGuest(ASVO vo) {
+		try {
+			int insertCount = asMapper.insertAsListByGuest(vo);
+			if (insertCount == 0)
+				return false;
+
+			LocalDateTime dt = vo.getAs_date();
+			String date = dt.toLocalDate().toString();
+			String time = String.format("%02d:00:00", dt.getHour());
+			String addr = vo.getAs_addr().split(" ")[0];
+
+			Integer staffCd = asMapper.selectAsStaff(date, addr, time);
+
+			if (staffCd == null)
+				return false;
+
+			int updated = asMapper.updateMatchStaff((int) staffCd, vo.getAs_cd());
+			return updated > 0;
+		} catch (Exception e) {
+			throw new ServiceException("게스트의 AS 신고 실패", e);
+		}
+	}
+
+	// 게스트의 일정 수정
+	@Override
+	public boolean editAsListByGuest(ASVO vo) {
+		try {
+			int updated = asMapper.updateAsListByGuest(vo);
+			if (updated == 0)
+				return false;
+
+			LocalDateTime dt = vo.getAs_date();
+			String date = dt.toLocalDate().toString();
+			String time = String.format("%02d:00:00", dt.getHour());
+			String addr = vo.getAs_addr().split(" ")[0];
+
+			Integer staffCd = asMapper.selectAsStaff(date, addr, time);
+			if (staffCd == null)
+				return false;
+
+			int reassigned = asMapper.updateMatchStaff(staffCd, vo.getAs_cd());
+			return reassigned >= 0;
+		} catch (Exception e) {
+			throw new ServiceException("AS 신고 수정 실패", e);
 		}
 	}
 

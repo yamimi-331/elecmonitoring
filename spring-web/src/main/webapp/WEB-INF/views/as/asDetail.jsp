@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>A/S 신고 목록</title>
+<title>A/S 진행 현황</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" href="../../resources/css/common.css?after" />
 <style>
@@ -31,7 +31,7 @@ function loadData(sortType) {
 </head>
 <body>
 	<div class="wrapper">
-		<h2 class="header-title">A/S 신고 목록</h2>
+		<h2 class="header-title">A/S 진행 현황</h2>
 		<%@ include file="/WEB-INF/views/common/commonHeader.jsp" %>
 		<main class="main">
 			<h2>AS 신고 내역</h2>

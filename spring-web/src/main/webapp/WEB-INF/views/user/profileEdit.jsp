@@ -34,9 +34,10 @@ function searchAddress() {
 				<div class="profile-container">
 					<form action="/profileEdit/common" method="post" class="signup-form">
 						<input type="hidden" name="user_cd" value="${profileInfo.user_cd }">
-						<label for="id">아이디</label>  
-						<input type="text" name="user_id" id="id" value="${profileInfo.user_id}" readonly> 
 						<c:if test="${profileInfo.user_social eq 'Basic'}">
+							<label for="id">아이디</label>  
+							<input type="text" name="user_id" id="id" value="${profileInfo.user_id}" readonly> 
+						
 							<label for="pw">기존 비밀번호 확인</label>  
 							<input type="password" name="prepw" id="prepw" autocomplete="new-password"> 
 							<button type="button">비밀번호 확인</button>

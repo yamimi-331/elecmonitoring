@@ -12,9 +12,6 @@
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/locales/ko.global.js"></script>
 <link rel="stylesheet" href="../../resources/css/common.css?after" />
 <link rel="stylesheet" href="../../resources/css/asOder.css?after" />
-<script>
-	const currentUserRole = '${currentUserInfo.staff_role}';
-</script>
 </head>
 <body>
 	<div class="wrapper">

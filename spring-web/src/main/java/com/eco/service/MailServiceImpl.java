@@ -57,7 +57,7 @@ public class MailServiceImpl  implements MailService  {
 	        case "신고 접수":
 	            subject = "[A/S 접수 완료] 신고가 정상 등록되었습니다.";
 	            break;
-	        case "AS 작업 중":
+	        case "A/S 작업 중":
 	            subject = "[A/S 처리중] 신고 건이 현재 처리중입니다.";
 	            break;
 	        case "작업 완료":

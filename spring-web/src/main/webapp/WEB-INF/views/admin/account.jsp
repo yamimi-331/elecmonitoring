@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>관리자 페이지</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="../../resources/js/account.js?after" defer></script>
 <link rel="stylesheet" href="../../resources/css/common.css?after" />

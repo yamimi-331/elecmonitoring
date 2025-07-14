@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>회원 정보 수정</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="../../resources/js/profileEdit.js?after"></script>

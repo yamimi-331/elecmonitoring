@@ -71,6 +71,15 @@ function renderTable(data) {
     tbody.append('<tr><td colspan="6">해당 날짜에 일정이 없습니다.</td></tr>');
     return;
   }
+  
+  function formatDate(dateObj){
+    if(!dateObj) return '-';
+    if (typeof dateObj === 'object'){
+      const { year, monthValue, dayOfMonth, hour, minute } = dateObj;
+      return `${year}-${String(monthValue).padStart(2, '0')}-${String(dayOfMonth).padStart(2, '0')} ${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
+    }
+    return dateObj;
+  }
 
   // 일정 목록 행 추가
   data.forEach(item => {
@@ -81,7 +90,7 @@ function renderTable(data) {
         <td>${item.as_title}</td>
         <td>${item.staff_nm || '미지정'}</td>
         <td>${item.as_status}</td>
-        <td>${item.as_time || '-'}</td>
+        <td>${formatDate(item.as_date)}</td>
         <td>
           <button onclick="openModal(${item.as_cd})">상세보기</button>
         </td>

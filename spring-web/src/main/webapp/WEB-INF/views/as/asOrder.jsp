@@ -36,7 +36,7 @@
 						<th>신고 제목</th>
 						<th>담당자명</th>
 						<th>진행 상태</th>
-						<th>AS 예약 시간</th>
+						<th>AS 예약 일시</th>
 						<th>상세 정보</th>
 					</tr>
 				</thead>
@@ -47,7 +47,7 @@
 							<td>${as.as_title}</td>
 							<td>${as.staff_nm}</td>
 							<td>${as.as_status}</td>
-							<td class="asTime">${as.as_time}</td>
+							<td class="asTime">${formatDate(item.as_date)}</td>
 							<td>
 								<button type="button" onclick="openModal(${as.as_cd})">상세보기</button>
 							</td>
@@ -55,7 +55,7 @@
 					</c:forEach>
 					<c:if test="${empty asList}">
 						<tr>
-							<td colspan="5">조회된 일정이 없습니다.</td>
+							<td colspan="6">조회된 일정이 없습니다.</td>
 						</tr>
 					</c:if>
 				</tbody>

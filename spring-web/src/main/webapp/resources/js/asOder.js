@@ -312,7 +312,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			}
 			openModal(asCd);
 	    }
-  });
+	});
 	calendar.render();
 	
 	const $searchInput = $('#searchCalendarStaff');

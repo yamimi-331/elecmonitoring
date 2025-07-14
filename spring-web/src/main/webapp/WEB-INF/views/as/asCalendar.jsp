@@ -12,6 +12,9 @@
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/locales/ko.global.js"></script>
 <link rel="stylesheet" href="../../resources/css/common.css?after" />
 <link rel="stylesheet" href="../../resources/css/asOder.css?after" />
+<script>
+	const currentUserRole = '${currentUserInfo.staff_role}';
+</script>
 </head>
 <body>
 	<div class="wrapper">
@@ -20,14 +23,13 @@
 		<main class="main">
 			<h2>AS 전체 일정</h2>
 			<div class="container">
-				<div class="calendar-container">
+				<div class="top-bar">
 					<c:if test="${currentUserInfo.staff_role eq 'admin'}">
-						<div class="search-section">
-							<input type="text" id="searchCalendarStaff" placeholder="담당자">
+						<div class="search-calendar">
+							<input type="text" id="searchCalendarStaff" placeholder="직원 검색">
 							<button id="btnCalendarSearch">조회</button>
 						</div>
 					</c:if>
-					<div></div>
 					<div class="calendar-legend">
 						<span style="background:#439b43" class="legend-dot"></span> 신고 접수
 						<span style="background:#f0ad4e" class="legend-dot"></span> A/S 작업 중

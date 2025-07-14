@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.eco.domain.DTO.ASListDTO;
+import com.eco.domain.DTO.GuestDTO;
 import com.eco.domain.vo.ASVO;
 import com.eco.domain.vo.UserVO;
 
@@ -46,4 +47,9 @@ public interface AsService {
 	
 	// 일자순으로 정렬
     public List<ASVO> getUserAsListOrderByAsDate(int user_cd);
+
+    // 게스트의 상세 내역 조회
+	public List<ASVO> getGuestAsList(GuestDTO guest);
+	 // 게스트의 상세 내역 조회 (날짜 빠른순)
+	public List<ASVO> getGuestAsListOrderByAsDate(GuestDTO guest);
 }

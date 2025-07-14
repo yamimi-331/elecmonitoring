@@ -88,9 +88,9 @@
   cursor: pointer;
   transition: background 0.3s ease;
   align-self: center;
-  height: 100px;
+  height: 47px;
   width: 100px;
-  font-size: 20px;
+  font-size: 15px;
   font-weight: bold;
 }
 

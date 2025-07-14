@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.eco.domain.DTO.ASListDTO;
 import com.eco.domain.DTO.AvailableStaffDTO;
+import com.eco.domain.DTO.GuestDTO;
 import com.eco.domain.vo.ASVO;
 import com.eco.domain.vo.UserVO;
 
@@ -60,7 +61,13 @@ public interface AsMapper {
 	// 회원 탈퇴시 미래 예약건 취소
 	public int deleteAsListBydeleteUser(UserVO userVO);
 	
-	// AS 일정 날짜순으로 정렬
-    public List<ASVO> getUserAsListOrderByAsDate(int user_cd);
+	// 일반 사용자의 AS 일정 날짜순으로 정렬
+    public List<ASVO> selectUserAsListOrderByAsDate(int user_cd);
+    
+	// 게스트에 해당하는 AS 신고내역 조회
+	public List<ASVO> selectAsListByGuest(GuestDTO guest);
+	
+    // 게스트의 AS 일정 날짜순으로 정렬
+	public List<ASVO> selectGuestAsListOrderByAsDate(GuestDTO guest);
 
 }

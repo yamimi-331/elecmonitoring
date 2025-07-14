@@ -150,7 +150,7 @@ function searchAddress() {
 				</c:when>
 				<%-- 그외 --%>
 				<c:otherwise>
-					<p>로그인 후 이용해주세요</p>
+					<p>회원가입 후 이용해주세요</p>
 				</c:otherwise>
 			</c:choose>
 		</main>

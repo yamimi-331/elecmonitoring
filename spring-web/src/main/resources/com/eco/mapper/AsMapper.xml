@@ -205,10 +205,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 	<!-- 사용자에 해당하는 AS 신고내역 조회(날짜순) -->
-    <select id="getUserAsListOrderByAsDate" resultType="com.eco.domain.vo.ASVO" parameterType="int">
+    <select id="selectUserAsListOrderByAsDate" resultType="com.eco.domain.vo.ASVO" parameterType="int">
 	    <![CDATA[
 	    SELECT * FROM T_AS
 	    WHERE user_cd = #{user_cd}
+	    AND use_yn = 'Y'
+	    ORDER BY as_date;
+	    ]]>
+    </select>   
+        
+	<!-- 게스트에 해당하는 AS 신고내역 조회 -->
+	<select id="selectAsListByGuest" resultType="com.eco.domain.vo.ASVO" parameterType="int">
+        <![CDATA[
+        SELECT * FROM T_AS
+        WHERE guest_mail = #{guest_mail} AND guest_nm = #{guest_nm}
+        AND use_yn = 'Y'
+        ]]>
+	</select>
+	<!-- 게스트에 해당하는 AS 신고내역 조회(날짜순) -->
+    <select id="selectGuestAsListOrderByAsDate" resultType="com.eco.domain.vo.ASVO" parameterType="com.eco.domain.DTO.GuestDTO">
+	    <![CDATA[
+	    SELECT * FROM T_AS
+	    WHERE guest_mail = #{guest_mail} AND guest_nm = #{guest_nm}
 	    AND use_yn = 'Y'
 	    ORDER BY as_date;
 	    ]]>

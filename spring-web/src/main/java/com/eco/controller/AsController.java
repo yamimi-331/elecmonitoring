@@ -113,14 +113,26 @@ public class AsController {
 	// 최초 전체 페이지
 	@GetMapping("/detail")
 	public String asDetail(HttpSession session, RedirectAttributes redirectAttrs, Model model) {
-	    log.info("as신청 내역 상세 페이지 요청");
-	    UserVO user = (UserVO) session.getAttribute("currentUserInfo");
-	    if (user == null) {
+		log.info("as신청 내역 상세 페이지 요청");
+
+	    Object currentUser = session.getAttribute("currentUserInfo");
+	    if (currentUser == null) {
 	        redirectAttrs.addFlashAttribute("message", "로그인 후 이용해주세요.");
 	        return "redirect:/login";
 	    }
-	    int user_cd = user.getUser_cd();
-	    List<ASVO> asvo = asService.getUserAsList(user_cd);
+
+	    List<ASVO> asvo = null;
+
+	    if (currentUser instanceof UserVO) {
+	    	int user_cd = ((UserVO) currentUser).getUser_cd();
+	    	asvo = asService.getUserAsList(user_cd);
+	    } else if (currentUser instanceof GuestDTO) {
+	        GuestDTO guest = (GuestDTO) currentUser;
+	        asvo = asService.getGuestAsList(guest);
+	    } else {
+	        redirectAttrs.addFlashAttribute("message", "로그인 정보가 올바르지 않습니다.");
+	        return "redirect:/login";
+	    }
 
 	    List<Map<String, Object>> parsedList = parseAsList(asvo);
 	    model.addAttribute("userList", parsedList);
@@ -131,22 +143,35 @@ public class AsController {
 	// AJAX: fragment만 반환
 	@GetMapping("/detail/list")
 	public String asDetailList(HttpSession session, Model model, @RequestParam String sort) {
-	  log.info("as신청 내역 fragment 요청, sort = " + sort);
-	  UserVO user = (UserVO) session.getAttribute("currentUserInfo");
-	  if (user == null) return "redirect:/login";
+		log.info("as신청 내역 fragment 요청");
+		Object currentUser = session.getAttribute("currentUserInfo");
+		if (currentUser == null)
+			return "redirect:/login";
 
-	  int user_cd = user.getUser_cd();
-	  List<ASVO> asvo;
-	  if ("reservationDate".equals(sort)) {
-	    asvo = asService.getUserAsListOrderByAsDate(user_cd);
-	  } else {
-	    asvo = asService.getUserAsList(user_cd);
-	  }
+		List<ASVO> asvo = null;
 
-	  List<Map<String, Object>> parsedList = parseAsList(asvo);
-	  model.addAttribute("userList", parsedList);
+		if (currentUser instanceof UserVO) {
+			int user_cd = ((UserVO) currentUser).getUser_cd();
+			if ("reservationDate".equals(sort)) {
+				asvo = asService.getUserAsListOrderByAsDate(user_cd);
+			} else {
+				asvo = asService.getUserAsList(user_cd);
+			}
+		} else if (currentUser instanceof GuestDTO) {
+			GuestDTO guest = (GuestDTO) currentUser;
+			if ("reservationDate".equals(sort)) {
+				asvo = asService.getGuestAsListOrderByAsDate(guest);
+			} else {
+				asvo = asService.getGuestAsList(guest);
+			}
+		} else {
+			return "redirect:/login";
+		}
 
-	  return "/as/asList"; // include 안쓰니까 그대로 JSP
+		List<Map<String, Object>> parsedList = parseAsList(asvo);
+		model.addAttribute("userList", parsedList);
+
+	    return "/as/asList";
 	}
 
 

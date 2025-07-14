@@ -28,14 +28,6 @@ public class MailConfig {
 
 	@Bean
 	public JavaMailSender mailSender() {
-		System.out.println("host: "+ host);
-		System.out.println("port: "+ port);
-		System.out.println("username: "+username);
-		System.out.println("password: "+ password);
-		log.info("host: "+ host);
-		log.info("port: "+ port);
-		log.info("username: "+username);
-		log.info("password: "+ password);
 		
 		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 

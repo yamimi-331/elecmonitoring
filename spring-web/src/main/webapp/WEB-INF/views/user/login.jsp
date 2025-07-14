@@ -75,12 +75,14 @@
 						<div class="input-box">
 							<input type="text" name="guest_nm" placeholder="이름" autocomplete="off">
 							<input type="text" name="guest_mail" placeholder="이메일" autocomplete="off">
-							<button type="button" id="sendCodeBtn">인증코드 발송</button>
 							<input type="text" id="guest_code" name="guest_code" placeholder="인증코드" autocomplete="off" required>
-   	 						<button type="button" id="verifyCodeBtn">인증 확인</button>
 							<small id="codeMsg"></small><br>
 						</div>
-						<button type="submit" id="guestLoginBtn" disabled>로그인</button>
+						<div class="input-box">
+							<button type="button" id="sendCodeBtn">코드 발송</button>
+   	 						<button type="button" id="verifyCodeBtn">인증 확인</button>
+							<button type="submit" id="guestLoginBtn" disabled>로그인</button>
+						</div>
 					</form>
 				</div>
 			</div>
@@ -172,7 +174,7 @@
 		    .then(res => res.text())
 		    .then(text => {
 		        codeMsg.textContent = text;
-		        if(text === "인증 완료") {
+		        if(text === "인증코드 확인 완료") {
 		            codeMsg.style.color = 'green';
 		            loginBtn.disabled = false;
 		        } else {

@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.eco.domain.DTO.ASListDTO;
 import com.eco.domain.DTO.AvailableStaffDTO;
+import com.eco.domain.DTO.GuestDTO;
 import com.eco.domain.vo.ASVO;
 import com.eco.domain.vo.UserVO;
 import com.eco.exception.ServiceException;
@@ -30,36 +31,38 @@ public class AsServiceImpl implements AsService {
 	public List<ASVO> getUserAsList(int user_cd) {
 		try {
 			return asMapper.selectAsListByUser(user_cd);
-        } catch (Exception e) {
-            throw new ServiceException("사용자의 AS 리스트 가져오기 실패", e);
-        }
+		} catch (Exception e) {
+			throw new ServiceException("사용자의 AS 리스트 가져오기 실패", e);
+		}
 	}
 
 	// 일반 회원의 AS 신고
 	@Override
 	@Transactional
 	public boolean registerAsByCommon(ASVO asvo) {
-        try {
-        	int insertCount = asMapper.insertAsListByCommon(asvo);
-            if (insertCount == 0) return false;
+		try {
+			int insertCount = asMapper.insertAsListByCommon(asvo);
+			if (insertCount == 0)
+				return false;
 
-            LocalDateTime dt = asvo.getAs_date();
-            String date = dt.toLocalDate().toString();
-            String time = String.format("%02d:00:00", dt.getHour());
-            String addr = asvo.getAs_addr().split(" ")[0];
-            System.out.println("date "+date);
-            System.out.println("addr "+addr);
-            System.out.println("time "+time);
-            
-            Integer staffCd = asMapper.selectAsStaff(date, addr, time);
-            
-            if (staffCd == null) return false;
+			LocalDateTime dt = asvo.getAs_date();
+			String date = dt.toLocalDate().toString();
+			String time = String.format("%02d:00:00", dt.getHour());
+			String addr = asvo.getAs_addr().split(" ")[0];
+			System.out.println("date " + date);
+			System.out.println("addr " + addr);
+			System.out.println("time " + time);
 
-            int updated = asMapper.updateMatchStaff((int)staffCd, asvo.getAs_cd());
-            return updated > 0;
-        } catch (Exception e) {
-            throw new ServiceException("일반 회원의 AS 신고 실패", e);
-        }
+			Integer staffCd = asMapper.selectAsStaff(date, addr, time);
+
+			if (staffCd == null)
+				return false;
+
+			int updated = asMapper.updateMatchStaff((int) staffCd, asvo.getAs_cd());
+			return updated > 0;
+		} catch (Exception e) {
+			throw new ServiceException("일반 회원의 AS 신고 실패", e);
+		}
 	}
 
 	// AS 신고 수정 화면에 해당 신고 정보 출력
@@ -67,32 +70,34 @@ public class AsServiceImpl implements AsService {
 	public ASVO readAsDetailByUser(int as_cd) {
 		try {
 			return asMapper.selectAsDetailByCommon(as_cd);
-        } catch (Exception e) {
-            throw new ServiceException("AS 신고 수정 화면에 해당 신고 정보 출력 실패", e);
-        }
+		} catch (Exception e) {
+			throw new ServiceException("AS 신고 수정 화면에 해당 신고 정보 출력 실패", e);
+		}
 	}
 
 	// AS 신고 수정
 	@Override
 	@Transactional
 	public boolean editAsListByCommon(ASVO asvo) {
-        try {
-        	int updated = asMapper.updateAsListByCommon(asvo);
-            if (updated == 0) return false;
+		try {
+			int updated = asMapper.updateAsListByCommon(asvo);
+			if (updated == 0)
+				return false;
 
-            LocalDateTime dt = asvo.getAs_date();
-            String date = dt.toLocalDate().toString();
-            String time = String.format("%02d:00:00", dt.getHour());
-            String addr = asvo.getAs_addr().split(" ")[0];
+			LocalDateTime dt = asvo.getAs_date();
+			String date = dt.toLocalDate().toString();
+			String time = String.format("%02d:00:00", dt.getHour());
+			String addr = asvo.getAs_addr().split(" ")[0];
 
-            Integer staffCd = asMapper.selectAsStaff(date, addr, time);
-            if (staffCd == null) return false;
+			Integer staffCd = asMapper.selectAsStaff(date, addr, time);
+			if (staffCd == null)
+				return false;
 
-            int reassigned = asMapper.updateMatchStaff(staffCd, asvo.getAs_cd());
-            return reassigned >= 0;
-        } catch (Exception e) {
-            throw new ServiceException("AS 신고 수정 실패", e);
-        }
+			int reassigned = asMapper.updateMatchStaff(staffCd, asvo.getAs_cd());
+			return reassigned >= 0;
+		} catch (Exception e) {
+			throw new ServiceException("AS 신고 수정 실패", e);
+		}
 	}
 
 	// AS 신고 삭제
@@ -101,12 +106,12 @@ public class AsServiceImpl implements AsService {
 		try {
 			int result = asMapper.deleteAsListByCommon(as_cd);
 			return result > 0;
-        } catch (Exception e) {
-            throw new ServiceException("AS 신고 삭제 실패", e);
-        }
+		} catch (Exception e) {
+			throw new ServiceException("AS 신고 삭제 실패", e);
+		}
 	}
-	
-	//관리자/기사의 상태 업데이트
+
+	// 관리자/기사의 상태 업데이트
 	@Override
 	public void updateStatus(int as_cd, String as_status) {
 		try {
@@ -125,7 +130,7 @@ public class AsServiceImpl implements AsService {
 			throw new ServiceException("항목 상세 조회 실패", e);
 		}
 	}
-	
+
 	// 직원의 모든 스케쥴 조회
 	@Override
 	public List<ASListDTO> getScheduleByStaffAndDate(LocalDate start, LocalDate end, String staffInfo) {
@@ -182,21 +187,40 @@ public class AsServiceImpl implements AsService {
 	@Override
 	public boolean cancleAsListBydeleteUser(UserVO userVO) {
 		try {
-    		int result = asMapper.deleteAsListBydeleteUser(userVO);
-    		return result>0;
-    	} catch(Exception e) {
-    		throw new ServiceException("사용자 회원 탈퇴 실패", e);
-    	}
+			int result = asMapper.deleteAsListBydeleteUser(userVO);
+			return result > 0;
+		} catch (Exception e) {
+			throw new ServiceException("사용자 회원 탈퇴 실패", e);
+		}
 	}
-	
-    // 날짜순으로 조회
-    @Override
-    public List<ASVO> getUserAsListOrderByAsDate(int user_cd) {
-            try {
-                    return asMapper.getUserAsListOrderByAsDate(user_cd);
-    } catch (Exception e) {
-        throw new ServiceException("사용자의 AS 리스트 가져오기 실패", e);
-    }
-    }
+
+	// 날짜순으로 조회
+	@Override
+	public List<ASVO> getUserAsListOrderByAsDate(int user_cd) {
+		try {
+			return asMapper.selectUserAsListOrderByAsDate(user_cd);
+		} catch (Exception e) {
+			throw new ServiceException("사용자의 AS 리스트 가져오기 실패", e);
+		}
+	}
+
+	// 게스트의 전체 일정 조회
+	@Override
+	public List<ASVO> getGuestAsList(GuestDTO guest) {
+		try {
+			return asMapper.selectAsListByGuest(guest);
+		} catch (Exception e) {
+			throw new ServiceException("게스트의 AS 리스트 가져오기 실패", e);
+		}
+	}
+
+	@Override
+	public List<ASVO> getGuestAsListOrderByAsDate(GuestDTO guest) {
+		try {
+			return asMapper.selectGuestAsListOrderByAsDate(guest);
+		} catch (Exception e) {
+			throw new ServiceException("게스트의 AS 리스트 가져오기 실패", e);
+		}
+	}
 
 }

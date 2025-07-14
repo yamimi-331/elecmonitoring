@@ -3,6 +3,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!-- --------------------------- 공통 헤더 영역 Start --------------------------- -->
 <link rel="stylesheet" href="../../resources/css/header.css?after" />
@@ -20,9 +21,43 @@ function requireLogin() {
   location.href = '/login';
   return false;
 }
+
+const sessionTimeoutInSec = <c:out value="${session.maxInactiveInterval}" default="1800" />;
+const sessionStartTime = Date.now();
+
+function formatTime(sec) {
+	const minutes = String(Math.floor(sec / 60)).padStart(2, '0');
+	const seconds = String(sec % 60).padStart(2, '0');
+	
+	return minutes + ':' + seconds;
+}
+
+function updateSessionTimer() {
+	const now = Date.now();
+	const elapsedSec = Math.floor((now - sessionStartTime) / 1000);
+	const remainingSec = sessionTimeoutInSec - elapsedSec;
+
+	const timerEl = document.getElementById('session-timer');
+	
+	if (remainingSec > 0) {
+		timerEl.textContent = '자동 로그아웃까지 남은 시간 : ' + formatTime(remainingSec);
+	} else {
+		timerEl.textContent = '세션이 만료되었습니다';
+		clearInterval(timerInterval);
+	    location.href = '/logout';
+	}
+}
 </script>
 <header class="main-header">
 	<h2 class="header-title"><a href="/">전기재해 모니터링 및 노후시설 A/S 신고 관리 시스템</a></h2>
+	<c:if test="${not empty sessionScope.currentUserInfo}">
+		<div id="session-timer-container"></div>
+		<span id="session-timer"></span>
+		<script>
+			const timerInterval = setInterval(updateSessionTimer, 1000);
+			updateSessionTimer();
+		</script>
+	</c:if>
 	<nav class="main-nav">
 		<ul class="nav-list">
 			<li class="nav-item">

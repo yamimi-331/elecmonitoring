@@ -60,6 +60,8 @@ public class LoginController {
 			// 세션에 사용자 정보 저장
 			session.setAttribute("currentUserInfo", loginUser);
 			session.setAttribute("userType", "common");
+			// 세션 타임아웃 설정 (예: 30분)
+		    session.setMaxInactiveInterval(30 * 60);
 			return "redirect:/";
 		} else {
 			log.info("로그인 실패");
@@ -89,6 +91,9 @@ public class LoginController {
 		// 세션에 사용자 정보 저장
 		session.setAttribute("currentUserInfo", user);
 		session.setAttribute("userType", "common");
+		// 세션 타임아웃 설정 (예: 30분)
+	    session.setMaxInactiveInterval(30 * 60);
+	    
 		return "redirect:/";
 	}
 	// # 구글 로그인 End --------------------------------------------------------
@@ -117,6 +122,8 @@ public class LoginController {
 		// 세션에 사용자 정보 저장
 		session.setAttribute("currentUserInfo", user);
 		session.setAttribute("userType", "common");
+		// 세션 타임아웃 설정 (예: 30분)
+	    session.setMaxInactiveInterval(30 * 60);
 
 		return "redirect:/";
 	}
@@ -143,6 +150,8 @@ public class LoginController {
 		// 세션에 로그인 정보 저장
 		session.setAttribute("currentUserInfo", user);
 		session.setAttribute("userType", "common");
+		// 세션 타임아웃 설정 (예: 30분)
+	    session.setMaxInactiveInterval(30 * 60);
 
 		// 원하는 리다이렉트 페이지로 이동
 		return "redirect:/";
@@ -160,6 +169,8 @@ public class LoginController {
 			log.info("로그인 성공");
 			session.setAttribute("currentUserInfo", loginStaff);
 			session.setAttribute("userType", loginStaff.getStaff_role());
+			// 세션 타임아웃 설정 (예: 30분)
+		    session.setMaxInactiveInterval(30 * 60);
 			return "redirect:/";
 		} else {
 			log.info("로그인 실패");

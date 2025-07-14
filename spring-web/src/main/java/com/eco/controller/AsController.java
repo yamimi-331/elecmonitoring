@@ -416,7 +416,17 @@ public class AsController {
 	@ResponseBody
 	public ASListDTO getAsTask(@PathVariable("as_cd") int as_cd) {
 		log.info("상세 정보 보기");
-		return asService.getAsTask(as_cd);
+		ASListDTO asList = asService.getAsTask(as_cd);
+		
+		if(asList != null && asList.getAs_addr() != null) {
+			String[] parts = asList.getAs_addr().split(":", 2);
+			if (parts.length == 2) {
+				asList.setAs_addr(parts[0] + " " + parts[1]); // 도로명 + 상세주소
+			} else {
+				asList.setAs_addr(parts[0]); // 혹시 ':'이 없을 경우를 대비
+			}
+		}
+		return asList;
 	}
 
 	// 상태정보 업데이트

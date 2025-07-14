@@ -40,8 +40,8 @@ function logoutConfirm() {
 		    </c:when>
  			
  			<c:otherwise>
-		        <c:when test="${not empty currentUserInfo}">
-		            <!-- 사용자 이름 가져오기 -->
+ 				<c:choose>
+		            <%-- 사용자 이름 가져오기 --%>
 		            <c:when test="${userType == 'common'}">
 				        <c:set var="userName" value="${currentUserInfo.user_nm}" />
 				    </c:when>
@@ -54,22 +54,22 @@ function logoutConfirm() {
 				    <c:otherwise>
 				        <c:set var="userName" value="알 수 없는 사용자" />
 				    </c:otherwise>
-		
-		            <!-- 헤더에 원형 프로필 아이콘 -->
-		            <div id="profileArea">
-		                <div id="profileIcon">
-		                    <span>${fn:substring(userName, 0, 1)}</span>
-		                </div>
-		
-		                <div id="profilePopup" class="hidden">
-		                    <p><strong>${userName}님</strong></p>
-		                    <ul>
-		                        <li><a href="/profileEdit">회원정보 수정</a></li>
-		                        <li><button onclick="logoutConfirm()">로그아웃</button></li>
-		                    </ul>
-		                </div>
-		            </div>
-		    	</c:when>
+ 				</c:choose>
+	
+	            <%-- 헤더에 원형 프로필 아이콘 --%>
+	            <div id="profileArea">
+	                <div id="profileIcon">
+	                    <span>${fn:substring(userName, 0, 1)}</span>
+	                </div>
+	
+	                <div id="profilePopup" class="hidden">
+	                    <p><strong>${userName}님</strong></p>
+	                    <ul>
+	                        <li><a href="/profileEdit">회원정보 수정</a></li>
+	                        <li><button onclick="logoutConfirm()">로그아웃</button></li>
+	                    </ul>
+	                </div>
+	            </div>
 	    	</c:otherwise>
     	</c:choose>
 	</nav>

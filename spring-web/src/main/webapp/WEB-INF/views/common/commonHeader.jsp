@@ -45,7 +45,7 @@ function logoutConfirm() {
 		            <c:when test="${userType == 'common'}">
 				        <c:set var="userName" value="${currentUserInfo.user_nm}" />
 				    </c:when>
-				    <c:when test="${userType == 'staff'}">
+				    <c:when test="${userType == 'staff' || userType == 'admin'}">
 				        <c:set var="userName" value="${currentUserInfo.staff_nm}" />
 				    </c:when>
 				    <c:when test="${userType == 'guest'}">

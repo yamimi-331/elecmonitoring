@@ -23,6 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.eco.domain.DTO.ASCallenderDTO;
 import com.eco.domain.DTO.ASListDTO;
+import com.eco.domain.DTO.GuestDTO;
 import com.eco.domain.vo.ASVO;
 import com.eco.domain.vo.StaffVO;
 import com.eco.domain.vo.UserVO;
@@ -43,12 +44,28 @@ public class AsController {
 	public String asForm(@RequestParam(required = false) String selectedDate, HttpSession session,
 			RedirectAttributes redirectAttrs) {
 		log.info("as신청 페이지 요청");
-		UserVO user = (UserVO) session.getAttribute("currentUserInfo");
-		if (user == null) {
-			redirectAttrs.addFlashAttribute("message", "로그인 후 이용해주세요.");
-			return "redirect:/login";
-		}
-		return "/as/asForm";
+		
+		Object currentUser = session.getAttribute("currentUserInfo");
+	    
+	    if (currentUser == null) {
+	        redirectAttrs.addFlashAttribute("message", "로그인 후 이용해주세요.");
+	        return "redirect:/login";
+	    }
+	    
+	    if (currentUser instanceof UserVO) {
+	        // userVO 관련 추가 처리 필요시 여기 작성
+	        return "/as/asForm";
+	    } 
+	    
+	    else if (currentUser instanceof GuestDTO) {
+	        // guestDTO 관련 처리 필요시 여기 작성
+	        return "/as/asForm";
+	    }
+	    
+	    else {
+	        redirectAttrs.addFlashAttribute("message", "로그인 후 이용해주세요.");
+	        return "redirect:/login";
+	    }
 	}
 
 	// 예약 차 있는 시간 선택 비활성화
@@ -153,41 +170,6 @@ public class AsController {
 	    }
 	    return parsedList;
 	}
-
-
-//	@GetMapping("/detail")
-//	public String asDetail(HttpSession session, RedirectAttributes redirectAttrs, Model model) {
-//		log.info("as신청 내역 상세 페이지 요청");
-//		UserVO user = (UserVO) session.getAttribute("currentUserInfo");
-//		if (user == null) {
-//			redirectAttrs.addFlashAttribute("message", "로그인 후 이용해주세요.");
-//			return "redirect:/login";
-//		}
-//		int user_cd = user.getUser_cd();
-//		List<ASVO> asvo = asService.getUserAsList(user_cd);
-//		
-//		// 날짜/시간 분리
-//		List<Map<String, Object>> parsedList = new ArrayList<>();
-//		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-//
-//		for (ASVO vo : asvo) {
-//			Map<String, Object> map = new HashMap<>();
-//			map.put("as", vo);
-//			//날짜, 시간
-//			if (vo.getAs_date() != null) {
-//				map.put("as_date_str", vo.getAs_date().format(dateFormatter));
-//				map.put("as_time_str", vo.getAs_date().format(timeFormatter));
-//			} else {
-//				map.put("as_date_str", "");
-//				map.put("as_time_str", "");
-//			}
-//			parsedList.add(map);
-//		}
-//		
-//		model.addAttribute("userList", parsedList);
-//		return "/as/asDetail";
-//	}
 
 	// as신고 수정 화면
 	@PostMapping("/edit")

@@ -111,3 +111,42 @@
   background-color: #b52b27;
 }
 
+.container{
+	margin: 0 20px;
+}
+
+.search-section{
+	display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.search-section input{
+	font-size: 15px;
+}
+.search-section button{
+	background-color: #0070c0;
+    color: white;
+    font-size: 15px;
+    padding: 2px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.calendar-container{
+	display: flex;
+	justify-content: space-between;
+}
+#calendar .fc-toolbar-title {
+	font-size: 1.5em;
+}
+.calendar-legend{
+	margin: 10px 0;
+}
+.legend-dot {
+	display: inline-block;
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	margin: 0 5px;
+}

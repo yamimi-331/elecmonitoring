@@ -382,25 +382,26 @@ public class AsController {
 	// 캘린더 데이터
 	@GetMapping(value = "/calendar-data", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ASCallenderDTO getAllScheduleForCalendar(HttpSession session) {
+	public ASCallenderDTO getAllScheduleForCalendar(@RequestParam(required = false) String staff, HttpSession session) {
 	    Object obj = session.getAttribute("currentUserInfo");
 		ASCallenderDTO calander = new ASCallenderDTO();
-		List<ASListDTO> scheduleList;
+		List<ASListDTO> scheduleList = new ArrayList<>();
 		String role = "";
 		
 	    if (obj instanceof StaffVO) {
-	    	StaffVO staff = (StaffVO) obj;
-	    	role = staff.getStaff_role();
+	    	StaffVO staffVO = (StaffVO) obj;
+	    	role = staffVO.getStaff_role();
+	    	String staffIdOrName = (staff == null || staff.isBlank()) ? "" : staff.trim();
 	    	
 	    	LocalDate startDate = LocalDate.of(2020, 1, 1);
 	    	LocalDate endDate = LocalDate.of(2030, 12, 31);
 	    	
 	    	if ("admin".equalsIgnoreCase(role)) {
 	    		// 관리자는 모든 일정
-	    		scheduleList = asService.getScheduleByPeriodAndStaff(startDate, endDate, "");
+	    		scheduleList = asService.getScheduleByPeriodAndStaff(startDate, endDate, staffIdOrName);
 	    	} else {
 	    		// 직원은 본인 일정만
-	    		scheduleList = asService.getScheduleByStaffAndDate(startDate, endDate, staff.getStaff_id());
+	    		scheduleList = asService.getScheduleByStaffAndDate(startDate, endDate, staffVO.getStaff_id());
 	    	}
 	    	
 	    	for (ASListDTO dto : scheduleList) {

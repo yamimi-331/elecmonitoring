@@ -19,7 +19,24 @@
 		<%@ include file="/WEB-INF/views/common/commonHeader.jsp" %>
 		<main class="main">
 			<h2>AS 전체 일정</h2>
-			<div id="calendar"></div>
+			<div class="container">
+				<div class="calendar-container">
+					<c:if test="${currentUserInfo.staff_role eq 'admin'}">
+						<div class="search-section">
+							<input type="text" id="searchCalendarStaff" placeholder="담당자">
+							<button id="btnCalendarSearch">조회</button>
+						</div>
+					</c:if>
+					<div></div>
+					<div class="calendar-legend">
+						<span style="background:#439b43" class="legend-dot"></span> 신고 접수
+						<span style="background:#f0ad4e" class="legend-dot"></span> A/S 작업 중
+						<span style="background:#ff6b6b" class="legend-dot"></span> 작업 취소
+						<span style="background:#cccccc" class="legend-dot"></span> 작업 완료
+					</div>
+				</div>
+				<div id="calendar"></div>
+			</div>
 		</main>
 	</div>
 

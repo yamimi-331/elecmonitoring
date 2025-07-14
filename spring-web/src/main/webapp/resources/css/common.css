@@ -56,8 +56,8 @@ body::-webkit-scrollbar {
   background-color: #f9f9f9;
 }
 
-.custom-table tr:hover {
-  background-color: #f1f1f1;
+.custom-table tbody tr:hover {
+  background-color: #a4caf7;
 }
 
 .custom-table button{

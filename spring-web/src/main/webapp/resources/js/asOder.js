@@ -195,33 +195,69 @@ function saveStatus() {
   });
 }
 
-function getStatusColor(status) {
-  switch (status) {
-    case '신고 접수':
-      return '#3498db';
-    case 'A/S 작업 중':
-      return '#2ecc71';
-    case '작업 완료':
-      return '#e74c3c';
-    case '작업 취소':
-      return '#ff0000';
-    default:
-      return '#95a5a6';
-  }
-}
-
 document.addEventListener('DOMContentLoaded', function () {
 	const calendarEl = document.getElementById('calendar');
+	let selectedStaff = '';
 
 	const calendar = new FullCalendar.Calendar(calendarEl, {
 		initialView: 'dayGridMonth', // month view
 		locale: 'ko',
 		height: 'auto',
+		dayMaxEvents: 3,
+		
+		eventContent: function(arg) {
+			const status = arg.event.extendedProps?.status || '';
+			let color = '#3788d8';
+			let textStyle = {};
+
+			switch (status) {
+				case '신고 접수':
+					color = '#439b43';
+					break;
+				case 'A/S 작업 중':
+					color = '#f0ad4e';
+					break;
+				case '작업 취소':
+					color = '#ff6b6b';
+					break;
+				case '작업 완료':
+					color = '#cccccc';
+					textStyle = {
+						color: '#aaa',
+						opacity: '0.6',
+						fontStyle: 'italic'
+					};
+					break;
+			}
+
+			const dot = document.createElement('span');
+			dot.style.display = 'inline-block';
+			dot.style.width = '10px';
+			dot.style.height = '10px';
+			dot.style.borderRadius = '50%';
+			dot.style.marginRight = '5px';
+			dot.style.backgroundColor = color;
+
+			const text = document.createElement('span');
+			text.innerText = arg.event.title;
+			Object.assign(text.style, textStyle);
+
+			const container = document.createElement('div');
+			container.style.display = 'flex';
+			container.style.alignItems = 'center';
+			container.appendChild(dot);
+			container.appendChild(text);
+
+			return { domNodes: [container] };
+		},
 		events: function(fetchInfo, successCallback, failureCallback) {
 			$.ajax({
 				url: '/as/calendar-data',
 				type: 'GET',
 				dataType: "json",
+				data: {
+					staff: selectedStaff
+				},
 				success: function(data) {
 					const role = data.role;
 					const rowEvents = data.events;
@@ -244,10 +280,11 @@ document.addEventListener('DOMContentLoaded', function () {
 						} else {
 							startDateStr = new Date().toISOString();
 						}
+						
 						return {
 							title: (role === 'admin')
-							? `[${item.staff_nm}] ${item.as_status}`  // 관리자용
-							: `${item.as_status}`,                   // 직원용
+							? `[${item.staff_nm}] ${item.as_time} ${item.as_status}`  // 관리자용
+							: `${item.as_time} ${item.as_status}`,                   // 직원용
 							start: startDateStr,
 							extendedProps: {
 				                asCd: item.as_cd,
@@ -277,4 +314,10 @@ document.addEventListener('DOMContentLoaded', function () {
 	    }
   });
 	calendar.render();
+	
+	const $searchInput = $('#searchCalendarStaff');
+	$('#btnCalendarSearch').on('click', function () {
+		selectedStaff = $searchInput.val().trim(); // 공백이면 전체
+		calendar.refetchEvents();
+	});
 });

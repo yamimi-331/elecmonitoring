@@ -92,7 +92,7 @@ function renderTable(data) {
         <td>${item.as_status}</td>
         <td>${formatDate(item.as_date)}</td>
         <td>
-          <button onclick="openModal(${item.as_cd})">상세보기</button>
+          <button onclick="openModal(${item.as_cd}, window.userType)">상세보기</button>
         </td>
       </tr>
     `);
@@ -103,7 +103,7 @@ function renderTable(data) {
  * AS 일정 상세 정보 모달 열기
  * @param {number} asCd - AS 코드
  */
-function openModal(asCd) {
+function openModal(asCd, userType) {
   $.ajax({
     url: `/as/task/${asCd}`, // 상세정보 API 호출
     method: 'GET',
@@ -111,7 +111,7 @@ function openModal(asCd) {
     success: function(asData) {
       console.log(asData);
 
-      // 날짜 포맷팅 처리 (객체면 상세하게, 아니면 그대로)
+      // 날짜 포맷팅 처리
       const dateObj = asData.as_date;
       let formattedDate = '';
       if (typeof dateObj === 'object') {
@@ -120,7 +120,7 @@ function openModal(asCd) {
         formattedDate = asData.as_date;
       }
 
-      // 모달 내 각 필드에 데이터 세팅
+      // 모달 내 필드 세팅
       document.getElementById('modalAsCd').innerText = asData.as_cd;
       document.getElementById('modalAsTitle').innerText = asData.as_title;
       document.getElementById('modalStaffNm').innerText = asData.staff_nm || '미지정';
@@ -128,21 +128,28 @@ function openModal(asCd) {
       document.getElementById('modalAsDate').innerText = formattedDate;
       document.getElementById('modalAsAddr').innerText = asData.as_addr;
       document.getElementById('modalAsFacility').innerText = asData.as_facility;
-
-      // 신청자 이름 필드 설정
       document.getElementById('modalUserNm').innerText = asData.user_nm || '신청자 정보 없음';
 
-      // 상태 셀렉트 박스 초기화 및 옵션 세팅
+      // 상태 셀렉트 박스 초기화
       const select = document.getElementById('statusSelect');
       select.innerHTML = '';
 
       const statusList = ['신고 접수', 'A/S 작업 중', '작업 완료', '작업 취소'];
 
-      // 현재 상태 인덱스 찾기
       const currentIndex = statusList.indexOf(asData.as_status);
 
-      // 현재 상태부터 하위 상태만 옵션으로 생성
-      const allowedStatuses = currentIndex >= 0 ? statusList.slice(currentIndex) : statusList;
+      let allowedStatuses = [];
+
+      if (userType === 'admin') {
+        // 관리자는 전체 상태 선택 가능
+        allowedStatuses = statusList;
+      } else if (userType === 'staff') {
+        // 담당자는 현재 이후 상태만
+        allowedStatuses = currentIndex >= 0 ? statusList.slice(currentIndex) : statusList;
+      } else {
+        // 기본 fallback
+        allowedStatuses = currentIndex >= 0 ? statusList.slice(currentIndex) : statusList;
+      }
 
       allowedStatuses.forEach(status => {
         const option = document.createElement('option');
@@ -310,7 +317,7 @@ document.addEventListener('DOMContentLoaded', function () {
 				alert('일정 정보를 찾을 수 없습니다.');
 				return;
 			}
-			openModal(asCd);
+			openModal(asCd, window.userType);
 	    }
 	});
 	calendar.render();

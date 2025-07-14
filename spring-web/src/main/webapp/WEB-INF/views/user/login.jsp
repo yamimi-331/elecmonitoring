@@ -33,26 +33,28 @@
 						</div>
 						<button type="submit">로그인</button>
 					</form>
+					
 					<a href='/signup'>회원가입</a>
-					<!-- 소셜로그인(구글) -->       
+					
+					<div style="display: flex; align-items: center; text-align: center;margin-top:20px;">
+					    <hr style="flex: 1; border: none; height: 1px; background-color: #ccc;">
+					    <span style="padding: 0 10px; color: #888;">SNS 로그인</span>
+					    <hr style="flex: 1; border: none; height: 1px; background-color: #ccc;">
+					</div>
+										
 					<div class="form-group-center">
+						<!-- 소셜로그인(구글) -->       
 		            	<a href="/login/googleLogin"> 
-		            		<img class="login-button" src="../../resources/img/google_signin.png" alt="Google 로그인">
+		            		<img class="login-button" src="../../resources/img/googleIcon.png" alt="Google 로그인">
+						</a>
+			            <!-- 소셜로그인(네이버) --> 
+						<a href="/login/naverLogin"> 
+		            		<img class="login-button" src="../../resources/img/naverIcon.png" alt="네이버 로그인">
 		            	</a>
-		            </div>
-		            
-		            <!-- 소셜로그인(네이버) --> 
-		  			<div class="form-group-center">
-		            	<a href="/login/naverLogin"> 
-		            		<img class="login-button" src="../../resources/img/naver_login.png" alt="네이버 로그인">
-		            	</a>
-		            </div>
-		            
-		            <!-- 소셜로그인(카카오) --> 
-		  			<div class="form-group-center">
+			            <!-- 소셜로그인(카카오) --> 
 		            	<a href="/login/kakaoLogin"> 
-		            		<img class="login-button" src="../../resources/img/kakao_login.png" alt="카카오 로그인">
-		            	</a>
+							<img class="login-button" src="../../resources/img/kakaotalkIcon.png" alt="카카오 로그인">
+						</a>
 		            </div>
 				</div>
 			

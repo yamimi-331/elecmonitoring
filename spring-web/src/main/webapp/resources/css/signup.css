@@ -3,7 +3,7 @@
   margin: 0;
   padding: 0;
   background: #f0f4f8;
-  min-height: 90vh;  
+  min-height: 100vh;  
   display: flex;
   justify-content: center;
   align-items: center;
@@ -15,7 +15,7 @@
   margin: 0;
   padding: 0;
   background: #f0f4f8;
-  min-height: 100vh;  
+  min-height: 110vh;  
   display: flex;
   justify-content: center;
   align-items: center;
@@ -44,6 +44,9 @@
   border-radius: 8px;
   background: #ffffff;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.signup-form h2{
+  text-align: center;
 }
 
 .signup-form label {

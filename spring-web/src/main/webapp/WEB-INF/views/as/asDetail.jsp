@@ -31,7 +31,6 @@ function loadData(sortType) {
 </head>
 <body>
 	<div class="wrapper">
-		<h2 class="header-title">A/S 진행 현황</h2>
 		<%@ include file="/WEB-INF/views/common/header.jsp" %>
 		<main class="main">
 			<h2>AS 신고 내역</h2>

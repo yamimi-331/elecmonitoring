@@ -32,6 +32,7 @@ function searchAddress() {
 				<c:when test="${userType eq 'common'}">
 				<div class="profile-container">
 					<form action="/profileEdit/common" method="post" class="signup-form">
+						<h2>회원 정보 수정</h2>
 						<input type="hidden" name="user_cd" value="${profileInfo.user_cd }">
 						<c:if test="${profileInfo.user_social eq 'Basic'}">
 							<label for="id">아이디</label>  

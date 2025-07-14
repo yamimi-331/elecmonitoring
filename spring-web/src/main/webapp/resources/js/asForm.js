@@ -75,6 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			html1 += "<input type='radio' id='" + id + "' name='reserve_time' value='" + hourStr + "' " + (isBooked ? "disabled" : "") + ">";
 			html1 += "<label for='" + id + "'>" + hourStr + "</label>";
         }
+        	console.log("html1" + html1);
         timeOptions1.innerHTML = html1;
         
         for (let hour = 14; hour <= 17; hour++) {
@@ -86,6 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			html2 += "<input type='radio' id='" + id + "' name='reserve_time' value='" + hourStr + "' " + (isBooked ? "disabled" : "") + ">";
 			html2 += "<label for='" + id + "'>" + hourStr + "</label>";
         }
+                console.log("html2" + html2);
         timeOptions2.innerHTML = html2;
     }
 	

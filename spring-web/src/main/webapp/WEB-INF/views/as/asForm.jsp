@@ -26,7 +26,6 @@ function searchAddress() {
 <body>
 <body>
 	<div class="wrapper">
-		<h2 class="header-title">A/S 신고</h2>
 		<%@ include file="/WEB-INF/views/common/header.jsp" %>
 		<main class="main">
 			<h2>A/S 신고</h2>
@@ -123,8 +122,28 @@ function searchAddress() {
 						<div class="time-container">
 							<label>예약 시간</label>
 							<div>
-								<div id="time-options-first" class="time-options"></div>
-								<div id="time-options-second" class="time-options"></div>
+								<div id="time-options-first" class="time-options">
+									<input type='radio' id='reserve_time_09:00' name='reserve_time' value='09:00' disabled>
+									<label for='reserve_time_09:00'>09:00</label>
+									<input type='radio' id='reserve_time_10:00' name='reserve_time' value='10:00' disabled>
+									<label for='reserve_time_10:00'>10:00</label>
+									<input type='radio' id='reserve_time_11:00' name='reserve_time' value='11:00' disabled>
+									<label for='reserve_time_11:00'>11:00</label>
+									<input type='radio' id='reserve_time_12:00' name='reserve_time' value='12:00' disabled>
+									<label for='reserve_time_12:00'>12:00</label>
+									<input type='radio' id='reserve_time_13:00' name='reserve_time' value='13:00' disabled>
+									<label for='reserve_time_13:00'>13:00</label>
+								</div>
+								<div id="time-options-second" class="time-options">
+									<input type='radio' id='reserve_time_14:00' name='reserve_time' value='14:00' disabled>
+									<label for='reserve_time_14:00'>14:00</label>
+									<input type='radio' id='reserve_time_15:00' name='reserve_time' value='15:00' disabled>
+									<label for='reserve_time_15:00'>15:00</label>
+									<input type='radio' id='reserve_time_16:00' name='reserve_time' value='16:00' disabled>
+									<label for='reserve_time_16:00'>16:00</label>
+									<input type='radio' id='reserve_time_17:00' name='reserve_time' value='17:00' disabled>
+									<label for='reserve_time_17:00'>17:00</label>
+								</div>
 							</div>
 						</div>
 					</div>

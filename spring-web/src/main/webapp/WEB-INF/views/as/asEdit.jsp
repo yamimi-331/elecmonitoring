@@ -27,7 +27,6 @@ function searchAddress() {
 <body>
 
 <div class="wrapper">
-		<h2 class="header-title">A/S 상세 정보</h2>
 		<%@ include file="/WEB-INF/views/common/header.jsp" %>
 		<main class="main">
 			<h2>A/S 상세 정보</h2>

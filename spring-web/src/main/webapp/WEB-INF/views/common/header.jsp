@@ -5,7 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!-- --------------------------- 공통 헤더 영역 Start --------------------------- -->
-<link rel="stylesheet" href="../../resources/css/commonHeader.css?after" />
+<link rel="stylesheet" href="../../resources/css/header.css?after" />
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 //로그아웃 로직
@@ -236,6 +236,6 @@ function requireLogin() {
 
 <div class="overlay"></div>
 
-<script src="../../resources/js/commonHeader.js"></script>
+<script src="../../resources/js/header.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <!-- --------------------------- 공통 헤더 영역 End --------------------------- -->

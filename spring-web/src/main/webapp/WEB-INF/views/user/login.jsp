@@ -17,7 +17,7 @@
 			<div class="inner-container">
 				<!-- 로그인 유형 탭 -->
 				<ul id="login-tabs">
-					<li><a href="#" data-tab="user" class="active">일반 로그인</a></li>
+					<li><a href="#" data-tab="user" class="active">회원 로그인</a></li>
 					<li><a href="#" data-tab="staff">직원 로그인</a></li>
 					<li><a href="#" data-tab="guest">비회원 로그인</a></li>
 				</ul>
@@ -25,6 +25,7 @@
 			<div class="login-form-wrap">
 				<!-- 일반 로그인 폼 -->
 				<div id="user" class="login-form active">
+					<h2>회원 로그인</h2>
 					<form action="/login/user" method="post" onsubmit="return validateLoginForm('user')">
 						<div class="input-box">
 							<input type="text" name="user_id" placeholder="아이디" autocomplete="off">
@@ -59,6 +60,7 @@
 			
 				<!-- 직원 로그인 폼 -->
 				<div id="staff" class="login-form">
+					<h2>직원 로그인</h2>
 					<form action="/login/staff" method="post" onsubmit="return validateLoginForm('staff')">
 						<div class="input-box">
 							<input type="text" name="staff_id" placeholder="직원 ID" autocomplete="off">
@@ -70,6 +72,7 @@
 			  
 				<!-- 비회원 로그인 폼 -->
 			  	<div id="guest" class="login-form">
+			  		<h2>비회원 로그인</h2>
 					<form action="/login/guest" method="post">
 						<div class="input-box">
 							<input type="text" name="guest_nm" placeholder="이름" autocomplete="off">
@@ -77,7 +80,7 @@
 							<input type="text" id="guest_code" name="guest_code" placeholder="인증코드" autocomplete="off" required>
 							<small id="codeMsg"></small><br>
 						</div>
-						<div class="input-box">
+						<div class="guest-input-box">
 							<button type="button" id="sendCodeBtn">코드 발송</button>
    	 						<button type="button" id="verifyCodeBtn">인증 확인</button>
 							<button type="submit" id="guestLoginBtn" disabled>로그인</button>

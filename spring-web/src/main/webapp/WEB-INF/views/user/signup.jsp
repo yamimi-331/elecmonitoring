@@ -28,6 +28,7 @@ function searchAddress() {
 	<main class="main">
 		<div class="container">
 			<form action="signup" method="post" class="signup-form">
+				<h2>회원가입</h2>
 			    <label for="user_id">아이디</label>
 			    <input type="text" id="user_id" name="user_id" required maxlength="50" autocomplete="off" />
 			    <button type="button" id="checkIdBtn">중복검사</button>

@@ -44,10 +44,16 @@
   flex-direction: column;
   gap: 5px;
 }
+.guest-input-box{
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
 
 .login-form-wrap {
   display: flex;
   flex-direction: column;
+  align-items: center;
   width: 400px;
   padding: 40px;
   border: 2px solid #007BFF;
@@ -88,10 +94,14 @@
   cursor: pointer;
   transition: background 0.3s ease;
   align-self: center;
-  height: 47px;
+  height: 99px;
   width: 100px;
   font-size: 15px;
   font-weight: bold;
+}
+
+.guest-input-box button {
+  height: 47px;
 }
 
 .login-form-wrap a{
@@ -101,6 +111,10 @@
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+
+.login-form-wrap a:hover{
+  text-decoration: underline;
 }
 
 .login-button{

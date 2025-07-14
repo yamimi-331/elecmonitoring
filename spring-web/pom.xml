@@ -200,6 +200,19 @@
 		    <artifactId>spring-security-core</artifactId>
 		    <version>5.0.7.RELEASE</version> 
 		</dependency>
+		<!-- 이메일 본인인증을 위한 기능 추가 -->
+		<dependency>
+    		<groupId>org.springframework</groupId>
+    		<artifactId>spring-context-support</artifactId>
+    		<version>5.0.7.RELEASE</version>
+		</dependency>
+
+		<!-- 메일사용을위한 의존성 추가 -->
+		<dependency>
+		    <groupId>com.sun.mail</groupId>
+		    <artifactId>javax.mail</artifactId>
+		    <version>1.6.2</version>
+		</dependency>
 	</dependencies>
     <build>
         <plugins>

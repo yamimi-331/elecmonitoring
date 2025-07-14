@@ -35,38 +35,43 @@ function logoutConfirm() {
 			</li>
 		</ul>
 		<c:choose>
-        <c:when test="${empty currentUserInfo}">
-            <button class="login-btn" onclick="location.href='/login'">🔑 로그인</button>
-        </c:when>
-
-        <c:when test="${not empty currentUserInfo}">
-            <!-- 사용자 이름 가져오기 -->
-            <c:choose>
-                <c:when test="${userType == 'common'}">
-                    <c:set var="userName" value="${currentUserInfo.user_nm}" />
-                </c:when>
-                <c:otherwise>
-                    <c:set var="userName" value="${currentUserInfo.staff_nm}" />
-                </c:otherwise>
-            </c:choose>
-
-            <!-- 헤더에 원형 프로필 아이콘 -->
-            <div id="profileArea">
-                <div id="profileIcon">
-                    <span>${fn:substring(userName, 0, 1)}</span>
-                </div>
-
-                <div id="profilePopup" class="hidden">
-                    <p><strong>${userName}님</strong></p>
-                    <ul>
-                        <li><a href="/profileEdit">회원정보 수정</a></li>
-                        <li><button onclick="logoutConfirm()">로그아웃</button></li>
-                    </ul>
-                </div>
-            </div>
-
-        </c:when>
-    </c:choose>
+	        <c:when test="${empty currentUserInfo}">
+		        <button class="login-btn" onclick="location.href='/login'">로그인</button>
+		    </c:when>
+ 			
+ 			<c:otherwise>
+		        <c:when test="${not empty currentUserInfo}">
+		            <!-- 사용자 이름 가져오기 -->
+		            <c:when test="${userType == 'common'}">
+				        <c:set var="userName" value="${currentUserInfo.user_nm}" />
+				    </c:when>
+				    <c:when test="${userType == 'staff'}">
+				        <c:set var="userName" value="${currentUserInfo.staff_nm}" />
+				    </c:when>
+				    <c:when test="${userType == 'guest'}">
+				        <c:set var="userName" value="${currentUserInfo.guest_nm}" />
+				    </c:when>
+				    <c:otherwise>
+				        <c:set var="userName" value="알 수 없는 사용자" />
+				    </c:otherwise>
+		
+		            <!-- 헤더에 원형 프로필 아이콘 -->
+		            <div id="profileArea">
+		                <div id="profileIcon">
+		                    <span>${fn:substring(userName, 0, 1)}</span>
+		                </div>
+		
+		                <div id="profilePopup" class="hidden">
+		                    <p><strong>${userName}님</strong></p>
+		                    <ul>
+		                        <li><a href="/profileEdit">회원정보 수정</a></li>
+		                        <li><button onclick="logoutConfirm()">로그아웃</button></li>
+		                    </ul>
+		                </div>
+		            </div>
+		    	</c:when>
+	    	</c:otherwise>
+    	</c:choose>
 	</nav>
 
     <div class="common-mega-menu-dropdown">
@@ -117,8 +122,8 @@ function logoutConfirm() {
                 <%-- 로그인 안한 경우 --%>
 			    <c:choose>
 			      <c:when test="${empty sessionScope.userType}">
-			        <li><a href="#" onclick="alert('로그인이 필요합니다.'); location.href='/login'; return false;">노후 시설 A/S 신고</a></li>
-			        <li><a href="#" onclick="alert('로그인이 필요합니다.'); location.href='/login'; return false;">A/S 진행 현황</a></li>
+			        <li><a href="#" onclick="return requireLogin();">노후 시설 A/S 신고</a></li>
+			        <li><a href="#" onclick="return requireLogin();">A/S 진행 현황</a></li>
 			      </c:when>
 			
 			      <%-- 일반 사용자(userType == 'common') --%>
@@ -127,6 +132,12 @@ function logoutConfirm() {
 			        <li><a href="/as/detail">A/S 진행 현황</a></li>
 			      </c:when>
 			
+			 	  <%-- 게스트 로그인 사용자(userType == 'guest') --%>
+			      <c:when test="${sessionScope.userType == 'guest'}">
+			        <li><a href="/as/form">노후 시설 A/S 신고</a></li>
+			        <li><a href="/as/detail">A/S 진행 현황</a></li>
+			      </c:when>
+			      
 			      <%-- 직원 (userType == 'staff') --%>
 			      <c:when test="${sessionScope.userType == 'staff'}">
 			        <li><a href="/as/order">A/S 진행 현황 관리</a></li>
@@ -142,8 +153,8 @@ function logoutConfirm() {
 			      
 			      <%-- 기타 예외 --%>
 			      <c:otherwise>
-			        <li><a href="#" onclick="alert('로그인이 필요합니다.'); location.href='/login'; return false;">노후 시설 A/S 신고</a></li>
-			        <li><a href="#" onclick="alert('로그인이 필요합니다.'); location.href='/login'; return false;">A/S 진행 현황</a></li>
+			        <li><a href="#" onclick="return requireLogin();">노후 시설 A/S 신고</a></li>
+			        <li><a href="#" onclick="return requireLogin();">A/S 진행 현황</a></li>
 			      </c:otherwise>
 			    </c:choose>
                 </ul>

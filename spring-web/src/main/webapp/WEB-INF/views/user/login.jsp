@@ -71,12 +71,16 @@
 			  
 				<!-- 비회원 로그인 폼 -->
 			  	<div id="guest" class="login-form">
-					<form action="/login/guset" method="post">
+					<form action="/login/guest" method="post">
 						<div class="input-box">
-							<input type="text" name="guset_nm" placeholder="이름" autocomplete="off">
-							<input type="text" name="guset_mail" placeholder="이메일" autocomplete="off">
+							<input type="text" name="guest_nm" placeholder="이름" autocomplete="off">
+							<input type="text" name="guest_mail" placeholder="이메일" autocomplete="off">
+							<button type="button" id="sendCodeBtn">인증코드 발송</button>
+							<input type="text" id="guest_code" name="guest_code" placeholder="인증코드" autocomplete="off" required>
+   	 						<button type="button" id="verifyCodeBtn">인증 확인</button>
+							<small id="codeMsg"></small><br>
 						</div>
-						<button type="submit">비회원 로그인</button>
+						<button type="submit" id="guestLoginBtn" disabled>로그인</button>
 					</form>
 				</div>
 			</div>
@@ -122,6 +126,68 @@
 			}
 			return true;
 		}
+		
+		const sendCodeBtn = document.getElementById('sendCodeBtn');
+		const codeInput = document.getElementById('guest_code');
+		const codeMsg = document.getElementById('codeMsg');
+		const loginBtn = document.getElementById('guestLoginBtn');
+		const guestMailInput = document.querySelector('input[name="guest_mail"]');
+
+		sendCodeBtn.addEventListener('click', function() {
+		    const email = guestMailInput.value.trim();
+		    if(!email) {
+		        alert('이메일을 입력하세요.');
+		        return;
+		    }
+
+		    fetch('/login/guest/send-code', {
+		        method: 'POST',
+		        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+		        body: 'guest_mail=' + encodeURIComponent(email)
+		    })
+		    .then(response => {
+		        if(!response.ok) throw new Error('인증코드 발송 실패');
+		        return response.text();
+		    })
+		    .then(text => {
+		        alert('인증코드가 발송되었습니다.');
+		    })
+		    .catch(error => {
+		        alert('인증코드 발송에 실패했습니다.');
+		    });
+		});
+
+		const verifyCodeBtn = document.getElementById('verifyCodeBtn');
+		verifyCodeBtn.addEventListener('click', function() {
+		    const code = codeInput.value.trim();
+		    if(code.length !== 6) {
+		        alert('인증코드를 6자리 입력하세요.');
+		        return;
+		    }
+		    fetch('/login/guest/verify-code', {
+		        method: 'POST',
+		        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+		        body: 'guest_code=' + encodeURIComponent(code)
+		    })
+		    .then(res => res.text())
+		    .then(text => {
+		        codeMsg.textContent = text;
+		        if(text === "인증 완료") {
+		            codeMsg.style.color = 'green';
+		            loginBtn.disabled = false;
+		        } else {
+		            codeMsg.style.color = 'red';
+		            loginBtn.disabled = true;
+		        }
+		    })
+		    .catch(() => {
+		        codeMsg.textContent = '서버 오류';
+		        codeMsg.style.color = 'red';
+		        loginBtn.disabled = true;
+		    });
+		});
+
+
 	</script>
 
 </body>

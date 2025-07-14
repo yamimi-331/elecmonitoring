@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.eco.domain.DTO.GuestDTO;
@@ -225,5 +226,11 @@ public class LoginController {
 		return ResponseEntity.ok("인증코드 확인 완료");
 	}
 
-	
+	// 세션 연장
+	@PostMapping("/extend-session")
+	@ResponseBody
+	public ResponseEntity<String> extendSession(HttpSession session) {
+	    session.setMaxInactiveInterval(1800); // 30분
+	    return ResponseEntity.ok().build();
+	}
 }

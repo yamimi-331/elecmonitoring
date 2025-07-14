@@ -23,7 +23,7 @@ function requireLogin() {
 }
 
 const sessionTimeoutInSec = <c:out value="${session.maxInactiveInterval}" default="1800" />;
-const sessionStartTime = Date.now();
+let sessionStartTime = Date.now();
 
 function formatTime(sec) {
 	const minutes = String(Math.floor(sec / 60)).padStart(2, '0');
@@ -41,7 +41,7 @@ function updateSessionTimer() {
 	const extendBtn = document.getElementById('extend-session-btn');
 	
 	if (remainingSec > 0) {
-		timerEl.textContent = '자동 로그아웃까지 남은 시간 : ' + formatTime(remainingSec);
+		timerEl.textContent = formatTime(remainingSec);
 	} else {
 		timerEl.textContent = '세션이 만료되었습니다';
 		extendBtn.style.display = 'none';
@@ -49,13 +49,36 @@ function updateSessionTimer() {
 	    location.href = '/logout';
 	}
 }
+
+//'계속하기' 버튼 클릭 시 세션 연장 요청
+document.addEventListener('DOMContentLoaded', function () {
+	const extendBtn = document.getElementById('extend-session-btn');
+	if (extendBtn) {
+		extendBtn.addEventListener('click', () => {
+			fetch('/login/extend-session', { method: 'POST' })
+				.then(response => {
+					if (response.ok) {
+						alert('세션이 연장되었습니다.');
+						sessionStartTime = Date.now();  // 타이머 초기화
+					} else {
+						alert('세션 연장에 실패했습니다.');
+						location.href = '/login';
+					}
+				})
+				.catch(() => {
+					alert('서버 응답이 없습니다.');
+					location.href = '/login';
+				});
+		});
+	}
+});
 </script>
 <header class="main-header">
 	<h2 class="header-title"><a href="/">전기재해 모니터링 및 노후시설 A/S 신고 관리 시스템</a></h2>
 	<c:if test="${not empty sessionScope.currentUserInfo}">
 		<div id="session-timer-container"></div>
 		<span id="session-timer"></span>
-		<button id="extend-session-btn" style="display:none;">계속하기</button>
+		<button id="extend-session-btn">연장하기</button>
 		<script>
 			const timerInterval = setInterval(updateSessionTimer, 1000);
 			updateSessionTimer();

@@ -14,6 +14,12 @@ function logoutConfirm() {
         window.location.href = '/logout';
     }
 }
+// 로그인 경고 얼러트
+function requireLogin() {
+  alert('로그인이 필요합니다.');
+  location.href = '/login';
+  return false;
+}
 </script>
 <header class="main-header">
 	<h2 class="header-title">전기재해 모니터링 및 노후시설 A/S 신고 관리 시스템</h2>

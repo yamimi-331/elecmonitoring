@@ -121,11 +121,6 @@ document.addEventListener('DOMContentLoaded', function() {
         event.stopPropagation();
     });
     
-    // 로그인 경고 얼러트
-    function requireLogin() {
-	  alert('로그인이 필요합니다.');
-	  location.href = '/login';
-	  return false;
-	}
+   
 });
 

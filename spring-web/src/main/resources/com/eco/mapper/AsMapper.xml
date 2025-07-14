@@ -131,7 +131,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- AS 신고 삭제 -->
 	<update id="deleteAsListByCommon" parameterType="com.eco.domain.vo.ASVO">
         <![CDATA[
-		    UPDATE t_as set use_yn="N"
+		    UPDATE t_as set use_yn='N', as_status = '예약 취소'
 		    WHERE as_cd=#{as_cd}
 	    ]]>
 	</update>

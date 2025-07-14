@@ -46,7 +46,7 @@ function searchAddress() {
 						  <c:when test="${sessionScope.userType == 'common'}">
 							<div class="i">
 								<label for="user_nm">이름</label>
-								<input type="text" name="user_nm" id="user_nm" value="${asVO.user_nm}" readonly>
+								<input type="text" name="user_nm" id="user_nm" value="${currentUserInfo.user_nm}" readonly>
 							</div>
 							<div class="i">
 								<label for="user_mail">이메일</label>

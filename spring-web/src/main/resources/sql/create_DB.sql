@@ -56,3 +56,28 @@ CREATE TABLE T_USER (
   use_yn CHAR(1) NOT NULL DEFAULT 'Y' COMMENT '계정 사용여부(삭제시 N)'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 desc t_user;
+
+ALTER TABLE t_user
+MODIFY COLUMN user_pw VARCHAR(255);
+
+ALTER TABLE t_staff
+MODIFY COLUMN staff_pw VARCHAR(255);
+select * from t_user;
+
+
+CREATE TABLE T_REPORT (
+    report_cd INT NOT NULL AUTO_INCREMENT COMMENT '신고 코드',
+    staff_cd INT NOT NULL COMMENT '직원 코드값',
+    title VARCHAR(100) DEFAULT NULL COMMENT '신고 제목',
+    type VARCHAR(50) DEFAULT NULL COMMENT '재해 유형',
+    content TEXT DEFAULT NULL COMMENT '신고 내용',
+    local VARCHAR(50) DEFAULT NULL COMMENT '발생 지역',
+    phone VARCHAR(13) NOT NULL DEFAULT '000-1234-1234' COMMENT '신고자 폰번호',
+    report_dt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '신고 일자',
+    update_dt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 일시',
+    use_yn CHAR(1) NOT NULL DEFAULT 'Y' COMMENT '사용 여부',
+    PRIMARY KEY (report_cd),
+    FOREIGN KEY (staff_cd) REFERENCES t_staff(staff_cd)  -- ← 실제 참조 테이블명으로 변경 필요
+) COMMENT='전기 재해 신고 테이블';
+
+select * from t_report;

@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function () {
 				<a href="#" class="nav-link" data-target="mega-as">노후시설 A/S 신고</a>
 			</li>
 			<li class="nav-item">
-				<a href="#" class="nav-link" data-target="mega-notice">공지사항</a>
+				<a href="#" class="nav-link" data-target="mega-notice">고객지원</a>
 			</li>
 		</ul>
 		<c:choose>
@@ -146,27 +146,29 @@ document.addEventListener('DOMContentLoaded', function () {
                 <h3>전기 재해 모니터링</h3>
                 <ul>
                     <li><a href="/dashboard">전기 재해 모니터링 대시보드</a></li>
-                </ul>
-            </div>
-            <div class="mega-menu-column">
-                <h3>추가 메뉴</h3>
-                <ul>
-                    <li><a href="/dashboard">전기 재해 모니터링 대시보드</a></li>
+                    <li><a href="#">전기 재해 신고 목록</a></li>
                 </ul>
             </div>
             <div class="mega-menu-column">
                 <h3>모니터링 대시보드 정보</h3>
                 <p>전기 재해 정보를 바탕으로 미래 전기적 요인으로 인한 사건사고를 예측하고 예방하기위한 모니터링 대시보드 페이지 입니다.</p>
             </div>
+
+            <div class="mega-menu-column">
+                <h3>긴급 문의</h3>
+                <p>긴급 전기 재해의 경우 고객센터로 직접 문의해주세요.</p>
+                <p>📞 0000-1234</p>
+            </div>
         </div>
         
-        <%-- 공지사항 메뉴 --%>
+        <%-- 고객 지원 메뉴 --%>
         <div id="mega-notice" class="mega-menu-content">
             <div class="mega-menu-column">
-                <h3>공지사항 안내</h3>
+                <h3>고객 지원 안내</h3>
                 <ul>
                     <li><a href="/notice">전체 공지사항</a></li>
-                    <li><a href="#">자주 묻는 질문</a></li>
+                    <li><a href="#">문의 사항</a></li>
+					<li><a href="#">전기 재해 신고 등록</a></li>
                 </ul>
             </div>
             <div class="mega-menu-column">
@@ -176,7 +178,8 @@ document.addEventListener('DOMContentLoaded', function () {
             <div class="mega-menu-column">
                 <h3 class="visually-hidden">바로가기</h3>
                 <a href="#" class="menu-shortcut-btn">공지사항 전체보기</a>
-                <p style="text-align: center; font-size: 3em; margin-top: 15px;">📢</p> </div>
+                <p style="text-align: center; font-size: 3em; margin-top: 15px;">📢</p> 
+            </div>
         </div>
 		<%-- A/S 관련 메뉴 --%>
         <div id="mega-as" class="mega-menu-content">

@@ -10,6 +10,7 @@
 .btn-insert {
 	display: inline-block;
 	padding: 8px 16px;
+	margin: 15px 150px 0px 0px;
 	background-color: #28a745;
 	color: white;
 	text-decoration: none;
@@ -22,10 +23,11 @@
 }
 
 table {
-	width: 100%;
+	width: 85%;
 	border-collapse: collapse;
 	table-layout: fixed;
 	word-wrap: break-word; 
+	margin: 0 auto;
 }
 
 th, td {
@@ -57,7 +59,8 @@ th:hover {
 <body>
 	<div class="wrapper">
 		<%@ include file="/WEB-INF/views/common/header.jsp" %>
-		<main>
+		<main  class="main">
+		<div class="container">
 			<div style="text-align: right;">
 				<button class="btn-insert"
 					onclick="location.href='/notice/detail?mode=insert'">공지 사항 등록</button>
@@ -72,9 +75,9 @@ th:hover {
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach var="notice" items="${noticeList}">
+					<c:forEach var="notice" items="${noticeList}" varStatus="status">
 						<tr>
-							<td>${notice.notice_cd}</td>
+							<td>${status.index + 1}</td>
 							<td><a
 								href="/notice/detail?notice_cd=${notice.notice_cd}&mode=view">
 									${notice.title} </a></td>
@@ -90,11 +93,12 @@ th:hover {
 					</c:if>
 				</tbody>
 			</table>
+		</div>
+		
 		</main>
 
 	</div>
 	
-	<footer></footer>
-
+<%@ include file="/WEB-INF/views/common/footer.jsp"%>
 </body>
 </html>

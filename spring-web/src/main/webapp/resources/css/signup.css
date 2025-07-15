@@ -112,9 +112,15 @@
   cursor: not-allowed;  /* 👉 커서 금지 표시 */
   opacity: 0.7;         /* 살짝 흐리게 */
 }
-.show-email-verification {
-  display: flex;
-  flex-direction: column;
+#sendCodeBtn:disabled {
+  background: #cccccc;
+  cursor: not-allowed;  /* 👉 커서 금지 표시 */
+  opacity: 0.7;         /* 살짝 흐리게 */
+}
+#verifyCodeBtn:disabled {
+  background: #cccccc;
+  cursor: not-allowed;  /* 👉 커서 금지 표시 */
+  opacity: 0.7;         /* 살짝 흐리게 */
 }
 
 .msg { font-size: 0.9em; margin-top: 4px; }

@@ -211,6 +211,11 @@ $(document).ready(function() {
 	            codeMsg.style.color = 'green';
 	            isEmailVerified = true;
 	            
+	            signupMailInput.disabled = true;
+	            codeInput.disabled = true;
+	            verifyCodeBtn.disabled = true;
+	            sendCodeBtn.disabled = true;
+	            
 	            checkFormValid();
 	        } else {
 	        	text = '인증코드가 올바르지 않습니다. 다시 시도해주세요.';

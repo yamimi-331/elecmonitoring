@@ -49,8 +49,14 @@ function searchAddress() {
 							    
 			    <label for="user_mail">이메일</label>
 			    <input type="email" id="user_mail" name="user_mail" required maxlength="100"  autocomplete="off"/>
-			    <input type="hidden" id="guest_code" name="guest_code" placeholder="인증코드" autocomplete="off" required>
-			    <button type="button" onclick="searchAddress()">주소 검색</button>
+			    <button type="button" onclick="sendCode()" id="sendCodeBtn">코드 발송</button>
+			    
+			    <div id="emailVerificationArea" style="display: none;">
+				    <label for="signup_code">인증 코드</label>
+				    <input type="text" id="signup_code" name="signup_code" placeholder="인증코드" autocomplete="off">
+				    <small id="codeMsg"></small>
+				    <button type="button" onclick="verifyCode()" id="verifyCodeBtn">인증하기</button>
+			    </div>
 			    
 			    <button type="submit" id="submitBtn" disabled>회원가입</button>
 				<button id="goback" type="button" onclick="location.href='/'">돌아가기</button>
@@ -65,6 +71,7 @@ $(document).ready(function() {
     // 중복검사 결과 상태 저장
     let isIdAvailable = false;
     let isPwMatch = false;
+    let isEmailVerified = false;
 
     function checkFormValid() {
         const pw = $('#user_pw').val();
@@ -77,7 +84,7 @@ $(document).ready(function() {
         const isMailValid = mailPattern.test(mail);
 
         // 여기서 isPwMatch 사용!
-        if (isIdAvailable && isPwMatch && isNameValid && isMailValid) {
+        if (isIdAvailable && isPwMatch && isNameValid && isMailValid && isEmailVerified) {
             $('#submitBtn').prop('disabled', false);
         } else {
             $('#submitBtn').prop('disabled', true);
@@ -151,6 +158,72 @@ $(document).ready(function() {
             return;
         }
     });
+    
+    // 메일 인증
+    const sendCodeBtn = document.getElementById('sendCodeBtn');
+	const codeInput = document.getElementById('signup_code');
+	const codeMsg = document.getElementById('codeMsg');
+	const submitBtn = document.getElementById('submitBtn');
+	const signupMailInput = document.querySelector('input[name="user_mail"]');
+
+	sendCodeBtn.addEventListener('click', function() {
+	    const email = signupMailInput.value.trim();
+	    if(!email) {
+	        alert('이메일을 입력하세요.');
+	        return;
+	    }
+
+	    fetch('/signup/send-code', {
+	        method: 'POST',
+	        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+	        body: 'user_mail=' + encodeURIComponent(email)
+	    })
+	    .then(response => {
+	        if(!response.ok) throw new Error('인증코드 발송 실패');
+	        return response.text();
+	    })
+	    .then(text => {
+	        alert('인증코드가 발송되었습니다.');
+	        document.getElementById('emailVerificationArea').style.display = 'flex';
+	        document.getElementById('emailVerificationArea').style.flexDirection = 'column';
+	    })
+	    .catch(error => {
+	        alert('인증코드 발송에 실패했습니다.');
+	    });
+	});
+
+	const verifyCodeBtn = document.getElementById('verifyCodeBtn');
+	verifyCodeBtn.addEventListener('click', function() {
+	    const code = codeInput.value.trim();
+	    if(code.length !== 6) {
+	        alert('인증코드를 6자리 입력하세요.');
+	        return;
+	    }
+	    fetch('/signup/verify-code', {
+	        method: 'POST',
+	        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+	        body: 'signup_code=' + encodeURIComponent(code)
+	    })
+	    .then(res => res.text())
+	    .then(text => {
+	        codeMsg.textContent = text;
+	        if(text === "인증코드 확인 완료") {
+	            codeMsg.style.color = 'green';
+	            isEmailVerified = true;
+	            
+	            checkFormValid();
+	        } else {
+	        	text = '인증코드가 올바르지 않습니다. 다시 시도해주세요.';
+	            codeMsg.style.color = 'red';
+	            isEmailVerified = false;
+	        }
+	    })
+	    .catch(() => {
+	        codeMsg.textContent = '서버 오류';
+	        codeMsg.style.color = 'red';
+	        submitBtn.disabled = true;
+	    });
+	});
 
 });
 

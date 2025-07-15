@@ -225,7 +225,7 @@ public class LoginController {
 		}
 		return ResponseEntity.ok("인증코드 확인 완료");
 	}
-
+	
 	// 세션 연장
 	@PostMapping("/extend-session")
 	@ResponseBody

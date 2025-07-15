@@ -23,7 +23,7 @@ function requireLogin() {
 }
 
 // 로그인 세션 시간(30분)
-const sessionTimeoutInSec = <c:out value="${session.maxInactiveInterval}" default="10" />;
+const sessionTimeoutInSec = <c:out value="${session.maxInactiveInterval}" default="1800" />;
 let sessionStartTime = Date.now();
 
 // 세션 남은 시간 format

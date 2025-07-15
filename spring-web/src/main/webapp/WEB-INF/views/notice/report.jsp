@@ -9,51 +9,51 @@
 <link rel="stylesheet" href="../../resources/css/common.css?after" />
  <style>
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      border: none;
-    }
+	.report-table {
+		width: 100%;
+		border-collapse: collapse;
+		border: none;
+	}
 
-    thead {
+	.report-table thead {
       background-color: #f9f9f9;
       border-top: 2px solid black;
-    }
+    } */
 
-    td {
+    .report-table td {
    	  border: 1px solid #ccc;
       padding: 8px 10px;
       text-align: center;
     }
 
-    th {
+    .report-table th {
+    background-color: #f9f9f9;
+      border-top: 2px solid black;
       border: 1px solid #ccc;
       font-weight: bold;
       padding: 8px 10px;
       color: #333;
     }
     
-     /* ✅ 첫 열: 왼쪽 테두리 제거 */
-    td:first-child, th:first-child {
+     /* 첫 열: 왼쪽 테두리 제거 */
+    .report-table td:first-child,
+    .report-table th:first-child {
       border-left: none;
     }
 
-    /* ✅ 마지막 열: 오른쪽 테두리 제거 */
-    td:last-child, th:last-child {
+    /* 마지막 열: 오른쪽 테두리 제거 */
+    .report-table td:last-child,
+    .report-table th:last-child {
       border-right: none;
     }
 
-    td a {
-      color: #007BFF;
+    .report-table td a {
+      color: black;
       text-decoration: none;
     }
 
-    td a:hover {
+    .report-table td a:hover {
       text-decoration: underline;
-    }
-
-    .status {
-      color: #888;
     }
   </style>
 </head>
@@ -63,28 +63,28 @@
 		<main class="main">
 			<h2>전기 재해 신고 목록</h2>
 			<div class="container">
-			 <table>
-			    <thead>
-			      <tr>
-			        <th>번호</th>
-			        <th>신고일</th>
-			        <th>신고 내용</th>
-			        <th>신고자</th>
-			        <th>처리일</th>
-			        <th>처리 여부</th>
-			      </tr>
-			    </thead>
-			    <tbody>
-			      <tr>
-			        <td>1</td>
-			        <td>22-03-22 10:53</td>
-			        <td><span class="highlight">내용입니다.</span></td>
-			        <td><a href="#">gabia08</a></td>
-			        <td></td>
-			        <td class="status">미처리</td>
-			      </tr>
-			    </tbody>
-			  </table>
+				<table class="report-table">
+					<thead>
+						<tr>
+							<th>번호</th>
+							<th>신고일</th>
+							<th>신고 제목</th>
+							<th>담당자</th>
+							<th>지역</th>
+							<th>수정일시</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>1</td>
+							<td>22-03-22 10:53</td>
+							<td><a href="#">제목</a></td>
+							<td>김직원</td>
+							<td>부산광역시</td>
+							<td>-</td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 		</main>
 	</div>

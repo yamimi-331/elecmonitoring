@@ -13,7 +13,6 @@
 </head>
 <body>
 	<div class="wrapper">
-		<h2 class="header-title">관리자 페이지</h2>
 		<%@ include file="/WEB-INF/views/common/header.jsp"%>
 		<main class="main">
 			<!-- 직원 계정 관리 -->

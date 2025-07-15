@@ -23,5 +23,13 @@ public class LogoutController {
         redirectAttrs.addFlashAttribute("message", "로그아웃이 완료되었습니다.");
         return "redirect:/"; 
     }
-
+    
+    @GetMapping("/auto")
+    public String logoutAuto(HttpSession session,  RedirectAttributes redirectAttrs) {
+    	log.info("로그인 세션 만료");
+        session.removeAttribute("currentUserInfo");
+        session.removeAttribute("userType");
+        redirectAttrs.addFlashAttribute("message", "로그인 유지시간이 만료되어 자동 로그아웃 되었습니다.");
+        return "redirect:/"; 
+    }
 }

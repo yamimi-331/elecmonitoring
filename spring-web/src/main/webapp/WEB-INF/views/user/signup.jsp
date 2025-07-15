@@ -49,6 +49,8 @@ function searchAddress() {
 							    
 			    <label for="user_mail">이메일</label>
 			    <input type="email" id="user_mail" name="user_mail" required maxlength="100"  autocomplete="off"/>
+			    <input type="hidden" id="guest_code" name="guest_code" placeholder="인증코드" autocomplete="off" required>
+			    <button type="button" onclick="searchAddress()">주소 검색</button>
 			    
 			    <button type="submit" id="submitBtn" disabled>회원가입</button>
 				<button id="goback" type="button" onclick="location.href='/'">돌아가기</button>

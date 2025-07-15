@@ -23,7 +23,7 @@ function requireLogin() {
 }
 
 // 로그인 세션 시간(30분)
-const sessionTimeoutInSec = <c:out value="${session.maxInactiveInterval}" default="1800" />;
+const sessionTimeoutInSec = <c:out value="${session.maxInactiveInterval}" default="10" />;
 let sessionStartTime = Date.now();
 
 // 세션 남은 시간 format
@@ -46,10 +46,9 @@ function updateSessionTimer() {
 	if (remainingSec > 0) {
 		timerEl.textContent = formatTime(remainingSec);
 	} else {
-		timerEl.textContent = '세션이 만료되었습니다';
 		extendBtn.style.display = 'none';
 		clearInterval(timerInterval);
-	    location.href = '/logout';
+	    location.href = '/logout/auto';
 	}
 }
 

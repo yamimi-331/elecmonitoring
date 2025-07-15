@@ -5,30 +5,42 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>전기 재해 신고 목록</title>
 <link rel="stylesheet" href="../../resources/css/common.css?after" />
  <style>
 
     table {
       width: 100%;
       border-collapse: collapse;
-      border: 1px solid #ccc;
-      font-size: 14px;
+      border: none;
     }
 
     thead {
       background-color: #f9f9f9;
+      border-top: 2px solid black;
     }
 
-    th, td {
-      border: 1px solid #ddd;
+    td {
+   	  border: 1px solid #ccc;
       padding: 8px 10px;
       text-align: center;
     }
 
     th {
+      border: 1px solid #ccc;
       font-weight: bold;
+      padding: 8px 10px;
       color: #333;
+    }
+    
+     /* ✅ 첫 열: 왼쪽 테두리 제거 */
+    td:first-child, th:first-child {
+      border-left: none;
+    }
+
+    /* ✅ 마지막 열: 오른쪽 테두리 제거 */
+    td:last-child, th:last-child {
+      border-right: none;
     }
 
     td a {
@@ -49,8 +61,8 @@
 	<div class="wrapper">
 		<%@ include file="/WEB-INF/views/common/header.jsp"%>
 		<main class="main">
+			<h2>전기 재해 신고 목록</h2>
 			<div class="container">
-			
 			 <table>
 			    <thead>
 			      <tr>

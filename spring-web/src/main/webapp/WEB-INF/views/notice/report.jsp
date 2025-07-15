@@ -11,60 +11,64 @@
  	.container{
  		margin: 10px 20px;
  	}
+ 	
 	.report-table {
 		width: 100%;
 		border-collapse: collapse;
 		border: none;
 	}
-
 	.report-table thead {
 		background-color: #f9f9f9;
 		border-top: 2px solid black;
     }
-
     .report-table td {
 		border: 1px solid #ccc;
 		padding: 8px 10px;
 		text-align: center;
     }
-
     .report-table th {
-		background-color: #f9f9f9;
+		background-color: #f2f2f2;
 		border-top: 2px solid black;
 		border: 1px solid #ccc;
 		font-weight: bold;
 		padding: 8px 10px;
 		color: #333;
 	}
-    
      /* 첫 열: 왼쪽 테두리 제거 */
     .report-table td:first-child,
     .report-table th:first-child {
 		border-left: none;
     }
-
     /* 마지막 열: 오른쪽 테두리 제거 */
     .report-table td:last-child,
     .report-table th:last-child {
 		border-right: none;
     }
-
 	.report-table td a {
 		color: black;
 		text-decoration: none;
     }
-
     .report-table td a:hover {
 		text-decoration: underline;
     }
+    .report-table tr:nth-child(even) {
+		background-color: #f9f9f9;
+	}
     
     .search_addr{
+		margin: 10px 0 20px 0;
+		display: flex;
+		gap: 10px;
+		justify-content: center;
+	}
+	.search_addr select{
 		font-size: 15px;
-		margin: 10px 0;
+		padding: 1px 5px;
 	}
 	.search_addr button{
 		background-color: #0070c0;
 		color: white;
+		font-size: 15px;
 		padding: 2px 10px;
 		border: none;
 		border-radius: 5px;
@@ -79,7 +83,6 @@
 			<h2>전기 재해 신고 목록</h2>
 			<div class="container">
 				<div class="search_addr">
-					<label for="report_addr">지역</label>
 					<select name="local" id="report_addr">
 					    <option value="전체" selected>전체</option>
 					    <option value="서울">서울특별시</option>
@@ -100,9 +103,17 @@
 					    <option value="경남">경상남도</option>
 					    <option value="제주">제주특별자치도</option>
 					</select>
-					<button type="button">조회</button>
+					<button type="button">지역 조회</button>
 				</div>
 				<table class="report-table">
+					<colgroup>
+						<col style="width:5%">
+						<col style="width:15%">
+						<col style="width:40%">
+						<col style="width:10%">
+						<col style="width:15%">
+						<col style="width:15%">
+					</colgroup>
 					<thead>
 						<tr>
 							<th>번호</th>

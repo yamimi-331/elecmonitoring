@@ -4,6 +4,17 @@ a{
 	text-decoration: none;
 }
 
+.session-timer-container{
+	display: flex;
+	justify-content: flex-end;
+	gap: 10px;
+}
+.session-timer-container button{
+	border: none;
+    border-radius: 5px;
+    font-size: 12px;
+}
+
 .main-header {
     width: 1600px; /* 고정 폭 */
   margin: 0 auto;

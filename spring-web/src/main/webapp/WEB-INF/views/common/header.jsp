@@ -22,15 +22,18 @@ function requireLogin() {
   return false;
 }
 
+// 로그인 세션 시간(30분)
 const sessionTimeoutInSec = <c:out value="${session.maxInactiveInterval}" default="1800" />;
 let sessionStartTime = Date.now();
 
+// 세션 남은 시간 format
 function formatTime(sec) {
 	const minutes = String(Math.floor(sec / 60)).padStart(2, '0');
 	const seconds = String(sec % 60).padStart(2, '0');
 	
 	return minutes + ':' + seconds;
 }
+
 
 function updateSessionTimer() {
 	const now = Date.now();
@@ -74,16 +77,17 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 <header class="main-header">
-	<h2 class="header-title"><a href="/">전기재해 모니터링 및 노후시설 A/S 신고 관리 시스템</a></h2>
 	<c:if test="${not empty sessionScope.currentUserInfo}">
-		<div id="session-timer-container"></div>
-		<span id="session-timer"></span>
-		<button id="extend-session-btn">연장하기</button>
+		<div class="session-timer-container">
+			<span id="session-timer"></span>
+			<button id="extend-session-btn">연장하기</button>
+		</div>
 		<script>
 			const timerInterval = setInterval(updateSessionTimer, 1000);
 			updateSessionTimer();
 		</script>
 	</c:if>
+	<h2 class="header-title"><a href="/">전기재해 모니터링 및 노후시설 A/S 신고 관리 시스템</a></h2>
 	<nav class="main-nav">
 		<ul class="nav-list">
 			<li class="nav-item">

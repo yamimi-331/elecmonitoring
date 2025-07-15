@@ -86,6 +86,10 @@ def predict(region='서울특별시', type_='전기화재', periods=3):
     # print(f"[피해액] MAE: {amount_mae:,.2f}, MSE: {amount_mse:,.2f}, R²: {amount_r2:.4f}")
     # print(f"[건수]   MAE: {count_mae:,.2f}, MSE: {count_mse:,.2f}, R²: {count_r2:.4f}")
 
+    # === 추가: 음수 예측값 0으로 치환 ===
+    result['amount_predicted'] = result['amount_predicted'].clip(lower=0)
+    result['count_predicted'] = result['count_predicted'].clip(lower=0)
+
     return result.to_dict(orient='records')
 
 # 실행 테스트

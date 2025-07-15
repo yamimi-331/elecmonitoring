@@ -23,4 +23,18 @@ public class ReportController {
 		log.info("전기 재해 신고 목록 페이지로 이동");
 		return "/notice/report";
 	}
+	
+	// 전기 재해 신고 목록 페이지 이동
+	@GetMapping("/detail")
+	public String reportDetailPage() {
+		log.info("전기 재해 신고 상세 페이지로 이동");
+		return "/notice/reportDetail";
+	}
+	
+	// 전기 재해 신고 작성 페이지 이동
+	@GetMapping("/form")
+	public String reportFormPage() {
+		log.info("전기 재해 신고 작성 페이지로 이동");
+		return "/notice/reportForm";
+	}
 }

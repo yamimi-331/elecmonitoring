@@ -16,6 +16,7 @@
 		width: 100%;
 		border-collapse: collapse;
 		border: none;
+		border-top: 2px solid #797979;
 	}
 	.report-table thead {
 		background-color: #f9f9f9;
@@ -28,7 +29,6 @@
     }
     .report-table th {
 		background-color: #f2f2f2;
-		border-top: 2px solid black;
 		border: 1px solid #ccc;
 		font-weight: bold;
 		padding: 8px 10px;
@@ -56,7 +56,7 @@
 	}
     
     .search_addr{
-		margin: 10px 0 20px 0;
+		margin: 10px 0;
 		display: flex;
 		gap: 10px;
 		justify-content: center;
@@ -74,6 +74,21 @@
 		border-radius: 5px;
 		cursor: pointer;
 	}
+	
+	.report-button{
+		display: flex;
+		justify-content: flex-end;
+	}
+	.report-button button{
+		background-color: #0070c0;
+		color: white;
+		font-size: 16px;
+		padding: 5px 10px;
+		border: none;
+		border-radius: 5px;
+		cursor: pointer;
+		margin: 10px 0;
+	}
   </style>
 </head>
 <body>
@@ -83,7 +98,7 @@
 			<h2>전기 재해 신고 목록</h2>
 			<div class="container">
 				<div class="search_addr">
-					<select name="local" id="report_addr">
+					<select name="local" id="local">
 					    <option value="전체" selected>전체</option>
 					    <option value="서울">서울특별시</option>
 					    <option value="부산">부산광역시</option>
@@ -104,6 +119,9 @@
 					    <option value="제주">제주특별자치도</option>
 					</select>
 					<button type="button">지역 조회</button>
+				</div>
+				<div class="report-button">
+					<button onclick="location.href='/report/form'" class="report-button">새 글 등록</button>
 				</div>
 				<table class="report-table">
 					<colgroup>

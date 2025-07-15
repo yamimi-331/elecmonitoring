@@ -8,7 +8,6 @@
 <title>전기 재해 신고 목록</title>
 <link rel="stylesheet" href="../../resources/css/common.css?after" />
  <style>
-
 	.report-table {
 		width: 100%;
 		border-collapse: collapse;
@@ -16,44 +15,44 @@
 	}
 
 	.report-table thead {
-      background-color: #f9f9f9;
-      border-top: 2px solid black;
-    } */
+		background-color: #f9f9f9;
+		border-top: 2px solid black;
+    }
 
     .report-table td {
-   	  border: 1px solid #ccc;
-      padding: 8px 10px;
-      text-align: center;
+		border: 1px solid #ccc;
+		padding: 8px 10px;
+		text-align: center;
     }
 
     .report-table th {
-    background-color: #f9f9f9;
-      border-top: 2px solid black;
-      border: 1px solid #ccc;
-      font-weight: bold;
-      padding: 8px 10px;
-      color: #333;
-    }
+		background-color: #f9f9f9;
+		border-top: 2px solid black;
+		border: 1px solid #ccc;
+		font-weight: bold;
+		padding: 8px 10px;
+		color: #333;
+	}
     
      /* 첫 열: 왼쪽 테두리 제거 */
     .report-table td:first-child,
     .report-table th:first-child {
-      border-left: none;
+		border-left: none;
     }
 
     /* 마지막 열: 오른쪽 테두리 제거 */
     .report-table td:last-child,
     .report-table th:last-child {
-      border-right: none;
+		border-right: none;
     }
 
-    .report-table td a {
-      color: black;
-      text-decoration: none;
+	.report-table td a {
+		color: black;
+		text-decoration: none;
     }
 
     .report-table td a:hover {
-      text-decoration: underline;
+		text-decoration: underline;
     }
   </style>
 </head>

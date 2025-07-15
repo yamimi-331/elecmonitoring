@@ -15,6 +15,9 @@ a{
     font-size: 12px;
     cursor: pointer;
 }
+.session-timer-container span{
+    font-size: 15px;
+}
 
 .main-header {
     width: 1600px; /* 고정 폭 */

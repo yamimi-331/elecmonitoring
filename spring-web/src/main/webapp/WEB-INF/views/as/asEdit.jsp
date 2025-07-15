@@ -25,8 +25,7 @@ function searchAddress() {
 </script>
 </head>
 <body>
-
-<div class="wrapper">
+	<div class="wrapper">
 		<%@ include file="/WEB-INF/views/common/header.jsp" %>
 		<main class="main">
 			<h2>A/S 상세 정보</h2>
@@ -160,8 +159,7 @@ function searchAddress() {
 				</form>
 			</div>
 		</main>
-		</div>
-
+	</div>
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 </body>
 </html>

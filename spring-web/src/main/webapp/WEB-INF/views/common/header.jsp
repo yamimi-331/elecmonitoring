@@ -90,19 +90,13 @@ document.addEventListener('DOMContentLoaded', function () {
 	<nav class="main-nav">
 		<ul class="nav-list">
 			<li class="nav-item">
-				<a href="#" class="nav-link" data-target="mega-notice">공지사항</a>
-			</li>
-			<li class="nav-item">
 				<a href="#" class="nav-link" data-target="mega-monitor">전기 재해 모니터링</a>
 			</li>
 			<li class="nav-item">
 				<a href="#" class="nav-link" data-target="mega-as">노후시설 A/S 신고</a>
 			</li>
 			<li class="nav-item">
-				<a href="#" class="nav-link" data-target="mega-page">페이지</a>
-			</li>
-			<li class="nav-item">
-				<a href="#" class="nav-link" data-target="mega-etc">기타</a>
+				<a href="#" class="nav-link" data-target="mega-notice">공지사항</a>
 			</li>
 		</ul>
 		<c:choose>
@@ -146,34 +140,33 @@ document.addEventListener('DOMContentLoaded', function () {
 	</nav>
 
     <div class="common-mega-menu-dropdown">
-    	<%-- 공지사항 메뉴 --%>
+    	<%-- 전기재해 모니터링 메뉴 --%>
         <div id="mega-monitor" class="mega-menu-content">
             <div class="mega-menu-column">
                 <h3>전기 재해 모니터링</h3>
                 <ul>
                     <li><a href="/dashboard">전기 재해 모니터링 대시보드</a></li>
-                    <li><a href="#">시스템 업데이트</a></li>
+                </ul>
+            </div>
+            <div class="mega-menu-column">
+                <h3>추가 메뉴</h3>
+                <ul>
+                    <li><a href="/dashboard">전기 재해 모니터링 대시보드</a></li>
                 </ul>
             </div>
             <div class="mega-menu-column">
                 <h3>모니터링 대시보드 정보</h3>
-                <p>전기 재해 정보를 바탕으로 미래 전기적 요인으로인한 사건사고를 예측하고 예방하기위한 데이터 모니터링 대시보드 페이지 입니다.</p>
+                <p>전기 재해 정보를 바탕으로 미래 전기적 요인으로 인한 사건사고를 예측하고 예방하기위한 모니터링 대시보드 페이지 입니다.</p>
             </div>
-            <div class="mega-menu-column">
-                <h3 class="visually-hidden">바로가기</h3>
-                <a href="#" class="menu-shortcut-btn">오류 신고</a>
-        	</div>
         </div>
         
-        <%-- 전기재해 모니터링 메뉴 --%>
+        <%-- 공지사항 메뉴 --%>
         <div id="mega-notice" class="mega-menu-content">
             <div class="mega-menu-column">
                 <h3>공지사항 안내</h3>
                 <ul>
                     <li><a href="/notice">전체 공지사항</a></li>
-                    <li><a href="#">시스템 업데이트</a></li>
-                    <li><a href="#">긴급 점검 안내</a></li>
-                    <li><a href="#">이벤트 및 프로모션</a></li>
+                    <li><a href="#">자주 묻는 질문</a></li>
                 </ul>
             </div>
             <div class="mega-menu-column">
@@ -243,58 +236,6 @@ document.addEventListener('DOMContentLoaded', function () {
             </div>
         </div>
 		
-		<%-- 페이지 메뉴 --%>
-        <div id="mega-page" class="mega-menu-content">
-            <div class="mega-menu-column">
-                <h3>사이트 정보</h3>
-                <ul>
-                    <li><a href="/">메인 페이지</a></li>
-                    <li><a href="/profileEdit">회원정보 수정</a></li>
-                    <li><a href="#">자주 묻는 질문</a></li>
-                    <li><a href="#">사이트맵</a></li>
-                </ul>
-            </div>
-            <div class="mega-menu-column">
-                <h3>추가 정보</h3>
-                <ul>
-                    <li><a href="#">개인정보 처리방침</a></li>
-                    <li><a href="#">이용약관</a></li>
-                    <li><a href="#">오시는 길</a></li>
-                </ul>
-            </div>
-            <div class="mega-menu-column">
-                <h3>유용한 링크</h3>
-                <ul class="icon-list">
-                    <li><a href="#"> <i class="fas fa-file-alt"></i> 자료실</a></li>
-                    <li><a href="#"> <i class="fas fa-envelope"></i> 1:1 문의</a></li>
-                    <li><a href="#"> <i class="fas fa-search"></i> 검색</a></li>
-                </ul>
-            </div>
-        </div>
-        
-		<%-- 고객지원 메뉴 --%>
-        <div id="mega-etc" class="mega-menu-content">
-            <div class="mega-menu-column">
-                <h3>고객지원</h3>
-                <ul>
-                    <li><a href="#">고객센터</a></li>
-                    <li><a href="#">온라인 문의</a></li>
-                    <li><a href="#">원격 지원 요청</a></li>
-                </ul>
-            </div>
-            <div class="mega-menu-column">
-                <h3>회사 정보</h3>
-                <ul>
-                    <li><a href="#">회사 소개</a></li>
-                    <li><a href="#">인재 채용</a></li>
-                    <li><a href="#">제휴 문의</a></li>
-                </ul>
-            </div>
-            <div class="mega-menu-column">
-                <h3>관련 정책</h3>
-                <p>문의 전에 관련 정책을 확인하시면 빠르게 궁금증을 해결할 수 있습니다. 각 서비스의 약관 및 규정을 숙지하시기 바랍니다.</p>
-            </div>
-        </div>
     </div>
 </header>
 

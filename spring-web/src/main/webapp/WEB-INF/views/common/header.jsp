@@ -168,7 +168,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <ul>
                     <li><a href="/notice">전체 공지사항</a></li>
                     <li><a href="#">문의 사항</a></li>
-					<li><a href="#">전기 재해 신고 등록</a></li>
+					<li><a href="#">전기 재해 신고 목록</a></li>
                 </ul>
             </div>
             <div class="mega-menu-column">

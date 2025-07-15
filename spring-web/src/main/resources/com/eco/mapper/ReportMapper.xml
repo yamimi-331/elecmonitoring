@@ -11,5 +11,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE use_yn = 'Y'
 		]]>
 	</select>
+	
+	<!-- 신고 게시글 상세 조회 -->
+	<select id="selectDetailReport" resultType="com.eco.domain.DTO.ReportDTO">
+		<![CDATA[
+		SELECT * FROM t_report r JOIN t_staff s ON r.staff_cd = s.staff_cd
+		WHERE r.use_yn = 'Y' AND r.report_cd = #{report_cd}
+		]]>
+	</select>
 
 </mapper>

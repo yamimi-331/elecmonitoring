@@ -28,4 +28,16 @@ public class ReportServiceImpl implements ReportService {
 		}
 	}
 
+	// 신고 게시글 상세 조회
+	@Override
+	public ReportDTO getDetailReport(int report_cd) {
+		try {
+			// DB에서 신고 글 목록 조회
+			ReportDTO results = reportMapper.selectDetailReport(report_cd);
+			return results;
+		} catch (Exception e) {
+			throw new ServiceException("신고 글 조회 실패", e);
+		}
+	}
+
 }

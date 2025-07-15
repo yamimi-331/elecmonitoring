@@ -6,64 +6,9 @@
 <head>
 <meta charset="UTF-8">
 <title>전기 재해 신고 목록</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" href="../../resources/css/common.css?after" />
 <link rel="stylesheet" href="../../resources/css/report.css?after" />
-<script>
-function fetchReportList() {
-	$.ajax({
-		url: '/report/reportList',  // 서버 API 엔드포인트
-		method: 'GET', // 쿼리 파라미터로 날짜 전달
-		dataType: 'json',
-		success: function(data) {
-			renderTable(data);  // 받아온 데이터로 테이블 그리기
-		},
-		error: function() {
-			alert('신고 목록 정보를 불러오는 중 오류가 발생했습니다.');
-		}
-	});
-}
-
-	/**
-	 * AS 일정 데이터를 받아서 테이블에 출력하는 함수
-	 * @param {Array} data - AS 일정 객체 배열
-	 */
-function renderTable(data) {
-	const tbody = $('#reportTableBody');
-	  tbody.empty(); // 기존 테이블 내용 비우기
-
-	  if (data.length === 0) {
-	    // 일정 없을 때 메시지 표시
-	    tbody.append('<tr><td colspan="6">해당 날짜에 일정이 없습니다.</td></tr>');
-	    return;
-	  }
-	  
-	  function formatDate(dateObj){
-	    if(!dateObj) return '-';
-	    if (typeof dateObj === 'object'){
-	      const { year, monthValue, dayOfMonth, hour, minute } = dateObj;
-	      return `${year}-${String(monthValue).padStart(2, '0')}-${String(dayOfMonth).padStart(2, '0')} ${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
-	    }
-	    return dateObj;
-	  }
-
-	  // 일정 목록 행 추가
-	  data.forEach(item => {
-	  console.log(item.as_time);	
-	    tbody.append(`
-	      <tr>
-	        <td>${item.as_cd}</td>
-	        <td>${item.as_title}</td>
-	        <td>${item.staff_nm || '미지정'}</td>
-	        <td>${item.as_status}</td>
-	        <td>${formatDate(item.as_date)}</td>
-	        <td>
-	          <button onclick="openModal(${item.as_cd}, window.userType)">상세보기</button>
-	        </td>
-	      </tr>
-	    `);
-	  });
-	}
-</script>
 </head>
 <body>
 	<div class="wrapper">
@@ -125,8 +70,7 @@ function renderTable(data) {
 			</div>
 		</main>
 	</div>
-
-
 	<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+<script src="../../resources/js/report.js"></script>
 </body>
 </html>

@@ -22,31 +22,31 @@
 					</colgroup>
 					<tr>
 						<th>제목</th>
-						<td>제목입니다</td>
+						<td>${report.title}</td>
 					</tr>
 					<tr>
 						<th>작성자</th>
-						<td>김직원</td>
+						<td>${report.staff_nm}</td>
 					</tr>
 					<tr>
 						<th>신고일</th>
-						<td>22-03-22 10:53</td>
+						<td>${reportDt}</td>
 					</tr>
 					<tr>
 						<th>지역</th>
-						<td>울산광역시</td>
+						<td>${report.local}</td>
 					</tr>
 					<tr>
 						<th>유형</th>
-						<td>전기 화재</td>
+						<td>${report.type}</td>
 					</tr>
 					<tr>
 						<th>내용</th>
-						<td>신고 내용입니다.</td>
+						<td>${report.content}</td>
 					</tr>
 				</table>
 				<div class="button-box">
-					<c:if test="${currentUserInfo.staff_role eq 'admin'}">
+					<c:if test="${not empty currentUserInfo && currentUserInfo.staff_cd eq report.staff_cd}">
 						<button type="button" id="modifyBtn">수정하기</button>
 						<button type="button" id="deleteBtn">삭제하기</button>
 					</c:if>

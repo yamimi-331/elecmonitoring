@@ -8,5 +8,8 @@ public interface ReportService {
 
 	// 신고 리스트 전체 조회
 	public List<ReportDTO> getAllReportList();
+	
+	// 신고 게시글 상세 조회
+	public ReportDTO getDetailReport(int report_cd);
 
 }

@@ -2,11 +2,16 @@ package com.eco.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.eco.domain.DTO.ReportDTO;
 
 public interface ReportMapper {
 
 	// 신고 리스트 전체 조회
 	public List<ReportDTO> selectAllReport();
+	
+	// 신고 게시글 상세 조회
+	public ReportDTO selectDetailReport(@Param("report_cd") int report_cd);
 
 }

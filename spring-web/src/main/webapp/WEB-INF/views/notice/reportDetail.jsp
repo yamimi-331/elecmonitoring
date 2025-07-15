@@ -7,69 +7,7 @@
 <meta charset="UTF-8">
 <title>게시글</title>
 <link rel="stylesheet" href="../../resources/css/common.css?after" />
- <style>
- 	.container{
- 		margin: 10px 20px;
- 	}
- 	
-	.report-detail {
-		width: 100%;
-		border-collapse: collapse;
-		border: none;
-		border-top: 2px solid #797979;
-	}
-	.report-detail thead {
-		background-color: #f9f9f9;
-		border-top: 2px solid black;
-    }
-    .report-detail td {
-		border: 1px solid #ccc;
-		padding: 10px 15px;
-    }
-    .report-detail th {
-		background-color: #f2f2f2;
-		border: 1px solid #ccc;
-		font-weight: bold;
-		padding: 10px 20px;
-		color: #333;
-		text-align: left;
-	}
-     /* 첫 열: 왼쪽 테두리 제거 */
-    .report-detail td:first-child,
-    .report-detail th:first-child {
-		border-left: none;
-    }
-    /* 마지막 열: 오른쪽 테두리 제거 */
-    .report-detail td:last-child,
-    .report-detail th:last-child {
-		border-right: none;
-    }
-    
-     .button-box{
-     	display: flex;
-     	justify-content: center;
-     	gap: 15px;
-     	margin: 20px 0;
-     }
-     .button-box button[id="modifyBtn"]{
-		background-color: #0070c0;
-		color: white;
-		font-size: 17px;
-		padding: 8px 10px;
-		border: none;
-		border-radius: 5px;
-		cursor: pointer;
-     }
-     .button-box button{
-		background-color: #6c757d;
-		color: white;
-		font-size: 17px;
-		padding: 8px 10px;
-		border: none;
-		border-radius: 5px;
-		cursor: pointer;
-     }
-  </style>
+<link rel="stylesheet" href="../../resources/css/reportForm.css?after" />
 </head>
 <body>
 	<div class="wrapper">

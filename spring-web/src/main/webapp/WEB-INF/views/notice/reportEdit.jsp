@@ -26,7 +26,7 @@
 						</colgroup>
 						<tr>
 							<th><label for="title">제목</label></th>
-							<td><input type="text" name="title" id="title" placeholder="제목" autocomplete=off></td>
+							<td><input type="text" name="title" id="title" value="제목"></td>
 						</tr>
 						<tr>
 							<th><label for="staff_nm">작성자</label></th>
@@ -34,7 +34,7 @@
 						</tr>
 						<tr>
 							<th><label for="report_dt">신고일</label></th>
-							<td><input type="text" name="report_dt" id="report_dt" placeholder="신고일" autocomplete=off></td>
+							<td><input type="text" name="report_dt" id="report_dt" value="22-03-22 10:53" readonly></td>
 						</tr>
 						<tr>
 							<th><label for="local">지역</label></th>
@@ -65,7 +65,6 @@
 							<th><label for="type">유형</label></th>
 							<td>
 								<select name="type" id="type">
-									<option value="-">--재해 유형--</option>
 									<option value="화재">전기 화재</option>
 									<option value="감전">전기 감전</option>
 								</select>
@@ -77,7 +76,7 @@
 						</tr>
 					</table>
 					<div class="button-box">
-						<button type="submit" id="submitBtn">등록하기</button>
+						<button type="submit" id="submitBtn">수정하기</button>
 						<button type="button" onclick="location.href='/report'">돌아가기</button>
 					</div>
 				</form>

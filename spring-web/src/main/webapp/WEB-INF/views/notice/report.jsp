@@ -7,89 +7,63 @@
 <meta charset="UTF-8">
 <title>전기 재해 신고 목록</title>
 <link rel="stylesheet" href="../../resources/css/common.css?after" />
- <style>
- 	.container{
- 		margin: 10px 20px;
- 	}
- 	
-	.report-table {
-		width: 100%;
-		border-collapse: collapse;
-		border: none;
-		border-top: 2px solid #797979;
+<link rel="stylesheet" href="../../resources/css/report.css?after" />
+<script>
+function fetchReportList() {
+	$.ajax({
+		url: '/report/reportList',  // 서버 API 엔드포인트
+		method: 'GET', // 쿼리 파라미터로 날짜 전달
+		dataType: 'json',
+		success: function(data) {
+			renderTable(data);  // 받아온 데이터로 테이블 그리기
+		},
+		error: function() {
+			alert('신고 목록 정보를 불러오는 중 오류가 발생했습니다.');
+		}
+	});
+}
+
+	/**
+	 * AS 일정 데이터를 받아서 테이블에 출력하는 함수
+	 * @param {Array} data - AS 일정 객체 배열
+	 */
+function renderTable(data) {
+	const tbody = $('#reportTableBody');
+	  tbody.empty(); // 기존 테이블 내용 비우기
+
+	  if (data.length === 0) {
+	    // 일정 없을 때 메시지 표시
+	    tbody.append('<tr><td colspan="6">해당 날짜에 일정이 없습니다.</td></tr>');
+	    return;
+	  }
+	  
+	  function formatDate(dateObj){
+	    if(!dateObj) return '-';
+	    if (typeof dateObj === 'object'){
+	      const { year, monthValue, dayOfMonth, hour, minute } = dateObj;
+	      return `${year}-${String(monthValue).padStart(2, '0')}-${String(dayOfMonth).padStart(2, '0')} ${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
+	    }
+	    return dateObj;
+	  }
+
+	  // 일정 목록 행 추가
+	  data.forEach(item => {
+	  console.log(item.as_time);	
+	    tbody.append(`
+	      <tr>
+	        <td>${item.as_cd}</td>
+	        <td>${item.as_title}</td>
+	        <td>${item.staff_nm || '미지정'}</td>
+	        <td>${item.as_status}</td>
+	        <td>${formatDate(item.as_date)}</td>
+	        <td>
+	          <button onclick="openModal(${item.as_cd}, window.userType)">상세보기</button>
+	        </td>
+	      </tr>
+	    `);
+	  });
 	}
-	.report-table thead {
-		background-color: #f9f9f9;
-		border-top: 2px solid black;
-    }
-    .report-table td {
-		border: 1px solid #ccc;
-		padding: 8px 10px;
-		text-align: center;
-    }
-    .report-table th {
-		background-color: #f2f2f2;
-		border: 1px solid #ccc;
-		font-weight: bold;
-		padding: 8px 10px;
-		color: #333;
-	}
-     /* 첫 열: 왼쪽 테두리 제거 */
-    .report-table td:first-child,
-    .report-table th:first-child {
-		border-left: none;
-    }
-    /* 마지막 열: 오른쪽 테두리 제거 */
-    .report-table td:last-child,
-    .report-table th:last-child {
-		border-right: none;
-    }
-	.report-table td a {
-		color: black;
-		text-decoration: none;
-    }
-    .report-table td a:hover {
-		text-decoration: underline;
-    }
-    .report-table tr:nth-child(even) {
-		background-color: #f9f9f9;
-	}
-    
-    .search_addr{
-		margin: 10px 0;
-		display: flex;
-		gap: 10px;
-		justify-content: center;
-	}
-	.search_addr select{
-		font-size: 15px;
-		padding: 1px 5px;
-	}
-	.search_addr button{
-		background-color: #0070c0;
-		color: white;
-		font-size: 15px;
-		padding: 2px 10px;
-		border: none;
-		border-radius: 5px;
-		cursor: pointer;
-	}
-	
-	.report-button{
-		display: flex;
-		justify-content: flex-end;
-	}
-	.report-button button{
-		background-color: #0070c0;
-		color: white;
-		font-size: 16px;
-		padding: 5px 10px;
-		border: none;
-		border-radius: 5px;
-		cursor: pointer;
-		margin: 10px 0;
-	}
-  </style>
+</script>
 </head>
 <body>
 	<div class="wrapper">
@@ -142,14 +116,9 @@
 							<th>수정일시</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody id="reportTableBody">
 						<tr>
-							<td>1</td>
-							<td>22-03-22 10:53</td>
-							<td><a href="#">제목</a></td>
-							<td>김직원</td>
-							<td>부산광역시</td>
-							<td>-</td>
+							<td colspan="6">로딩 중...</td>
 						</tr>
 					</tbody>
 				</table>

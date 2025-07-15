@@ -1,4 +1,4 @@
-package com.eco.config;
+package com.eco.config.mail;
 
 import java.util.Properties;
 

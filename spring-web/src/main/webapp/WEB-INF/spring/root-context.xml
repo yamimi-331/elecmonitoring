@@ -39,7 +39,6 @@
 	
 	<!-- 비밀번호 암호화 -->
 	<bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean>
-	
 	<!-- 프로퍼티 로드 -->
 	<context:property-placeholder location="classpath:application.properties,classpath:secret.properties"/>
 	

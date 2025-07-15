@@ -81,3 +81,18 @@ CREATE TABLE T_REPORT (
 ) COMMENT='전기 재해 신고 테이블';
 
 select * from t_report;
+
+
+-- 전기 파일 업로드 정보 테이블
+CREATE TABLE T_FILE (
+    file_cd        INT AUTO_INCREMENT PRIMARY KEY COMMENT '파일 코드 (PK)',
+    original_name  VARCHAR(255) NOT NULL COMMENT '업로드 시 원래 파일 이름',
+    stored_name    VARCHAR(255) NOT NULL COMMENT '서버에 저장된 파일 이름',
+    file_path      VARCHAR(500) NOT NULL COMMENT '파일이 저장된 경로 (전체 경로 또는 상대 경로)',
+    file_size      BIGINT NOT NULL COMMENT '파일 크기 (bytes)',
+    upload_dt      DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '업로드 일시',
+    update_dt      DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 일시',
+    use_yn         CHAR(1) NOT NULL DEFAULT 'Y' COMMENT '사용 여부 (Y/N)'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='파일 업로드 테이블';
+
+

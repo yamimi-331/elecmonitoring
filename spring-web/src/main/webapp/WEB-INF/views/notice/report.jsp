@@ -40,7 +40,9 @@
 					<button type="button">지역 조회</button>
 				</div>
 				<div class="report-button">
-					<button onclick="location.href='/report/form'" class="report-button">새 글 등록</button>
+					<c:if test="${userType eq 'staff'}">
+						<button onclick="location.href='/report/form'" class="report-button">새 글 등록</button>
+					</c:if>
 				</div>
 				<table class="report-table">
 					<colgroup>

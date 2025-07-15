@@ -30,7 +30,7 @@
 						</tr>
 						<tr>
 							<th><label for="staff_nm">작성자</label></th>
-							<td><input type="text" name="staff_nm" id="staff_nm" value="김직원" readonly></td>
+							<td><input type="text" name="staff_nm" id="staff_nm" value="${currentUserInfo.staff_nm}" readonly></td>
 						</tr>
 						<tr>
 							<th><label for="report_dt">신고일</label></th>

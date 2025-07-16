@@ -1,14 +1,21 @@
 create database elecmonitor;
 use elecmonitor;
+DROP TABLE T_NOTICE;
 
 CREATE TABLE T_NOTICE (
-    notice_cd INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(200) NOT NULL,
-    content TEXT NOT NULL,
-	create_dt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    update_dt DATETIME,
-    user_nm VARCHAR(100) NOT NULL,
-    use_yn CHAR(1) NOT NULL DEFAULT 'Y'
+    notice_cd INT NOT NULL AUTO_INCREMENT COMMENT '공지사항 코드',
+    staff_cd INT DEFAULT NULL COMMENT '작성자(직원) 코드',
+    title VARCHAR(200) NOT NULL COMMENT '제목',
+    content TEXT NOT NULL COMMENT '내용',
+    create_dt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '작성일',
+    update_dt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정일',
+    allow_range VARCHAR(100) NOT NULL DEFAULT 'all' COMMENT '열람 권한 범위',
+    use_yn CHAR(1) NOT NULL DEFAULT 'Y' COMMENT '사용 여부',
+
+    PRIMARY KEY (notice_cd),
+
+    -- FK 제약조건은 staff 및 user 테이블이 있을 경우 활성화
+    FOREIGN KEY (staff_cd) REFERENCES t_staff(staff_cd)
 );
 select * from t_notice;
 

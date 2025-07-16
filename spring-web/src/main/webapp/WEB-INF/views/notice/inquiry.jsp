@@ -50,5 +50,19 @@
 	</div>
 	<%@ include file="/WEB-INF/views/common/footer.jsp"%>
 <script src="../../resources/js/inquiry.js"></script>
+<script>
+	<c:choose>
+		<c:when test="${userType eq 'common'}">
+			window.currentUserCd = ${currentUserInfo.user_cd};
+		</c:when>
+		<c:when test="${userType eq 'staff'}">
+			window.currentUserCd = null; // staff에게 user_cd 없음
+		</c:when>
+		<c:otherwise>
+			window.currentUserCd = null; // guest 등 기타
+		</c:otherwise>
+	</c:choose>
+	window.userRole = "${userType}";
+</script>
 </body>
 </html>

@@ -16,5 +16,11 @@ public interface InquiryMapper {
 	
 	// 문의 글 등록
 	public int insertInquiry(InquiryDTO inquiryDTO);
+	
+	// 문의 글 수정
+	public int updateInquiry(InquiryDTO inquiryDTO);
+	
+	// 문의 글 삭제
+	public int deleteInquiry(@Param("inquiry_cd") int inquiry_cd);
 
 }

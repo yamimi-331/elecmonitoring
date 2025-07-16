@@ -37,4 +37,37 @@ public class InquiryServiceImpl implements InquiryService{
 		}
 	}
 
+	// 문의 글 등록
+	@Override
+	public boolean registerInquiry(InquiryDTO inquiryDTO) {
+		try {
+			int results = inquiryMapper.insertInquiry(inquiryDTO);
+			return results>0;
+		} catch (Exception e) {
+			throw new ServiceException("신고 글 조회 실패", e);
+		}
+	}
+
+	// 문의 글 수정
+	@Override
+	public boolean modifyInquiry(InquiryDTO inquiryDTO) {
+		try {
+			int results = inquiryMapper.updateInquiry(inquiryDTO);
+			return results>0;
+		} catch (Exception e) {
+			throw new ServiceException("신고 글 수정 실패", e);
+		}
+	}
+
+	// 문의 글 삭제
+	@Override
+	public boolean removeInquiry(int inquiry_cd) {
+		try {
+			int results = inquiryMapper.deleteInquiry(inquiry_cd);
+			return results>0;
+		} catch (Exception e) {
+			throw new ServiceException("신고 글 수정 실패", e);
+		}
+	}
+
 }

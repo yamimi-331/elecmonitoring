@@ -14,4 +14,5 @@ public class InquiryDTO {
 	private String inquiry_content;		// 문의글 내용
 	private LocalDateTime created_dt;	// 문의 일자
 	private LocalDateTime update_dt;	// 문의글 수정 일자
+	private String secret_yn;
 }

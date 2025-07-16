@@ -22,6 +22,9 @@ $(document).ready(function() {
 			tbody.append('<tr><td colspan="5">게시글이 없습니다.</td></tr>');
 			return;
 		}
+		
+		const currentUserCd = window.currentUserCd;
+		const userRole = window.userRole;
 		  
 		function formatDate(dateObj){
 			if(!dateObj) return '-';
@@ -34,10 +37,21 @@ $(document).ready(function() {
 	
 		  // 일정 목록 행 추가
 		data.forEach(item => {
+			let titleHtml = '';
+			const isSecret = item.secret_yn === 'Y';
+			const isAuthor = currentUserCd === item.user_cd;
+			const isStaff = userRole === 'staff' || userRole === 'admin';
+			
+			if (isSecret && !(isAuthor || isStaff)) {
+				titleHtml = `<span class="locked">비밀글입니다.</span>`;
+			} else {
+				titleHtml = `<a href="/inquiry/detail?inquiry_cd=${item.inquiry_cd}">${item.inquiry_title}</a>`;
+			}
+			
 			tbody.append(`
 				<tr>
 					<td>${item.inquiry_cd}</td>
-					<td><a href="/inquiry/detail?inquiry_cd=${item.inquiry_cd}">${item.inquiry_title}</a></td>
+					<td>${titleHtml}</td>
 					<td>${item.user_nm}</td>
 					<td>${formatDate(item.created_dt)}</td>
 					<td>${item.inquiry_status}</td>

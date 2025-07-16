@@ -44,19 +44,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- UPDATE -->
 	<!-- 신고 글 수정 -->
-	<update id="updateReport" parameterType="com.eco.domain.DTO.ReportDTO">
+	<update id="updateInquiry" parameterType="com.eco.domain.DTO.InquiryDTO">
         <![CDATA[
-		    UPDATE t_report SET title=#{title}, phone=#{phone}, local=#{local}, 
-		    type=#{type}, content=#{content}, update_dt=#{update_dt}
-		    WHERE report_cd=#{report_cd} AND use_yn = 'Y'
+		    UPDATE t_inquiry SET inquiry_title=#{inquiry_title}, inquiry_content=#{inquiry_content},
+		    secret_yn=#{secret_yn}, update_dt=#{update_dt}
+		    WHERE inquiry_cd=#{inquiry_cd} AND use_yn = 'Y'
+	    ]]>
+	</update>
+	<update id="updateInquiryStatus" parameterType="com.eco.domain.DTO.InquiryDTO">
+        <![CDATA[
+		    UPDATE t_inquiry SET inquiry_status=#{inquiry_status}
+		    WHERE inquiry_cd=#{inquiry_cd} AND use_yn = 'Y'
 	    ]]>
 	</update>
 	
 	<!-- 신고 글 삭제 -->
-	<update id="deleteReport" parameterType="int">
+	<update id="deleteInquiry" parameterType="int">
         <![CDATA[
-		    UPDATE t_report SET use_yn = 'N'
-		    WHERE report_cd=#{report_cd}
+		    UPDATE t_inquiry SET use_yn = 'N'
+		    WHERE inquiry_cd=#{inquiry_cd}
 	    ]]>
 	</update>
 

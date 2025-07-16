@@ -56,10 +56,10 @@
 					<thead>
 						<tr>
 							<th>번호</th>
-							<th>신고일</th>
+							<th>지역</th>
 							<th>신고 제목</th>
 							<th>담당자</th>
-							<th>지역</th>
+							<th>신고일</th>
 							<th>수정일시</th>
 						</tr>
 					</thead>

@@ -8,7 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectAllReport" resultType="com.eco.domain.DTO.ReportDTO">
 		<![CDATA[
 		SELECT * FROM t_report r JOIN t_staff s ON r.staff_cd = s.staff_cd
-		WHERE r.use_yn = 'Y'
+		WHERE r.use_yn = 'Y' ORDER BY report_dt DESC LIMIT 10
 		]]>
 	</select>
 	

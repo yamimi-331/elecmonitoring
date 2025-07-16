@@ -17,8 +17,6 @@
 			<div class="container">
 				<form>
 					<input type="hidden" value="report_cd">
-					<input type="hidden" value="staff_cd">
-					<input type="hidden" value="uddate_dt">
 					<table class="report-detail">
 						<colgroup>
 							<col style="width:15%">
@@ -72,7 +70,7 @@
 						</tr>
 						<tr>
 							<th><label for="content">내용</label></th>
-							<td><textarea></textarea></td>
+							<td><textarea name="content" id="content" placeholder="내용"></textarea></td>
 						</tr>
 					</table>
 					<div class="button-box">

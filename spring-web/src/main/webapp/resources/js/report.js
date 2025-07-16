@@ -55,10 +55,10 @@ $(document).ready(function() {
 			tbody.append(`
 				<tr>
 					<td>${item.report_cd}</td>
-					<td>${formatRegisterDate(item.report_dt)}</td>
+					<td>${item.local || '-'}</td>
 					<td><a href="/report/detail?report_cd=${item.report_cd}">${item.title}</a></td>
 					<td>${item.staff_nm || '미지정'}</td>
-					<td>${item.local || '-'}</td>
+					<td>${formatRegisterDate(item.report_dt)}</td>
 					<td>${update_date}</td>
 				</tr>
 			`);

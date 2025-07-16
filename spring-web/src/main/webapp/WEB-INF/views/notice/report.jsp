@@ -37,7 +37,7 @@
 					    <option value="경남">경상남도</option>
 					    <option value="제주">제주특별자치도</option>
 					</select>
-					<button type="button">지역 조회</button>
+					<button type="button" id="search_addr_btn">지역 조회</button>
 				</div>
 				<div class="report-button">
 					<c:if test="${userType eq 'staff'}">
@@ -65,7 +65,7 @@
 					</thead>
 					<tbody id="reportTableBody">
 						<tr>
-							<td colspan="6">로딩 중...</td>
+							<td colspan="6">신고 내역이 없습니다.</td>
 						</tr>
 					</tbody>
 				</table>

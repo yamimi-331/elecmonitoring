@@ -27,6 +27,16 @@ public class ReportServiceImpl implements ReportService {
 			throw new ServiceException("신고 글 목록 조회 실패", e);
 		}
 	}
+	@Override
+	public List<ReportDTO> getLocalReportList(String local) {
+		try {
+			// DB에서 신고 글 목록 조회
+			List<ReportDTO> results = reportMapper.selectLocalReport(local);
+			return results;
+		} catch (Exception e) {
+			throw new ServiceException("신고 글 목록 지역별 조회 실패", e);
+		}
+	}
 
 	// 신고 게시글 상세 조회
 	@Override
@@ -42,13 +52,37 @@ public class ReportServiceImpl implements ReportService {
 
 	// 신고 글 등록
 	@Override
-	public int registerReport(ReportDTO reportDTO) {
+	public boolean registerReport(ReportDTO reportDTO) {
 		try {
 			// DB에서 신고 글 목록 조회
 			int results = reportMapper.insertReport(reportDTO);
-			return results;
+			return results > 0;
 		} catch (Exception e) {
 			throw new ServiceException("신고 글 등록 실패", e);
+		}
+	}
+
+	// 신고 글 수정
+	@Override
+	public boolean modifyReport(ReportDTO reportDTO) {
+		try {
+			// DB에서 신고 글 목록 조회
+			int results = reportMapper.updateReport(reportDTO);
+			return results > 0;
+		} catch (Exception e) {
+			throw new ServiceException("신고 글 수정 실패", e);
+		}
+	}
+
+	// 신고 글 삭제
+	@Override
+	public boolean removeReport(int report_cd) {
+		try {
+			// DB에서 신고 글 목록 조회
+			int results = reportMapper.deleteReport(report_cd);
+			return results > 0;
+		} catch (Exception e) {
+			throw new ServiceException("신고 글 삭제 실패", e);
 		}
 	}
 

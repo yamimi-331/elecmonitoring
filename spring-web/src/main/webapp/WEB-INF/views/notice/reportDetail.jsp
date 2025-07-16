@@ -65,5 +65,29 @@
 	</div>
 
 	<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+<script>
+	document.getElementById('modifyBtn').addEventListener('click', function() {
+		location.href = '/report/modify?report_cd=' + ${report.report_cd};
+	});
+	document.getElementById("deleteBtn").addEventListener("click", function () {
+		if (confirm("정말 삭제하시겠습니까?")) {
+			const reportCd = ${report.report_cd};
+
+			fetch('/report/remove', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/x-www-form-urlencoded'
+				},
+				body: 'report_cd=' + encodeURIComponent(reportCd)
+			})
+			.then(response => {
+				if (response.redirected) {
+					window.location.href = response.url;
+				}
+			});
+		}
+	});
+
+</script>
 </body>
 </html>

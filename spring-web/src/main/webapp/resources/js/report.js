@@ -1,19 +1,24 @@
 
 $(document).ready(function() {
-	function fetchReportList() {
+	function fetchReportList(local = "") {
 		$.ajax({
 			url: '/report/reportList',  // 서버 API 엔드포인트
 			method: 'GET', // 쿼리 파라미터로 날짜 전달
+			data: { local: local },
 			dataType: 'json',
 			success: function(data) {
 				renderTable(data);  // 받아온 데이터로 테이블 그리기
 			},
-			error: function() {
+			error: function(xhr, status, error) {
 				alert('신고 목록 정보를 불러오는 중 오류가 발생했습니다.');
 			}
 		});
 	}
 	
+	$('#search_addr_btn').on("click", function () {
+		const selectedLocal = document.getElementById("local").value;
+		fetchReportList(selectedLocal === "전체" ? "" : selectedLocal);
+	});
 
 	function renderTable(data) {
 		const tbody = $('#reportTableBody');

@@ -37,7 +37,7 @@
 							<th><label for="local">지역</label></th>
 							<td>
 								<select name="local" id="local">
-								    <option value="전체" selected>전체</option>
+								    <option value="-" selected>--지역 선택--</option>
 								    <option value="서울">서울특별시</option>
 								    <option value="부산">부산광역시</option>
 								    <option value="대구">대구광역시</option>
@@ -62,7 +62,7 @@
 							<th><label for="type">유형</label></th>
 							<td>
 								<select name="type" id="type">
-									<option value="-">--재해 유형--</option>
+									<option value="-" selected>--재해 유형--</option>
 									<option value="전기 화재">전기 화재</option>
 									<option value="전기 감전">전기 감전</option>
 								</select>

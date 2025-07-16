@@ -1,5 +1,6 @@
 package com.eco.controller;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -7,7 +8,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -56,8 +56,12 @@ public class ReportController {
 	// 전기 재해 신고 목록 호출
 	@GetMapping("/reportList")
 	@ResponseBody
-	public List<ReportDTO> getReportList(){
-		return reportService.getAllReportList();
+	public List<ReportDTO> getReportList(@RequestParam(value = "local", required = false) String local){
+		if (local != null && !local.isEmpty()) {
+	        return reportService.getLocalReportList(local);
+	    } else {
+	        return reportService.getAllReportList();
+	    }
 	}
 	
 	// 전기 재해 신고 상세 페이지 이동
@@ -120,28 +124,96 @@ public class ReportController {
 	
 	// 신고 글 등록
 	@PostMapping("/register")
-	public String registerNewReport(@ModelAttribute ReportDTO reportDTO, BindingResult result, HttpSession session, RedirectAttributes redirectAttrs) {
-		if (result.hasErrors()) {
-	        result.getAllErrors().forEach(e -> System.out.println("바인딩 오류: " + e));
-	        return "redirect:/report";
-	    }
-		
-		StaffVO user = (StaffVO) session.getAttribute("currentUserInfo");
-	    if (user == null) {
-	        redirectAttrs.addFlashAttribute("message", "로그인이 필요합니다.");
+	public String registerNewReport(@ModelAttribute ReportDTO reportDTO, HttpSession session, RedirectAttributes redirectAttrs) {
+		StaffVO staff = (StaffVO) session.getAttribute("currentUserInfo");
+	    if (staff == null) {
+	        redirectAttrs.addFlashAttribute("message", "로그인 후 이용해주세요.");
 	        return "redirect:/login";
 	    }
 	    
-		reportDTO.setStaff_cd(user.getStaff_cd());
-        int reportCd = reportService.registerReport(reportDTO);
+		reportDTO.setStaff_cd(staff.getStaff_cd());
+        boolean result = reportService.registerReport(reportDTO);
 		
-		if (reportCd != 0) {
+		if (result) {
         	log.info("전기 재해 신고 등록 성공");
-        	redirectAttrs.addFlashAttribute("message", "신고가 등록되었습니다.");
+        	redirectAttrs.addFlashAttribute("message", "신고 게시글이 등록되었습니다.");
         	return "redirect:/report";
         } else {
         	redirectAttrs.addFlashAttribute("message", "잘못된 접근입니다.");
         	return "redirect:/report";
         }
+	}
+	
+	// 전기재해 신고 글 수정화면 진입
+	@GetMapping("/modify")
+	public String reportEditPage(@RequestParam("report_cd") int reportCd, Model model, HttpSession session, RedirectAttributes redirectAttrs) {
+		log.info("전기 재해 신고 수정 페이지로 이동");
+		StaffVO staff = (StaffVO) session.getAttribute("currentUserInfo");
+	    if (staff == null) {
+	        redirectAttrs.addFlashAttribute("message", "로그인 후 이용해주세요.");
+	        return "redirect:/login";
+	    }
+
+	    ReportDTO report = reportService.getDetailReport(reportCd);
+
+	    // 본인 확인 로직
+	    boolean authorized = false;
+	    int staff_cd = staff.getStaff_cd();
+	    if (report != null && report.getStaff_cd() == staff_cd) {
+	        authorized = true;
+	    }
+
+	    if (!authorized) {
+	        redirectAttrs.addFlashAttribute("message", "유효하지 않은 요청이거나 권한이 없습니다.");
+	        return "redirect:/report";
+	    }
+		
+	    model.addAttribute("report", report);
+	    model.addAttribute("currentUserInfo", staff);
+		return "/notice/reportEdit";
+	}
+	
+	// 전기 재해 신고 게시글 수정
+	@PostMapping("/modify")
+	public String reportEdit(@ModelAttribute ReportDTO reportDTO, HttpSession session, RedirectAttributes redirectAttrs) {
+		log.info("전기 재해 신고 수정 완료");
+		StaffVO staff = (StaffVO) session.getAttribute("currentUserInfo");
+		reportDTO.setStaff_cd(staff.getStaff_cd());
+		reportDTO.setUpdate_dt(LocalDateTime.now());
+		
+		boolean result = reportService.modifyReport(reportDTO);
+		if (result) {
+			redirectAttrs.addFlashAttribute("message", "신고 게시글 수정이 완료되었습니다.");
+		} else {
+			redirectAttrs.addFlashAttribute("message", "신고 게시글 수정에 실패하였습니다.");
+		}
+		return "redirect:/report";
+	}
+	
+	// 전기 재해 신고 게시글 삭제
+	@PostMapping("/remove")
+	public String reportEdit(@RequestParam("report_cd") int reportCd, HttpSession session, RedirectAttributes redirectAttrs) {
+		log.info("전기 재해 신고 삭제 완료");
+		StaffVO staff = (StaffVO) session.getAttribute("currentUserInfo");
+		ReportDTO report = reportService.getDetailReport(reportCd);
+		// 본인 확인 로직
+	    boolean authorized = false;
+	    int staff_cd = staff.getStaff_cd();
+	    if (report != null && report.getStaff_cd() == staff_cd) {
+	        authorized = true;
+	    }
+
+	    if (!authorized) {
+	        redirectAttrs.addFlashAttribute("message", "유효하지 않은 요청이거나 권한이 없습니다.");
+	        return "redirect:/report";
+	    }
+		
+		boolean result = reportService.removeReport(reportCd);
+		if (result) {
+			redirectAttrs.addFlashAttribute("message", "신고 게시글 삭제가 완료되었습니다.");
+		} else {
+			redirectAttrs.addFlashAttribute("message", "신고 게시글 삭제에 실패하였습니다.");
+		}
+		return "redirect:/report";
 	}
 }

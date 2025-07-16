@@ -8,11 +8,17 @@ public interface ReportService {
 
 	// 신고 리스트 전체 조회
 	public List<ReportDTO> getAllReportList();
+	public List<ReportDTO> getLocalReportList(String local);
 	
 	// 신고 게시글 상세 조회
 	public ReportDTO getDetailReport(int report_cd);
 	
 	// 신고 글 등록
-	public int registerReport(ReportDTO reportDTO);
+	public boolean registerReport(ReportDTO reportDTO);
 
+	// 신고 글 수정
+	public boolean modifyReport(ReportDTO reportDTO);
+	
+	// 신고 글 삭제
+	public boolean removeReport(int report_cd);
 }

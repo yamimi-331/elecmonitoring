@@ -8,7 +8,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectAllReport" resultType="com.eco.domain.DTO.ReportDTO">
 		<![CDATA[
 		SELECT * FROM t_report r JOIN t_staff s ON r.staff_cd = s.staff_cd
-		WHERE r.use_yn = 'Y' ORDER BY report_dt DESC LIMIT 10
+		WHERE r.use_yn = 'Y' ORDER BY report_dt DESC, report_cd DESC LIMIT 10
+		]]>
+	</select>
+	<select id="selectLocalReport" parameterType="string" resultType="com.eco.domain.DTO.ReportDTO">
+		<![CDATA[
+		SELECT * FROM t_report r JOIN t_staff s ON r.staff_cd = s.staff_cd
+		WHERE r.use_yn = 'Y' AND r.local = #{local} ORDER BY report_dt DESC, report_cd DESC LIMIT 10
 		]]>
 	</select>
 	
@@ -28,5 +34,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		VALUES(#{staff_cd}, #{title},#{type}, #{content}, #{local}, #{phone})
 		]]>
 	</insert>
+	
+	<!-- UPDATE -->
+	<!-- 신고 글 수정 -->
+	<update id="updateReport" parameterType="com.eco.domain.DTO.ReportDTO">
+        <![CDATA[
+		    UPDATE t_report SET title=#{title}, phone=#{phone}, local=#{local}, 
+		    type=#{type}, content=#{content}, update_dt=#{update_dt}
+		    WHERE report_cd=#{report_cd} AND use_yn = 'Y'
+	    ]]>
+	</update>
+	
+	<!-- 신고 글 삭제 -->
+	<update id="deleteReport" parameterType="int">
+        <![CDATA[
+		    UPDATE t_report SET use_yn = 'N'
+		    WHERE report_cd=#{report_cd}
+	    ]]>
+	</update>
 
 </mapper>

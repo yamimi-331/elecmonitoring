@@ -108,8 +108,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectAsStaff" resultType="int" parameterType="map">
 		<![CDATA[
 		    SELECT s.staff_cd FROM t_staff s LEFT JOIN t_as a ON a.staff_cd = s.staff_cd
-			AND DATE(a.as_date) = '2025-07-30' AND TIME(a.as_date) = STR_TO_DATE('12:00:00', '%H:%i:%s') AND a.use_yn = 'Y'
-			WHERE s.staff_addr LIKE CONCAT('%', '부산', '%') AND s.use_yn = 'Y' AND s.staff_role = 'staff'
+			AND DATE(a.as_date) = #{date} AND TIME(a.as_date) = STR_TO_DATE(#{time}, '%H:%i:%s') AND a.use_yn = 'Y'
+			WHERE s.staff_addr LIKE CONCAT('%', #{addr}, '%') AND s.use_yn = 'Y' AND s.staff_role = 'staff'
 			GROUP BY s.staff_cd ORDER BY COUNT(a.as_cd) ASC LIMIT 1;
 		]]>
 	</select>

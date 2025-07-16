@@ -273,6 +273,7 @@ public class AsServiceImpl implements AsService {
 			throw new ServiceException("AS 신고 수정 실패", e);
 		}
 	}
+
 	// 사용자의의 AS 리스트 가져오는 함수(페이징)
 	@Override
 	public ASPageResponseDTO getUserAsListWithPaging(int user_cd, int page, int size) {
@@ -280,7 +281,7 @@ public class AsServiceImpl implements AsService {
 			int offset = (page - 1) * size;
 			int totalCount = asMapper.selectAsCountByUser(user_cd);
 			List<ASVO> list = asMapper.selectAsListByUserPaging(user_cd, size, offset);
-			
+
 			int totalPages = (int) Math.ceil((double) totalCount / size);
 
 			int pageGroup = (page - 1) / 10;
@@ -300,7 +301,7 @@ public class AsServiceImpl implements AsService {
 			throw new ServiceException("AS 조회 페이징 처리 실패", e);
 		}
 	}
-	
+
 	// 사용자의의 AS 리스트 가져오는 함수(페이징) 일자순으로 정렬
 	@Override
 	public ASPageResponseDTO getUserAsListOrderByAsDateWithPaging(int user_cd, int page, int size) {
@@ -308,7 +309,63 @@ public class AsServiceImpl implements AsService {
 			int offset = (page - 1) * size;
 			int totalCount = asMapper.selectAsCountByUser(user_cd);
 			List<ASVO> list = asMapper.selectAsListByUserOrderByDatePaging(user_cd, size, offset);
-			
+
+			int totalPages = (int) Math.ceil((double) totalCount / size);
+
+			int pageGroup = (page - 1) / 10;
+			int startPage = pageGroup * 10 + 1;
+			int endPage = Math.min(startPage + 9, totalPages);
+
+			ASPageResponseDTO dto = new ASPageResponseDTO();
+			dto.setAsList(list);
+			dto.setCurrentPage(page);
+			dto.setTotalPages(totalPages);
+			dto.setStartPage(startPage);
+			dto.setEndPage(endPage);
+			dto.setHasPrev(startPage > 1);
+			dto.setHasNext(endPage < totalPages);
+			return dto;
+		} catch (Exception e) {
+			throw new ServiceException("AS 조회 페이징 처리 실패", e);
+		}
+	}
+
+	@Override
+	public ASPageResponseDTO getGuestAsListWithPaging(GuestDTO guest, int page, int size) {
+		try {
+			int offset = (page - 1) * size;
+			int totalCount = asMapper.countGuestAsList(guest.getGuest_mail(), guest.getGuest_nm());
+			List<ASVO> list = asMapper.selectGuestAsListWithPaging(
+					guest.getGuest_mail(), guest.getGuest_nm(), size, offset);
+
+			int totalPages = (int) Math.ceil((double) totalCount / size);
+
+			int pageGroup = (page - 1) / 10;
+			int startPage = pageGroup * 10 + 1;
+			int endPage = Math.min(startPage + 9, totalPages);
+
+			ASPageResponseDTO dto = new ASPageResponseDTO();
+			dto.setAsList(list);
+			dto.setCurrentPage(page);
+			dto.setTotalPages(totalPages);
+			dto.setStartPage(startPage);
+			dto.setEndPage(endPage);
+			dto.setHasPrev(startPage > 1);
+			dto.setHasNext(endPage < totalPages);
+			return dto;
+		} catch (Exception e) {
+			throw new ServiceException("AS 조회 페이징 처리 실패", e);
+		}
+	}
+
+	@Override
+	public ASPageResponseDTO getGuestAsListOrderByAsDateWithPaging(GuestDTO guest, int page, int size) {
+		try {
+			int offset = (page - 1) * size;
+			int totalCount = asMapper.countGuestAsList(guest.getGuest_mail(), guest.getGuest_nm());
+			List<ASVO> list = asMapper.selectGuestAsListOrderByAsDateWithPaging(guest.getGuest_mail(), guest.getGuest_nm(),
+					size, offset);
+
 			int totalPages = (int) Math.ceil((double) totalCount / size);
 
 			int pageGroup = (page - 1) / 10;

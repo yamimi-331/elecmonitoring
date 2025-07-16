@@ -3,8 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!-- 리스트 영역 전체를 감싸는 div에 id 부여 -->
-<div id="aslistArea">
-    <table class="custom-table">
+<div id="aslistArea" class="inner-container">
+    <table class="normal-table">
         <thead>
             <tr>
                 <th>번호</th>

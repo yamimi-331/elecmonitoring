@@ -104,26 +104,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         ]]>
 	</select>
 
-	<!-- INSERT -->
-	<!-- 일반 회원의 AS 신고 -->
-	<insert id="insertAsListByCommon" parameterType="com.eco.domain.vo.ASVO" useGeneratedKeys="true" keyProperty="as_cd">
-	  <![CDATA[
-	    INSERT INTO t_as(user_cd, user_mail, as_title, as_content, as_date, as_addr, as_facility)
-	    VALUES(#{user_cd}, #{user_mail}, #{as_title}, #{as_content},
-	           #{as_date}, #{as_addr}, #{as_facility});
-	    ]]>
-	</insert>
-	
-	<!-- 일반 회원의 AS 신고 -->
-	<insert id="insertAsListByGuest" parameterType="com.eco.domain.vo.ASVO" useGeneratedKeys="true" keyProperty="as_cd">
-	  <![CDATA[
-	    INSERT INTO t_as(as_title, as_content, as_date, as_addr, as_facility, guest_mail, guest_nm)
-	    VALUES(#{as_title}, #{as_content}, #{as_date}, 
-	    	#{as_addr}, #{as_facility}, #{guest_mail}, #{guest_nm});
-	    ]]>
-	</insert>
-	
-	
 	<!-- 기사 조회 -->
 	<select id="selectAsStaff" resultType="int" parameterType="map">
 		<![CDATA[
@@ -133,41 +113,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			GROUP BY s.staff_cd ORDER BY COUNT(a.as_cd) ASC LIMIT 1;
 		]]>
 	</select>
-	
-	<!-- UPDATE -->
-	<!-- 기사 배정 -->
-	<update id="updateMatchStaff" parameterType="map">
-		<![CDATA[
-	    UPDATE t_as SET staff_cd = #{staff_cd} WHERE as_cd = #{as_cd};
-		]]>
-	</update>
 
-	<!-- AS 신고 수정 -->
-	<update id="updateAsListByCommon" parameterType="com.eco.domain.vo.ASVO">
-        <![CDATA[
-		    UPDATE t_as set user_mail=#{user_mail}, as_title=#{as_title}, as_content=#{as_content}, 
-		    as_date=#{as_date}, as_addr=#{as_addr}, as_facility=#{as_facility}
-		    WHERE as_cd=#{as_cd}
-	    ]]>
-	</update>
-	
-	<!-- AS 신고 수정(게스트) -->
-	<update id="updateAsListByGuest" parameterType="com.eco.domain.vo.ASVO">
-        <![CDATA[
-		    UPDATE t_as set guest_mail=#{guest_mail}, as_title=#{as_title}, as_content=#{as_content}, 
-		    as_date=#{as_date}, as_addr=#{as_addr}, as_facility=#{as_facility}
-		    WHERE as_cd=#{as_cd}
-	    ]]>
-	</update>
-	
-	<!-- AS 신고 삭제 -->
-	<update id="deleteAsListByCommon" parameterType="com.eco.domain.vo.ASVO">
-        <![CDATA[
-		    UPDATE t_as set use_yn='N', as_status = '예약 취소'
-		    WHERE as_cd=#{as_cd}
-	    ]]>
-	</update>
-	
+
 	<!-- AS 신고내역 전체 조회 -->
 	<select id="selectAllAsDtoList"
 		resultType="com.eco.domain.DTO.ASListDTO">
@@ -239,24 +186,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    ORDER BY a.as_date
         ]]>
     </select>
-
-	<!-- UPDATE -->
-	<!-- 관리자/기사의 상황 업데이트 -->
-	<update id="updateStatusByCd">
-	    <![CDATA[
-	    UPDATE T_AS
-	    SET as_status = #{as_status}
-	    WHERE as_cd = #{as_cd}
-	    ]]>
-	</update>
-	<!-- 회원 탈퇴시 미래 예약건 취소 -->
-	<update id="deleteAsListBydeleteUser">
-	    <![CDATA[
-	    UPDATE T_AS SET use_yn = 'N'
-	    WHERE user_cd = #{user_cd} AND as_date > CURRENT_DATE() AND as_status = '신고 접수'
-	    ]]>
-	</update>
-	
 	<!-- 사용자에 해당하는 AS 신고내역 조회(날짜순) -->
     <select id="selectUserAsListOrderByAsDate" resultType="com.eco.domain.vo.ASVO" parameterType="int">
 	    <![CDATA[
@@ -275,6 +204,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         AND use_yn = 'Y'
         ]]>
 	</select>
+	
 	<!-- 게스트에 해당하는 AS 신고내역 조회(날짜순) -->
     <select id="selectGuestAsListOrderByAsDate" resultType="com.eco.domain.vo.ASVO" parameterType="com.eco.domain.DTO.GuestDTO">
 	    <![CDATA[
@@ -283,7 +213,113 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    AND use_yn = 'Y'
 	    ORDER BY as_date;
 	    ]]>
-    </select>        
+    </select> 
+    
+    <!-- 게스트 AS 리스트 페이징 조회 -->
+	<select id="selectGuestAsListWithPaging" resultType="com.eco.domain.vo.ASVO">
+	    <![CDATA[
+	    SELECT * 
+	    FROM T_AS
+	    WHERE guest_mail = #{guest_mail}
+	      AND guest_nm = #{guest_nm}
+	      AND use_yn = 'Y'
+	    ORDER BY as_cd DESC
+	    LIMIT #{size} OFFSET #{offset}
+	    ]]>
+	</select>
+    <!-- 게스트 AS 리스트 페이징 + 예약일자순 -->
+	<select id="selectGuestAsListOrderByAsDateWithPaging" resultType="com.eco.domain.vo.ASVO" >
+	    <![CDATA[
+	    SELECT * 
+	    FROM T_AS
+	    WHERE guest_mail = #{guest_mail}
+	      AND guest_nm = #{guest_nm}
+	      AND use_yn = 'Y'
+	    ORDER BY as_date DESC
+	    LIMIT #{size} OFFSET #{offset}
+	    ]]>
+	</select>
+	    <!-- 게스트 AS 전체 개수 -->
+	<select id="countGuestAsList" resultType="int" parameterType="com.eco.domain.DTO.GuestDTO">
+	    <![CDATA[
+	    SELECT COUNT(*) 
+	    FROM T_AS
+	    WHERE guest_mail = #{guest_mail}
+	      AND guest_nm = #{guest_nm}
+	      AND use_yn = 'Y'
+	    ]]>
+	</select>
 	
+	<!-- INSERT -->
+	<!-- 일반 회원의 AS 신고 -->
+	<insert id="insertAsListByCommon" parameterType="com.eco.domain.vo.ASVO" useGeneratedKeys="true" keyProperty="as_cd">
+	  <![CDATA[
+	    INSERT INTO t_as(user_cd, user_mail, as_title, as_content, as_date, as_addr, as_facility)
+	    VALUES(#{user_cd}, #{user_mail}, #{as_title}, #{as_content},
+	           #{as_date}, #{as_addr}, #{as_facility});
+	    ]]>
+	</insert>
+	
+	<!-- 일반 회원의 AS 신고 -->
+	<insert id="insertAsListByGuest" parameterType="com.eco.domain.vo.ASVO" useGeneratedKeys="true" keyProperty="as_cd">
+	  <![CDATA[
+	    INSERT INTO t_as(as_title, as_content, as_date, as_addr, as_facility, guest_mail, guest_nm)
+	    VALUES(#{as_title}, #{as_content}, #{as_date}, 
+	    	#{as_addr}, #{as_facility}, #{guest_mail}, #{guest_nm});
+	    ]]>
+	</insert>
+	
+	<!-- UPDATE -->
+	<!-- 기사 배정 -->
+	<update id="updateMatchStaff" parameterType="map">
+		<![CDATA[
+	    UPDATE t_as SET staff_cd = #{staff_cd} WHERE as_cd = #{as_cd};
+		]]>
+	</update>
 
+	<!-- AS 신고 수정 -->
+	<update id="updateAsListByCommon" parameterType="com.eco.domain.vo.ASVO">
+        <![CDATA[
+		    UPDATE t_as set user_mail=#{user_mail}, as_title=#{as_title}, as_content=#{as_content}, 
+		    as_date=#{as_date}, as_addr=#{as_addr}, as_facility=#{as_facility}
+		    WHERE as_cd=#{as_cd}
+	    ]]>
+	</update>
+	
+	<!-- AS 신고 수정(게스트) -->
+	<update id="updateAsListByGuest" parameterType="com.eco.domain.vo.ASVO">
+        <![CDATA[
+		    UPDATE t_as set guest_mail=#{guest_mail}, as_title=#{as_title}, as_content=#{as_content}, 
+		    as_date=#{as_date}, as_addr=#{as_addr}, as_facility=#{as_facility}
+		    WHERE as_cd=#{as_cd}
+	    ]]>
+	</update>
+	
+	<!-- AS 신고 삭제 -->
+	<update id="deleteAsListByCommon" parameterType="com.eco.domain.vo.ASVO">
+        <![CDATA[
+		    UPDATE t_as set use_yn='N', as_status = '예약 취소'
+		    WHERE as_cd=#{as_cd}
+	    ]]>
+	</update>
+	
+	<!-- 관리자/기사의 상황 업데이트 -->
+	<update id="updateStatusByCd">
+	    <![CDATA[
+	    UPDATE T_AS
+	    SET as_status = #{as_status}
+	    WHERE as_cd = #{as_cd}
+	    ]]>
+	</update>
+	
+	<!-- 회원 탈퇴시 미래 예약건 취소 -->
+	<update id="deleteAsListBydeleteUser">
+	    <![CDATA[
+	    UPDATE T_AS SET use_yn = 'N'
+	    WHERE user_cd = #{user_cd} AND as_date > CURRENT_DATE() AND as_status = '신고 접수'
+	    ]]>
+	</update>
+	
+	
+    
 </mapper>

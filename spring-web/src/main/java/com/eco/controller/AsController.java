@@ -157,17 +157,18 @@ public class AsController {
 	    }
 
 	    List<ASVO> asvo = null;
+	    int size = 10;
 
 	    if (currentUser instanceof UserVO) {
 	    	int user_cd = ((UserVO) currentUser).getUser_cd();
-	    	int size = 10;
 	    	ASPageResponseDTO pageInfo = asService.getUserAsListWithPaging(user_cd, page, size);
 	    	model.addAttribute("pageInfo", pageInfo);
 	    	asvo =  pageInfo.getAsList();
-
 	    } else if (currentUser instanceof GuestDTO) {
 	        GuestDTO guest = (GuestDTO) currentUser;
-	        asvo = asService.getGuestAsList(guest);
+	        ASPageResponseDTO pageInfo  = asService.getGuestAsListWithPaging(guest, page, size);
+	        model.addAttribute("pageInfo", pageInfo);
+	    	asvo =  pageInfo.getAsList();
 	    } else {
 	        redirectAttrs.addFlashAttribute("message", "로그인 정보가 올바르지 않습니다.");
 	        return "redirect:/login";
@@ -189,12 +190,11 @@ public class AsController {
 
 		List<ASVO> asvo = null;
 
+		int size = 10;
 		if (currentUser instanceof UserVO) {
 			int user_cd = ((UserVO) currentUser).getUser_cd();
-			int size = 10;
 			if ("reservationDate".equals(sort)) {
 				ASPageResponseDTO pageInfo = asService.getUserAsListOrderByAsDateWithPaging(user_cd, page, size);
-				log.info(pageInfo);
 				model.addAttribute("pageInfo", pageInfo);
 				asvo = pageInfo.getAsList();
 			} else {
@@ -205,9 +205,13 @@ public class AsController {
 		} else if (currentUser instanceof GuestDTO) {
 			GuestDTO guest = (GuestDTO) currentUser;
 			if ("reservationDate".equals(sort)) {
-				asvo = asService.getGuestAsListOrderByAsDate(guest);
+				ASPageResponseDTO pageInfo = asService.getGuestAsListOrderByAsDateWithPaging(guest, page, size);
+				model.addAttribute("pageInfo", pageInfo);
+				asvo = pageInfo.getAsList();
 			} else {
-				asvo = asService.getGuestAsList(guest);
+				ASPageResponseDTO pageInfo = asService.getGuestAsListWithPaging(guest, page, size);
+				model.addAttribute("pageInfo", pageInfo);
+				asvo = pageInfo.getAsList();
 			}
 		} else {
 			return "redirect:/login";

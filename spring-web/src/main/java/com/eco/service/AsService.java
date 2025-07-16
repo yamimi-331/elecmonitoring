@@ -66,4 +66,11 @@ public interface AsService {
 
 	// 게스트 AS 일정 수정
 	public boolean editAsListByGuest(ASVO vo);
+	
+	// 게스트 AS 리스트 가져오는 함수(페이징)
+	public ASPageResponseDTO getGuestAsListWithPaging(GuestDTO guest, int page, int size);
+	
+	// 게스트 AS 리스트 가져오는 함수(페이징) 일자순으로 정렬
+	public ASPageResponseDTO getGuestAsListOrderByAsDateWithPaging(GuestDTO guest, int page, int size);
+	 	
 }

@@ -69,3 +69,64 @@ body::-webkit-scrollbar {
     border-radius: 5px;
     cursor: pointer;
 }
+/* 새로운 테이블 스타일 */
+.normal-table {
+	width: 100%;
+	border-collapse: collapse;
+	border: none;
+	border-top: 2px solid #797979;
+}
+
+.normal-table thead {
+	background-color: #f9f9f9;
+	border-top: 2px solid black;
+}
+
+.normal-table td {
+	border: 1px solid #ccc;
+	padding: 8px 10px;
+	text-align: center;
+}
+
+.normal-table th {
+	background-color: #f2f2f2;
+	border: 1px solid #ccc;
+	font-weight: bold;
+	padding: 8px 10px;
+	color: #333;
+}
+/* 첫 열: 왼쪽 테두리 제거 */
+.normal-table td:first-child, .normal-table th:first-child {
+	border-left: none;
+}
+/* 마지막 열: 오른쪽 테두리 제거 */
+.normal-table td:last-child, .normal-table th:last-child {
+	border-right: none;
+}
+
+.normal-table td a {
+	color: black;
+	text-decoration: none;
+}
+
+.normal-table td a:hover {
+	text-decoration: underline;
+}
+
+.normal-table tr:nth-child(even) {
+	background-color: #f9f9f9;
+}
+
+.table-container{
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 20px;
+}
+
+.pagination{
+    display: flex;
+    justify-content: center;
+	align-items: center;
+    gap: 10px;
+}

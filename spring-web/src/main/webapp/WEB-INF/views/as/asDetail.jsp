@@ -82,9 +82,10 @@
 					<button class="tab-btn active" onclick="switchTab('reportDate', this)">신고일자순</button>
 					<button class="tab-btn" onclick="switchTab('reservationDate', this)">예약일자순</button>
 				</div>
-				<div id="listArea">
+				<div class="table-container" id="listArea">
 				
 				</div>
+				
 				<!-- 페이징 -->
 				<div class="pagination" id="paginationArea">
 				

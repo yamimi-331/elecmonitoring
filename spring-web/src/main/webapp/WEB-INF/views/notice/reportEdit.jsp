@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>게시글</title>
+<title>게시글 수정</title>
 <link rel="stylesheet" href="../../resources/css/common.css?after" />
 <link rel="stylesheet" href="../../resources/css/reportForm.css?after" />
 </head>
@@ -13,7 +13,7 @@
 	<div class="wrapper">
 		<%@ include file="/WEB-INF/views/common/header.jsp"%>
 		<main class="main">
-			<h2>게시글</h2>
+			<h2>게시글 수정</h2>
 			<div class="container">
 				<form method="post" action="/report/modify">
 					<input type="hidden" id="report_cd" name="report_cd" value="${report.report_cd}">

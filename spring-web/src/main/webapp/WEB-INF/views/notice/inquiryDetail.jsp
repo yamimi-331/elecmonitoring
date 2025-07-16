@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>게시글 상세 보기</title>
+<title>문의 게시글 상세 보기</title>
 <link rel="stylesheet" href="../../resources/css/common.css?after" />
 <link rel="stylesheet" href="../../resources/css/reportForm.css?after" />
 </head>
@@ -13,7 +13,7 @@
 	<div class="wrapper">
 		<%@ include file="/WEB-INF/views/common/header.jsp"%>
 		<main class="main">
-			<h2>게시글 상세 보기</h2>
+			<h2>문의 게시글 상세 보기</h2>
 			<div class="container">
 				<table class="report-detail">
 					<colgroup>
@@ -22,43 +22,38 @@
 					</colgroup>
 					<tr>
 						<th>제목</th>
-						<td>${report.title}</td>
+						<td>${inquiry.inquiry_title}</td>
 					</tr>
 					<tr>
 						<th>작성자</th>
-						<td>${report.staff_nm}</td>
+						<td>${inquiry.user_nm}</td>
 					</tr>
 					<tr>
 						<th>신고일</th>
-						<td>${reportDt}</td>
+						<td>${createdDt}</td>
 					</tr>
 					<tr>
-						<th>지역</th>
-						<td>${report.local}</td>
-					</tr>
-					<tr>
-						<th>유형</th>
-						<td>${report.type}</td>
+						<th>처리 상태</th>
+						<td>${inquiry.inquiry_status}</td>
 					</tr>
 					<tr>
 						<th>내용</th>
-						<td>${report.content}</td>
+						<td>${inquiry.inquiry_content}</td>
 					</tr>
 				</table>
 				<div class="button-box">
 					<c:choose>
-					    <c:when test="${currentUserInfo.staff_role == 'staff'}">
-					        <c:if test="${not empty currentUserInfo && currentUserInfo.staff_cd eq report.staff_cd}">
+					    <c:when test="${userType == 'common'}">
+					        <c:if test="${not empty currentUserInfo && currentUserInfo.user_cd eq inquiry.user_cd}">
 								<button type="button" id="modifyBtn">수정하기</button>
 								<button type="button" id="deleteBtn">삭제하기</button>
 							</c:if>
 					    </c:when>
-					    <c:when test="${currentUserInfo.staff_role == 'admin'}">
-					        <button type="button" id="modifyBtn">수정하기</button>
+					    <c:when test="${userType == 'admin'}">
 							<button type="button" id="deleteBtn">삭제하기</button>
 					    </c:when>
 	 				</c:choose>
-					<button onclick="location.href='/report'">돌아가기</button>
+					<button onclick="location.href='/inquiry'">돌아가기</button>
 				</div>
 			</div>
 		</main>
@@ -67,18 +62,18 @@
 	<%@ include file="/WEB-INF/views/common/footer.jsp"%>
 <script>
 	document.getElementById('modifyBtn').addEventListener('click', function() {
-		location.href = '/report/modify?report_cd=' + ${report.report_cd};
+		location.href = '/inquiry/modify?inquiry_cd=' + '${inquiry.inquiry_cd}';
 	});
 	document.getElementById("deleteBtn").addEventListener("click", function () {
 		if (confirm("정말 삭제하시겠습니까?")) {
-			const reportCd = ${report.report_cd};
+			const inquiryCd = '${inquiry.inquiry_cd}';
 
-			fetch('/report/remove', {
+			fetch('/inquiry/remove', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/x-www-form-urlencoded'
 				},
-				body: 'report_cd=' + encodeURIComponent(reportCd)
+				body: 'inquiry_cd=' + encodeURIComponent(inquiryCd)
 			})
 			.then(response => {
 				if (response.redirected) {

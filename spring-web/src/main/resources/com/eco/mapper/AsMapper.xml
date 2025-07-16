@@ -64,6 +64,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         ]]>
 	</select>
 	
+	<!-- 사용자에 해당하는 AS 신고내역 조회(페이징 처리) -->
 	<select id="selectAsListByUserPaging" resultType="com.eco.domain.vo.ASVO">
 	    <![CDATA[
 	    SELECT * FROM T_AS
@@ -74,6 +75,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    ]]>
 	</select>
 	
+	<!-- 사용자에 해당하는 AS 신고내역 조회(페이징 처리) 예약 날짜 기준 정렬 -->
+	<select id="selectAsListByUserOrderByDatePaging" resultType="com.eco.domain.vo.ASVO">
+	    <![CDATA[
+	    SELECT * FROM T_AS
+	    WHERE user_cd = #{user_cd}
+	      AND use_yn = 'Y'
+	    ORDER BY as_date DESC
+	    LIMIT #{size} OFFSET #{offset}
+	    ]]>
+	</select>
+	
+	<!-- 사용자에 해당하는 AS 신고내역 갯수 카운트 -->
 	<select id="selectAsCountByUser" resultType="int">
 	     <![CDATA[
 	     SELECT COUNT(*) FROM T_AS

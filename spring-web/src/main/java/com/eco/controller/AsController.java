@@ -191,10 +191,13 @@ public class AsController {
 
 		if (currentUser instanceof UserVO) {
 			int user_cd = ((UserVO) currentUser).getUser_cd();
+			int size = 10;
 			if ("reservationDate".equals(sort)) {
-				asvo = asService.getUserAsListOrderByAsDate(user_cd);
+				ASPageResponseDTO pageInfo = asService.getUserAsListOrderByAsDateWithPaging(user_cd, page, size);
+				log.info(pageInfo);
+				model.addAttribute("pageInfo", pageInfo);
+				asvo = pageInfo.getAsList();
 			} else {
-				int size = 10;
 				ASPageResponseDTO pageInfo = asService.getUserAsListWithPaging(user_cd, page, size);
 				model.addAttribute("pageInfo", pageInfo);
 				asvo = pageInfo.getAsList();
@@ -212,7 +215,7 @@ public class AsController {
 
 		List<Map<String, Object>> parsedList = parseAsList(asvo);
 		model.addAttribute("userList", parsedList);
-
+		log.info(parsedList);
 	    return "/as/asList";
 	}
 

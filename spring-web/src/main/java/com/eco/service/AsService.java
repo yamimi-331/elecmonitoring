@@ -51,6 +51,9 @@ public interface AsService {
 	
 	// 일자순으로 정렬
     public List<ASVO> getUserAsListOrderByAsDate(int user_cd);
+    
+    // 사용자의의 AS 리스트 가져오는 함수(페이징) 일자순으로 정렬
+ 	public ASPageResponseDTO getUserAsListOrderByAsDateWithPaging(int user_cd, int page, int size);
 
     // 게스트의 상세 내역 조회
 	public List<ASVO> getGuestAsList(GuestDTO guest);

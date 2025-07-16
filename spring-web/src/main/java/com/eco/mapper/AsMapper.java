@@ -23,6 +23,10 @@ public interface AsMapper {
 	
 	// 사용자에 해당하는 AS 신고내역 조회(페이징)
 	public List<ASVO> selectAsListByUserPaging(@Param("user_cd") int user_cd, @Param("size") int size, @Param("offset") int offset);
+	
+	// 사용자에 해당하는 AS 신고내역 조회(페이징) 날짜순
+	public List<ASVO> selectAsListByUserOrderByDatePaging(@Param("user_cd") int user_cd, @Param("size") int size, @Param("offset") int offset);
+	
 	// 페이지 번호 매기는 함수
 	public int selectAsCountByUser(@Param("user_cd") int user_cd);
 	

@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class ReportDTO {
 	private int report_cd;				// 전기 재해 신고 번호
-	private String staff_cd;			// 직원 코드값
+	private int staff_cd;			// 직원 코드값
 	private String staff_nm;			// 직원 이름
 	private String title;				// 신고 제목
 	private String type;				// 신고 타입

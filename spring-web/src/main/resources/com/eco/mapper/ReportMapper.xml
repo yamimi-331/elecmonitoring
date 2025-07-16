@@ -19,5 +19,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE r.use_yn = 'Y' AND r.report_cd = #{report_cd}
 		]]>
 	</select>
+	
+	<!-- INSERT -->
+	<!-- 신고 글 등록 -->
+	<insert id="insertReport" parameterType="com.eco.domain.DTO.ReportDTO" useGeneratedKeys="true" keyProperty="report_cd">
+		<![CDATA[
+		INSERT INTO t_report(staff_cd, title, type, content, local, phone)
+		VALUES(#{staff_cd}, #{title},#{type}, #{content}, #{local}, #{phone})
+		]]>
+	</insert>
 
 </mapper>

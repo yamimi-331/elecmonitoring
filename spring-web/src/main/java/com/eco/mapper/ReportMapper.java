@@ -13,5 +13,8 @@ public interface ReportMapper {
 	
 	// 신고 게시글 상세 조회
 	public ReportDTO selectDetailReport(@Param("report_cd") int report_cd);
+	
+	// 신고 글 등록
+	public int insertReport(ReportDTO reportDTO);
 
 }

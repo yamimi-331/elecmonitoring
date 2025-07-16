@@ -7,7 +7,10 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -109,6 +112,33 @@ public class ReportController {
         if (accessAllow) {
         	log.info("전기 재해 신고 작성 페이지로 이동");
         	return "/notice/reportForm";
+        } else {
+        	redirectAttrs.addFlashAttribute("message", "잘못된 접근입니다.");
+        	return "redirect:/report";
+        }
+	}
+	
+	// 신고 글 등록
+	@PostMapping("/register")
+	public String registerNewReport(@ModelAttribute ReportDTO reportDTO, BindingResult result, HttpSession session, RedirectAttributes redirectAttrs) {
+		if (result.hasErrors()) {
+	        result.getAllErrors().forEach(e -> System.out.println("바인딩 오류: " + e));
+	        return "redirect:/report";
+	    }
+		
+		StaffVO user = (StaffVO) session.getAttribute("currentUserInfo");
+	    if (user == null) {
+	        redirectAttrs.addFlashAttribute("message", "로그인이 필요합니다.");
+	        return "redirect:/login";
+	    }
+	    
+		reportDTO.setStaff_cd(user.getStaff_cd());
+        int reportCd = reportService.registerReport(reportDTO);
+		
+		if (reportCd != 0) {
+        	log.info("전기 재해 신고 등록 성공");
+        	redirectAttrs.addFlashAttribute("message", "신고가 등록되었습니다.");
+        	return "redirect:/report";
         } else {
         	redirectAttrs.addFlashAttribute("message", "잘못된 접근입니다.");
         	return "redirect:/report";

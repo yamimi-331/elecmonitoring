@@ -24,7 +24,15 @@ $(document).ready(function() {
 			return;
 		}
 		  
-		function formatDate(dateObj){
+		function formatRegisterDate(dateObj){
+			if(!dateObj) return '-';
+			if (typeof dateObj === 'object'){
+				const { year, monthValue, dayOfMonth, hour, minute } = dateObj;
+				return `${year}-${String(monthValue).padStart(2, '0')}-${String(dayOfMonth).padStart(2, '0')}`;
+			}
+			return dateObj;
+		}
+		function formatUpdateDate(dateObj){
 			if(!dateObj) return '-';
 			if (typeof dateObj === 'object'){
 				const { year, monthValue, dayOfMonth, hour, minute } = dateObj;
@@ -35,14 +43,23 @@ $(document).ready(function() {
 	
 		  // 일정 목록 행 추가
 		data.forEach(item => {
+			let update_date = formatUpdateDate(item.update_dt);
+			
+			const reportDateTime = formatUpdateDate(item.report_dt);
+    		const updateDateTime = formatUpdateDate(item.update_dt);
+    		
+			if(reportDateTime == updateDateTime){
+				update_date = "-";
+			}
+
 			tbody.append(`
 				<tr>
 					<td>${item.report_cd}</td>
-					<td>${formatDate(item.report_dt)}</td>
+					<td>${formatRegisterDate(item.report_dt)}</td>
 					<td><a href="/report/detail?report_cd=${item.report_cd}">${item.title}</a></td>
 					<td>${item.staff_nm || '미지정'}</td>
 					<td>${item.local || '-'}</td>
-					<td>${formatDate(item.update_dt)}</td>
+					<td>${update_date}</td>
 				</tr>
 			`);
 		});

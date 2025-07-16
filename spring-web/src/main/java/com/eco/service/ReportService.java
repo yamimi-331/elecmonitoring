@@ -11,5 +11,8 @@ public interface ReportService {
 	
 	// 신고 게시글 상세 조회
 	public ReportDTO getDetailReport(int report_cd);
+	
+	// 신고 글 등록
+	public int registerReport(ReportDTO reportDTO);
 
 }

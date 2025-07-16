@@ -15,10 +15,7 @@
 		<main class="main">
 			<h2>게시글</h2>
 			<div class="container">
-				<form>
-					<input type="hidden" value="report_cd">
-					<input type="hidden" value="staff_cd">
-					<input type="hidden" value="uddate_dt">
+				<form action="/report/register" method="post">
 					<table class="report-detail">
 						<colgroup>
 							<col style="width:15%">
@@ -30,11 +27,11 @@
 						</tr>
 						<tr>
 							<th><label for="staff_nm">작성자</label></th>
-							<td><input type="text" name="staff_nm" id="staff_nm" value="${currentUserInfo.staff_nm}" readonly></td>
+							<td><input type="text" id="staff_nm" value="${currentUserInfo.staff_nm}" readonly></td>
 						</tr>
 						<tr>
-							<th><label for="report_dt">신고일</label></th>
-							<td><input type="text" name="report_dt" id="report_dt" placeholder="신고일" autocomplete=off></td>
+							<th><label for="phone">신고자 전화번호</label></th>
+							<td><input type="text" name="phone" id="phone" placeholder="신고자 전화번호" autocomplete=off></td>
 						</tr>
 						<tr>
 							<th><label for="local">지역</label></th>
@@ -66,14 +63,14 @@
 							<td>
 								<select name="type" id="type">
 									<option value="-">--재해 유형--</option>
-									<option value="화재">전기 화재</option>
-									<option value="감전">전기 감전</option>
+									<option value="전기 화재">전기 화재</option>
+									<option value="전기 감전">전기 감전</option>
 								</select>
 							</td>
 						</tr>
 						<tr>
 							<th><label for="content">내용</label></th>
-							<td><textarea></textarea></td>
+							<td><textarea name="content" id="content" placeholder="내용"></textarea></td>
 						</tr>
 					</table>
 					<div class="button-box">

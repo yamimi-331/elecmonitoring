@@ -40,4 +40,16 @@ public class ReportServiceImpl implements ReportService {
 		}
 	}
 
+	// 신고 글 등록
+	@Override
+	public int registerReport(ReportDTO reportDTO) {
+		try {
+			// DB에서 신고 글 목록 조회
+			int results = reportMapper.insertReport(reportDTO);
+			return results;
+		} catch (Exception e) {
+			throw new ServiceException("신고 글 등록 실패", e);
+		}
+	}
+
 }

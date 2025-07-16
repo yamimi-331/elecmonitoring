@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <h3>전기 재해 모니터링</h3>
                 <ul>
                     <li><a href="/dashboard">전기 재해 모니터링 대시보드</a></li>
-                    <li><a href="#">전기 재해 신고 목록</a></li>
+                    <li><a href="/report">전기 재해 신고 목록</a></li>
                 </ul>
             </div>
             <div class="mega-menu-column">
@@ -168,7 +168,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 <ul>
                     <li><a href="/notice">전체 공지사항</a></li>
                     <li><a href="#">문의 사항</a></li>
-					<li><a href="/report">전기 재해 신고 목록</a></li>
                 </ul>
             </div>
             <div class="mega-menu-column">
@@ -181,6 +180,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <p style="text-align: center; font-size: 3em; margin-top: 15px;">📢</p> 
             </div>
         </div>
+        
 		<%-- A/S 관련 메뉴 --%>
         <div id="mega-as" class="mega-menu-content">
             <div class="mega-menu-column">

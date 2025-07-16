@@ -1,11 +1,12 @@
-package com.eco.domain.vo;
+package com.eco.domain.DTO;
 
 import java.time.LocalDateTime;
 
 import lombok.Data;
 
 @Data
-public class NoticeVO {
+public class NoticeDTO {
+	// 공지사항 화면에서 필요한 데이터 목록
 	private int notice_cd;   			// 공지사항 번호
 	private String title;    			// 공지사항 제목
 	private String content;  			// 공지사항 내용
@@ -14,5 +15,4 @@ public class NoticeVO {
 	private int staff_cd;				// 직원 코드값
 	private int user_cd;				// 사용자 코드값
 	private String allow_range;			// 열람 범위
-	private char use_yn;     			// 사용 유무
 }

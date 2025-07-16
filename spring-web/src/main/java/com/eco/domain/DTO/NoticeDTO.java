@@ -13,6 +13,5 @@ public class NoticeDTO {
 	private LocalDateTime create_dt;  	// 공지사항 등록일
 	private LocalDateTime update_dt;  	// 공지사항 수정일자
 	private int staff_cd;				// 직원 코드값
-	private int user_cd;				// 사용자 코드값
 	private String allow_range;			// 열람 범위
 }

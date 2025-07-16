@@ -56,13 +56,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         ]]>
 	</select>
 	<!-- 사용자에 해당하는 AS 신고내역 조회 -->
-	<select id="selectAsListByUser" resultType="com.eco.domain.vo.ASVO" parameterType="int">
+	<select id="selectAsListByUser" resultType="com.eco.domain.vo.ASVO">
         <![CDATA[
         SELECT * FROM T_AS
         WHERE user_cd = #{user_cd}
         AND use_yn = 'Y'
         ]]>
 	</select>
+	
+	<select id="selectAsListByUserPaging" resultType="com.eco.domain.vo.ASVO">
+	    <![CDATA[
+	    SELECT * FROM T_AS
+	    WHERE user_cd = #{user_cd}
+	      AND use_yn = 'Y'
+	    ORDER BY as_cd DESC
+	    LIMIT #{size} OFFSET #{offset}
+	    ]]>
+	</select>
+	
+	<select id="selectAsCountByUser" resultType="int">
+	     <![CDATA[
+	     SELECT COUNT(*) FROM T_AS
+	    WHERE user_cd = #{user_cd}
+	      AND use_yn = 'Y'
+	      ]]>
+	</select>
+	
 	<!-- AS 신고 수정 화면에 해당 신고 정보 출력 -->
 	<select id="selectAsDetailByCommon" resultType="com.eco.domain.vo.ASVO">
         <![CDATA[

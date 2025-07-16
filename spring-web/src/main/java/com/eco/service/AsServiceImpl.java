@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.eco.domain.DTO.ASListDTO;
+import com.eco.domain.DTO.ASPageResponseDTO;
 import com.eco.domain.DTO.AvailableStaffDTO;
 import com.eco.domain.DTO.GuestDTO;
 import com.eco.domain.vo.ASVO;
@@ -28,9 +29,9 @@ public class AsServiceImpl implements AsService {
 
 	// 사용자의의 AS 리스트 가져오는 함수
 	@Override
-	public List<ASVO> getUserAsList(int user_cd) {
+	public List<ASVO> getUserAsList(int user_cd, int limit, int offset) {
 		try {
-			return asMapper.selectAsListByUser(user_cd);
+			return asMapper.selectAsListByUserPaging(user_cd, limit, offset);
 		} catch (Exception e) {
 			throw new ServiceException("사용자의 AS 리스트 가져오기 실패", e);
 		}
@@ -213,7 +214,7 @@ public class AsServiceImpl implements AsService {
 			throw new ServiceException("게스트의 AS 리스트 가져오기 실패", e);
 		}
 	}
-	
+
 	// 게스트의 전체 일정 조회(날짜순)
 	@Override
 	public List<ASVO> getGuestAsListOrderByAsDate(GuestDTO guest) {
@@ -270,6 +271,33 @@ public class AsServiceImpl implements AsService {
 			return reassigned >= 0;
 		} catch (Exception e) {
 			throw new ServiceException("AS 신고 수정 실패", e);
+		}
+	}
+
+	@Override
+	public ASPageResponseDTO getUserAsListWithPaging(int user_cd, int page, int size) {
+		try {
+			int offset = (page - 1) * size;
+			int totalCount = asMapper.selectAsCountByUser(user_cd);
+			List<ASVO> list = asMapper.selectAsListByUserPaging(user_cd, size, offset);
+			
+			int totalPages = (int) Math.ceil((double) totalCount / size);
+
+			int pageGroup = (page - 1) / 10;
+			int startPage = pageGroup * 10 + 1;
+			int endPage = Math.min(startPage + 9, totalPages);
+
+			ASPageResponseDTO dto = new ASPageResponseDTO();
+			dto.setAsList(list);
+			dto.setCurrentPage(page);
+			dto.setTotalPages(totalPages);
+			dto.setStartPage(startPage);
+			dto.setEndPage(endPage);
+			dto.setHasPrev(startPage > 1);
+			dto.setHasNext(endPage < totalPages);
+			return dto;
+		} catch (Exception e) {
+			throw new ServiceException("AS 조회 페이징 처리 실패", e);
 		}
 	}
 

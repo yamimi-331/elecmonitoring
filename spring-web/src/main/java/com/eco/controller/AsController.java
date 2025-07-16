@@ -23,6 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.eco.domain.DTO.ASCallenderDTO;
 import com.eco.domain.DTO.ASListDTO;
+import com.eco.domain.DTO.ASPageResponseDTO;
 import com.eco.domain.DTO.GuestDTO;
 import com.eco.domain.vo.ASVO;
 import com.eco.domain.vo.StaffVO;
@@ -145,7 +146,7 @@ public class AsController {
 
 	// 최초 전체 페이지
 	@GetMapping("/detail")
-	public String asDetail(HttpSession session, RedirectAttributes redirectAttrs, Model model) {
+	public String asDetail(HttpSession session, RedirectAttributes redirectAttrs, Model model, @RequestParam(value = "page", defaultValue = "1") int page) {
 		log.info("as신청 내역 상세 페이지 요청");
 
 	    Object currentUser = session.getAttribute("currentUserInfo");
@@ -159,7 +160,11 @@ public class AsController {
 
 	    if (currentUser instanceof UserVO) {
 	    	int user_cd = ((UserVO) currentUser).getUser_cd();
-	    	asvo = asService.getUserAsList(user_cd);
+	    	int size = 10;
+	    	ASPageResponseDTO pageInfo = asService.getUserAsListWithPaging(user_cd, page, size);
+	    	model.addAttribute("pageInfo", pageInfo);
+	    	asvo =  pageInfo.getAsList();
+
 	    } else if (currentUser instanceof GuestDTO) {
 	        GuestDTO guest = (GuestDTO) currentUser;
 	        asvo = asService.getGuestAsList(guest);
@@ -176,7 +181,7 @@ public class AsController {
 	
 	// AJAX: fragment만 반환
 	@GetMapping("/detail/list")
-	public String asDetailList(HttpSession session, Model model, @RequestParam String sort) {
+	public String asDetailList(HttpSession session, Model model, @RequestParam String sort, @RequestParam(value = "page", defaultValue = "1") int page) {
 		log.info("as신청 내역 fragment 요청");
 		Object currentUser = session.getAttribute("currentUserInfo");
 		if (currentUser == null)
@@ -189,7 +194,10 @@ public class AsController {
 			if ("reservationDate".equals(sort)) {
 				asvo = asService.getUserAsListOrderByAsDate(user_cd);
 			} else {
-				asvo = asService.getUserAsList(user_cd);
+				int size = 10;
+				ASPageResponseDTO pageInfo = asService.getUserAsListWithPaging(user_cd, page, size);
+				model.addAttribute("pageInfo", pageInfo);
+				asvo = pageInfo.getAsList();
 			}
 		} else if (currentUser instanceof GuestDTO) {
 			GuestDTO guest = (GuestDTO) currentUser;

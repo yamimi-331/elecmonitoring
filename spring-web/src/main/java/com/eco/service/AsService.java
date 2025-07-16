@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.eco.domain.DTO.ASListDTO;
+import com.eco.domain.DTO.ASPageResponseDTO;
 import com.eco.domain.DTO.GuestDTO;
 import com.eco.domain.vo.ASVO;
 import com.eco.domain.vo.UserVO;
@@ -16,8 +17,11 @@ public interface AsService {
 	public List<String> getFullyBookedSlots(LocalDate date, String region);
 	
 	// 사용자의의 AS 리스트 가져오는 함수
-	public List<ASVO> getUserAsList(int user_cd);
-
+	public List<ASVO> getUserAsList(int user_cd,int limit, int offset);
+	
+	// 사용자의의 AS 리스트 가져오는 함수(페이징)
+	public ASPageResponseDTO getUserAsListWithPaging(int user_cd, int page, int size);
+	
 	// 일반 회원의 AS 신고
 	public boolean registerAsByCommon(ASVO asvo);
 

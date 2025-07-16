@@ -19,8 +19,13 @@ public interface AsMapper {
 	public List<ASVO> selectAsListByStaff(int staffCd);
 
 	// 사용자에 해당하는 AS 신고내역 조회
-	public List<ASVO> selectAsListByUser(int user_cd);
-
+	//public List<ASVO> selectAsListByUser(@Param("user_cd") int user_cd, @Param("limit") int limit, @Param("offset") int offset);
+	
+	// 사용자에 해당하는 AS 신고내역 조회(페이징)
+	public List<ASVO> selectAsListByUserPaging(@Param("user_cd") int user_cd, @Param("size") int size, @Param("offset") int offset);
+	// 페이지 번호 매기는 함수
+	public int selectAsCountByUser(@Param("user_cd") int user_cd);
+	
 	// 일반 회원의 AS 신고
 	public int insertAsListByCommon(ASVO asvo);
 	

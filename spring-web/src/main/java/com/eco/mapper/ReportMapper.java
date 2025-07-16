@@ -9,7 +9,8 @@ import com.eco.domain.DTO.ReportDTO;
 public interface ReportMapper {
 
 	// 신고 리스트 전체 조회
-	public List<ReportDTO> selectAllReport();
+	public List<ReportDTO> selectAllReport(@Param("page") int page, @Param("size") int size);
+	
 	public List<ReportDTO> selectLocalReport(@Param("local") String local);
 	
 	// 신고 게시글 상세 조회
@@ -23,4 +24,9 @@ public interface ReportMapper {
 
 	// 신고 글 삭제
 	public int deleteReport(@Param("report_cd") int report_cd);
+	
+	// 신고글 리스트 조회 (페이징)
+	public List<ReportDTO> selectLocalReportWidthPaging(@Param("local") String local, @Param("size") int size, @Param("offset") int offset);
+	// 신고글 카운팅
+	public int selectReportCount();
 }

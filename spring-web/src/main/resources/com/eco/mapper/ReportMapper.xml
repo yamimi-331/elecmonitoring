@@ -11,11 +11,33 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE r.use_yn = 'Y' ORDER BY report_dt DESC, report_cd DESC LIMIT 10
 		]]>
 	</select>
+	
 	<select id="selectLocalReport" parameterType="string" resultType="com.eco.domain.DTO.ReportDTO">
 		<![CDATA[
-		SELECT * FROM t_report r JOIN t_staff s ON r.staff_cd = s.staff_cd
-		WHERE r.use_yn = 'Y' AND r.local = #{local} ORDER BY report_dt DESC, report_cd DESC LIMIT 10
+		SELECT * FROM t_report r 
+		JOIN t_staff s ON r.staff_cd = s.staff_cd
+		WHERE r.use_yn = 'Y' AND r.local = #{local} 
+		ORDER BY report_dt DESC, report_cd DESC 
+		LIMIT 10
 		]]>
+	</select>
+	
+	<select id="selectLocalReportWidthPaging" resultType="com.eco.domain.DTO.ReportDTO">
+		<![CDATA[
+		SELECT * FROM t_report r 
+		JOIN t_staff s ON r.staff_cd = s.staff_cd
+		WHERE r.use_yn = 'Y' AND r.local = #{local} 
+		ORDER BY report_dt DESC, report_cd DESC 
+		LIMIT #{size} OFFSET #{offset}
+		]]>
+	</select>
+	
+	<select id="selectReportCount" resultType="int">
+	  <![CDATA[
+	    SELECT COUNT(*)
+	    FROM t_report
+	    WHERE use_yn = 'Y'
+	  ]]>
 	</select>
 	
 	<!-- 신고 게시글 상세 조회 -->

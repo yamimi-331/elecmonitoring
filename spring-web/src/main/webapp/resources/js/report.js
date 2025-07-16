@@ -1,18 +1,40 @@
 
 $(document).ready(function() {
-	function fetchReportList(local = "") {
+	function fetchReportList(local = "", page = 1) {
 		$.ajax({
 			url: '/report/reportList',  // 서버 API 엔드포인트
 			method: 'GET', // 쿼리 파라미터로 날짜 전달
-			data: { local: local },
+			data: { local: local, page: page },
 			dataType: 'json',
-			success: function(data) {
-				renderTable(data);  // 받아온 데이터로 테이블 그리기
+			success: function(response) {
+				renderTable(response.list);
+				renderPagination(response.totalCount, page);  // 받아온 데이터로 테이블 그리기
 			},
 			error: function(xhr, status, error) {
 				alert('신고 목록 정보를 불러오는 중 오류가 발생했습니다.');
 			}
 		});
+	}
+	
+	function renderPagination(totalCount, currentPage) {
+		const pageSize = 10;
+		const totalPages = Math.ceil(totalCount / pageSize);
+	
+		const paginationContainer = $('#pagination');
+		paginationContainer.empty();
+	
+		if (totalPages <= 1) return; // 페이지가 1개 이하면 버튼 없음
+	
+		for (let i = 1; i <= totalPages; i++) {
+			const pageBtn = $('<button></button>')
+				.text(i)
+				.addClass(i === currentPage ? 'active' : '')
+				.on('click', function () {
+					const selectedLocal = $('#local').val();
+					fetchReportList(selectedLocal === '전체' ? '' : selectedLocal, i);
+				});
+			paginationContainer.append(pageBtn);
+		}
 	}
 	
 	$('#search_addr_btn').on("click", function () {

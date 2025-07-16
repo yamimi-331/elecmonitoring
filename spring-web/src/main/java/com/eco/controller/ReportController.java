@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.eco.domain.DTO.ReportDTO;
+import com.eco.domain.DTO.ReportListResponseDTO;
 import com.eco.domain.vo.StaffVO;
 import com.eco.domain.vo.UserVO;
 import com.eco.service.ReportService;
@@ -56,11 +57,14 @@ public class ReportController {
 	// 전기 재해 신고 목록 호출
 	@GetMapping("/reportList")
 	@ResponseBody
-	public List<ReportDTO> getReportList(@RequestParam(value = "local", required = false) String local){
+	public ReportListResponseDTO getReportList(@RequestParam(value = "local", required = false) String local, @RequestParam(value = "page", defaultValue = "1") int page){
+		int size = 10;
 		if (local != null && !local.isEmpty()) {
-	        return reportService.getLocalReportList(local);
+			/* return reportService.getLocalReportList(local); */
+	        return reportService.getLocalReportList(local, page, size);
 	    } else {
-	        return reportService.getAllReportList();
+	        //return reportService.getAllReportList();
+	    	return reportService.getAllReportList(page, size);
 	    }
 	}
 	

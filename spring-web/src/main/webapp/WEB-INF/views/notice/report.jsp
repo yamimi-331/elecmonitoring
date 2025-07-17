@@ -72,7 +72,7 @@
 					</table>
 				</div>
 				<!-- 페이징을 위한 이전 다음 번호 버튼 -->
-				 <div id="pagination" class="pagination"></div> 
+				<div id="pagination" class="pagination"></div> 
 			</div>
 		</main>
 	</div>

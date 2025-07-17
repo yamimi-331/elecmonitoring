@@ -30,7 +30,7 @@ function searchAddress() {
 		<main class="main">
 			<h2>A/S 신고</h2>
 			<div class=container>
-				<form action="/as/insertCommon" method="post">
+				<form action="/as/insertCommon" method="post" id="as-form">
 					<span>신고자 정보</span>
 					<table class="report-detail">
 						<colgroup>
@@ -103,7 +103,7 @@ function searchAddress() {
 						</tr>
 						<tr>
 							<th><label for="as_detail">상세 주소</label></th>
-							<td><input type="text" name="as_detail" id="as_addr_detail" autocomplete="off"></td>
+							<td><input type="text" name="as_detail" id="as_detail" autocomplete="off"></td>
 						</tr>
 					</table>
 					<span>상세 정보</span>

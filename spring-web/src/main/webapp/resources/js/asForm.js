@@ -92,8 +92,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 	
 	// 유효성 검증
-	const form = document.querySelector('form[action="/as/insertCommon"]');
+	const form = document.getElementById('as-form');
     form.addEventListener("submit", function (e) {
+    	combineAddress();
+    	
+    	const formData = new FormData(form);
+	    for (let pair of formData.entries()) {
+	        console.log(`${pair[0]}: ${pair[1]}`);
+	    }
+    	
         const userMail = document.getElementById("user_mail");
         const asFacility = document.getElementById("as_facility");
         const asFacilityCustom = document.getElementById("as_facility_custom");
@@ -102,6 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const asContent = document.getElementById("as_content");
         const reserveDate = document.getElementById("reserve_date");
         const reserveTimeRadios = document.querySelectorAll('input[name="reserve_time"]');
+        const asAddr = document.getElementById("as_addr_display");
         
         // 필수값 검증
         if (userMail.value.trim() === "") {
@@ -166,7 +174,7 @@ document.addEventListener("DOMContentLoaded", () => {
     //상세주소 문자열 합치기
     function combineAddress() {
     	const baseAddr = document.getElementById('as_addr_display').value.trim();
-    	const detailAddr = document.getElementById('as_addr_detail').value.trim();
+    	const detailAddr = document.getElementById('as_detail').value.trim();
     	
     	let combined = baseAddr;
     	if(detailAddr){
@@ -175,8 +183,4 @@ document.addEventListener("DOMContentLoaded", () => {
     	
     	document.getElementById('as_addr_hidden').value = combined;
     }
-    
-    document.querySelector('.as-form').addEventListener('submit', function(e) {
-  		combineAddress();
-	});
 });

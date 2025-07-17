@@ -440,7 +440,12 @@ function loadReasonChart(type) {
           },
           options: {
           	layout: {
-          		padding: 10
+          		padding: {
+				    top: 0,
+				    bottom: 15,   // ← 여기에 hoverOffset 대비 여유 있게!
+				    left: 0,
+				    right: 0
+				}
           	},
             responsive: true,
             interaction: {

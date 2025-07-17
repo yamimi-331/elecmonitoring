@@ -11,16 +11,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE i.use_yn = 'Y' ORDER BY created_dt DESC, inquiry_cd DESC LIMIT 10
 		]]>
 	</select>
-	<select id="selectPersonalReport" parameterType="string" resultType="com.eco.domain.DTO.InquiryDTO">
+	<select id="selectPersonalInquiry" resultType="com.eco.domain.DTO.InquiryDTO">
 		<![CDATA[
 		SELECT * FROM t_inquiry i JOIN t_user u ON i.user_cd = u.user_cd
-		WHERE i.use_yn = 'Y' AND i.user_cd = #{user_cd} ORDER BY created_dt DESC, inquiry_cd DESC LIMIT 10
+		WHERE i.use_yn = 'Y' AND i.user_cd = #{user_cd} AND (i.inquiry_title LIKE CONCAT('%', #{search_word}, '%') OR i.inquiry_content LIKE CONCAT('%', #{search_word}, '%'))
+		ORDER BY created_dt DESC, inquiry_cd DESC LIMIT 10
 		]]>
 	</select>
-	<select id="selectReportBySearch" resultType="com.eco.domain.DTO.InquiryDTO">
+	<select id="selectInquiryBySearch" resultType="com.eco.domain.DTO.InquiryDTO">
 		<![CDATA[
 		SELECT * FROM t_inquiry i JOIN t_user u ON i.user_cd = u.user_cd
-		WHERE i.use_yn = 'Y' AND (i.inquiry_title LIKE CONCAT('%', #{inquiry_title}, '%') OR i.inquiry_content LIKE CONCAT('%', #{inquiry_content}, '%'))
+		WHERE i.use_yn = 'Y' AND i.secret_yn = 'N' AND (i.inquiry_title LIKE CONCAT('%', #{search_word}, '%') OR i.inquiry_content LIKE CONCAT('%', #{search_word}, '%'))
 		ORDER BY created_dt DESC, inquiry_cd DESC LIMIT 10
 		]]>
 	</select>

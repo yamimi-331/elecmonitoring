@@ -52,11 +52,17 @@ public class InquiryController {
 		return "/notice/inquiry";
 	}
 	
-	// 전기 재해 신고 목록 호출
+	// 문의 게시판 목록 호출
 	@GetMapping("/inquiryList")
 	@ResponseBody
-	public List<InquiryDTO> getInquiryList(){
-		return inquiryService.getAllInquiry();
+	public List<InquiryDTO> getInquiryList(@RequestParam(value = "search_word", required = false) String search_word, @RequestParam(value = "user_cd", required = false) Integer userCd){
+		if (userCd != null) {
+			return inquiryService.getPersonalInquiry(userCd, search_word);
+		} else if (search_word != null && !search_word.isEmpty()) {
+			return inquiryService.getInquiryBySearch(search_word);
+		} else {
+			return inquiryService.getAllInquiry();
+		}
 	}
 	
 	// 문의 게시판 상세 페이지 이동
@@ -98,7 +104,7 @@ public class InquiryController {
 		return "/notice/inquiryDetail";
 	}
 	
-	// 문의게시글 작성 페이지 이동
+	// 문의 게시글 작성 페이지 이동
 	@GetMapping("/form")
 	public String inquiryFormPage(Model model, HttpSession session, RedirectAttributes redirectAttrs) {
 		Object user = session.getAttribute("currentUserInfo");
@@ -122,7 +128,7 @@ public class InquiryController {
         }
 	}
 	
-	// 신고 글 등록
+	// 문의 게시글 등록
 	@PostMapping("/register")
 	public String registerNewInquiry(@ModelAttribute InquiryDTO inquiryDTO, HttpSession session, RedirectAttributes redirectAttrs) {
 		UserVO user = (UserVO) session.getAttribute("currentUserInfo");
@@ -144,7 +150,7 @@ public class InquiryController {
         }
 	}
 	
-	// 문의 게시글 수정화면 진입
+	// 문의 게시글 수정 화면 진입
 	@GetMapping("/modify")
 	public String reportEditPage(@RequestParam("inquiry_cd") int inquiryCd, Model model, HttpSession session, RedirectAttributes redirectAttrs) {
 		log.info("문의 게시글 수정 페이지로 이동");

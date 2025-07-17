@@ -25,6 +25,26 @@ public class InquiryServiceImpl implements InquiryService{
 			throw new ServiceException("신고 글 목록 조회 실패", e);
 		}
 	}
+	// 내가 작성한 게시글 목록 조회
+	@Override
+	public List<InquiryDTO> getPersonalInquiry(int user_cd, String search_word) {
+		try {
+			List<InquiryDTO> results = inquiryMapper.selectPersonalInquiry(user_cd, search_word);
+			return results;
+		} catch (Exception e) {
+			throw new ServiceException("신고 글 목록 조회 실패", e);
+		}
+	}
+	// 검색 통한 게시글 목록 조회
+	@Override
+	public List<InquiryDTO> getInquiryBySearch(String search_word) {
+		try {
+			List<InquiryDTO> results = inquiryMapper.selectInquiryBySearch(search_word);
+			return results;
+		} catch (Exception e) {
+			throw new ServiceException("신고 글 목록 조회 실패", e);
+		}
+	}
 
 	// 문의 게시글 상세 조회
 	@Override

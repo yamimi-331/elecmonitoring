@@ -1,9 +1,20 @@
 
 $(document).ready(function() {
-	function fetchinquiryList() {
+	function fetchinquiryList(search_word = "", onlyMine = false) {
+	
+		const userCd = window.currentUserCd;
+		const requestData = {
+			search_word: search_word
+		};
+	
+		if (onlyMine && userCd) {
+			requestData.user_cd = userCd;
+		}
+		
 		$.ajax({
 			url: '/inquiry/inquiryList',  // 서버 API 엔드포인트
 			method: 'GET', // 쿼리 파라미터로 날짜 전달
+			data: requestData,
 			dataType: 'json',
 			success: function(data) {
 				renderTable(data);  // 받아온 데이터로 테이블 그리기
@@ -12,6 +23,33 @@ $(document).ready(function() {
 				alert('문의 게시판 정보를 불러오는 중 오류가 발생했습니다.');
 			}
 		});
+	}
+
+	$('#search_word_btn').on("click", function () {
+		const searchWord = document.getElementById("search_word").value;
+		
+		const checkbox = document.getElementById("personal-inquiry");
+		const onlyMine = checkbox ? checkbox.checked : false;
+		
+		fetchinquiryList(searchWord, onlyMine);
+	});
+	
+	const checkbox = document.getElementById("personal-inquiry");
+	if (checkbox) {
+		checkbox.addEventListener("change", function () {
+			const searchWord = document.getElementById("search_word").value;
+			const onlyMine = this.checked;
+			fetchinquiryList(searchWord, onlyMine);
+		});
+	}
+
+	function formatDate(dateObj){
+		if(!dateObj) return '-';
+		if (typeof dateObj === 'object'){
+			const { year, monthValue, dayOfMonth, hour, minute } = dateObj;
+			return `${year}-${String(monthValue).padStart(2, '0')}-${String(dayOfMonth).padStart(2, '0')}`;
+		}
+		return dateObj;
 	}
 
 	function renderTable(data) {
@@ -25,16 +63,7 @@ $(document).ready(function() {
 		
 		const currentUserCd = window.currentUserCd;
 		const userRole = window.userRole;
-		  
-		function formatDate(dateObj){
-			if(!dateObj) return '-';
-			if (typeof dateObj === 'object'){
-				const { year, monthValue, dayOfMonth, hour, minute } = dateObj;
-				return `${year}-${String(monthValue).padStart(2, '0')}-${String(dayOfMonth).padStart(2, '0')}`;
-			}
-			return dateObj;
-		}
-	
+		
 		  // 일정 목록 행 추가
 		data.forEach(item => {
 			let titleHtml = '';

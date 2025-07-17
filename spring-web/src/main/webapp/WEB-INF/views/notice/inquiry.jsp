@@ -16,11 +16,17 @@
 		<main class="main">
 			<h2>문의 게시판</h2>
 			<div class="container">
+				<div class="search_addr">
+					<input type="text" name="search_word" id="search_word">
+					<button type="button" id="search_word_btn">검색</button>
+				</div>
 				<div class="report-button">
 					<c:if test="${userType eq 'common'}">
 						<button onclick="location.href='/inquiry/form'" class="report-button">새 글 등록</button>
+						<div class="personal-list">
+							<input type="checkbox" name="user_cd" id="personal-inquiry"><label for="personal-inquiry">내 게시글만 보기</label>
+						</div>
 					</c:if>
-					
 				</div>
 				<table class="report-table">
 					<colgroup>

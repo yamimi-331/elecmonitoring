@@ -8,6 +8,10 @@ public interface InquiryService {
 
 	// 문의 게시판 전체 조회
 	public List<InquiryDTO> getAllInquiry();
+	// 내가 작성한 게시글 목록 조회
+	public List<InquiryDTO> getPersonalInquiry(int user_cd, String search_word);
+	// 검색 통한 게시글 목록 조회
+	public List<InquiryDTO> getInquiryBySearch(String search_word);
 	
 	// 문의 게시글 상세 조회
 	public InquiryDTO getDetailInquiry(int inquiry_cd);

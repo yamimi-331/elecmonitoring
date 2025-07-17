@@ -2,7 +2,6 @@ package com.eco.controller;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -64,7 +63,8 @@ public class ReportController {
 	        return reportService.getLocalReportList(local, page, size);
 	    } else {
 	        //return reportService.getAllReportList();
-	    	return reportService.getAllReportList(page, size);
+	    	ReportListResponseDTO dto = reportService.getAllReportList(page, size);
+	    	return dto;
 	    }
 	}
 	

@@ -7,8 +7,8 @@ $(document).ready(function() {
 			data: { local: local, page: page },
 			dataType: 'json',
 			success: function(response) {
-				renderTable(response.list);
-				renderPagination(response.totalCount, page);  // 받아온 데이터로 테이블 그리기
+				renderTable(response.list);		// 받아온 데이터로 테이블 그리기
+				renderPagination(response.totalCount, page, local);  // 받아온 데이터로 페이지 번호 그리기
 			},
 			error: function(xhr, status, error) {
 				alert('신고 목록 정보를 불러오는 중 오류가 발생했습니다.');
@@ -16,56 +16,79 @@ $(document).ready(function() {
 		});
 	}
 	
-	function renderPagination(totalCount, currentPage) {
+	// 페이징을위한 숫자 버튼	
+	function renderPagination(totalCount, currentPage, localValue) {
 		const pageSize = 10;
 		const totalPages = Math.ceil(totalCount / pageSize);
 	
 		const paginationContainer = $('#pagination');
 		paginationContainer.empty();
 	
-		if (totalPages <= 1) return; // 페이지가 1개 이하면 버튼 없음
+		// 이전 버튼
+		if (currentPage > 1) {
+			const prevLink = $('<a href="#"></a>')
+				.text('◀ 이전')
+				.on('click', function (e) {
+					e.preventDefault();
+					fetchReportList(localValue, currentPage - 1);
+				});
+			paginationContainer.append(prevLink);
+		}
 	
+		// 페이지 번호
 		for (let i = 1; i <= totalPages; i++) {
-			const pageBtn = $('<button></button>')
+			const pageLink = $('<a href="#"></a>')
 				.text(i)
 				.addClass(i === currentPage ? 'active' : '')
-				.on('click', function () {
-					const selectedLocal = $('#local').val();
-					fetchReportList(selectedLocal === '전체' ? '' : selectedLocal, i);
+				.on('click', function (e) {
+					e.preventDefault();
+					fetchReportList(localValue, i);
 				});
-			paginationContainer.append(pageBtn);
+			paginationContainer.append(pageLink);
+		}
+	
+		// 다음 버튼
+		if (currentPage < totalPages) {
+			const nextLink = $('<a href="#"></a>')
+				.text('다음 ▶')
+				.on('click', function (e) {
+					e.preventDefault();
+					fetchReportList(localValue, currentPage + 1);
+				});
+			paginationContainer.append(nextLink);
 		}
 	}
-	
+
 	$('#search_addr_btn').on("click", function () {
 		const selectedLocal = document.getElementById("local").value;
 		fetchReportList(selectedLocal === "전체" ? "" : selectedLocal);
 	});
-
+	  
+	function formatRegisterDate(dateObj){
+		if(!dateObj) return '-';
+		if (typeof dateObj === 'object'){
+			const { year, monthValue, dayOfMonth, hour, minute } = dateObj;
+			return `${year}-${String(monthValue).padStart(2, '0')}-${String(dayOfMonth).padStart(2, '0')}`;
+		}
+		return dateObj;
+	}
+	
+	function formatUpdateDate(dateObj){
+		if(!dateObj) return '-';
+		if (typeof dateObj === 'object'){
+			const { year, monthValue, dayOfMonth, hour, minute } = dateObj;
+			return `${year}-${String(monthValue).padStart(2, '0')}-${String(dayOfMonth).padStart(2, '0')} ${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
+		}
+		return dateObj;
+	}
+	
 	function renderTable(data) {
-		const tbody = $('#reportTableBody');
+		const tbody = $('#reportList').find('#reportTableBody');
 		tbody.empty(); // 기존 테이블 내용 비우기
 	
 		if (!data || data.length === 0) {
 			tbody.append('<tr><td colspan="6">신고 내역이 없습니다.</td></tr>');
 			return;
-		}
-		  
-		function formatRegisterDate(dateObj){
-			if(!dateObj) return '-';
-			if (typeof dateObj === 'object'){
-				const { year, monthValue, dayOfMonth, hour, minute } = dateObj;
-				return `${year}-${String(monthValue).padStart(2, '0')}-${String(dayOfMonth).padStart(2, '0')}`;
-			}
-			return dateObj;
-		}
-		function formatUpdateDate(dateObj){
-			if(!dateObj) return '-';
-			if (typeof dateObj === 'object'){
-				const { year, monthValue, dayOfMonth, hour, minute } = dateObj;
-				return `${year}-${String(monthValue).padStart(2, '0')}-${String(dayOfMonth).padStart(2, '0')} ${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
-			}
-			return dateObj;
 		}
 	
 		  // 일정 목록 행 추가
@@ -91,6 +114,7 @@ $(document).ready(function() {
 			`);
 		});
 	}
-	
+		
+	// 처음 로드시 리스트 조회
 	fetchReportList();
 });

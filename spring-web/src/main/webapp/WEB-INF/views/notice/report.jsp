@@ -44,33 +44,35 @@
 						<button onclick="location.href='/report/form'" class="report-button">새 글 등록</button>
 					</c:if>
 				</div>
-				<table class="report-table">
-					<colgroup>
-						<col style="width:5%">
-						<col style="width:15%">
-						<col style="width:40%">
-						<col style="width:10%">
-						<col style="width:15%">
-						<col style="width:15%">
-					</colgroup>
-					<thead>
-						<tr>
-							<th>번호</th>
-							<th>지역</th>
-							<th>신고 제목</th>
-							<th>담당자</th>
-							<th>신고일</th>
-							<th>수정일시</th>
-						</tr>
-					</thead>
-					<tbody id="reportTableBody">
-						<tr>
-							<td colspan="6">신고 내역이 없습니다.</td>
-						</tr>
-					</tbody>
-				</table>
-				<div id="pagination" class="pagination"></div>
-				
+				<div id="reportList" class="inner-container">
+					<table class="report-table">
+						<colgroup>
+							<col style="width: 5%">
+							<col style="width: 15%">
+							<col style="width: 40%">
+							<col style="width: 10%">
+							<col style="width: 15%">
+							<col style="width: 15%">
+						</colgroup>
+						<thead>
+							<tr>
+								<th>번호</th>
+								<th>지역</th>
+								<th>신고 제목</th>
+								<th>담당자</th>
+								<th>신고일</th>
+								<th>수정일시</th>
+							</tr>
+						</thead>
+						<tbody id="reportTableBody">
+							<tr>
+								<td colspan="6">신고 내역이 없습니다.</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<!-- 페이징을 위한 이전 다음 번호 버튼 -->
+				 <div id="pagination" class="pagination"></div> 
 			</div>
 		</main>
 	</div>

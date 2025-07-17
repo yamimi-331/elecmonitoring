@@ -4,10 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.eco.domain.DTO.ASPageResponseDTO;
 import com.eco.domain.DTO.ReportDTO;
 import com.eco.domain.DTO.ReportListResponseDTO;
-import com.eco.domain.vo.ASVO;
 import com.eco.exception.ServiceException;
 import com.eco.mapper.ReportMapper;
 
@@ -26,7 +24,7 @@ public class ReportServiceImpl implements ReportService {
 			// DB에서 신고 글 목록 조회
 			int offset = (page - 1) * size;
 			List<ReportDTO> results = reportMapper.selectAllReport(size, offset);
-			int totalCount = reportMapper.selectReportCount();
+			int totalCount = reportMapper.selectReportCount("");
 			
 			ReportListResponseDTO dto = new ReportListResponseDTO();
 			
@@ -44,23 +42,15 @@ public class ReportServiceImpl implements ReportService {
 		try {
 			// DB에서 신고 글 목록 조회
 			int offset = (page - 1) * size;
-			int totalCount = reportMapper.selectReportCount();
+			int totalCount = reportMapper.selectReportCount(local);
 			List<ReportDTO> results = reportMapper.selectLocalReportWidthPaging(local, size, offset);
 			
-			int totalPages = (int) Math.ceil((double) totalCount / size);
-
-			int pageGroup = (page - 1) / 10;
-			int startPage = pageGroup * 10 + 1;
-			int endPage = Math.min(startPage + 9, totalPages);
-
 			ReportListResponseDTO  dto = new ReportListResponseDTO();
 			dto.setList(results);
 			dto.setTotalCount(totalCount);
 			
 			return dto;
 
-//			List<ReportDTO> results = reportMapper.selectLocalReport(local);
-//			return results;
 		} catch (Exception e) {
 			throw new ServiceException("신고 글 목록 지역별 조회 실패", e);
 		}

@@ -439,6 +439,9 @@ function loadReasonChart(type) {
             }]
           },
           options: {
+          	layout: {
+          		padding: 10
+          	},
             responsive: true,
             interaction: {
               mode: 'nearest',

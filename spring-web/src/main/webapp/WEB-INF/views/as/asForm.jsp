@@ -30,7 +30,7 @@ function searchAddress() {
 		<main class="main">
 			<h2>A/S 신고</h2>
 			<div class=container>
-				<form action="/report/register" method="post">
+				<form action="/as/insertCommon" method="post">
 					<span>신고자 정보</span>
 					<table class="report-detail">
 						<colgroup>

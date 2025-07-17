@@ -47,13 +47,13 @@
 				</table>
 				<div class="button-box">
 					<c:choose>
-					    <c:when test="${currentUserInfo.staff_role == 'staff'}">
+					    <c:when test="${userType == 'staff'}">
 					        <c:if test="${not empty currentUserInfo && currentUserInfo.staff_cd eq report.staff_cd}">
 								<button type="button" id="modifyBtn">수정하기</button>
 								<button type="button" id="deleteBtn">삭제하기</button>
 							</c:if>
 					    </c:when>
-					    <c:when test="${currentUserInfo.staff_role == 'admin'}">
+					    <c:when test="${userType == 'admin'}">
 					        <button type="button" id="modifyBtn">수정하기</button>
 							<button type="button" id="deleteBtn">삭제하기</button>
 					    </c:when>

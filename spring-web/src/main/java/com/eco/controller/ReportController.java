@@ -76,7 +76,12 @@ public class ReportController {
 		Object user = session.getAttribute("currentUserInfo");
 	    
 	    if (user instanceof StaffVO) {
-	    	session.setAttribute("userType", "staff");
+	    	StaffVO staff = (StaffVO) user;
+	    	if ("staff".equals(staff.getStaff_role())){
+	    		session.setAttribute("userType", "staff");
+	    	}else {
+	    		session.setAttribute("userType", "admin");
+	    	}
 	        model.addAttribute("currentUserInfo", (StaffVO) user);
 	    } else if (user instanceof UserVO) {
 	        session.setAttribute("userType", "common");

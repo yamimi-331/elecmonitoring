@@ -291,7 +291,8 @@ function drawComboChart(data) {
         ]
       },
       options: {
-        responsive: true,
+      	responsive: true,
+        maintainAspectRatio: false,
         interaction: {
           mode: 'index',
           intersect: false,

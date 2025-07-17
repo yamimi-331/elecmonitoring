@@ -2,233 +2,249 @@
 
 /* 공통 */
 .data-table {
-  border-collapse: collapse;
-  width: 100%;
-  background: white;
+	border-collapse: collapse;
+	width: 100%;
+	background: white;
 }
 
-.data-table,
-.data-table th,
-.data-table td {
-  border: 1px solid #ddd;
+.data-table, .data-table th, .data-table td {
+	border: 1px solid #ddd;
 }
 
 .data-table td {
-  padding: 10px;
-  text-align: left;
+	padding: 10px;
+	text-align: left;
 }
 
 .chart-canvas {
-  display: block;
-  margin: 0 auto;
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px #ddd;
+	display: block;
+	margin: 0 auto;
+	background: white;
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow: 0 0 10px #ddd;
 }
-
 
 /* 컨트롤러 */
 .controller {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 /* 메인 flex 컨테이너 */
 .main-container {
-  display: flex;
-  flex-wrap: wrap;      /* 줄바꿈 허용 */
-  justify-content: center;
-  gap: 30px;            /* 아이템 간 간격 */
+	display: flex;
+	flex-wrap: wrap; /* 줄바꿈 허용 */
+	justify-content: center;
+	gap: 30px; /* 아이템 간 간격 */
+}
+
+.container {
+	width: 100%;
+}
+.container h3 {
+	margin-bottom: 20px;
+	text-align: center;
+	color: #333;
 }
 
 /* 각 카드 */
 .inner-container {
-  display: flex;
-  flex-direction: column; /* 세로로: 제목 -> 캔버스 */
-  align-items: center;
-  border: 1px solid #ddd;
-  padding: 20px;
-  box-sizing: border-box;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  width: calc(33.33% - 40px); /* 3개씩 배치, gap 고려 */
-  min-width: 300px;           /* 너무 작아지지 않도록 */
+	display: flex;
+	flex-direction: column; /* 세로로: 제목 -> 캔버스 */
+	align-items: center;
+	border: 1px solid #ddd;
+	padding: 20px;
+	box-sizing: border-box;
+	background-color: #f9f9f9;
+	border-radius: 8px;
+	width: calc(33.33% - 40px); /* 3개씩 배치, gap 고려 */
+	min-width: 300px; /* 너무 작아지지 않도록 */
 }
 
-  .container h3 {
-  margin-bottom: 20px;
-  text-align: center;
-  color: #333;
+.controller-label {
+	margin-right: 20px;
+	display: inline-block;
 }
 
-  .controller-label {
-    margin-right: 20px;
-    display: inline-block;
-  }
-
-  .controller-select {
+.controller-select {
 	padding: 5px;
-    width: 130px;
-    border-radius: 4px;
-    text-align: center;
-    color: black;
-    border: none;
-  }
-  .controller-predict {
+	width: 130px;
+	border-radius: 4px;
+	text-align: center;
+	color: black;
+	border: none;
+}
+
+.controller-predict {
 	padding: 5px;
-    width: 130px;
-    border-radius: 4px;
-    text-align: center;
-    color: black;
-  }
+	width: 130px;
+	border-radius: 4px;
+	text-align: center;
+	color: black;
+}
 
-  .reasonBtn {
-    padding: 7px 15px;
-    margin-left: 10px;
-    background: #0070c0;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-  }
+.controller {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
 
-  .reasonBtn:hover {
-    background: #0056b3;
-  }
+.content-wrapper {
+	width: 95%;
+	margin: 0 auto;
+	display: flex;
+	gap: 20px;
+	justify-content: center;
+	align-items: flex-start;
+}
 
-   .chartCanvas {
-    display: block;
-    margin: 10px auto;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 0 10px #ddd;
-  }
+.right-section {
+	display: flex;
+	flex-direction: column;
+	flex: 2;
+}
 
-	.container{
-		width: 100%;
-	}
-	.controller{
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
-	.content-wrapper {
-		width: 95%;
-		margin: 0 auto;
-		display: flex;
-		gap: 20px;
-		justify-content: center;
-		align-items: flex-start;
-	}
-	.right-section {
-		display: flex;
-		flex-direction: column;
-		flex: 2;
-	}
-	#myChart {
-		width: 100%;
-		height: auto;
-		max-height: 420px;
-	}
-	.bottom-charts {
-		display: flex;
-		gap: 20px;
-	}
-	.small-chart {
-		width: 50%;
-		display: flex;
-		flex-direction: column;
-		justify-content: flex-start;
-	}
-	.small-chart canvas {
-		width: 100% !important;
-		height: 350px !important;
-		flex-grow: 1;
-		max-height: 350px;
-	}
-	.table-box {
-		box-sizing: border-box;
-		flex-shrink: 0;
-		width: 300px;
-		min-width: 300px;
-	}
-	.controll-title {
-		width: 100%;
-		margin: 20px auto;
-		text-align: center;
-		background-color: #0070c0;
-		color: white;
-		font-weight: bold;
-		padding: 5px;
-		box-sizing: border-box;
-		border-radius: 5px;
-	}
-	.summary-table {
-		width: 100%;
-		margin: 20px auto;
-		border-collapse: collapse;
-		background: white;
-	}
-	.summary-table td {
-		padding: 8px;
-		border: 1px solid #ddd;
-	}
-	.summary-table caption {
-		margin-bottom: 10px;
-	}
-	footer{
-		height: 50px;
-	}
+.reasonBtn {
+	padding: 7px 15px;
+	margin-left: 10px;
+	background: #0070c0;
+	color: white;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	font-weight: bold;
+}
+
+.reasonBtn:hover {
+	background: #0056b3;
+}
+
+.chartCanvas {
+	display: block;
+	margin: 10px auto;
+	background: white;
+	border-radius: 8px;
+	box-shadow: 0 0 10px #ddd;
+}
+
+#myChart {
+	width: 100% !important;
+	height: 500px !important;
+	max-height: 500px;
+}
+
+.top-chart{
+	height: 600px;
+	margin-top: 25px;
+}
+
+.bottom-charts {
+	display: flex;
+	gap: 20px;
+}
+
+.small-chart {
+	width: 50%;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+}
+
+.small-chart canvas {
+	width: 100% !important;
+	height: 350px !important;
+	flex-grow: 1;
+	max-height: 350px;
+}
+
+.table-box {
+	box-sizing: border-box;
+	flex-shrink: 0;
+	width: 300px;
+	min-width: 300px;
+}
+
+.controll-title {
+	width: 100%;
+	margin: 20px auto;
+	text-align: center;
+	background-color: #0070c0;
+	color: white;
+	font-weight: bold;
+	padding: 5px;
+	box-sizing: border-box;
+	border-radius: 5px;
+}
+
+.summary-table {
+	width: 100%;
+	margin: 20px auto;
+	border-collapse: collapse;
+	background: white;
+}
+
+.summary-table td {
+	padding: 8px;
+	border: 1px solid #ddd;
+}
+
+.summary-table caption {
+	margin-bottom: 10px;
+}
+
+footer {
+	height: 50px;
+}
 
 #map-container {
-  width: 100%;
-  max-width: 500px;
-  margin: 25px 0;
+	width: 100%;
+	max-width: 500px;
+	margin: 25px 0;
 }
 
 #koreaMapSvg {
-  width: 100%;
-  height: auto;
+	width: 100%;
+	height: auto;
 }
 
-   .korea-province {
-  fill: #ccc;
-  stroke: #333;
-  stroke-width: 1;
-  cursor: pointer;
-  transition: fill 0.3s;
+.korea-province {
+	fill: #ccc;
+	stroke: #333;
+	stroke-width: 1;
+	cursor: pointer;
+	transition: fill 0.3s;
 }
 
 .korea-province:hover {
-  fill: #999;
+	fill: #999;
 }
 
 .korea-province.selected {
-  fill: orange;
-  stroke: #222;
-  stroke-width: 2;
+	fill: orange;
+	stroke: #222;
+	stroke-width: 2;
 }
+
 .chart-header {
-  position: relative;
-  text-align: center;
-  margin-bottom: 20px;
+	position: relative;
+	text-align: center;
+	margin-bottom: 20px;
 }
 
 .chart-header h3 {
-  margin: 0;
+	margin: 0;
 }
 
 .range-group {
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+	position: absolute;
+	right: 0;
+	top: 50%;
+	transform: translateY(-50%);
 }
 
 .range-group label {
-  margin-bottom: 5px;
-  font-size: 14px;
+	margin-bottom: 5px;
+	font-size: 14px;
 }

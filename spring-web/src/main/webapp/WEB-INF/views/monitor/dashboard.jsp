@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -76,7 +77,44 @@
 						<tr><td>감전 부상자 수</td><td></td></tr>
 						<tr><td>감전 사망자 수</td><td></td></tr>
 					</table>
+					
+					<table class="summary-table">
+						<caption id="elecAsTable">지역별 신고 건수 현황 top 5</caption>
+						<colgroup>
+							<col width="30%">
+							<col width="30%">
+							<col width="40%">
+						</colgroup>
+						<thead>
+							<tr>
+							<th>지역</th>
+							<th>신고 건수</th>
+							<th>위험도</th>
+							</tr>
+						</thead>
+						<tbody>
+							  <c:forEach var="i" begin="0" end="4">
+					            <c:choose>
+					                <c:when test="${i < fn:length(reportStats)}">
+					                    <tr>
+					                        <td>${reportStats[i].local}</td>
+					                        <td>${reportStats[i].count}건</td>
+					                        <td>${reportStats[i].riskLevel}</td>
+					                    </tr>
+					                </c:when>
+					                <c:otherwise>
+					                    <tr>
+					                        <td>-</td>
+					                        <td>-</td>
+					                        <td>-</td>
+					                    </tr>
+					                </c:otherwise>
+					            </c:choose>
+					        </c:forEach>
+						</tbody>
+					</table>
 				</div>
+				
 				<!-- 좌측 테이블 end----------------- -->
 				<!-- 우측 차트 start----------------- -->
 				<div class="right-section">

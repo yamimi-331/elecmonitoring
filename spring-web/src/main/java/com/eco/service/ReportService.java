@@ -1,7 +1,10 @@
 package com.eco.service;
 
+import java.util.List;
+
 import com.eco.domain.DTO.ReportDTO;
 import com.eco.domain.DTO.ReportListResponseDTO;
+import com.eco.domain.DTO.ReportStatsDTO;
 
 public interface ReportService {
 
@@ -24,4 +27,7 @@ public interface ReportService {
 
 	// 신고 글 삭제
 	public boolean removeReport(int report_cd);
+	
+	// 신고글 지역별로 top 5 뽑기
+	public List<ReportStatsDTO> getTop5LocalReportStats();
 }

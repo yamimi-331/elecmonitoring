@@ -55,6 +55,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		]]>
 	</select>
 	
+	<select id="selectTop5LocalReportStats" resultType="com.eco.domain.DTO.ReportStatsDTO">
+	    <![CDATA[
+	    SELECT local, COUNT(*) AS count
+	    FROM t_report
+	    WHERE use_yn = 'Y'
+	    GROUP BY local
+	    ORDER BY count DESC
+	    LIMIT 5
+	    ]]>
+	</select>
+
 	<!-- INSERT -->
 	<!-- 신고 글 등록 -->
 	<insert id="insertReport" parameterType="com.eco.domain.DTO.ReportDTO" useGeneratedKeys="true" keyProperty="report_cd">

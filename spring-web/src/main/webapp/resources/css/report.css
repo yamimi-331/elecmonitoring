@@ -2,6 +2,7 @@
 
 .container {
 	margin: 10px 20px;
+	min-height: 60vh;
 }
 
 .report-table {

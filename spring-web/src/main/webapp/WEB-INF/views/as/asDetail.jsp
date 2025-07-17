@@ -11,6 +11,7 @@
 <style>
 .container{
 	margin: 0 20px;
+	min-height: 60vh;
 }
 .active{
 	font-weight: bold;

@@ -29,5 +29,5 @@ public interface ReportService {
 	public boolean removeReport(int report_cd);
 	
 	// 신고글 지역별로 top 5 뽑기
-	public List<ReportStatsDTO> getTop5LocalReportStats();
+	public List<ReportStatsDTO> getTop3LocalReportStats();
 }

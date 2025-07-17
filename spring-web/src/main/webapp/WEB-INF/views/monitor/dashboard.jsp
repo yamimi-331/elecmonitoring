@@ -79,7 +79,7 @@
 					</table>
 					
 					<table class="summary-table">
-						<caption id="elecAsTable">지역별 신고 건수 현황 top 5</caption>
+						<caption id="elecAsTable">지역별 신고 건수 현황 top 3</caption>
 						<colgroup>
 							<col width="30%">
 							<col width="30%">
@@ -93,7 +93,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							  <c:forEach var="i" begin="0" end="4">
+							  <c:forEach var="i" begin="0" end="2">
 					            <c:choose>
 					                <c:when test="${i < fn:length(reportStats)}">
 					                    <tr>

@@ -107,9 +107,9 @@ public class ReportServiceImpl implements ReportService {
 
 	// 신고글 지역별로 top 5 뽑기
 	@Override
-	public List<ReportStatsDTO> getTop5LocalReportStats() {
+	public List<ReportStatsDTO> getTop3LocalReportStats() {
 		try {
-			List<ReportStatsDTO> list = reportMapper.selectTop5LocalReportStats();
+			List<ReportStatsDTO> list = reportMapper.selectTop3LocalReportStats();
 
 			// 위험도 계산 예시
 			for (ReportStatsDTO dto : list) {

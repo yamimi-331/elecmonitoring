@@ -26,7 +26,7 @@ public class DashboardController {
 	public String dashboardPage(Model model) {
 		log.info("대시보드 페이지로 이동");
 
-		List<ReportStatsDTO> stats = reportService.getTop5LocalReportStats();
+		List<ReportStatsDTO> stats = reportService.getTop3LocalReportStats();
 		model.addAttribute("reportStats", stats);
 
 		return "/monitor/dashboard";

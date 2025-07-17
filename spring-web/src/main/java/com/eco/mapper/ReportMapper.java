@@ -31,6 +31,6 @@ public interface ReportMapper {
 	// 신고글 카운팅
 	public int selectReportCount(@Param("local") String local);
 
-	// 신고글  top 5 지역별 그룹핑 조회
-	public List<ReportStatsDTO> selectTop5LocalReportStats();
+	// 신고글  top 3 지역별 그룹핑 조회
+	public List<ReportStatsDTO> selectTop3LocalReportStats();
 }

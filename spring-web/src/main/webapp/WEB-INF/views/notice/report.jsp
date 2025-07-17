@@ -39,11 +39,7 @@
 					</select>
 					<button type="button" id="search_addr_btn">지역 조회</button>
 				</div>
-				<div class="report-button">
-					<c:if test="${userType eq 'staff'}">
-						<button onclick="location.href='/report/form'" class="report-button">새 글 등록</button>
-					</c:if>
-				</div>
+
 				<div id="reportList" class="inner-container">
 					<table class="report-table">
 						<colgroup>
@@ -73,6 +69,11 @@
 				</div>
 				<!-- 페이징을 위한 이전 다음 번호 버튼 -->
 				<div id="pagination" class="pagination"></div> 
+				<div class="report-button">
+					<c:if test="${userType eq 'staff'}">
+						<button onclick="location.href='/report/form'">새 글 등록</button>
+					</c:if>
+				</div>
 			</div>
 		</main>
 	</div>

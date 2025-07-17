@@ -171,6 +171,9 @@ public class ReportController {
 	    if (report != null && report.getStaff_cd() == staff_cd) {
 	        authorized = true;
 	    }
+	    if ("admin".equals(staff.getStaff_role()) ) {
+	    	authorized = true;
+	    }
 
 	    if (!authorized) {
 	        redirectAttrs.addFlashAttribute("message", "유효하지 않은 요청이거나 권한이 없습니다.");
@@ -211,6 +214,10 @@ public class ReportController {
 	    if (report != null && report.getStaff_cd() == staff_cd) {
 	        authorized = true;
 	    }
+	    if ("admin".equals(staff.getStaff_role()) ) {
+	    	authorized = true;
+	    }
+
 
 	    if (!authorized) {
 	        redirectAttrs.addFlashAttribute("message", "유효하지 않은 요청이거나 권한이 없습니다.");

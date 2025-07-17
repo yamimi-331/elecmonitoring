@@ -124,6 +124,16 @@ body::-webkit-scrollbar {
     margin-top: 20px;
 }
 
+.table-container button{
+	background-color: #0070c0;
+    color: white;
+    font-size: 16px;
+    padding: 2px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
 .pagination{
     display: flex;
     justify-content: center;

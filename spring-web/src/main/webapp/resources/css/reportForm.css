@@ -1,90 +1,131 @@
 @charset "UTF-8";
- 	.container{
- 		margin: 10px 20px;
- 	}
- 	
-	.report-detail {
-		width: 100%;
-		border-collapse: collapse;
-		border: none;
-		border-top: 2px solid #797979;
-	}
-	.report-detail thead {
-		background-color: #f9f9f9;
-		border-top: 2px solid black;
-    }
-    .report-detail td {
-		border: 1px solid #ccc;
-		padding: 10px 15px;
-    }
-    .report-detail th {
-		background-color: #f2f2f2;
-		border: 1px solid #ccc;
-		font-weight: bold;
-		padding: 10px 20px;
-		color: #333;
-		text-align: left;
-	}
-     /* 첫 열: 왼쪽 테두리 제거 */
-    .report-detail td:first-child,
-    .report-detail th:first-child {
-		border-left: none;
-    }
-    /* 마지막 열: 오른쪽 테두리 제거 */
-    .report-detail td:last-child,
-    .report-detail th:last-child {
-		border-right: none;
-    }
-    
-     .button-box{
-     	display: flex;
-     	justify-content: center;
-     	gap: 15px;
-     	margin: 20px 0;
-     }
-     .button-box button[id="submitBtn"]{
-		background-color: #0070c0;
-		color: white;
-		font-size: 17px;
-		padding: 8px 10px;
-		border: none;
-		border-radius: 5px;
-		cursor: pointer;
-     }
-     .button-box button[id="modifyBtn"]{
-		background-color: #0070c0;
-		color: white;
-		font-size: 17px;
-		padding: 8px 10px;
-		border: none;
-		border-radius: 5px;
-		cursor: pointer;
-     }
-     .button-box button{
-		background-color: #6c757d;
-		color: white;
-		font-size: 17px;
-		padding: 8px 10px;
-		border: none;
-		border-radius: 5px;
-		cursor: pointer;
-     }
-     
-	.report-detail input {
-		box-sizing: border-box;
-		padding: 5px;
-		font-size: 16px;
-	}
-	.report-detail select {
-		width: 25%;
-		padding: 5px;
-		font-size: 15px;
-	}
-	.report-detail textarea {
-		width: 100%;
-		height: 150px;
-		resize: vertical;
-		box-sizing: border-box;
-		font-size: 18px;
-		padding: 10px;
-	}
+
+.container {
+	margin: 10px 20px;
+}
+
+.report-detail {
+	width: 100%;
+	border-collapse: collapse;
+	border: none;
+	border-top: 2px solid #797979;
+}
+
+.report-detail thead {
+	background-color: #f9f9f9;
+	border-top: 2px solid black;
+}
+
+.report-detail td {
+	border: 1px solid #ccc;
+	padding: 10px 15px;
+}
+
+.report-detail th {
+	background-color: #f2f2f2;
+	border: 1px solid #ccc;
+	font-weight: bold;
+	padding: 10px 20px;
+	color: #333;
+	text-align: left;
+}
+/* 첫 열: 왼쪽 테두리 제거 */
+.report-detail td:first-child, .report-detail th:first-child {
+	border-left: none;
+}
+/* 마지막 열: 오른쪽 테두리 제거 */
+.report-detail td:last-child, .report-detail th:last-child {
+	border-right: none;
+}
+
+.button-box {
+	display: flex;
+	justify-content: center;
+	gap: 15px;
+	margin: 20px 0;
+}
+
+.button-box button[id="submitBtn"] {
+	background-color: #0070c0;
+	color: white;
+	font-size: 17px;
+	padding: 8px 10px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.button-box button[id="modifyBtn"] {
+	background-color: #0070c0;
+	color: white;
+	font-size: 17px;
+	padding: 8px 10px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.button-box button {
+	background-color: #6c757d;
+	color: white;
+	font-size: 17px;
+	padding: 8px 10px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.report-detail input {
+	box-sizing: border-box;
+	padding: 5px;
+	font-size: 16px;
+}
+
+.report-detail select {
+	width: 25%;
+	padding: 5px;
+	font-size: 15px;
+}
+
+.report-detail textarea {
+	width: 100%;
+	height: 150px;
+	resize: vertical;
+	box-sizing: border-box;
+	font-size: 18px;
+	padding: 10px;
+}
+
+.time-options {
+	display: flex;
+	gap: 5px;
+	margin: 5px 0;
+}
+
+.time-options input[type="radio"] {
+	display: none; /* 기본 라디오 숨김 */
+}
+
+.time-options label {
+	padding: 5px 10px;
+	width: 40px;
+	font-size: 14px;
+	text-align: center;
+	border: 2px solid #ccc;
+	border-radius: 6px;
+	cursor: pointer;
+	background-color: #f9f9f9;
+	transition: all 0.2s ease-in-out;
+}
+
+.time-options input[type="radio"]:checked+label {
+	background-color: #0070C0;
+	color: white;
+	border-color: #0070C0;
+}
+
+.time-options input[type="radio"]:disabled+label {
+	background: #ccc;
+	cursor: not-allowed; /* 👉 커서 금지 표시 */
+	opacity: 0.7;
+}

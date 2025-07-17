@@ -10,7 +10,6 @@
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="../../resources/js/asForm.js?after"></script>
 <link rel="stylesheet" href="../../resources/css/common.css?after" />
-<!-- <link rel="stylesheet" href="../../resources/css/asForm.css?after" /> -->
 <link rel="stylesheet" href="../../resources/css/reportForm.css?after" />
 <script type="text/javascript">
 //주소 API
@@ -95,9 +94,11 @@ function searchAddress() {
 						<tr>
 							<th><label for="as_addr">주소</label></th>
 							<td>
-								<input type="text" id="as_addr_display" autocomplete="off" readonly>
-								<button type="button" onclick="searchAddress()">주소 검색</button>
-								<input type="hidden" name="as_addr" id="as_addr_hidden" autocomplete="off">
+								<div class="addr-search">
+									<input type="text" id="as_addr_display" autocomplete="off" readonly>
+									<button type="button" onclick="searchAddress()">주소 검색</button>
+									<input type="hidden" name="as_addr" id="as_addr_hidden" autocomplete="off">
+								</div>
 							</td>
 						</tr>
 						<tr>
@@ -128,7 +129,7 @@ function searchAddress() {
 						</tr>
 						<tr>
 							<th><label for="as_content">상세 정보</label></th>
-							<td><input type="text" name="as_content" id="as_content" autocomplete="off"></td>
+							<td><textarea name="as_content" id="as_content" placeholder="내용"></textarea></td>
 						</tr>
 						<tr>
 							<th><label for="reserve_date">예약 일자</label></th>

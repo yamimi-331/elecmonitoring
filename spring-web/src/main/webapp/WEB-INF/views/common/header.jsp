@@ -167,7 +167,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 <h3>고객 지원 안내</h3>
                 <ul>
                     <li><a href="/notice">전체 공지사항</a></li>
-                    <li><a href="/inquiry">문의 사항</a></li>
+                    <c:if test="${sessionScope.userType == 'admin'}">
+						<li><a href="/admin/account">계정 관리 페이지</a></li>
+                    </c:if>
                 </ul>
             </div>
             <div class="mega-menu-column">
@@ -215,7 +217,6 @@ document.addEventListener('DOMContentLoaded', function () {
 			      <c:when test="${sessionScope.userType == 'admin'}">
 			        <li><a href="/as/order">A/S 진행 현황 관리</a></li>
 			        <li><a href="/as/calendar">전체 AS 일정 확인 페이지</a></li>
-			        <li><a href="/admin/account">계정 관리 페이지</a></li>
 			      </c:when>
 			      
 			      <%-- 기타 예외 --%>

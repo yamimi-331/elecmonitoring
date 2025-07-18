@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.eco.domain.DTO.NoticeDTO;
-import com.eco.domain.vo.NoticeVO;
 
 public interface NoticeMapper {
 

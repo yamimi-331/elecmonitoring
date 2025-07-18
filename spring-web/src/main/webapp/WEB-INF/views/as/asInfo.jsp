@@ -108,13 +108,7 @@
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 	<script>
 		document.getElementById('modifyBtn').addEventListener('click', function() {
-			if(${sessionScope.userType == "common"}){
-				location.href = '/as/edit?as_cd=' + ${asVO.as_cd};
-			} else if(${sessionScope.userType == "guest"}){
-				location.href = 'as/updateGuest?as_cd=' + ${asVO.as_cd};
-			} else {
-				location.href = '/as/edit?as_cd=' + ${asVO.as_cd};
-			}
+			location.href = '/as/edit?as_cd=' + ${asVO.as_cd};
 		});
 	</script>
 </body>

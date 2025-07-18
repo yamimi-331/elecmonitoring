@@ -24,10 +24,10 @@
 				<table class="report-table">
 					<colgroup>
 						<col style="width:5%">
-						<col style="width:55%">
+						<col style="width:50%">
 						<col style="width:15%">
 						<col style="width:15%">
-						<col style="width:10%">
+						<col style="width:15%">
 					</colgroup>
 					<thead>
 						<tr>
@@ -35,7 +35,7 @@
 							<th>제목</th>
 							<th>작성자</th>
 							<th>작성일</th>
-							<th>수정일</th>
+							<th>수정일시</th>
 						</tr>
 					</thead>
 					<tbody id="noticeTableBody">
@@ -55,19 +55,5 @@
 	</div>
 	<%@ include file="/WEB-INF/views/common/footer.jsp"%>
 <script src="../../resources/js/notice.js"></script>
-<script>
-	<c:choose>
-		<c:when test="${userType eq 'admin'}">
-			window.currentStaffCd = ${currentUserInfo.staff_cd};
-		</c:when>
-		<c:when test="${userType eq 'common'}">
-			window.currentStaffCd = null;
-		</c:when>
-		<c:otherwise>
-			window.currentStaffCd = null; // guest 등 기타
-		</c:otherwise>
-	</c:choose>
-	window.userRole = "${userType}";
-</script>
 </body>
 </html>

@@ -33,7 +33,7 @@
 						<td>${noticeDt}</td>
 					</tr>
 					<tr>
-						<th>수정일</th>
+						<th>수정일시</th>
 						<td>${updateDt}</td>
 					</tr>
 					<tr>

@@ -33,6 +33,10 @@
 						<td>${reportDt}</td>
 					</tr>
 					<tr>
+						<th>수정일시</th>
+						<td>${updateDt}</td>
+					</tr>
+					<tr>
 						<th>지역</th>
 						<td>${report.local}</td>
 					</tr>

@@ -97,8 +97,14 @@ public class ReportController {
 	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
 	        String formattedReportDt = report.getReport_dt().format(formatter);
-	        String formattedUpdateDt = report.getUpdate_dt() != null ? report.getUpdate_dt().format(formatter) : "-";
-
+	        String formattedUpdateDt = "-";
+	        if (report.getUpdate_dt() != null) {
+	            // 등록일과 수정일이 다를 경우에만 수정일을 표시
+	            if (!report.getReport_dt().isEqual(report.getUpdate_dt())) {
+	                formattedUpdateDt = report.getUpdate_dt().format(formatter);
+	            }
+	        }
+	        
 	        model.addAttribute("report", report);
 	        model.addAttribute("reportDt", formattedReportDt);
 	        model.addAttribute("updateDt", formattedUpdateDt);

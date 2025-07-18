@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.eco.domain.DTO.NoticeDTO;
+import com.eco.domain.DTO.NoticePageResponseDTO;
 import com.eco.domain.vo.StaffVO;
 import com.eco.domain.vo.UserVO;
 import com.eco.service.NoticeService;
@@ -58,22 +61,48 @@ public class NoticeController {
 	}
 	
 	// 공지사항 목록 호출
-	@GetMapping("/noticeList")
-	@ResponseBody
-	public List<NoticeDTO> getNoticeList(@RequestParam(value = "search_word", required = false) String searchWord){
-		//int size = 10;
-		if (searchWord != null && !searchWord.isEmpty()) {
-			List<NoticeDTO> dto = noticeService.getNoticeSearchList(searchWord);
-			return dto;
-	        //return reportService.getLocalReportList(local, page, size);
-	    } else {
-	    	List<NoticeDTO> dto = noticeService.getNoticeList();
-	        return dto;
-	    	//ReportListResponseDTO dto = reportService.getAllReportList(page, size);
-	    	//return dto;
-	    }
-	}
+//	@GetMapping("/noticeList")
+//	@ResponseBody
+//	public List<NoticeDTO> getNoticeList(@RequestParam(value = "search_word", required = false) String searchWord){
+//		//int size = 10;
+//		if (searchWord != null && !searchWord.isEmpty()) {
+//			List<NoticeDTO> dto = noticeService.getNoticeSearchList(searchWord);
+//			return dto;
+//	        //return reportService.getLocalReportList(local, page, size);
+//	    } else {
+//	    	List<NoticeDTO> dto = noticeService.getNoticeList();
+//	        return dto;
+//	    	//ReportListResponseDTO dto = reportService.getAllReportList(page, size);
+//	    	//return dto;
+//	    }
+//	}
 
+	   /**
+     * 공지사항 목록을 페이징하여 조회하는 API 엔드포인트입니다.
+     * 기존 /noticeList 엔드포인트를 페이징 적용 버전으로 변경합니다.
+     *
+     * @param search_word 검색어 (제목 또는 내용 검색), 기본값은 빈 문자열
+     * @param page 현재 페이지 번호 (서버 기준: 0-based), 기본값 0
+     * @param size 페이지당 항목 수, 기본값 10
+     * @return NoticePageResponseDTO 객체를 포함하는 ResponseEntity (JSON 응답)
+     */
+    @GetMapping("/noticeList")
+    @ResponseBody
+    public ResponseEntity<NoticePageResponseDTO> getNoticeList(
+            @RequestParam(value = "search_word", required = false, defaultValue = "") String search_word,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size) {
+        try {
+            // search_word 유무와 관계없이 항상 페이징 서비스 메서드를 호출합니다.
+            // 서비스 메서드 내부에서 search_word를 처리합니다.
+            NoticePageResponseDTO response = noticeService.getNoticeListPaged(search_word, page, size);
+            return ResponseEntity.ok(response); // HTTP 200 OK와 함께 DTO 반환
+        } catch (Exception e) {
+            // 오류 발생 시 500 Internal Server Error와 함께 빈 DTO 반환
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new NoticePageResponseDTO());
+        }
+    }
+	
 	// 공지사항 상세페이지 이동
 	@GetMapping("/detail")
 	public String noticeDetailPage(@RequestParam(required = false) Integer notice_cd, Model model, HttpSession session) {

@@ -17,7 +17,7 @@
 			<h2>공지사항</h2>
 			<div class="container">
 				<div class="search_addr">
-					<input type="text" name="search_word" id="search_word">
+					<input type="text" name="search_word" id="search_word" autocomplete="off">
 					<button type="button" id="search_word_btn">검색</button>
 				</div>
 				
@@ -44,7 +44,8 @@
 						</tr>
 					</tbody>
 				</table>
-				<div id="pagination" class="pagination"></div> 
+				<!-- 페이지네이션이 렌더링될 div -->
+				<div id="pagination" class="pagination-area"></div>
 				<div class="report-button">
 					<c:if test="${userType eq 'admin'}">
 						<button onclick="location.href='/notice/form'" class="report-button">새 글 등록</button>

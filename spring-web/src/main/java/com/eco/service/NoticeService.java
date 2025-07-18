@@ -3,6 +3,7 @@ package com.eco.service;
 import java.util.List;
 
 import com.eco.domain.DTO.NoticeDTO;
+import com.eco.domain.DTO.NoticePageResponseDTO;
 
 public interface NoticeService {
 
@@ -21,4 +22,9 @@ public interface NoticeService {
 	
 	// 공지사항 삭제
 	public boolean removeNotice(int notice_cd);
+	
+
+    // 페이징을 위한 새로운 메서드
+    public NoticePageResponseDTO getNoticeListPaged(String searchWord, int page, int size);
+
 }

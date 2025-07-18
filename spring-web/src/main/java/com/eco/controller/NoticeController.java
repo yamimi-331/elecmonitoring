@@ -1,16 +1,27 @@
 package com.eco.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
+import org.springframework.core.io.Resource;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,6 +29,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.eco.domain.DTO.FileUploadDTO;
 import com.eco.domain.DTO.NoticeDTO;
 import com.eco.domain.DTO.NoticePageResponseDTO;
 import com.eco.domain.vo.StaffVO;
@@ -138,14 +150,75 @@ public class NoticeController {
 	            }
 	        }
 	        
+	        // 1. 해당 공지사항의 첨부 파일 목록 조회
+            List<FileUploadDTO> attachedFiles = noticeService.getAttachedFiles(notice_cd);
+            
 	        model.addAttribute("notice", notice);
 	        model.addAttribute("noticeDt", formattedNoticeDt);
 	        model.addAttribute("updateDt", formattedUpdateDt);
+	        model.addAttribute("attachedFiles", attachedFiles);
 	    }
 	    
 		return "/notice/noticeDetail"; // /WEB-INF/views/noticeDetail.jsp
 	}
+	 /**
+     * 파일 다운로드 요청 처리
+     * @param fileCd 다운로드할 파일의 코드
+     * @return 파일 데이터와 HTTP 헤더를 포함하는 ResponseEntity
+     */
+    @GetMapping("/downloadFile/{fileCd}") // 파일 코드를 PathVariable로 받음
+    public ResponseEntity<Resource> downloadFile(@PathVariable int fileCd) {
+        FileUploadDTO fileDTO = noticeService.getFileDetail(fileCd); // 파일 정보 조회
 
+        if (fileDTO == null) {
+            log.warn("파일을 찾을 수 없습니다. fileCd: " + fileCd);
+            return ResponseEntity.notFound().build(); // 404 Not Found
+        }
+
+        try {
+            File file = new File(fileDTO.getFile_path()); // 실제 파일 경로로 File 객체 생성
+            if (!file.exists() || !file.canRead()) {
+                log.error("파일이 존재하지 않거나 읽을 수 없습니다: " + fileDTO.getFile_path());
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // 500 Internal Server Error
+            }
+
+            // 파일의 MIME 타입 결정 (예: image/png, application/pdf 등)
+            // 실제 서비스에서는 Files.probeContentType(file.toPath()) 등을 사용하여 동적으로 결정하는 것이 좋습니다.
+            String contentType = "application/octet-stream"; // 기본값: 알 수 없는 타입 (강제 다운로드)
+            try {
+                String detectedContentType = Files.probeContentType(file.toPath());
+                if (detectedContentType != null) {
+                    contentType = detectedContentType;
+                }
+            } catch (Exception e) {
+                log.warn("파일 "+fileDTO.getOriginal_name()+"의 MIME 타입 감지 실패, 기본값 사용: " + e.getMessage());
+            }
+
+            Resource resource = new InputStreamResource(new FileInputStream(file));
+            String encodedFileName = URLEncoder.encode(fileDTO.getOriginal_name(), "UTF-8").replace("+", "%20"); // 파일명 인코딩
+
+            HttpHeaders headers = new HttpHeaders();
+            // Content-Disposition을 attachment로 설정하여 다운로드 강제
+            // filename*은 UTF-8 인코딩을 위한 RFC 5987 표준
+            headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + encodedFileName + "\"; filename*=UTF-8''" + encodedFileName);
+            headers.add(HttpHeaders.CONTENT_TYPE, contentType); // 파일의 실제 MIME 타입 설정
+            headers.add(HttpHeaders.CONTENT_LENGTH, String.valueOf(file.length())); // 파일 크기 설정
+
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .body(resource);
+
+        } catch (FileNotFoundException e) {
+            log.error("파일을 찾을 수 없습니다: " + fileDTO.getFile_path(), e);
+            return ResponseEntity.notFound().build();
+        } catch (UnsupportedEncodingException e) {
+            log.error("파일명 인코딩 실패: " + fileDTO.getOriginal_name(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        } catch (Exception e) {
+            log.error("파일 다운로드 중 오류 발생: " + fileDTO.getOriginal_name(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 	// 공지사항 작성 페이지 이동
 	@GetMapping("/form")
 	public String noticeFormPage(Model model, HttpSession session, RedirectAttributes redirectAttrs) {

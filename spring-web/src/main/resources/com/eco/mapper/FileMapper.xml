@@ -3,22 +3,31 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.eco.mapper.FileMapper">
- 
- 
- 	<insert id="insertFile" parameterType="com.eco.domain.DTO.FileUploadDTO">
-        INSERT INTO T_FILE (
-            notice_cd,
-            original_name,
-            stored_name,
-            file_path,
-            file_size
-        ) VALUES (
-            #{notice_cd},
-            #{original_name},
-            #{stored_name},
-            #{file_path},
-            #{file_size}
-        )
-    </insert>
+	<select id="selectFilesByNoticeCd" parameterType="int"
+		resultType="com.eco.domain.DTO.FileUploadDTO">
+		<![CDATA[ 
+		SELECT * FROM T_FILE
+		WHERE notice_cd = #{noticeCd}
+			AND use_yn = 'Y'
+		ORDER BY file_cd ASC 
+		]]>
+	</select>
+	
+	<select id="selectFileByFileCd" parameterType="int"
+		resultType="com.eco.domain.DTO.FileUploadDTO">
+		<![CDATA[ 
+		SELECT * FROM T_FILE
+		WHERE file_cd = #{fileCd}
+			AND use_yn = 'Y' 
+		]]>
+	</select>
+	
+	<insert id="insertFile"
+		parameterType="com.eco.domain.DTO.FileUploadDTO">
+		<![CDATA[ 
+		INSERT INTO T_FILE (notice_cd, original_name, stored_name, file_path, file_size) 
+		VALUES (#{notice_cd}, #{original_name}, #{stored_name}, #{file_path}, #{file_size})
+		]]>
+	</insert>
 
 </mapper>

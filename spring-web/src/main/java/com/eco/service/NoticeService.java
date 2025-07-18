@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.eco.domain.DTO.FileUploadDTO;
 import com.eco.domain.DTO.NoticeDTO;
 import com.eco.domain.DTO.NoticePageResponseDTO;
 
@@ -30,4 +31,11 @@ public interface NoticeService {
     
     // 공지사항 등록(파일 포함)
 	public void registerNoticeWithFiles(NoticeDTO noticeDTO, MultipartFile[] files);
+	
+	// 공지사항 파일 조회
+	public List<FileUploadDTO> getAttachedFiles(int noticeCd);
+	
+	// 파일 다운로드를 위한
+	public FileUploadDTO getFileDetail(int fileCd); // 파일 상세 정보 조회 메서드 추가
+	
 }

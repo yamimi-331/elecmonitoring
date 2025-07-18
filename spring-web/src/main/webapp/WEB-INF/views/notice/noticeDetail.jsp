@@ -40,6 +40,28 @@
 						<th>내용</th>
 						<td>${notice.content}</td>
 					</tr>
+					<!-- 첨부 파일 조회 필드 추가 -->
+					<tr>
+						<th>첨부 파일</th>
+						<td>
+							<c:choose>
+								<c:when test="${not empty attachedFiles}">
+									<ul>
+										<c:forEach var="file" items="${attachedFiles}">
+											<li>
+												<%-- 파일 다운로드/조회를 위한 링크. /files/ URL은 servlet-context.xml에서 매핑됨 --%>
+												<a href="/notice/downloadFile/${file.file_cd}" target="_blank">${file.original_name}</a>
+												(<c:out value="${file.file_size / 1024 < 1024 ? String.format('%.1f KB', file.file_size / 1024.0) : String.format('%.1f MB', file.file_size / (1024.0 * 1024.0))}" />)
+											</li>
+										</c:forEach>
+									</ul>
+								</c:when>
+								<c:otherwise>
+									<p>첨부된 파일이 없습니다.</p>
+								</c:otherwise>
+							</c:choose>
+						</td>
+					</tr>
 				</table>
 				<div class="button-box">
 			        <c:if test="${userType == 'admin'}">

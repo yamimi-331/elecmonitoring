@@ -83,61 +83,6 @@
 	</div>
 
 	<%@ include file="/WEB-INF/views/common/footer.jsp"%>
-	<script>
-	document.addEventListener("DOMContentLoaded", () => {
-		const form = document.getElementById("report-form");
-
-		form.addEventListener("submit", function (e) {
-			// FormData 디버깅 (console 출력)
-			const formData = new FormData(form);
-			for (let pair of formData.entries()) {
-				console.log(`${pair[0]}: ${pair[1]}`);
-			}
-
-			// 입력 필드 가져오기
-			const title = document.getElementById("title");
-			const phone = document.getElementById("phone");
-			const local = document.getElementById("local");
-			const type = document.getElementById("type");
-			const content = document.getElementById("content");
-
-			// 유효성 검사
-			if (title.value.trim() === "") {
-				alert("제목을 입력해주세요.");
-				title.focus();
-				e.preventDefault();
-				return;
-			}
-
-			if (phone.value.trim() === "") {
-				alert("신고자 전화번호를 입력해주세요.");
-				phone.focus();
-				e.preventDefault();
-				return;
-			}
-
-			if (local.value === "-" || local.value === "") {
-				alert("지역을 선택해주세요.");
-				local.focus();
-				e.preventDefault();
-				return;
-			}
-
-			if (type.value === "-" || type.value === "") {
-				alert("재해 유형을 선택해주세요.");
-				type.focus();
-				e.preventDefault();
-				return;
-			}
-
-			if (content.value.trim() === "") {
-				alert("내용을 입력해주세요.");
-				content.focus();
-				e.preventDefault();
-				return;
-			}
-		});
-	});
-	</script>
+<script src="../../resources/js/report.js"></script>
 </body>
 </html>

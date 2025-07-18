@@ -73,4 +73,33 @@ $(document).ready(function() {
 	}
 	
 	fetchNoticeList();
+	
+	const form = document.getElementById("notice-form");
+
+	form.addEventListener("submit", function (e) {
+		// FormData 디버깅 (console 출력)
+		const formData = new FormData(form);
+		for (let pair of formData.entries()) {
+			console.log(`${pair[0]}: ${pair[1]}`);
+		}
+
+		// 입력 필드 가져오기
+		const title = document.getElementById("title");
+		const content = document.getElementById("content");
+
+		// 유효성 검사
+		if (title.value.trim() === "") {
+			alert("제목을 입력해주세요.");
+			title.focus();
+			e.preventDefault();
+			return;
+		}
+
+		if (content.value.trim() === "") {
+			alert("내용을 입력해주세요.");
+			content.focus();
+			e.preventDefault();
+			return;
+		}
+	});
 });

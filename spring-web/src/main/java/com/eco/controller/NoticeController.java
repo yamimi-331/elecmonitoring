@@ -100,8 +100,15 @@ public class NoticeController {
 	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
 	        String formattedNoticeDt = notice.getCreate_dt().format(formatter);
-	        String formattedUpdateDt = notice.getUpdate_dt() != null ? notice.getUpdate_dt().format(formatter) : "-";
 
+	        String formattedUpdateDt = "-";
+	        if (notice.getUpdate_dt() != null) {
+	            // 등록일과 수정일이 다를 경우에만 수정일을 표시
+	            if (!notice.getCreate_dt().isEqual(notice.getUpdate_dt())) {
+	                formattedUpdateDt = notice.getUpdate_dt().format(formatter);
+	            }
+	        }
+	        
 	        model.addAttribute("notice", notice);
 	        model.addAttribute("noticeDt", formattedNoticeDt);
 	        model.addAttribute("updateDt", formattedUpdateDt);
@@ -184,7 +191,7 @@ public class NoticeController {
 	        return "redirect:/notice";
 	    }
 		
-	    model.addAttribute("report", notice);
+	    model.addAttribute("notice", notice);
 	    model.addAttribute("currentUserInfo", staff);
 		return "/notice/noticeEdit";
 	}

@@ -82,5 +82,6 @@
 	</div>
 
 	<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+<script src="../../resources/js/report.js"></script>
 </body>
 </html>

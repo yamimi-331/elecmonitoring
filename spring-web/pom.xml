@@ -213,6 +213,17 @@
 		    <artifactId>javax.mail</artifactId>
 		    <version>1.6.2</version>
 		</dependency>
+		<!-- Maven (pom.xml) 예시 -->
+		<dependency>
+		    <groupId>commons-fileupload</groupId>
+		    <artifactId>commons-fileupload</artifactId>
+		    <version>1.4</version> <!-- 최신 안정 버전 사용 권장 -->
+		</dependency>
+		<dependency>
+		    <groupId>commons-io</groupId>
+		    <artifactId>commons-io</artifactId>
+		    <version>2.11.0</version> <!-- 최신 안정 버전 사용 권장 -->
+		</dependency>
 	</dependencies>
     <build>
         <plugins>

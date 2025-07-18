@@ -19,18 +19,17 @@ import com.eco.exception.ServiceException;
 import com.eco.mapper.FileMapper;
 import com.eco.mapper.NoticeMapper;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class NoticeServiceImpl implements NoticeService {
 
-	private NoticeMapper noticeMapper;
-	private FileMapper fileMapper;   // T_FILE 테이블 관련 DAO/Mapper
+	private final NoticeMapper noticeMapper;
+	private final FileMapper fileMapper;   // T_FILE 테이블 관련 DAO/Mapper
 	
-	@Value("${file.upload-dir}")
-    private final String UPLOAD_DIR; // 실제 서버 경로로 변경 필요
+	/* @Value("${file.upload-dir}") */
+    private String UPLOAD_DIR =  "D:/01-STUDY/SHJ/upload/"; // 실제 서버 경로로 변경 필요
 
 	// 공지사항 목록 조회
 	@Override
@@ -129,7 +128,12 @@ public class NoticeServiceImpl implements NoticeService {
             // 1. T_NOTICE 테이블에 공지사항 정보 삽입
             // Mybatis Mapper에서 useGeneratedKeys="true" keyProperty="notice_cd" 설정 시,
             // 이 호출 후 notice 객체의 notice_cd 필드에 자동 생성된 PK 값이 채워집니다.
+        	System.out.println("인서트 전: " + notice);
+        	
             int noticeResult = noticeMapper.insertNotice(notice);
+            
+            System.out.println("인서트 후: " + notice);
+        	
             if (noticeResult == 0) {
                 throw new ServiceException("공지사항 등록에 실패했습니다.");
             }
@@ -143,8 +147,8 @@ public class NoticeServiceImpl implements NoticeService {
             // 2. 첨부 파일이 존재하면 T_FILE 테이블에 파일 정보 삽입 및 실제 파일 저장
             if (files != null && files.length > 0) {
                 // 파일 업로드 디렉토리가 없으면 생성
-            	String actualUploadPath = UPLOAD_DIR.replace("file:///", "");
-                File uploadDirFile = new File(actualUploadPath);
+//            	String actualUploadPath = UPLOAD_DIR.replace("file:///", "");
+                File uploadDirFile = new File(UPLOAD_DIR);
                 if (!uploadDirFile.exists()) {
                     uploadDirFile.mkdirs(); // 디렉토리 생성
                 }
@@ -183,6 +187,7 @@ public class NoticeServiceImpl implements NoticeService {
             // 예외 발생 시 트랜잭션 롤백
             // @Transactional 어노테이션이 RuntimeException에 대해 기본적으로 롤백을 수행합니다.
             // 따라서 이곳에서는 ServiceException을 throw하여 롤백을 유도합니다.
+        	System.out.println(e.getMessage());
             throw new ServiceException("공지사항 및 파일 등록 중 오류 발생", e);
         }
     }

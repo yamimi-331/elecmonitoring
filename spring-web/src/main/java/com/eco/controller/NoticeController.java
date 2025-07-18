@@ -180,6 +180,10 @@ public class NoticeController {
 	public String registerNewNotice(@ModelAttribute NoticeDTO noticeDTO, 
 			@RequestParam(value = "files", required = false) MultipartFile[] files,
 			HttpSession session, RedirectAttributes redirectAttrs) {
+		 
+		// DTO 바인딩 직후 로그 (이 위치에서 title, content가 null로 나오면 문제)
+        log.info("DTO (before staff_cd set): " + noticeDTO);
+        
 		StaffVO staff = (StaffVO) session.getAttribute("currentUserInfo");
 	    if (staff == null) {
 	        redirectAttrs.addFlashAttribute("message", "로그인 후 이용해주세요.");
@@ -187,19 +191,20 @@ public class NoticeController {
 	    }
 	    
 	    noticeDTO.setStaff_cd(staff.getStaff_cd());
-		/* boolean result = noticeService.registerNotice(noticeDTO); */
+	    // 이 위치에서 DTO 로그를 다시 확인 (staff_cd가 추가된 후)
+        log.info("DTO (after staff_cd set): " + noticeDTO);
+
         try {
             // 서비스 계층에서 공지사항 등록 및 파일 정보 등록을 함께 처리
             // 파일이 없을 수도 있으므로 null 체크 또는 빈 배열 처리
             noticeService.registerNoticeWithFiles(noticeDTO, files); 
-            
             log.info("공지사항 등록 성공");
             redirectAttrs.addFlashAttribute("message", "공지사항이 등록되었습니다.");
             return "redirect:/notice";
         } catch (Exception e) {
             log.error("공지사항 등록 실패: " + e.getMessage());
             redirectAttrs.addFlashAttribute("message", "공지사항 등록에 실패했습니다.");
-            return "redirect:/notice/registerForm"; // 등록 폼으로 다시 이동하거나 적절한 에러 페이지로
+            return "redirect:/notice/noticeForm"; // 등록 폼으로 다시 이동하거나 적절한 에러 페이지로
         }
 	}
 	

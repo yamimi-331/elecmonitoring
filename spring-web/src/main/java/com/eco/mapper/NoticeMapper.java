@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.eco.domain.DTO.NoticeDTO;
-import com.eco.domain.vo.NoticeVO;
 
 public interface NoticeMapper {
 
@@ -13,12 +12,16 @@ public interface NoticeMapper {
 	public List<NoticeDTO> selectNoticeList();
 	public List<NoticeDTO> selectNoticeSearchList(@Param("search_word") String search_word);
 	
-	public NoticeVO getNoticeDetail(int notice_cd);
+	// 공지사항 상세 조회
+	public NoticeDTO selectDetailNotice(@Param("notice_cd") int notice_cd);
 	
-	public int insertNotice(NoticeVO notice);
+	// 공지사항 등록
+	public int insertNotice(NoticeDTO notice);
 	
-	public int updateNotice(NoticeVO notice);
+	// 공지사항 수정
+	public int updateNotice(NoticeDTO notice);
 	
-	public int deleteNotice(int notice_cd);  // 소프트 삭제
+	// 공지사항 삭제
+	public int deleteNotice(@Param("notice_cd") int notice_cd);  // 소프트 삭제
 
 }

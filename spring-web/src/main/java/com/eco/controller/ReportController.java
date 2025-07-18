@@ -204,7 +204,7 @@ public class ReportController {
 	
 	// 전기 재해 신고 게시글 삭제
 	@PostMapping("/remove")
-	public String reportEdit(@RequestParam("report_cd") int reportCd, HttpSession session, RedirectAttributes redirectAttrs) {
+	public String reportDelete(@RequestParam("report_cd") int reportCd, HttpSession session, RedirectAttributes redirectAttrs) {
 		log.info("전기 재해 신고 삭제 완료");
 		StaffVO staff = (StaffVO) session.getAttribute("currentUserInfo");
 		ReportDTO report = reportService.getDetailReport(reportCd);

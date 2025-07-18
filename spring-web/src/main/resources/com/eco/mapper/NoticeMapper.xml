@@ -10,7 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<![CDATA[
 		SELECT * FROM T_NOTICE n JOIN t_staff s ON n.staff_cd = s.staff_cd
 		WHERE n.use_yn = 'Y'
-		ORDER BY n.create_dt DESC
+		ORDER BY n.create_dt DESC, n.notice_cd DESC
 		]]>
 	</select>
 	<!-- 공지사항 검색어 조회 -->
@@ -18,47 +18,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<![CDATA[
 		SELECT * FROM T_NOTICE n JOIN t_staff s ON n.staff_cd = s.staff_cd
 		WHERE n.use_yn = 'Y' AND (n.title LIKE CONCAT('%', #{search_word}, '%') OR n.content LIKE CONCAT('%', #{search_word}, '%'))
-		ORDER BY n.create_dt DESC
+		ORDER BY n.create_dt DESC, n.notice_cd DESC
 		]]>
 	</select>
 
 	<!-- 공지사항 상세 조회 (PK로 단건 조회) -->
-	<select id="getNoticeDetail" parameterType="int"
-		resultType="com.eco.domain.vo.NoticeVO">
-		SELECT
-		notice_cd, title, content, create_dt, update_dt, user_nm, use_yn
-		FROM
-		T_NOTICE
-		WHERE
-		notice_cd = #{notice_cd} 
+	<select id="selectDetailNotice" parameterType="int" resultType="com.eco.domain.DTO.NoticeDTO">
+		SELECT * FROM T_NOTICE n JOIN t_staff s ON n.staff_cd = s.staff_cd
+		WHERE n.use_yn = 'Y' AND n.notice_cd = #{notice_cd} 
 	</select>
 
 	<!-- 공지사항 등록 -->
-	<insert id="insertNotice"
-		parameterType="com.eco.domain.vo.NoticeVO" useGeneratedKeys="true"
-		keyProperty="notice_cd">
-		INSERT INTO T_NOTICE
-		(title, content, create_dt, update_dt, user_nm, use_yn)
-		VALUES
-		(#{title}, #{content}, NOW(), NOW(), #{user_nm}, 'Y')
-		</insert>
+	<insert id="insertNotice" parameterType="com.eco.domain.DTO.NoticeDTO">
+		INSERT INTO T_NOTICE (title, content, staff_cd)
+		VALUES (#{title}, #{content}, #{staff_cd})
+	</insert>
 		
-		<!-- 공지사항 수정 -->
-		<update id="updateNotice" parameterType="com.eco.domain.vo.NoticeVO">
-		UPDATE T_NOTICE
-		SET
-		title = #{title},
-		content = #{content},
-		update_dt = NOW(),
-		user_nm = #{user_nm}
-		WHERE
-		notice_cd = #{notice_cd} <!-- 해당 공지사항 번호로 수정 -->
-		</update>
+	<!-- 공지사항 수정 -->
+	<update id="updateNotice" parameterType="com.eco.domain.DTO.NoticeDTO">
+		UPDATE T_NOTICE SET title = #{title}, content = #{content}, update_dt = #{update_dt}
+		WHERE notice_cd = #{notice_cd} AND use_yn = 'Y'
+	</update>
 		
-		<!-- 공지사항 삭제(소프트 삭제 방식) -->
-		<update id="deleteNotice" parameterType="int">
-		UPDATE T_NOTICE
-		SET use_yn = 'N' <!-- 실제 삭제 대신 비활성화 처리 -->
+	<!-- 공지사항 삭제(소프트 삭제 방식) -->
+	<update id="deleteNotice" parameterType="int">
+		UPDATE T_NOTICE SET use_yn = 'N'
 		WHERE notice_cd = #{notice_cd}
-		</update>
+	</update>
 </mapper>

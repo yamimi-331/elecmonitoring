@@ -1,5 +1,7 @@
 package com.eco.controller;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -7,14 +9,14 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.eco.domain.DTO.NoticeDTO;
-import com.eco.domain.DTO.ReportListResponseDTO;
-import com.eco.domain.vo.NoticeVO;
 import com.eco.domain.vo.StaffVO;
 import com.eco.domain.vo.UserVO;
 import com.eco.service.NoticeService;
@@ -55,7 +57,7 @@ public class NoticeController {
 		return "/notice/notice";
 	}
 	
-	// 전기 재해 신고 목록 호출
+	// 공지사항 목록 호출
 	@GetMapping("/noticeList")
 	@ResponseBody
 	public List<NoticeDTO> getNoticeList(@RequestParam(value = "search_word", required = false) String searchWord){
@@ -66,49 +68,165 @@ public class NoticeController {
 	        //return reportService.getLocalReportList(local, page, size);
 	    } else {
 	    	List<NoticeDTO> dto = noticeService.getNoticeList();
-	    	log.info(dto);
 	        return dto;
 	    	//ReportListResponseDTO dto = reportService.getAllReportList(page, size);
 	    	//return dto;
 	    }
 	}
 
-	// 공지사항 상세/수정/등록 페이지 이동
+	// 공지사항 상세페이지 이동
 	@GetMapping("/detail")
-	public String noticeDetailPage(@RequestParam(required = false) Integer notice_cd,
-			@RequestParam(defaultValue = "view") String mode, Model model) {
-		log.info("공지사항 상세 페이지로 이동, mode = " + mode);
-		// 상세 조회 일때
-		if (notice_cd != null && !mode.equals("insert")) {
-			NoticeVO notice = noticeService.getNoticeDetail(notice_cd);
-			model.addAttribute("notice", notice);
-		}
+	public String noticeDetailPage(@RequestParam(required = false) Integer notice_cd, Model model, HttpSession session) {
+		Object user = session.getAttribute("currentUserInfo");
+	    
+	    if (user instanceof StaffVO) {
+	    	StaffVO staff = (StaffVO) user;
+	    	if ("staff".equals(staff.getStaff_role())){
+	    		session.setAttribute("userType", "staff");
+	    	}else {
+	    		session.setAttribute("userType", "admin");
+	    	}
+	        model.addAttribute("currentUserInfo", (StaffVO) user);
+	    } else if (user instanceof UserVO) {
+	        session.setAttribute("userType", "common");
+	        model.addAttribute("currentUserInfo", (UserVO) user);
+	    } else {
+	        model.addAttribute("userType", "guest");
+	    }
 
-		model.addAttribute("mode", mode); // view, edit, insert 구분
+	    NoticeDTO notice = noticeService.getNoticeDetail(notice_cd);
+	    
+	    if (notice != null) {
+	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+	        String formattedNoticeDt = notice.getCreate_dt().format(formatter);
+	        String formattedUpdateDt = notice.getUpdate_dt() != null ? notice.getUpdate_dt().format(formatter) : "-";
+
+	        model.addAttribute("notice", notice);
+	        model.addAttribute("noticeDt", formattedNoticeDt);
+	        model.addAttribute("updateDt", formattedUpdateDt);
+	    }
+	    
 		return "/notice/noticeDetail"; // /WEB-INF/views/noticeDetail.jsp
 	}
 
+	// 공지사항 작성 페이지 이동
+	@GetMapping("/form")
+	public String noticeFormPage(Model model, HttpSession session, RedirectAttributes redirectAttrs) {
+		Object user = session.getAttribute("currentUserInfo");
+        // 비정상적 루트로 접근 제한
+        boolean accessAllow = false;
+        if (user instanceof UserVO) {
+        	accessAllow = false;
+        } else if(user instanceof StaffVO) {
+        	StaffVO staff = (StaffVO) user;
+        	if ("admin".equals(staff.getStaff_role())) {
+        		accessAllow = true;
+    	    	model.addAttribute("currentUserInfo", staff);
+    	    } else {
+    	    	accessAllow = false;
+	    	}
+        } else {
+        	accessAllow = false;
+        }
+        
+        if (accessAllow) {
+        	log.info("공지사항 작성 페이지로 이동");
+        	return "/notice/noticeForm";
+        } else {
+        	redirectAttrs.addFlashAttribute("message", "잘못된 접근입니다.");
+        	return "redirect:/notice";
+        }
+	}
+	
 	// 공지사항 등록 처리
-	@PostMapping("/insert")
-	public String insertNotice(NoticeVO notice) {
-		log.info("공지사항 등록 처리");
-		noticeService.insertNotice(notice);
-		return "redirect:/notice";
+	@PostMapping("/register")
+	public String registerNewNotice(@ModelAttribute NoticeDTO noticeDTO, HttpSession session, RedirectAttributes redirectAttrs) {
+		StaffVO staff = (StaffVO) session.getAttribute("currentUserInfo");
+	    if (staff == null) {
+	        redirectAttrs.addFlashAttribute("message", "로그인 후 이용해주세요.");
+	        return "redirect:/login";
+	    }
+	    
+	    noticeDTO.setStaff_cd(staff.getStaff_cd());
+        boolean result = noticeService.registerNotice(noticeDTO);
+		
+		if (result) {
+        	log.info("공지사항 등록 성공");
+        	redirectAttrs.addFlashAttribute("message", "신고 게시글이 등록되었습니다.");
+        	return "redirect:/notice";
+        } else {
+        	redirectAttrs.addFlashAttribute("message", "잘못된 접근입니다.");
+        	return "redirect:/notice";
+        }
+	}
+	
+	// 공지사항 수정화면 진입
+	@GetMapping("/modify")
+	public String noticeEditPage(@RequestParam("notice_cd") int noticeCd, Model model, HttpSession session, RedirectAttributes redirectAttrs) {
+		log.info("공지사항 페이지로 이동");
+		StaffVO staff = (StaffVO) session.getAttribute("currentUserInfo");
+	    if (staff == null) {
+	        redirectAttrs.addFlashAttribute("message", "로그인 후 이용해주세요.");
+	        return "redirect:/login";
+	    }
+
+	    NoticeDTO notice = noticeService.getNoticeDetail(noticeCd);
+
+	    // 본인 확인 로직
+	    boolean authorized = false;
+	    if ("admin".equals(staff.getStaff_role()) ) {
+	    	authorized = true;
+	    }
+
+	    if (!authorized) {
+	        redirectAttrs.addFlashAttribute("message", "유효하지 않은 요청이거나 권한이 없습니다.");
+	        return "redirect:/notice";
+	    }
+		
+	    model.addAttribute("report", notice);
+	    model.addAttribute("currentUserInfo", staff);
+		return "/notice/noticeEdit";
 	}
 
 	// 공지사항 수정 처리
-	@PostMapping("/update")
-	public String updateNotice(NoticeVO notice) {
-		log.info("공지사항 수정 처리");
-		noticeService.updateNotice(notice);
-		return "redirect:/notice/detail?notice_cd=" + notice.getNotice_cd() + "&mode=view";
+	@PostMapping("/modify")
+	public String noticeEdit(@ModelAttribute NoticeDTO noticeDTO, HttpSession session, RedirectAttributes redirectAttrs) {
+		log.info("공지사항 수정 완료");
+		StaffVO staff = (StaffVO) session.getAttribute("currentUserInfo");
+		noticeDTO.setStaff_cd(staff.getStaff_cd());
+		noticeDTO.setUpdate_dt(LocalDateTime.now());
+		
+		boolean result = noticeService.modifyNotice(noticeDTO);
+		if (result) {
+			redirectAttrs.addFlashAttribute("message", "공지사항 수정이 완료되었습니다.");
+		} else {
+			redirectAttrs.addFlashAttribute("message", "공지사항 수정에 실패하였습니다.");
+		}
+		return "redirect:/notice";
 	}
 
 	// 공지사항 삭제 처리(소프트 삭제)
-	@PostMapping("/delete")
-	public String deleteNotice(@RequestParam("notice_cd") int notice_cd) {
-		log.info("공지사항 삭제 처리");
-		noticeService.deleteNotice(notice_cd);
+	@PostMapping("/remove")
+	public String noticeDelete(@RequestParam("notice_cd") int noticeCd, HttpSession session, RedirectAttributes redirectAttrs) {
+		log.info("공지사항 삭제 완료");
+		StaffVO staff = (StaffVO) session.getAttribute("currentUserInfo");
+	    boolean authorized = false;
+	    if ("admin".equals(staff.getStaff_role()) ) {
+	    	authorized = true;
+	    }
+
+	    if (!authorized) {
+	        redirectAttrs.addFlashAttribute("message", "유효하지 않은 요청이거나 권한이 없습니다.");
+	        return "redirect:/notice";
+	    }
+		
+		boolean result = noticeService.removeNotice(noticeCd);
+		if (result) {
+			redirectAttrs.addFlashAttribute("message", "공지사항 삭제가 완료되었습니다.");
+		} else {
+			redirectAttrs.addFlashAttribute("message", "공지사항 삭제에 실패하였습니다.");
+		}
 		return "redirect:/notice";
 	}
 }

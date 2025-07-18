@@ -20,11 +20,7 @@
 					<input type="text" name="search_word" id="search_word">
 					<button type="button" id="search_word_btn">검색</button>
 				</div>
-				<div class="report-button">
-					<c:if test="${userType eq 'admin'}">
-						<button onclick="location.href='/notice/form'" class="report-button">새 글 등록</button>
-					</c:if>
-				</div>
+				
 				<table class="report-table">
 					<colgroup>
 						<col style="width:5%">
@@ -48,6 +44,12 @@
 						</tr>
 					</tbody>
 				</table>
+				<div id="pagination" class="pagination"></div> 
+				<div class="report-button">
+					<c:if test="${userType eq 'admin'}">
+						<button onclick="location.href='/notice/form'" class="report-button">새 글 등록</button>
+					</c:if>
+				</div>
 			</div>
 		</main>
 	</div>

@@ -3,7 +3,6 @@ package com.eco.service;
 import java.util.List;
 
 import com.eco.domain.DTO.NoticeDTO;
-import com.eco.domain.vo.NoticeVO;
 
 public interface NoticeService {
 
@@ -11,8 +10,15 @@ public interface NoticeService {
 	public List<NoticeDTO> getNoticeList();
 	public List<NoticeDTO> getNoticeSearchList(String search_word);
 	
-	public NoticeVO getNoticeDetail(int notice_cd);
-	public int insertNotice(NoticeVO notice);
-	public int updateNotice(NoticeVO notice);
-	public int deleteNotice(int notice_cd);
+	// 공지사항 상세 조회
+	public NoticeDTO getNoticeDetail(int notice_cd);
+	
+	// 공지사항 등록
+	public boolean registerNotice(NoticeDTO notice);
+	
+	// 공지사항 수정
+	public boolean modifyNotice(NoticeDTO notice);
+	
+	// 공지사항 삭제
+	public boolean removeNotice(int notice_cd);
 }

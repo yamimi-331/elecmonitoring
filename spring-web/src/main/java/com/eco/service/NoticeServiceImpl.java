@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.eco.domain.DTO.NoticeDTO;
-import com.eco.domain.vo.NoticeVO;
 import com.eco.exception.ServiceException;
 import com.eco.mapper.NoticeMapper;
 
@@ -35,25 +34,47 @@ public class NoticeServiceImpl implements NoticeService {
 		}
 	}
 
-
+	// 공지사항 상세 조회
 	@Override
-	public NoticeVO getNoticeDetail(int notice_cd) {
-		return noticeMapper.getNoticeDetail(notice_cd);
+	public NoticeDTO getNoticeDetail(int notice_cd) {
+		try {
+			return noticeMapper.selectDetailNotice(notice_cd);
+		} catch (Exception e) {
+			throw new ServiceException("공지사항 상세 조회 실패", e);
+		}	
 	}
 
+	// 공지사항 등록
 	@Override
-	public int insertNotice(NoticeVO notice) {
-		return noticeMapper.insertNotice(notice);
+	public boolean registerNotice(NoticeDTO notice) {
+		try {
+			int result = noticeMapper.insertNotice(notice);
+			return result>0;
+		} catch (Exception e) {
+			throw new ServiceException("공지사항 등록 실패", e);
+		}
 	}
 
+	// 공지사항 수정
 	@Override
-	public int updateNotice(NoticeVO notice) {
-		return noticeMapper.updateNotice(notice);
+	public boolean modifyNotice(NoticeDTO notice) {
+		try {
+			int result = noticeMapper.updateNotice(notice);
+			return result>0;
+		} catch (Exception e) {
+			throw new ServiceException("공지사항 등록 실패", e);
+		}
 	}
 
+	// 공지사항 삭제
 	@Override
-	public int deleteNotice(int notice_cd) {
-		return noticeMapper.deleteNotice(notice_cd);
+	public boolean removeNotice(int notice_cd) {
+		try {
+			int result = noticeMapper.deleteNotice(notice_cd);
+			return result>0;
+		} catch (Exception e) {
+			throw new ServiceException("공지사항 등록 실패", e);
+		}
 	}
 
 }

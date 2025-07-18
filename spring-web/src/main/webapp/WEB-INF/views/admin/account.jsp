@@ -23,7 +23,7 @@
 					<button onclick="searchStaff()">조회</button>
 					<button onclick="createStaff()">계정 생성</button>
 				</div>
-				<table id="account-table" class="custom-table">
+				<table id="account-table" class="normal-table">
 					<thead>
 						<tr>
 							<th style="width: 15%">직원번호</th>
@@ -53,7 +53,7 @@
 					<input type="search" id="searchDeletedUserById" placeholder="ID 입력" autocomplete="off" />
 					<button onclick="searchDeletedAccount()">조회</button>
 				</div>
-				<table id="rollback-table" class="custom-table">
+				<table id="rollback-table" class="normal-table">
 					<thead>
 						<tr>
 							<th style="width: 25%">계정 번호</th>

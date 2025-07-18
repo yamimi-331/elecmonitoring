@@ -25,7 +25,7 @@
 					</c:if>
 					<button id="btnSearch">조회</button>
 				</div>
-				<table id="asTable" class="custom-table">
+				<table id="asTable" class="normal-table">
 					<colgroup>
 						<col style="width: 10%">
 						<col style="width: 40%">

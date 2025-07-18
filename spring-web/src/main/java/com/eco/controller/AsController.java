@@ -222,7 +222,6 @@ public class AsController {
 
 		List<Map<String, Object>> parsedList = parseAsList(asvo);
 		model.addAttribute("userList", parsedList);
-		log.info(parsedList);
 	    return "/as/asList";
 	}
 

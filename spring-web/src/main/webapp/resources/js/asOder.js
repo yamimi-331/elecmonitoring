@@ -298,7 +298,7 @@ function renderPagination(currentPage, totalPages, startDate, endDate, staffInfo
 
     // 이전 페이지 버튼
     const prevLi = $('<li>').addClass('page-item').toggleClass('disabled', currentPage === 1);
-    const prevLink = $('<a>').addClass('page-link').attr('href', '#').text('이전');
+    const prevLink = $('<a>').addClass('page-link').attr('href', '#').html('&laquo;');
     prevLink.on('click', function(e) {
         e.preventDefault();
         if (currentPage > 1) {
@@ -324,7 +324,7 @@ function renderPagination(currentPage, totalPages, startDate, endDate, staffInfo
 
     // 다음 페이지 버튼
     const nextLi = $('<li>').addClass('page-item').toggleClass('disabled', currentPage === totalPages);
-    const nextLink = $('<a>').addClass('page-link').attr('href', '#').text('다음');
+    const nextLink = $('<a>').addClass('page-link').attr('href', '#').html('&raquo;');
     nextLink.on('click', function(e) {
         e.preventDefault();
         if (currentPage < totalPages) {

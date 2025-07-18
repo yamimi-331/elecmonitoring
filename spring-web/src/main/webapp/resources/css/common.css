@@ -164,3 +164,69 @@ body::-webkit-scrollbar {
 	align-items: center;
     gap: 10px;
 }
+
+/* 페이징 컨테이너 (div#pagination) */
+.pagination-area {
+    margin-top: 20px; /* 테이블과 페이지네이션 사이 간격 */
+    display: flex;
+    justify-content: center; /* 가운데 정렬 */
+}
+
+/* 모든 페이지네이션 ul 태그에 적용될 기본 스타일 */
+.custom-pagination {
+    list-style: none;   /* 리스트 앞에 점(불릿) 제거 */
+    padding-left: 0;    /* ul의 기본 왼쪽 패딩 제거 */
+    display: flex;      /* 플렉스박스 레이아웃 (가로 정렬) */
+    margin-bottom: 0;   /* 불필요한 하단 마진 제거 */
+}
+
+/* 각 페이지 항목 (li)에 좌우 마진을 주어 간격 생성 */
+.custom-pagination .page-item {
+    margin: 0 5px; /* 각 페이지 항목 좌우로 5px 간격 */
+}
+
+/* Bootstrap 페이징 링크의 테두리 반경 조정 (마진으로 인해 떨어져 있을 때 미관상 더 좋음) */
+.custom-pagination .page-item:first-child .page-link {
+    border-top-left-radius: .25rem;
+    border-bottom-left-radius: .25rem;
+}
+
+.custom-pagination .page-item:last-child .page-link {
+    border-top-right-radius: .25rem;
+    border-bottom-right-radius: .25rem;
+}
+
+/* 활성 페이지 스타일 */
+.custom-pagination .page-item.active .page-link {
+    background-color: #007bff; /* 파란색 배경 */
+    border-color: #007bff;
+    color: white; /* 흰색 텍스트 */
+}
+
+/* 비활성화된 페이지 스타일 (클릭 불가) */
+.custom-pagination .page-item.disabled .page-link {
+    color: #6c757d; /* 회색 텍스트 */
+    pointer-events: none; /* 클릭 이벤트 방지 */
+    cursor: default; /* 기본 커서 */
+    background-color: #e9ecef; /* 연한 회색 배경 */
+    border-color: #dee2e6;
+}
+
+/* 페이지 링크 일반 스타일 */
+.custom-pagination .page-link {
+    display: block;
+    padding: .5rem .75rem;
+    line-height: 1.25;
+    color: #007bff; /* 파란색 텍스트 */
+    background-color: #fff; /* 흰색 배경 */
+    border: 1px solid #dee2e6; /* 연한 테두리 */
+    text-decoration: none; /* 밑줄 제거 */
+    border-radius: .25rem; /* 약간의 둥근 모서리 */
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out; /* 부드러운 전환 효과 */
+}
+
+.custom-pagination .page-link:hover {
+    color: #0056b3; /* 호버 시 진한 파란색 */
+    background-color: #e9ecef; /* 호버 시 연한 회색 배경 */
+    border-color: #dee2e6;
+}

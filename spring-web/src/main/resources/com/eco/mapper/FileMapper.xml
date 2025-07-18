@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eco.mapper.FileMapper">
+ 
+ 
+ 	<insert id="insertFile" parameterType="com.eco.domain.DTO.FileUploadDTO">
+        INSERT INTO T_FILE (
+            notice_cd,
+            original_name,
+            stored_name,
+            file_path,
+            file_size
+        ) VALUES (
+            #{notice_cd},
+            #{original_name},
+            #{stored_name},
+            #{file_path},
+            #{file_size}
+        )
+    </insert>
+
+</mapper>

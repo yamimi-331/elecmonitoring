@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.eco.domain.DTO.NoticeDTO;
@@ -176,7 +177,9 @@ public class NoticeController {
 	
 	// 공지사항 등록 처리
 	@PostMapping("/register")
-	public String registerNewNotice(@ModelAttribute NoticeDTO noticeDTO, HttpSession session, RedirectAttributes redirectAttrs) {
+	public String registerNewNotice(@ModelAttribute NoticeDTO noticeDTO, 
+			@RequestParam(value = "files", required = false) MultipartFile[] files,
+			HttpSession session, RedirectAttributes redirectAttrs) {
 		StaffVO staff = (StaffVO) session.getAttribute("currentUserInfo");
 	    if (staff == null) {
 	        redirectAttrs.addFlashAttribute("message", "로그인 후 이용해주세요.");
@@ -184,15 +187,19 @@ public class NoticeController {
 	    }
 	    
 	    noticeDTO.setStaff_cd(staff.getStaff_cd());
-        boolean result = noticeService.registerNotice(noticeDTO);
-		
-		if (result) {
-        	log.info("공지사항 등록 성공");
-        	redirectAttrs.addFlashAttribute("message", "신고 게시글이 등록되었습니다.");
-        	return "redirect:/notice";
-        } else {
-        	redirectAttrs.addFlashAttribute("message", "잘못된 접근입니다.");
-        	return "redirect:/notice";
+		/* boolean result = noticeService.registerNotice(noticeDTO); */
+        try {
+            // 서비스 계층에서 공지사항 등록 및 파일 정보 등록을 함께 처리
+            // 파일이 없을 수도 있으므로 null 체크 또는 빈 배열 처리
+            noticeService.registerNoticeWithFiles(noticeDTO, files); 
+            
+            log.info("공지사항 등록 성공");
+            redirectAttrs.addFlashAttribute("message", "공지사항이 등록되었습니다.");
+            return "redirect:/notice";
+        } catch (Exception e) {
+            log.error("공지사항 등록 실패: " + e.getMessage());
+            redirectAttrs.addFlashAttribute("message", "공지사항 등록에 실패했습니다.");
+            return "redirect:/notice/registerForm"; // 등록 폼으로 다시 이동하거나 적절한 에러 페이지로
         }
 	}
 	

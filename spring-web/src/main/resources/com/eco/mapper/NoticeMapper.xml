@@ -65,7 +65,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 	<!-- 공지사항 등록 -->
-	<insert id="insertNotice" parameterType="com.eco.domain.DTO.NoticeDTO">
+	<insert id="insertNotice" parameterType="com.eco.domain.DTO.NoticeDTO" useGeneratedKeys="true" keyProperty="notice_cd">
 		INSERT INTO T_NOTICE (title, content, staff_cd)
 		VALUES (#{title}, #{content}, #{staff_cd})
 	</insert>

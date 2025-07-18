@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 @Data
 public class FileVO {
     private int file_cd;              // 파일 코드 (PK)
+    private int notice_cd;              // 공지사항 코드 (FK)
     private String original_name;     // 업로드 시 원래 파일 이름
     private String stored_name;       // 서버에 저장된 파일 이름
     private String file_path;         // 파일이 저장된 전체 경로

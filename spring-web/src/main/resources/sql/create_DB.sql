@@ -101,5 +101,43 @@ CREATE TABLE T_FILE (
     update_dt      DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 일시',
     use_yn         CHAR(1) NOT NULL DEFAULT 'Y' COMMENT '사용 여부 (Y/N)'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='파일 업로드 테이블';
+-- 1. T_FILE 테이블에 notice_cd 컬럼 추가
+-- 컬럼의 위치는 필요에 따라 조정할 수 있습니다. 여기서는 original_name 앞에 추가합니다.
+ALTER TABLE T_FILE
+ADD COLUMN notice_cd INT NOT NULL COMMENT '공지사항 코드 (T_NOTICE 테이블의 notice_cd 참조)' AFTER file_cd;
 
+-- 2. notice_cd 컬럼에 외래 키 제약 조건 추가
+-- 이 쿼리를 실행하기 전에 T_NOTICE 테이블이 존재하고,
+-- T_NOTICE.notice_cd가 PRIMARY KEY 또는 UNIQUE 인덱스여야 합니다.
+ALTER TABLE T_FILE
+ADD CONSTRAINT fk_notice_cd
+FOREIGN KEY (notice_cd) REFERENCES T_NOTICE(notice_cd);
 
+desc t_file;
+
+-- T_REPLY 테이블 생성
+CREATE TABLE T_REPLY (
+    reply_cd INT NOT NULL AUTO_INCREMENT,
+    inquiry_cd INT NOT NULL,
+    staff_cd VARCHAR(100) NOT NULL,
+    parent_reply_cd INT NULL DEFAULT NULL,
+    content TEXT NOT NULL,
+    create_dt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    update_dt DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    use_yn CHAR(1) NOT NULL DEFAULT 'Y', -- 'Y'를 기본값으로 가정, 필요시 변경
+    PRIMARY KEY (reply_cd),
+    -- FK 설정은 참조할 테이블이 존재해야 가능합니다.
+    -- 예시:
+    FOREIGN KEY (inquiry_cd) REFERENCES T_INQUIRY(inquiry_cd),
+    FOREIGN KEY (staff_cd) REFERENCES T_STAFF(staff_cd),
+    FOREIGN KEY (parent_reply_cd) REFERENCES T_REPLY(reply_cd)
+);
+desc t_notice;
+
+select * from t_as;
+
+select * from t_staff;
+select distinct staff_addr, staff_cd 
+from t_staff where staff_role = 'staff' 
+order by staff_cd asc;
+desc t_file;

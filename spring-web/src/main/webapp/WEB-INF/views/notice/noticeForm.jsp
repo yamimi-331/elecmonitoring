@@ -15,7 +15,7 @@
 		<main class="main">
 			<h2>공지사항 작성</h2>
 			<div class="container">
-				<form action="/notice/register" method="post" id="notice-form">
+				<form action="/notice/register" method="post" id="notice-form" enctype="multipart/form-data">
 					<table class="report-detail">
 						<colgroup>
 							<col style="width:15%">
@@ -32,6 +32,14 @@
 						<tr>
 							<th><label for="content">내용</label></th>
 							<td><textarea name="content" id="content" placeholder="내용"></textarea></td>
+						</tr>
+						<!-- 파일 첨부 필드 추가 -->
+						<tr>
+							<th><label for="files">첨부 파일</label></th>
+							<td>
+								<input type="file" name="files" id="files" multiple>
+								<p class="file-info">여러 파일을 선택할 수 있습니다.</p>
+							</td>
 						</tr>
 					</table>
 					<div class="button-box">

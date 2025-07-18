@@ -53,12 +53,19 @@
 <!-- List -->
 <ul  class="pagination custom-pagination justify-content-center">
     <!-- 이전 버튼 -->
-    <c:if test="${pageInfo.hasPrev}">
-        <li class="page-item">
-            <a href="#" onclick="onPageClick(${pageInfo.startPage - 1}); return false;" class="page-link">&laquo;</a>
-        </li>
-    </c:if>
-    
+  	<c:choose>
+  		<c:when test="${pageInfo.currentPage > 1}">
+	  		<li class="page-item">
+	            <a href="#" onclick="onPageClick(${pageInfo.currentPage - 1}); return false;" class="page-link">&laquo;</a>
+	        </li>
+  		</c:when>
+  		<c:otherwise>
+	  		<li class="page-item disabled">
+	            <a href="#" class="page-link">&laquo;</a>
+	        </li>
+  		</c:otherwise>
+  	</c:choose>
+  
     <!-- 번호 버튼-->
     <c:forEach begin="${pageInfo.startPage}" end="${pageInfo.endPage}" var="i">
         <li class="page-item <c:if test="${pageInfo.currentPage == i}">active</c:if>">
@@ -67,10 +74,17 @@
     </c:forEach>
     
     <!-- 다음 버튼 -->
-    <c:if test="${pageInfo.hasNext}">
-        <li class="page-item">
-            <a href="#" onclick="onPageClick(${pageInfo.endPage + 1}); return false;" class="page-link">&raquo;</a>
-        </li>
-    </c:if>
+    <c:choose>
+  		<c:when test="${pageInfo.currentPage < pageInfo.endPage}">
+	  		<li class="page-item">
+	            <a href="#" onclick="onPageClick(${pageInfo.currentPage + 1}); return false;" class="page-link">&raquo;</a>
+	        </li>
+  		</c:when>
+  		<c:otherwise>
+	  		<li class="page-item disabled">
+	            <a href="#" class="page-link">&raquo;</a>
+	        </li>
+  		</c:otherwise>
+  	</c:choose>
 </ul>
 </div>

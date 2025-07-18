@@ -5,6 +5,13 @@
 <!-- 리스트 영역 전체를 감싸는 div에 id 부여 -->
 <div id="aslistArea" class="inner-container">
     <table class="normal-table">
+    	<colgroup>
+			<col style="width: 15%">
+			<col style="width: 40%">
+			<col style="width: 15%">
+			<col style="width: 15%">
+			<col style="width: 15%">
+		</colgroup>
         <thead>
             <tr>
                 <th>번호</th>
@@ -42,16 +49,28 @@
     </table>
 </div>
 
-<!-- 페이징 영역도 별도의 div로 감싸서 id 부여 -->
-<div id="pageNumArea" class="pagination">
+<div id="pageNumArea">
+<!-- List -->
+<ul  class="pagination custom-pagination justify-content-center">
+    <!-- 이전 버튼 -->
     <c:if test="${pageInfo.hasPrev}">
-        <a href="#" onclick="onPageClick(${pageInfo.startPage - 1}); return false;">◀ 이전</a>
+        <li class="page-item">
+            <a href="#" onclick="onPageClick(${pageInfo.startPage - 1}); return false;" class="page-link">&laquo;</a>
+        </li>
     </c:if>
+    
+    <!-- 번호 버튼-->
     <c:forEach begin="${pageInfo.startPage}" end="${pageInfo.endPage}" var="i">
-        <a href="#" onclick="onPageClick(${i}); return false;"
-           class="${pageInfo.currentPage == i ? 'active' : ''}">${i}</a>
+        <li class="page-item <c:if test="${pageInfo.currentPage == i}">active</c:if>">
+            <a href="#" onclick="onPageClick(${i}); return false;" class="page-link">${i}</a>
+        </li>
     </c:forEach>
+    
+    <!-- 다음 버튼 -->
     <c:if test="${pageInfo.hasNext}">
-        <a href="#" onclick="onPageClick(${pageInfo.endPage + 1}); return false;">다음 ▶</a>
+        <li class="page-item">
+            <a href="#" onclick="onPageClick(${pageInfo.endPage + 1}); return false;" class="page-link">&raquo;</a>
+        </li>
     </c:if>
+</ul>
 </div>

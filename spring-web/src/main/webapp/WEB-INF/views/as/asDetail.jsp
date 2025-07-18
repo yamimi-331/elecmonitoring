@@ -75,7 +75,7 @@
 				</div>
 				
 				<!-- 페이징 -->
-				<div class="pagination" id="paginationArea">
+				<div class="pagination custom-pagination" id="paginationArea">
 				
 				</div>
 			</div>

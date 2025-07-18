@@ -175,3 +175,26 @@
   vertical-align: middle;
   margin-left: 5px;
 }
+
+/* .custom-pagination 클래스를 가진 ul 태그에 스타일 적용 */
+.custom-pagination {
+    list-style: none; /* 리스트 앞에 점(불릿) 제거 */
+    padding-left: 0;  /* ul의 기본 padding 제거 (선택 사항, Bootstrap이 이미 처리할 수도 있음) */
+}
+
+/* 각 페이지 항목 (li)에 좌우 마진을 주어 간격 생성 */
+.custom-pagination .page-item {
+    margin: 0 5px; /* 각 페이지 항목 좌우로 5px 간격 */
+}
+
+/* 첫 번째와 마지막 페이지 링크의 테두리 반경을 조정하여 보기 좋게 만듭니다. */
+/* Bootstrap pagination에서 링크들이 서로 붙어있지 않을 때 유용합니다. */
+.custom-pagination .page-item:first-child .page-link {
+    border-top-left-radius: .25rem;
+    border-bottom-left-radius: .25rem;
+}
+
+.custom-pagination .page-item:last-child .page-link {
+    border-top-right-radius: .25rem;
+    border-bottom-right-radius: .25rem;
+}

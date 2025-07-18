@@ -186,6 +186,66 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    ORDER BY a.as_date
         ]]>
     </select>
+    <!-- 직원 관리자의 AS 일정조회 페이징 기법 추가 -->
+    <select id="selectAsScheduleByPeriodAndStaffPaged" resultType="com.eco.domain.DTO.ASListDTO">
+        <![CDATA[
+        SELECT
+          a.as_cd, a.as_title, a.as_content, a.as_date,
+          TIME_FORMAT(a.as_date, '%H:%i') AS as_time,
+          a.as_status, a.as_addr, a.as_facility, a.user_cd, s.staff_nm
+        FROM T_AS a
+        LEFT JOIN T_STAFF s ON a.staff_cd = s.staff_cd
+        WHERE DATE(a.as_date) BETWEEN #{startDate} AND #{endDate} and a.use_yn = 'Y'
+        AND (
+            s.staff_nm LIKE CONCAT('%', #{staffInfo}, '%')
+            OR s.staff_id = #{staffInfo}
+        )
+        ORDER BY a.as_date
+        LIMIT #{limit} OFFSET #{offset}
+        ]]>
+    </select>
+    <!-- 직원 관리자의 AS 일정조회 페이징 기법 추가 -->
+     <select id="countAsScheduleByPeriodAndStaff" resultType="long">
+        <![CDATA[
+        SELECT
+            COUNT(a.as_cd)
+        FROM T_AS a
+        LEFT JOIN T_STAFF s ON a.staff_cd = s.staff_cd
+        WHERE DATE(a.as_date) BETWEEN #{startDate} AND #{endDate} and a.use_yn = 'Y'
+        AND (
+            s.staff_nm LIKE CONCAT('%', #{staffInfo}, '%')
+            OR s.staff_id = #{staffInfo}
+        )
+        ]]>
+    </select>
+	<!-- 직원 관리자의 AS 일정조회 페이징 기법 추가 -->
+    <select id="selectAsScheduleByStaffAndDatePaged" resultType="com.eco.domain.DTO.ASListDTO">
+        <![CDATA[
+        SELECT
+          a.as_cd, a.as_title, a.as_content, a.as_date,
+          TIME_FORMAT(a.as_date, '%H:%i') AS as_time,
+          a.as_status, a.as_addr, a.as_facility, a.user_cd, s.staff_nm
+        FROM T_AS a
+        LEFT JOIN T_STAFF s ON a.staff_cd = s.staff_cd
+        WHERE DATE(a.as_date) BETWEEN #{startDate} AND #{endDate} and a.use_yn = 'Y'
+        AND s.staff_id = #{staffId}
+        ORDER BY a.as_date
+        LIMIT #{limit} OFFSET #{offset}
+        ]]>
+    </select>
+    
+	<!-- 직원 관리자의 AS 일정조회 페이징 기법 추가 -->
+    <select id="countAsScheduleByStaffAndDate" resultType="long">
+        <![CDATA[
+        SELECT
+            COUNT(a.as_cd)
+        FROM T_AS a
+        LEFT JOIN T_STAFF s ON a.staff_cd = s.staff_cd
+        WHERE DATE(a.as_date) BETWEEN #{startDate} AND #{endDate} and a.use_yn = 'Y'
+        AND s.staff_id = #{staffId}
+        ]]>
+    </select>
+    
 	<!-- 사용자에 해당하는 AS 신고내역 조회(날짜순) -->
     <select id="selectUserAsListOrderByAsDate" resultType="com.eco.domain.vo.ASVO" parameterType="int">
 	    <![CDATA[

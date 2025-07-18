@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.eco.domain.DTO.ASListDTO;
 import com.eco.domain.DTO.ASPageResponseDTO;
+import com.eco.domain.DTO.AsScheduleResponseDTO;
 import com.eco.domain.DTO.GuestDTO;
 import com.eco.domain.vo.ASVO;
 import com.eco.domain.vo.UserVO;
@@ -45,6 +46,14 @@ public interface AsService {
 	
 	// 관리자의 모든 스케쥴 조회
 	public List<ASListDTO> getScheduleByPeriodAndStaff(LocalDate start, LocalDate end, String staffInfo);
+	
+	//관리자 권한으로 기간 및 담당자명 기준으로 AS 일정을 페이징 처리하여 조회합니다.
+	public AsScheduleResponseDTO getScheduleByPeriodAndStaffPaged(LocalDate startDate, LocalDate endDate,
+			String staffInfo, int offset, int limit);
+	
+	//일반 직원 권한으로 본인의 AS 일정을 페이징 처리하여 조회합니다.
+	public AsScheduleResponseDTO getScheduleByStaffAndDatePaged(LocalDate startDate, LocalDate endDate, String staffId,
+			int offset, int limit);
 	
 	// 회원 탈퇴시 미래 예약건 취소
 	public boolean cancleAsListBydeleteUser(UserVO userVO);

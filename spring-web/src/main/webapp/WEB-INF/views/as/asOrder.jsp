@@ -7,6 +7,8 @@
 <meta charset="UTF-8">
 <title>AS 일정 목록</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/locales/ko.global.js"></script>
 <link rel="stylesheet" href="../../resources/css/common.css?after" />
 <link rel="stylesheet" href="../../resources/css/asOder.css?after" />
 </head>
@@ -24,6 +26,14 @@
 					<button id="btnSearch">조회</button>
 				</div>
 				<table id="asTable" class="custom-table">
+					<colgroup>
+						<col style="width: 10%">
+						<col style="width: 40%">
+						<col style="width: 15%">
+						<col style="width: 10%">
+						<col style="width: 15%">
+						<col style="width: 10%">
+					</colgroup>
 					<thead>
 						<tr>
 							<th>코드번호</th>
@@ -54,6 +64,10 @@
 						</c:if>
 					</tbody>
 				</table>
+				
+				<!-- 페이지 네이션 -->
+				<div class="pagination" id="pagination">
+        		</div>
 			</div>
 		</main>
 	</div>

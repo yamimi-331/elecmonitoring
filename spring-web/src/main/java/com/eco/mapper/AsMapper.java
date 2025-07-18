@@ -70,6 +70,24 @@ public interface AsMapper {
 	public List<ASListDTO> selectScheduleByDate(@Param("start") LocalDate start, @Param("end") LocalDate end,
 			@Param("staffInfo") String staffInfo);
 
+	// 관리자의 날짜/담당자명 기준 AS 일정 조회 (페이징 적용)
+	public List<ASListDTO> selectAsScheduleByPeriodAndStaffPaged(@Param("startDate") LocalDate startDate,
+			@Param("endDate") LocalDate endDate, @Param("staffInfo") String staffInfo, @Param("offset") int offset,
+			@Param("limit") int limit);
+
+	// 관리자의 날짜/담당자명 기준 AS 일정 총 개수 조회
+	public long countAsScheduleByPeriodAndStaff(@Param("startDate") LocalDate startDate,
+			@Param("endDate") LocalDate endDate, @Param("staffInfo") String staffInfo);
+
+	// 직원 본인의 날짜별 AS 일정 조회 (페이징 적용)
+	public List<ASListDTO> selectAsScheduleByStaffAndDatePaged(@Param("startDate") LocalDate startDate,
+			@Param("endDate") LocalDate endDate, @Param("staffId") String staffId, // staffId로 변경하여 명확하게 구분
+			@Param("offset") int offset, @Param("limit") int limit);
+
+	// 직원 본인의 날짜별 AS 일정 총 개수 조회
+	public long countAsScheduleByStaffAndDate(@Param("startDate") LocalDate startDate,
+			@Param("endDate") LocalDate endDate, @Param("staffId") String staffId);
+    
 	// 지역 일자 기준 전 직원 스케줄 조회
 	public List<AvailableStaffDTO> selectAllAsListByRegion(@Param("date") LocalDate localDate,
 			@Param("region") String region);

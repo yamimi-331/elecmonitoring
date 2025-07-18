@@ -10,7 +10,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.eco.domain.DTO.ASCallenderDTO;
 import com.eco.domain.DTO.ASListDTO;
 import com.eco.domain.DTO.ASPageResponseDTO;
+import com.eco.domain.DTO.AsScheduleResponseDTO;
 import com.eco.domain.DTO.GuestDTO;
 import com.eco.domain.vo.ASVO;
 import com.eco.domain.vo.StaffVO;
@@ -527,6 +530,73 @@ public class AsController {
 		}
 	}
 	
+	/**
+     * 기간 및 담당자명 기준으로 AS 일정을 페이징 처리하여 조회합니다.
+     * 사용자 권한에 따라 조회 범위가 달라집니다.
+     *
+     * @param startDate 조회 시작일 (YYYY-MM-DD)
+     * @param endDate 조회 종료일 (YYYY-MM-DD)
+     * @param staffInfo 담당자명 (선택 사항, 관리자만 유효)
+     * @param page 현재 페이지 번호 (1-based, 기본값: 1)
+     * @param size 페이지당 항목 수 (기본값: 10)
+     * @param session 현재 세션 (사용자 정보 확인용)
+     * @return 페이징 정보와 함께 ASListDTO 목록을 담은 AsScheduleResponse 객체
+     */
+    @GetMapping("/schedule2")
+    public ResponseEntity<AsScheduleResponseDTO> getScheduleByPeriodAndStaffPaged(
+            @RequestParam String startDate,
+            @RequestParam String endDate,
+            @RequestParam(required = false) String staffInfo,
+            @RequestParam(defaultValue = "1") int page, // 1-based 페이지 번호
+            @RequestParam(defaultValue = "10") int size, // 페이지당 항목 수
+            HttpSession session) {
+
+		log.info("기간/담당자명 기준 조회 (페이징): startDate=" + startDate + ", endDate=" + endDate + ", staffInfo=" + staffInfo
+				+ ", page=" + page + ", size=" + size);
+
+        Object obj = session.getAttribute("currentUserInfo");
+
+        // 로그인 정보 없으면 권한 없음 처리
+        if (obj == null) {
+            log.warn("AS 일정 조회 요청 - 로그인 정보 없음");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED) // 401 Unauthorized
+                                 .body(new AsScheduleResponseDTO()); // 빈 응답 DTO 반환
+        }
+
+        LocalDate start = LocalDate.parse(startDate, DateTimeFormatter.ISO_DATE);
+        LocalDate end = LocalDate.parse(endDate, DateTimeFormatter.ISO_DATE);
+
+        // staffInfo가 null이면 빈 문자열로 초기화
+        if (staffInfo == null) {
+            staffInfo = "";
+        }
+        
+        // Offset과 Limit 계산: page는 1부터 시작하므로 offset은 (page-1) * size
+        int offset = (page - 1) * size;
+        int limit = size; // 한 페이지에 가져올 데이터 개수
+        
+        AsScheduleResponseDTO response;
+
+        if (obj instanceof StaffVO) {
+            StaffVO staff = (StaffVO) obj;
+            if ("admin".equalsIgnoreCase(staff.getStaff_role())) {
+                // 관리자면 모든 사용자 AS를 페이징하여 조회
+            	 response = asService.getScheduleByPeriodAndStaffPaged(start, end, staffInfo, offset, limit); // 수정된 부분
+ 				log.info("관리자 AS 일정 조회 완료: totalElements=" + response.getTotalElements() + ", currentPage=" + response.getCurrentPage());
+            } else {
+                // 일반 직원이면 본인 스케줄만 페이징하여 조회
+                String staffId = staff.getStaff_id();
+                response = asService.getScheduleByStaffAndDatePaged(start, end, staffId, offset, limit); // 수정된 부분
+                log.info("직원 '"+staffId+"' AS 일정 조회 완료: totalElements="+response.getTotalElements()+", currentPage=" + response.getCurrentPage());
+            }
+        } else {
+            log.warn("AS 일정 조회 요청 - 권한 없는 사용자 유형: " + obj.getClass().getSimpleName());
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                                 .body(new AsScheduleResponseDTO());
+        }
+        return ResponseEntity.ok(response); // HTTP 200 OK와 함께 DTO 반환
+    }
+    
 	// 전체 일정 확인 페이지 이동
 	@GetMapping("/calendar")
 	public String calendarPage(HttpSession session, RedirectAttributes redirectAttrs) {

@@ -3,6 +3,7 @@ package com.eco.service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.eco.domain.DTO.ASListDTO;
 import com.eco.domain.DTO.ASPageResponseDTO;
+import com.eco.domain.DTO.AsScheduleResponseDTO;
 import com.eco.domain.DTO.AvailableStaffDTO;
 import com.eco.domain.DTO.GuestDTO;
 import com.eco.domain.vo.ASVO;
@@ -183,7 +185,70 @@ public class AsServiceImpl implements AsService {
 			throw new ServiceException("항목 상세 조회 실패", e);
 		}
 	}
+	// 새롭게 추가될 메서드들 (페이징 적용)
 
+	/**
+	 * 관리자 권한으로 기간 및 담당자명 기준으로 AS 일정을 페이징 처리하여 조회합니다.
+	 *
+	 * @param startDate 조회 시작일
+	 * @param endDate   조회 종료일
+	 * @param staffInfo 담당자명 (검색 조건)
+	 * @param offset    시작 위치 (건너뛸 개수)
+	 * @param limit     가져올 개수
+	 * @return Map<String, Object> (content: 현재 페이지 목록, totalElements: 전체 항목 수)
+	 */
+	@Override
+	public AsScheduleResponseDTO getScheduleByPeriodAndStaffPaged(LocalDate startDate, LocalDate endDate,
+			String staffInfo, int offset, int limit) {
+		try {
+			long totalCount = asMapper.countAsScheduleByPeriodAndStaff(startDate, endDate, staffInfo);
+			List<ASListDTO> currentAsList = asMapper.selectAsScheduleByPeriodAndStaffPaged(startDate, endDate,
+					staffInfo, offset, limit);
+
+			AsScheduleResponseDTO response = new AsScheduleResponseDTO();
+			response.setContent(currentAsList);
+			response.setTotalElements(totalCount);
+			// 페이지 관련 정보도 서비스에서 계산하여 DTO에 설정합니다.
+			response.setTotalPages((int) Math.ceil((double) totalCount / limit));
+			response.setCurrentPage((offset / limit) + 1); // 1-based 페이지 번호 계산
+			response.setPageSize(limit);
+
+			return response;
+		} catch (Exception e) {
+			throw new ServiceException("관리자 AS 일정 페이징 조회 실패", e);
+		}
+	}
+
+	/**
+	 * 일반 직원 권한으로 본인의 AS 일정을 페이징 처리하여 조회합니다.
+	 *
+	 * @param startDate 조회 시작일
+	 * @param endDate   조회 종료일
+	 * @param staffId   직원 ID (본인 스케줄 조회)
+	 * @param offset    시작 위치
+	 * @param limit     가져올 개수
+	 * @return Map<String, Object> (content: 현재 페이지 목록, totalElements: 전체 항목 수)
+	 */
+	@Override
+	public AsScheduleResponseDTO  getScheduleByStaffAndDatePaged(LocalDate startDate, LocalDate endDate, String staffId,
+			int offset, int limit) {
+		try {
+			long totalCount = asMapper.countAsScheduleByStaffAndDate(startDate, endDate, staffId);
+            List<ASListDTO> currentAsList = asMapper.selectAsScheduleByStaffAndDatePaged(startDate, endDate, staffId, offset, limit);
+
+            AsScheduleResponseDTO response = new AsScheduleResponseDTO();
+            response.setContent(currentAsList);
+            response.setTotalElements(totalCount);
+            response.setTotalPages((int) Math.ceil((double) totalCount / limit));
+            response.setCurrentPage((offset / limit) + 1);
+            response.setPageSize(limit);
+
+            return response;
+		} catch (Exception e) {
+			throw new ServiceException("직원 AS 일정 페이징 조회 실패", e);
+		}
+	}
+	
 	// 회원 탈퇴시 미래 예약건 취소
 	@Override
 	public boolean cancleAsListBydeleteUser(UserVO userVO) {

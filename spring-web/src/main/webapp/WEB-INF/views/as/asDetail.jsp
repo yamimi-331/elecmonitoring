@@ -18,19 +18,6 @@
 }
 </style>
 <script>
-/* function loadData(sortType) {
-    $.ajax({
-      url: '/as/detail/list',
-      type: 'GET',
-      data: { sort: sortType },
-      success: function(data) {
-        $('#listArea').html(data);
-      },
-      error: function(err) {
-        console.error(err);
-      }
-    });
-  } */
   let currentSort = 'reportDate';
   let currentPage = 1;
 

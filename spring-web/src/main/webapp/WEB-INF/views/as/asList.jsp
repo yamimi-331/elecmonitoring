@@ -36,7 +36,7 @@
                             <td>${item.as_date_str} ${item.as_time_str}</td>
                             <td>${item.as.as_status}</td>
                             <td>
-                                <form action="/as/edit" method="post" style="display:inline;">
+                                <form action="/as/info" method="get" style="display:inline;">
                                     <input type="hidden" name="as_cd" value="${item.as.as_cd}" />
                                     <button type="submit">상세보기</button>
                                 </form>

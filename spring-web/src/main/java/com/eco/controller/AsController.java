@@ -252,9 +252,67 @@ public class AsController {
 	    return parsedList;
 	}
 
-	// as신고 수정 화면
+	// as신고 상세 정보
+	@GetMapping("/info")
+	public String asInfo(@RequestParam("as_cd") int as_cd, Model model, HttpSession session, RedirectAttributes redirectAttrs) {
+	    log.info("as 예약 상세정보 화면 접속");
+
+	    Object currentUser = session.getAttribute("currentUserInfo");
+	    if (currentUser == null) {
+	        redirectAttrs.addFlashAttribute("message", "로그인 후 이용해주세요.");
+	        return "redirect:/login";
+	    }
+
+	    ASVO asvo = asService.readAsDetailByUser(as_cd);
+
+	    // 본인 확인 로직
+	    boolean authorized = false;
+	    if (currentUser instanceof UserVO) {
+	        int user_cd = ((UserVO) currentUser).getUser_cd();
+	        if (asvo != null && asvo.getUser_cd() == user_cd) {
+	            authorized = true;
+	        }
+	    } else if (currentUser instanceof GuestDTO) {
+	        GuestDTO guest = (GuestDTO) currentUser;
+	        if (asvo != null && guest.getGuest_mail().equals(asvo.getGuest_mail())
+	                && guest.getGuest_nm().equals(asvo.getGuest_nm())) {
+	            authorized = true;
+	        }
+	    }
+
+	    if (!authorized) {
+	        redirectAttrs.addFlashAttribute("message", "유효하지 않은 요청이거나 권한이 없습니다.");
+	        return "redirect:/as/detail";
+	    }
+
+	    
+	    if (asvo != null) {
+	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+	        String formattedAsDate = asvo.getAs_date().format(formatter);
+	        
+	        String fullAddr = asvo.getAs_addr();
+		    String baseAddr = "";
+		    String detailAddr = "";
+		    if (fullAddr != null && fullAddr.contains(":")) {
+		        String[] parts = fullAddr.split(":", 2);
+		        baseAddr = parts[0];
+		        detailAddr = parts[1];
+		    } else {
+		        baseAddr = fullAddr != null ? fullAddr : "";
+		        detailAddr = "";
+		    }
+	        
+	        model.addAttribute("asVO", asvo);
+	        model.addAttribute("formattedAsDate", formattedAsDate);
+	        model.addAttribute("base_addr", baseAddr);
+	        model.addAttribute("detail_addr", detailAddr);
+	    }
+	    return "/as/asInfo";
+	}
+	
 	// AS 신고 수정 화면
-	@PostMapping("/edit")
+	@GetMapping("/edit")
 	public String asEdit(@RequestParam("as_cd") int as_cd, Model model, HttpSession session, RedirectAttributes redirectAttrs) {
 	    log.info("as 예약 수정 화면 접속");
 

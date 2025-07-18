@@ -166,9 +166,6 @@ function searchAddress() {
 						<c:if test="${asVO.as_status == '신고 접수'}">
 							<button type="submit" form="updateForm">수정하기</button>
 						</c:if>
-						<c:if test="${asVO.as_status == '신고 접수'}">
-							<button type="submit" form="cancleForm" onclick="return confirmCancel()">예약 취소</button>
-						</c:if>
 						<button type="button" onclick="location.href='/as/detail'">돌아가기</button>
 					</div>
 				</form>

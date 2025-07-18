@@ -91,6 +91,10 @@
 						<th>예약 일시</th>
 						<td>${formattedAsDate}</td>
 					</tr>
+					<tr>
+						<th>진행 현황</th>
+						<td>${asVO.as_status}</td>
+					</tr>
 				</table>
 				<div class="button-box">
 					<c:if test="${asVO.as_status == '신고 접수'}">

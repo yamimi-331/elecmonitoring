@@ -2,8 +2,6 @@ package com.eco.domain.DTO;
 
 import java.util.List;
 
-import com.eco.domain.vo.NoticeVO;
-
 import lombok.Data;
 
 @Data

@@ -38,4 +38,7 @@ public interface NoticeService {
 	// 파일 다운로드를 위한
 	public FileUploadDTO getFileDetail(int fileCd); // 파일 상세 정보 조회 메서드 추가
 	
+	// 공지수정(파일 포함)
+	public void modifyNoticeWithFiles(NoticeDTO notice, MultipartFile[] newFiles, String[] deletedFileCds);
+	
 }

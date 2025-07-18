@@ -30,4 +30,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		]]>
 	</insert>
 
+ 	<update id="updateFileUseYn" parameterType="map">
+        <![CDATA[ 
+        UPDATE T_FILE
+        SET
+            use_yn = #{useYn},
+            update_dt = NOW()
+        WHERE
+            file_cd = #{fileCd}
+            ]]>
+    </update>
+
+    <update id="updateFilesUseYnByNoticeCd" parameterType="map">
+        <![CDATA[
+        UPDATE T_FILE
+        SET
+            use_yn = #{useYn},
+            update_dt = NOW()
+        WHERE
+            notice_cd = #{noticeCd}
+        ]]>
+    </update>
 </mapper>

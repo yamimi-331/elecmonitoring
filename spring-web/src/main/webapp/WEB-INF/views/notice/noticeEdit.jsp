@@ -15,7 +15,7 @@
 		<main class="main">
 			<h2>게시글 수정</h2>
 			<div class="container">
-				<form method="post" action="/notice/modify" id="notice-form">
+				<form method="post" action="/notice/modify" id="notice-form"  enctype="multipart/form-data">
 					<input type="hidden" id="notice_cd" name="notice_cd" value="${notice.notice_cd}">
 					<table class="report-detail">
 						<colgroup>
@@ -33,6 +33,39 @@
 						<tr>
 							<th><label for="content">내용</label></th>
 							<td><textarea name="content" id="content">${notice.content}</textarea></td>
+						</tr>
+						<!-- 기존 첨부 파일 목록 -->
+						<tr>
+							<th>기존 첨부 파일</th>
+							<td>
+								<c:choose>
+									<c:when test="${not empty attachedFiles}">
+										<ul class="file-list">
+											<c:forEach var="file" items="${attachedFiles}">
+												<li>
+													<a href="/notice/downloadFile/${file.file_cd}" target="_blank">${file.original_name}</a>
+													(<c:out value="${file.file_size / 1024 < 1024 ? String.format('%.1f KB', file.file_size / 1024.0) : String.format('%.1f MB', file.file_size / (1024.0 * 1024.0))}" />)
+													<%-- 삭제할 파일의 file_cd를 hidden input으로 전달 --%>
+													<label class="delete-checkbox">
+														<input type="checkbox" name="deletedFileCds" value="${file.file_cd}"> 삭제
+													</label>
+												</li>
+											</c:forEach>
+										</ul>
+									</c:when>
+									<c:otherwise>
+										<p>첨부된 파일이 없습니다.</p>
+									</c:otherwise>
+								</c:choose>
+							</td>
+						</tr>
+						<!-- 새로운 파일 첨부 필드 -->
+						<tr>
+							<th><label for="newFiles">새로운 첨부 파일</label></th>
+							<td>
+								<input type="file" name="newFiles" id="newFiles" multiple>
+								<p class="file-info">새로운 파일을 추가하거나 기존 파일을 대체할 수 있습니다.</p>
+							</td>
 						</tr>
 					</table>
 					<div class="button-box">

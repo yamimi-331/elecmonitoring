@@ -34,6 +34,7 @@ import com.eco.domain.DTO.NoticeDTO;
 import com.eco.domain.DTO.NoticePageResponseDTO;
 import com.eco.domain.vo.StaffVO;
 import com.eco.domain.vo.UserVO;
+import com.eco.exception.ServiceException;
 import com.eco.service.NoticeService;
 
 import lombok.AllArgsConstructor;
@@ -303,28 +304,67 @@ public class NoticeController {
 	        redirectAttrs.addFlashAttribute("message", "유효하지 않은 요청이거나 권한이 없습니다.");
 	        return "redirect:/notice";
 	    }
-		
+	    // 첨부 파일 목록 조회하여 모델에 추가
+        List<FileUploadDTO> attachedFiles = noticeService.getAttachedFiles(noticeCd);
+        
 	    model.addAttribute("notice", notice);
 	    model.addAttribute("currentUserInfo", staff);
+	    model.addAttribute("attachedFiles", attachedFiles);
 		return "/notice/noticeEdit";
 	}
-
+	
 	// 공지사항 수정 처리
-	@PostMapping("/modify")
-	public String noticeEdit(@ModelAttribute NoticeDTO noticeDTO, HttpSession session, RedirectAttributes redirectAttrs) {
-		log.info("공지사항 수정 완료");
-		StaffVO staff = (StaffVO) session.getAttribute("currentUserInfo");
-		noticeDTO.setStaff_cd(staff.getStaff_cd());
-		noticeDTO.setUpdate_dt(LocalDateTime.now());
-		
-		boolean result = noticeService.modifyNotice(noticeDTO);
-		if (result) {
-			redirectAttrs.addFlashAttribute("message", "공지사항 수정이 완료되었습니다.");
-		} else {
-			redirectAttrs.addFlashAttribute("message", "공지사항 수정에 실패하였습니다.");
-		}
-		return "redirect:/notice";
-	}
+    @PostMapping("/modify")
+    public String noticeEditWidthFile(@ModelAttribute NoticeDTO noticeDTO,
+                             @RequestParam(value = "newFiles", required = false) MultipartFile[] newFiles, // 새로 추가된 파일
+                             @RequestParam(value = "deletedFileCds", required = false) String[] deletedFileCds, // 삭제될 파일 코드
+                             HttpSession session, RedirectAttributes redirectAttrs) {
+        log.info("공지사항 수정 요청 수신: " + noticeDTO);
+        log.info("새로운 파일 수: "+ (newFiles != null ? newFiles.length : 0));
+        log.info("삭제될 파일 코드: " + (deletedFileCds != null ? String.join(", ", deletedFileCds) : "없음"));
+
+        StaffVO staff = (StaffVO) session.getAttribute("currentUserInfo");
+        
+        if (staff == null) {
+            redirectAttrs.addFlashAttribute("message", "로그인 후 이용해주세요.");
+            return "redirect:/login";
+        }
+
+        noticeDTO.setStaff_cd(staff.getStaff_cd());
+
+        try {
+            // 파일 처리 로직을 포함하는 새로운 서비스 메서드 호출
+            noticeService.modifyNoticeWithFiles(noticeDTO, newFiles, deletedFileCds);
+            
+            redirectAttrs.addFlashAttribute("message", "공지사항 수정이 완료되었습니다.");
+            return "redirect:/notice/detail?notice_cd=" + noticeDTO.getNotice_cd(); // 수정 후 상세 페이지로 이동
+        } catch (ServiceException e) {
+            log.error("공지사항 수정 실패: " + e.getMessage(), e);
+            redirectAttrs.addFlashAttribute("message", "공지사항 수정에 실패하였습니다.");
+            return "redirect:/notice/modify?notice_cd=" + noticeDTO.getNotice_cd(); // 실패 시 수정 페이지로 다시 이동
+        } catch (Exception e) {
+            log.error("예상치 못한 공지사항 수정 오류: " + e.getMessage(), e);
+            redirectAttrs.addFlashAttribute("message", "공지사항 수정 중 알 수 없는 오류가 발생했습니다.");
+            return "redirect:/notice/modify?notice_cd=" + noticeDTO.getNotice_cd();
+        }
+    }
+    
+//	// 공지사항 수정 처리
+//	@PostMapping("/modify")
+//	public String noticeEdit(@ModelAttribute NoticeDTO noticeDTO, HttpSession session, RedirectAttributes redirectAttrs) {
+//		log.info("공지사항 수정 완료");
+//		StaffVO staff = (StaffVO) session.getAttribute("currentUserInfo");
+//		noticeDTO.setStaff_cd(staff.getStaff_cd());
+//		noticeDTO.setUpdate_dt(LocalDateTime.now());
+//		
+//		boolean result = noticeService.modifyNotice(noticeDTO);
+//		if (result) {
+//			redirectAttrs.addFlashAttribute("message", "공지사항 수정이 완료되었습니다.");
+//		} else {
+//			redirectAttrs.addFlashAttribute("message", "공지사항 수정에 실패하였습니다.");
+//		}
+//		return "redirect:/notice";
+//	}
 
 	// 공지사항 삭제 처리(소프트 삭제)
 	@PostMapping("/remove")

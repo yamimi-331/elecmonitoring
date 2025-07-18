@@ -7,7 +7,6 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -211,5 +210,77 @@ public class NoticeServiceImpl implements NoticeService {
 			throw new ServiceException("공지사항의 파일 다운로드 중 오류 발생", e);
 		}
 	}
+	
+	 // 공지사항 수정 처리 (파일 포함)
+    @Override
+    @Transactional
+    public void modifyNoticeWithFiles(NoticeDTO notice, MultipartFile[] newFiles, String[] deletedFileCds) {
+        try {
+            // 1. 공지사항 정보 업데이트
+            int noticeUpdateResult = noticeMapper.updateNotice(notice);
+            if (noticeUpdateResult == 0) {
+                throw new ServiceException("공지사항 정보 업데이트에 실패했습니다.");
+            }
+
+            // 2. 삭제할 파일 처리 (use_yn을 'N'으로 업데이트)
+            if (deletedFileCds != null && deletedFileCds.length > 0) {
+                for (String fileCdStr : deletedFileCds) {
+                    try {
+                        int fileCd = Integer.parseInt(fileCdStr);
+                        int deleteResult = fileMapper.updateFileUseYn(fileCd, "N");
+                        if (deleteResult == 0) {
+                            // 실패해도 트랜잭션 롤백은 하지 않지만, 로그로 경고
+                        } else {
+                        }
+                    } catch (NumberFormatException e) {
+                    	
+                    }
+                }
+            }
+
+            // 3. 새로 추가할 파일 처리 (등록 로직과 유사)
+            if (newFiles != null && newFiles.length > 0) {
+                String actualUploadPath = UPLOAD_DIR;
+                if (!actualUploadPath.endsWith(File.separator)) {
+                    actualUploadPath += File.separator;
+                }
+
+                File uploadDirFile = new File(actualUploadPath);
+                if (!uploadDirFile.exists()) {
+                    uploadDirFile.mkdirs();
+                }
+
+                for (MultipartFile file : newFiles) {
+                    if (!file.isEmpty()) {
+                        String originalName = file.getOriginalFilename();
+                        String storedName = UUID.randomUUID().toString() + "_" + originalName;
+                        String filePath = actualUploadPath + storedName;
+
+                        long fileSize = file.getSize();
+
+                        Path targetPath = Paths.get(filePath);
+                        Files.copy(file.getInputStream(), targetPath);
+
+                        FileUploadDTO fileDTO = new FileUploadDTO();
+                        fileDTO.setNotice_cd(notice.getNotice_cd()); 
+                        fileDTO.setOriginal_name(originalName);
+                        fileDTO.setStored_name(storedName);
+                        fileDTO.setFile_path(filePath);
+                        fileDTO.setFile_size(fileSize);
+
+                        int fileInsertResult = fileMapper.insertFile(fileDTO);
+                        if (fileInsertResult == 0) {
+                            Files.deleteIfExists(targetPath);
+                            throw new ServiceException("새 파일 정보 DB 저장에 실패했습니다: " + originalName);
+                        } else {
+
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            throw new ServiceException("공지사항 및 파일 수정 중 오류 발생", e);
+        }
+    }
 
 }

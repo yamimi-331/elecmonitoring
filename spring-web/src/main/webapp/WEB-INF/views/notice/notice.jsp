@@ -17,7 +17,7 @@
 			<h2>공지사항</h2>
 			<div class="container">
 				<div class="search_addr">
-					<input type="text" name="search_word" id="search_word" autocomplete="off">
+					<input type="text" name="search_word" id="search_word" autocomplete="off" placeholder="검색">
 					<button type="button" id="search_word_btn">검색</button>
 				</div>
 				

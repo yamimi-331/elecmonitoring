@@ -6,11 +6,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.eco.mapper.NoticeMapper">
 
 	<!-- 공지사항 목록 조회 -->
-	<select id="getNoticeList" resultType="com.eco.domain.vo.NoticeVO">
+	<select id="selectNoticeList" resultType="com.eco.domain.DTO.NoticeDTO">
 		<![CDATA[
-		SELECT * FROM T_NOTICE
-		WHERE use_yn = 'Y'
-		ORDER BY create_dt DESC
+		SELECT * FROM T_NOTICE n JOIN t_staff s ON n.staff_cd = s.staff_cd
+		WHERE n.use_yn = 'Y'
+		ORDER BY n.create_dt DESC
+		]]>
+	</select>
+	<!-- 공지사항 검색어 조회 -->
+	<select id="selectNoticeSearchList" resultType="com.eco.domain.DTO.NoticeDTO">
+		<![CDATA[
+		SELECT * FROM T_NOTICE n JOIN t_staff s ON n.staff_cd = s.staff_cd
+		WHERE n.use_yn = 'Y' AND (n.title LIKE CONCAT('%', #{search_word}, '%') OR n.content LIKE CONCAT('%', #{search_word}, '%'))
+		ORDER BY n.create_dt DESC
 		]]>
 	</select>
 

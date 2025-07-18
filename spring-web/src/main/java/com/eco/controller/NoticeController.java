@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.eco.domain.DTO.NoticeDTO;
+import com.eco.domain.DTO.ReportListResponseDTO;
 import com.eco.domain.vo.NoticeVO;
 import com.eco.domain.vo.StaffVO;
 import com.eco.domain.vo.UserVO;
@@ -31,25 +34,43 @@ public class NoticeController {
 	@GetMapping("")
 	public String noticePage(HttpSession session, Model model) {
 		log.info("공지사항 목록 조회 페이지로 이동");
-		Object obj = session.getAttribute("currentUserInfo");
-		List<NoticeVO> noticeList = null;
-		// 등급별 공지사항 조회 목록 구분
-		if (obj instanceof UserVO) {
-			//UserVO user = (UserVO) obj;
-			// user의 특정 필드 접근 가능 (예: user.getUsername())
-			noticeList = noticeService.getNoticeList("common");
-		} else if (obj instanceof StaffVO) {
-			StaffVO staff = (StaffVO) obj;
-			// staff의 특정 필드 접근 가능 (예: staff.getStaffId())
-			noticeList = noticeService.getNoticeList(staff.getStaff_role());
-		} else {
-			// 예상치 못한 타입 혹은 null 처리
-		}
+		Object user = session.getAttribute("currentUserInfo");
+	    
+	    if (user instanceof StaffVO) {
+	    	StaffVO staff = (StaffVO) user;
+	    	if ("staff".equals(staff.getStaff_role())){
+	    		session.setAttribute("userType", "staff");
+	    	}else {
+	    		session.setAttribute("userType", "admin");
+	    	}
+	        model.addAttribute("currentUserInfo", (StaffVO) user);
+	    } else if (user instanceof UserVO) {
+	    	session.setAttribute("userType", "common");
+	        model.addAttribute("currentUserInfo", (UserVO) user);
+	    } else {
+	        // 로그인하지 않은 경우 처리할 수도 있음 (예: 비회원도 조회 가능 시)
+	        model.addAttribute("userType", "guest");
+	    }
 
-		// List<NoticeVO> noticeList = noticeService.getNoticeList();
-
-		model.addAttribute("noticeList", noticeList);
 		return "/notice/notice";
+	}
+	
+	// 전기 재해 신고 목록 호출
+	@GetMapping("/noticeList")
+	@ResponseBody
+	public List<NoticeDTO> getNoticeList(@RequestParam(value = "search_word", required = false) String searchWord){
+		//int size = 10;
+		if (searchWord != null && !searchWord.isEmpty()) {
+			List<NoticeDTO> dto = noticeService.getNoticeSearchList(searchWord);
+			return dto;
+	        //return reportService.getLocalReportList(local, page, size);
+	    } else {
+	    	List<NoticeDTO> dto = noticeService.getNoticeList();
+	    	log.info(dto);
+	        return dto;
+	    	//ReportListResponseDTO dto = reportService.getAllReportList(page, size);
+	    	//return dto;
+	    }
 	}
 
 	// 공지사항 상세/수정/등록 페이지 이동

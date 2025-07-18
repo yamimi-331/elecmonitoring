@@ -5,100 +5,67 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<title>문의 게시판</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" href="../../resources/css/common.css?after" />
-<style>
-.btn-insert {
-	display: inline-block;
-	padding: 8px 16px;
-	margin: 15px 150px 0px 0px;
-	background-color: #28a745;
-	color: white;
-	text-decoration: none;
-	border-radius: 5px;
-	margin-bottom: 10px;
-}
-
-.btn-insert:hover {
-	background-color: #218838;
-}
-
-table {
-	width: 85%;
-	border-collapse: collapse;
-	table-layout: fixed;
-	word-wrap: break-word; 
-	margin: 0 auto;
-}
-
-th, td {
-	border: 1px solid #ccc;
-	padding: 10px;
-	text-align: center;
-}
-
-td a{
-	display: inline-block;
-	max-width: 100%;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	color: #077bff;
-	text-decoration: none;
-}
-
-td a:hover{
-	text-decoration: underline;
-}
-
-th:hover {
-	background-color: #f9f9f9;
-}
-</style>
-<title>공지사항 목록</title>
+<link rel="stylesheet" href="../../resources/css/report.css?after" />
 </head>
 <body>
 	<div class="wrapper">
-		<%@ include file="/WEB-INF/views/common/header.jsp" %>
-		<main  class="main">
-		<div class="container">
-			<div style="text-align: right;">
-				<button class="btn-insert"
-					onclick="location.href='/notice/detail?mode=insert'">공지 사항 등록</button>
-			</div>
-			<table>
-				<thead>
-					<tr>
-						<th>번호</th>
-						<th>제목</th>
-						<th>작성자</th>
-						<th>작성일</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach var="notice" items="${noticeList}" varStatus="status">
-						<tr>
-							<td>${status.index + 1}</td>
-							<td><a
-								href="/notice/detail?notice_cd=${notice.notice_cd}&mode=view">
-									${notice.title} </a></td>
-							<td>${notice.user_nm}</td>
-							<td>${notice.create_dt}</td>
-						</tr>
-					</c:forEach>
-
-					<c:if test="${empty noticeList}">
-						<tr>
-							<td colspan="4">등록된 공지사항이 없습니다.</td>
-						</tr>
+		<%@ include file="/WEB-INF/views/common/header.jsp"%>
+		<main class="main">
+			<h2>공지사항</h2>
+			<div class="container">
+				<div class="search_addr">
+					<input type="text" name="search_word" id="search_word">
+					<button type="button" id="search_word_btn">검색</button>
+				</div>
+				<div class="report-button">
+					<c:if test="${userType eq 'admin'}">
+						<button onclick="location.href='/notice/form'" class="report-button">새 글 등록</button>
 					</c:if>
-				</tbody>
-			</table>
-		</div>
-		
+				</div>
+				<table class="report-table">
+					<colgroup>
+						<col style="width:5%">
+						<col style="width:55%">
+						<col style="width:15%">
+						<col style="width:15%">
+						<col style="width:10%">
+					</colgroup>
+					<thead>
+						<tr>
+							<th>번호</th>
+							<th>제목</th>
+							<th>작성자</th>
+							<th>작성일</th>
+							<th>수정일</th>
+						</tr>
+					</thead>
+					<tbody id="noticeTableBody">
+						<tr>
+							<td colspan="5">게시글이 없습니다.</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</main>
-
 	</div>
-	
-<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+	<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+<script src="../../resources/js/notice.js"></script>
+<script>
+	<c:choose>
+		<c:when test="${userType eq 'admin'}">
+			window.currentStaffCd = ${currentUserInfo.staff_cd};
+		</c:when>
+		<c:when test="${userType eq 'common'}">
+			window.currentStaffCd = null;
+		</c:when>
+		<c:otherwise>
+			window.currentStaffCd = null; // guest 등 기타
+		</c:otherwise>
+	</c:choose>
+	window.userRole = "${userType}";
+</script>
 </body>
 </html>

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.eco.domain.DTO.NoticeDTO;
 import com.eco.domain.vo.NoticeVO;
 import com.eco.exception.ServiceException;
 import com.eco.mapper.NoticeMapper;
@@ -16,14 +17,24 @@ public class NoticeServiceImpl implements NoticeService {
 
 	private NoticeMapper noticeMapper;
 
+	// 공지사항 목록 조회
 	@Override
-	public List<NoticeVO> getNoticeList(String userType) {
+	public List<NoticeDTO> getNoticeList() {
 		try {
-			return noticeMapper.getNoticeList();
+			return noticeMapper.selectNoticeList();
 		} catch (Exception e) {
 			throw new ServiceException("공지사항 리스트 조회 실패", e);
 		}
 	}
+	@Override
+	public List<NoticeDTO> getNoticeSearchList(String search_word) {
+		try {
+			return noticeMapper.selectNoticeSearchList(search_word);
+		} catch (Exception e) {
+			throw new ServiceException("공지사항 리스트 조회 실패", e);
+		}
+	}
+
 
 	@Override
 	public NoticeVO getNoticeDetail(int notice_cd) {

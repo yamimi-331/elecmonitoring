@@ -2,6 +2,7 @@ package com.eco.service;
 
 import java.util.List;
 
+import com.eco.domain.DTO.StaffPageResponseDTO;
 import com.eco.domain.vo.StaffVO;
 
 public interface StaffService {
@@ -34,4 +35,10 @@ public interface StaffService {
    
    // 직원 계정 복구
    public boolean recoverAccount(StaffVO staffVO);
+
+   // 페이징을 위한 새로운 서비스 메서드 (활성 직원)
+   public StaffPageResponseDTO getStaffListPaged(String staffId, int page, int size);
+   
+   // 페이징을 위한 새로운 서비스 메서드 (비활성 직원)
+   public StaffPageResponseDTO getStaffForRecoverPaged(String staffId, int page, int size);
 }

@@ -29,5 +29,11 @@ public interface UserMapper {
     
     // 사용자 계정 복구
     public int updateRecoverUser(UserVO userVO);
+    
+	// 페이징을 위한 새로운 메서드 (비활성 일반 사용자)
+	public List<UserVO> selectUserForRecoverPaged(@Param("userId") String userId, @Param("offset") int offset,
+			@Param("limit") int limit);
+
+	public long countUserForRecover(@Param("userId") String userId);
 
 }

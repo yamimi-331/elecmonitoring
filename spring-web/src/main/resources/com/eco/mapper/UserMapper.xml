@@ -26,6 +26,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE use_yn = 'N' AND user_id LIKE CONCAT('%', #{user_id}, '%')
 		]]>
 	</select>
+	
+	  <!-- 비활성화 일반 사용자 계정 조회 (페이징 적용) -->
+    <select id="selectUserForRecoverPaged" resultType="com.eco.domain.vo.UserVO">
+        <![CDATA[
+        SELECT * FROM t_user
+        WHERE use_yn = 'N' AND user_id LIKE CONCAT('%', #{userId}, '%')
+        LIMIT #{limit} OFFSET #{offset}
+        ]]>
+    </select>
+    <!-- 비활성화 일반 사용자 계정 총 개수 조회 -->
+    <select id="countUserForRecover" resultType="long">
+        <![CDATA[
+        SELECT COUNT(*) FROM t_user
+        WHERE use_yn = 'N' AND user_id LIKE CONCAT('%', #{userId}, '%')
+        ]]>
+    </select>
+    
 	<!-- INSERT -->
 	<!-- 사용자 회원가입 -->
 	<insert id="insertUser" parameterType="com.eco.domain.vo.UserVO">

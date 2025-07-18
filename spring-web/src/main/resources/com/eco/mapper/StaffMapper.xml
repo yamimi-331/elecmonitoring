@@ -32,6 +32,38 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE use_yn = 'N' AND staff_id LIKE CONCAT('%', #{staff_id}, '%')
 		]]>
 	</select>
+	  <!-- 활성 직원 계정 조회 (페이징 적용) -->
+    <select id="selectStaffByIdAndUseynPaged" resultType="com.eco.domain.vo.StaffVO">
+        <![CDATA[
+        SELECT * FROM t_staff
+        WHERE use_yn = 'Y' AND staff_id LIKE CONCAT('%', #{staffId}, '%')
+        LIMIT #{limit} OFFSET #{offset}
+        ]]>
+    </select>
+    <!-- 활성 직원 계정 총 개수 조회 -->
+    <select id="countStaffByIdAndUseyn" resultType="long">
+        <![CDATA[
+        SELECT COUNT(*) FROM t_staff
+        WHERE use_yn = 'Y' AND staff_id LIKE CONCAT('%', #{staffId}, '%')
+        ]]>
+    </select>
+
+    <!-- 비활성화 직원 계정 조회 (페이징 적용) -->
+    <select id="selectStaffForRecoverPaged" resultType="com.eco.domain.vo.StaffVO">
+        <![CDATA[
+        SELECT * FROM t_staff
+        WHERE use_yn = 'N' AND staff_id LIKE CONCAT('%', #{staffId}, '%')
+        LIMIT #{limit} OFFSET #{offset}
+        ]]>
+    </select>
+    <!-- 비활성화 직원 계정 총 개수 조회 -->
+    <select id="countStaffForRecover" resultType="long">
+        <![CDATA[
+        SELECT COUNT(*) FROM t_staff
+        WHERE use_yn = 'N' AND staff_id LIKE CONCAT('%', #{staffId}, '%')
+        ]]>
+    </select>
+    
 
 	<!-- INSERT -->
 	<!-- 직원 회원 가입 -->

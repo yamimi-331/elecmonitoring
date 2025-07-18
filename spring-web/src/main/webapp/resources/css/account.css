@@ -1,74 +1,80 @@
 @charset "UTF-8";
+
 .modal {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.5);
-  display: flex; justify-content: center; align-items: center;
-  z-index: 1000;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 1000;
 }
 
 .modal-content {
-  background: #fff;
-  padding: 30px;
-  border-radius: 8px;
-  width: 400px;
-  position: relative;
+	background: #fff;
+	padding: 30px;
+	border-radius: 8px;
+	width: 400px;
+	position: relative;
 }
 
 .modal-close-btn {
-  position: absolute;
-  top: 10px; right: 10px;
-  background: none;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	background: none;
+	border: none;
+	font-size: 24px;
+	cursor: pointer;
 }
-.tab-container{
-    display: flex;
+
+.tab-container {
+	display: flex;
 	justify-content: center;
 }
+
 .form-group {
-  margin-bottom: 15px;
+	margin-bottom: 15px;
 }
 
 .form-group label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
+	display: block;
+	margin-bottom: 5px;
+	font-weight: bold;
 }
 
-.form-group input,
-.form-group select {
-  width: 100%;
-  padding: 8px;
-  box-sizing: border-box;
+.form-group input, .form-group select {
+	width: 100%;
+	padding: 8px;
+	box-sizing: border-box;
 }
 
 .inner-form-group {
 	display: flex;
-	justify-content: center;	
+	justify-content: center;
 }
 
-.inner-form-group #staff_id_admin,
-.inner-form-group #staff_id_staff{
+.inner-form-group #staff_id_admin, .inner-form-group #staff_id_staff {
 	width: 65%;
-  	padding: 8px;
-  	margin-right: 5px;
-  	box-sizing: border-box;
+	padding: 8px;
+	margin-right: 5px;
+	box-sizing: border-box;
 }
 
-.inner-form-group #staff_id_ck_admin,
-.inner-form-group #staff_id_ck_staff{
+.inner-form-group #staff_id_ck_admin, .inner-form-group #staff_id_ck_staff
+	{
 	width: 35%;
-  	padding: 8px;
-  	box-sizing: border-box;
+	padding: 8px;
+	box-sizing: border-box;
 }
 
 .modal-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
+	display: flex;
+	justify-content: flex-end;
+	gap: 10px;
 }
 
 .modal-btn {
@@ -80,10 +86,15 @@
 	border-radius: 5px;
 	cursor: pointer;
 }
-   
+
 /* 폼 숨기기/보이기 */
-.newStaff-form { display: none; }
-.newStaff-form.active { display: block; }
+.newStaff-form {
+	display: none;
+}
+
+.newStaff-form.active {
+	display: block;
+}
 
 /* 탭 스타일 */
 #newStaff-tabs {
@@ -110,29 +121,56 @@
 	border-bottom: 1px solid white;
 }
 
-.container{
+.container {
 	margin: 0 20px;
+	min-height: 600px;
 }
 
-.search-section{
+.search-section {
 	display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 20px;
+	gap: 5px;
 }
-.search-section input{
+
+.search-section input {
 	font-size: 15px;
 }
-.search-section select{
+
+.search-section select {
 	font-size: 15px;
 	padding: 1px 0;
 }
-.search-section button{
+
+.search-section button {
 	background-color: #0070c0;
-    color: white;
-    font-size: 15px;
-    padding: 2px 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+	color: white;
+	font-size: 15px;
+	padding: 2px 10px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+/* 페이징 ul 태그의 기본 스타일 조정 */
+.custom-pagination {
+	list-style: none; /* 리스트 앞에 점(불릿) 제거 */
+	padding-left: 0; /* ul의 기본 왼쪽 패딩 제거 (Bootstrap이 처리하기도 함) */
+}
+
+/* 각 페이지 항목 (li)에 좌우 마진을 주어 간격 생성 */
+.custom-pagination .page-item {
+	margin: 0 5px; /* 각 페이지 항목 좌우로 5px 간격 */
+}
+
+/* Bootstrap 페이징 링크의 테두리 반경 조정 (선택 사항, 마진으로 인해 떨어져 있을 때 미관상 더 좋음) */
+.custom-pagination .page-item:first-child .page-link {
+	border-top-left-radius: .25rem;
+	border-bottom-left-radius: .25rem;
+}
+
+.custom-pagination .page-item:last-child .page-link {
+	border-top-right-radius: .25rem;
+	border-bottom-right-radius: .25rem;
 }

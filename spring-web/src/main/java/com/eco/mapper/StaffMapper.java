@@ -30,6 +30,18 @@ public interface StaffMapper {
     // 직원 계정 복구를 위한 검색, 조회
     public List<StaffVO> selectStaffForRecover(StaffVO staffVO);
     
+	// 페이징을 위한 새로운 메서드 (활성 직원)
+	public List<StaffVO> selectStaffByIdAndUseynPaged(@Param("staffId") String staffId, @Param("offset") int offset,
+			@Param("limit") int limit);
+
+	public long countStaffByIdAndUseyn(@Param("staffId") String staffId);
+
+	// 페이징을 위한 새로운 메서드 (비활성 직원)
+	public List<StaffVO> selectStaffForRecoverPaged(@Param("staffId") String staffId, @Param("offset") int offset,
+			@Param("limit") int limit);
+
+	public long countStaffForRecover(@Param("staffId") String staffId);
+    
     // 직원 배정 지역 변경
     public int updateRegionStaff(StaffVO staffVO);
     

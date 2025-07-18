@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.eco.domain.DTO.StaffPageResponseDTO;
 import com.eco.domain.vo.StaffVO;
 import com.eco.exception.ServiceException;
 import com.eco.mapper.StaffMapper;
@@ -116,7 +117,47 @@ public class StaffServiceImpl implements StaffService {
             throw new ServiceException("비활성화 직원 조회 실패", e);
         }
 	}
+	
+	// 페이징을 위한 새로운 서비스 메서드 (활성 직원)
+    @Override 
+    public StaffPageResponseDTO getStaffListPaged(String staffId, int page, int size) {
+        try {
+            int offset = page * size; // 0-based 페이지 번호이므로 page * size
+            long totalElements = staffMapper.countStaffByIdAndUseyn(staffId);
+            List<StaffVO> content = staffMapper.selectStaffByIdAndUseynPaged(staffId, offset, size);
 
+            StaffPageResponseDTO response = new StaffPageResponseDTO();
+            response.setContent(content);
+            response.setTotalElements(totalElements);
+            response.setTotalPages((int) Math.ceil((double) totalElements / size));
+            response.setCurrentPage(page); // 0-based 페이지 번호
+            response.setPageSize(size);
+            return response;
+        } catch (Exception e) {
+            throw new ServiceException("페이징된 직원 계정 조회 실패", e);
+        }
+    }
+
+    // 페이징을 위한 새로운 서비스 메서드 (비활성 직원)
+    @Override 
+    public StaffPageResponseDTO getStaffForRecoverPaged(String staffId, int page, int size) {
+        try {
+            int offset = page * size;
+            long totalElements = staffMapper.countStaffForRecover(staffId);
+            List<StaffVO> content = staffMapper.selectStaffForRecoverPaged(staffId, offset, size);
+
+            StaffPageResponseDTO response = new StaffPageResponseDTO();
+            response.setContent(content);
+            response.setTotalElements(totalElements);
+            response.setTotalPages((int) Math.ceil((double) totalElements / size));
+            response.setCurrentPage(page);
+            response.setPageSize(size);
+            return response;
+        } catch (Exception e) {
+            throw new ServiceException("페이징된 비활성화 직원 계정 조회 실패", e);
+        }
+    }
+    
 	// 직원 배정 지역 변경
 	@Override
 	public boolean modifyRegion(StaffVO staffVO) {

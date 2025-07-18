@@ -40,6 +40,7 @@
 						</tr>
 					</tbody>
 				</table>
+				<div id="account-pagination" class="pagination-area"></div>
 			</div>
 				<!-- 계정 복구 -->
 			<h3>계정 복구</h3>
@@ -67,6 +68,7 @@
 						</tr>
 					</tbody>
 				</table>
+				 <div id="rollback-pagination" class="pagination-area"></div>
 			</div>
 		</main>
 	</div>

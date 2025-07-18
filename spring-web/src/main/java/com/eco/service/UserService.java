@@ -2,6 +2,7 @@ package com.eco.service;
 
 import java.util.List;
 
+import com.eco.domain.DTO.UserPageResponseDTO;
 import com.eco.domain.vo.UserVO;
 
 public interface UserService {
@@ -28,4 +29,7 @@ public interface UserService {
    
    // 사용자 계정 복구
    public boolean recoverAccount(UserVO userVO);
+   
+   // 페이징을 위한 새로운 서비스 메서드 (비활성 일반 사용자)
+   public UserPageResponseDTO getUserForRecoverPaged(String userId, int page, int size); 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.eco.domain.DTO.UserPageResponseDTO;
 import com.eco.domain.vo.UserVO;
 import com.eco.exception.ServiceException;
 import com.eco.mapper.UserMapper;
@@ -116,6 +117,25 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException("사용자 계정 복구 실패", e);
         }
 	}
+	 
+	// 페이징을 위한 새로운 서비스 메서드 (비활성 일반 사용자)
+    @Override // UserService 인터페이스에 이 메서드 추가 필요
+    public UserPageResponseDTO getUserForRecoverPaged(String userId, int page, int size) {
+        try {
+            int offset = page * size;
+            long totalElements = userMapper.countUserForRecover(userId);
+            List<UserVO> content = userMapper.selectUserForRecoverPaged(userId, offset, size);
 
+            UserPageResponseDTO response = new UserPageResponseDTO();
+            response.setContent(content);
+            response.setTotalElements(totalElements);
+            response.setTotalPages((int) Math.ceil((double) totalElements / size));
+            response.setCurrentPage(page);
+            response.setPageSize(size);
+            return response;
+        } catch (Exception e) {
+            throw new ServiceException("페이징된 비활성화 일반 사용자 계정 조회 실패", e);
+        }
+    }
 	
 }

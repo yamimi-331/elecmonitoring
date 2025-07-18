@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.eco.domain.DTO.StaffPageResponseDTO;
+import com.eco.domain.DTO.UserPageResponseDTO;
 import com.eco.domain.vo.StaffVO;
 import com.eco.domain.vo.UserVO;
 import com.eco.service.StaffService;
@@ -67,6 +70,22 @@ public class AdminController {
 		return staffService.getStaffList(staffVO);
 	}
 	
+	// 새로운 메서드: 이름으로 직원 정보 조회 (페이징 적용)
+    @GetMapping("/search-users-paged") // 새로운 엔드포인트 이름
+    public ResponseEntity<StaffPageResponseDTO> searchStaffbyNamePaged(
+            @RequestParam("staffId") String staffId,
+            @RequestParam(defaultValue = "0") int page, // 0-based 페이지 번호
+            @RequestParam(defaultValue = "10") int size) { // 페이지당 항목 수
+        log.info("직원 정보 조회함수 진입 (페이징): staffId="+staffId+", page="+page+", size="+size);
+        try {
+            StaffPageResponseDTO response = staffService.getStaffListPaged(staffId, page, size);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            log.error("페이징된 직원 정보 조회 실패: " + e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new StaffPageResponseDTO());
+        }
+    }
+	
 	// 비활성화 계정 조회
 	@GetMapping("/search-deleted-users")
 	@ResponseBody
@@ -87,7 +106,30 @@ public class AdminController {
 			return null;
 		}
 	}
-	
+	// 새로운 메서드: 비활성화 계정 조회 (페이징 적용)
+    @GetMapping("/search-deleted-users-paged") // 새로운 엔드포인트 이름
+    public ResponseEntity<?> searchDeleteUsersPaged(
+            @RequestParam("userType") String userType,
+            @RequestParam("id") String id,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+		log.info("비활성화 계정 조회함수 진입 (페이징): userType=" + userType + ", id=" + id + ", page=" + page + ", size=" + size);
+        try {
+            if ("common".equals(userType)) {
+                UserPageResponseDTO response = userService.getUserForRecoverPaged(id, page, size);
+                return ResponseEntity.ok(response);
+            } else if ("staff".equals(userType)) {
+                StaffPageResponseDTO response = staffService.getStaffForRecoverPaged(id, page, size);
+                return ResponseEntity.ok(response);
+            } else {
+                log.warn("알 수 없는 user type: " + userType);
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("알 수 없는 사용자 유형입니다.");
+            }
+        } catch (Exception e) {
+            log.error("페이징된 비활성화 계정 조회 실패: " + e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("페이징된 비활성화 계정 조회 실패");
+        }
+    }
 	// 계정 복구 버튼
 	@PostMapping("/restore-account")
 	@ResponseBody

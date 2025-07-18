@@ -91,6 +91,10 @@
 						<th>예약 일시</th>
 						<td>${formattedAsDate}</td>
 					</tr>
+					<tr>
+						<th>진행 현황</th>
+						<td>${asVO.as_status}</td>
+					</tr>
 				</table>
 				<div class="button-box">
 					<c:if test="${asVO.as_status == '신고 접수'}">
@@ -108,13 +112,7 @@
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 	<script>
 		document.getElementById('modifyBtn').addEventListener('click', function() {
-			if(${sessionScope.userType == "common"}){
-				location.href = '/as/edit?as_cd=' + ${asVO.as_cd};
-			} else if(${sessionScope.userType == "guest"}){
-				location.href = 'as/updateGuest?as_cd=' + ${asVO.as_cd};
-			} else {
-				location.href = '/as/edit?as_cd=' + ${asVO.as_cd};
-			}
+			location.href = '/as/edit?as_cd=' + ${asVO.as_cd};
 		});
 	</script>
 </body>

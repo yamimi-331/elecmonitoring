@@ -178,7 +178,7 @@ document.addEventListener('DOMContentLoaded', function () {
             </div>
             <div class="mega-menu-column">
                 <h3 class="visually-hidden">바로가기</h3>
-                <a href="#" class="menu-shortcut-btn">공지사항 전체보기</a>
+                <a href="/notice" class="menu-shortcut-btn">공지사항 전체보기</a>
                 <p style="text-align: center; font-size: 3em; margin-top: 15px;">📢</p> 
             </div>
         </div>

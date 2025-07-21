@@ -36,7 +36,7 @@ function renderPagination(currentPage, totalPages, tableType, searchKeyword, use
 
     // '이전' 페이지 버튼 생성
     const prevLi = jQuery('<li>').addClass('page-item').toggleClass('disabled', displayCurrentPage === 1);
-    const prevLink = jQuery('<a>').addClass('page-link').attr('href', '#').text('이전');
+    const prevLink = $('<a>').addClass('page-link').attr('href', '#').html('&laquo;');
     prevLink.on('click', function(e) {
         e.preventDefault();
         if (displayCurrentPage > 1) {
@@ -72,7 +72,7 @@ function renderPagination(currentPage, totalPages, tableType, searchKeyword, use
 
     // '다음' 페이지 버튼 생성
     const nextLi = jQuery('<li>').addClass('page-item').toggleClass('disabled', displayCurrentPage === totalPages);
-    const nextLink = jQuery('<a>').addClass('page-link').attr('href', '#').text('다음');
+    const nextLink = $('<a>').addClass('page-link').attr('href', '#').html('&raquo;');
     nextLink.on('click', function(e) {
         e.preventDefault();
         if (displayCurrentPage < totalPages) {

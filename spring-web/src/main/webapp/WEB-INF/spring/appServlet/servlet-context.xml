@@ -21,9 +21,11 @@
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
-	<mvc:resources mapping="/files/**" location="file:///D:/01-STUDY/SHJ/upload/" />
+	
+	<mvc:resources mapping="/files/**" location="file:${file.upload-dir}" />
 	
 	<context:component-scan base-package="com.eco.controller, com.eco.config.web" />
+	
 	<!-- multipart/form-data 요청 처리를 위한 MultipartResolver 설정 -->
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 	    <beans:property name="maxUploadSize" value="10485760" /> <!-- 최대 업로드 파일 크기 (10MB) -->

@@ -6,7 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.file.Files;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -169,12 +168,15 @@ public class NoticeController {
      */
     @GetMapping("/downloadFile/{fileCd}") // 파일 코드를 PathVariable로 받음
     public ResponseEntity<Resource> downloadFile(@PathVariable int fileCd) {
+        log.info("======= 파일 다운로드 시도 =======");
+        log.info("요청된 fileCd: " + fileCd);
         FileUploadDTO fileDTO = noticeService.getFileDetail(fileCd); // 파일 정보 조회
-
+        
         if (fileDTO == null) {
             log.warn("파일을 찾을 수 없습니다. fileCd: " + fileCd);
             return ResponseEntity.notFound().build(); // 404 Not Found
         }
+        log.info("DB에서 읽은 파일 경로: "+ fileDTO.getFile_path());
 
         try {
             File file = new File(fileDTO.getFile_path()); // 실제 파일 경로로 File 객체 생성

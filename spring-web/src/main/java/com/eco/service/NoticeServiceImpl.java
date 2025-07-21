@@ -148,6 +148,7 @@ public class NoticeServiceImpl implements NoticeService {
 				// 파일 업로드 디렉토리가 없으면 생성
 //            	String actualUploadPath = UPLOAD_DIR.replace("file:///", "");
 				File uploadDirFile = new File(UPLOAD_DIR);
+				System.out.println("파일 저장 경로: "+ uploadDirFile);
 				if (!uploadDirFile.exists()) {
 					uploadDirFile.mkdirs(); // 디렉토리 생성
 				}
@@ -155,6 +156,7 @@ public class NoticeServiceImpl implements NoticeService {
 				for (MultipartFile file : files) {
 					if (!file.isEmpty()) {
 						String originalName = file.getOriginalFilename();
+						System.out.println("업로드 시도 파일명: " + originalName);
 						// 파일명 중복 방지를 위해 UUID를 사용하여 고유한 저장명 생성
 						String storedName = UUID.randomUUID().toString() + "_" + originalName;
 						String filePath = UPLOAD_DIR + storedName; // 실제 저장될 파일의 전체 경로
@@ -163,7 +165,8 @@ public class NoticeServiceImpl implements NoticeService {
 						// 실제 파일 저장 (java.nio.file 사용)
 						Path targetPath = Paths.get(filePath);
 						Files.copy(file.getInputStream(), targetPath);
-
+						System.out.println("파일 저장 완료: " + targetPath.toAbsolutePath());
+						
 						// FileDTO 생성 및 값 설정
 						FileUploadDTO fileDTO = new FileUploadDTO();
 						fileDTO.setNotice_cd(noticeCd); // 획득한 공지사항 코드 설정

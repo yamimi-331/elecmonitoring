@@ -177,9 +177,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 <p>최신 공지사항을 확인하여 시스템 이용에 불편함이 없도록 해주세요. 중요한 변경사항이나 공지사항을 놓치지 않도록 주기적인 확인을 권장합니다.</p>
             </div>
             <div class="mega-menu-column">
-                <h3 class="visually-hidden">바로가기</h3>
-                <a href="/notice" class="menu-shortcut-btn">공지사항 전체보기</a>
-                <p style="text-align: center; font-size: 3em; margin-top: 15px;">📢</p> 
+                <h3>문의 사항</h3>
+                <p>탈퇴하신 계정의 복구를 원하시는 경우, 고객센터로 직접 문의해 주시기 바랍니다.</p>
+                <p>📞 0000-1234</p>
             </div>
         </div>
         

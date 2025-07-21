@@ -179,6 +179,7 @@ public class NoticeController {
         log.info("DB에서 읽은 파일 경로: "+ fileDTO.getFile_path());
 
         try {
+        	log.info(fileDTO.getFile_path());
             File file = new File(fileDTO.getFile_path()); // 실제 파일 경로로 File 객체 생성
             if (!file.exists() || !file.canRead()) {
                 log.error("파일이 존재하지 않거나 읽을 수 없습니다: " + fileDTO.getFile_path());

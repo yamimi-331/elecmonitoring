@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,8 +28,8 @@ public class NoticeServiceImpl implements NoticeService {
 	private final NoticeMapper noticeMapper;
 	private final FileMapper fileMapper; // T_FILE 테이블 관련 DAO/Mapper
 
-	/* @Value("${file.upload-dir}") */
-	private String UPLOAD_DIR = "D:/01-STUDY/SHJ/upload/"; // 실제 서버 경로로 변경 필요
+	@Value("${file.upload-dir}")
+	private String UPLOAD_DIR; // 실제 서버 경로로 변경 필요
 
 	// 공지사항 목록 조회
 	@Override

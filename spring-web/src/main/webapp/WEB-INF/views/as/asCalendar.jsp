@@ -62,6 +62,9 @@
 	</div>
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 	
+<script>
+	window.userType = '${sessionScope.userType}'; 
+</script>
 <script src="../../resources/js/asOder.js"></script>
 </body>
 </html>

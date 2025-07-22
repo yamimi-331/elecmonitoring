@@ -36,4 +36,6 @@ public interface UserMapper {
 
 	public long countUserForRecover(@Param("userId") String userId);
 
+	public UserVO selectUserByCd(UserVO inputVO);
+
 }

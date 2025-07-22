@@ -61,7 +61,7 @@ public class ProfileEditController {
 		
 		if (result) {
 			// DB에서 최신 정보 다시 조회
-			UserVO updatedUser = userService.checkId(inputVO);
+			UserVO updatedUser = userService.reSelectUserInfo(inputVO);
 			session.setAttribute("currentUserInfo", updatedUser);
 		}
 

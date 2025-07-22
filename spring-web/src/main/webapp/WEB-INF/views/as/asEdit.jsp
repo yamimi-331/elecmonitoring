@@ -9,18 +9,22 @@
 <title>A/S 상세 정보</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="../../resources/js/asEdit.js?after"></script>
+<script src="../../resources/js/asEdit.js?after" defer></script>
 <link rel="stylesheet" href="../../resources/css/common.css?after" />
 <link rel="stylesheet" href="../../resources/css/reportForm.css?after" />
 <script type="text/javascript">
+
 //주소 API
 function searchAddress() {
+	const asAddrDisplay = document.getElementById("as_addr_display");
+	console.log("asAddrDisplay "+ asAddrDisplay);
     new daum.Postcode({
         oncomplete: function(data) {
             const fullAddress = data.roadAddress || data.jibunAddress;
             document.getElementById("as_addr_display").value = fullAddress;
         }
     }).open();
+    asAddrDisplay.dispatchEvent(new Event('input', { bubbles: true }));
 }
 </script>
 </head>
@@ -176,5 +180,6 @@ function searchAddress() {
 		</main>
 	</div>
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
+	
 </body>
 </html>

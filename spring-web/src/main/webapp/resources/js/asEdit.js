@@ -5,7 +5,15 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const titleSelect = document.getElementById("as_title");
     const titleInput = document.getElementById("as_title_custom");
+    const asAddrDisplay = document.getElementById("as_addr_display");
+    const dateInput = document.getElementById("reserve_date");
+    const timeOptions1 = document.getElementById("time-options-first");
+    const timeOptions2 = document.getElementById("time-options-second");
+    
+    const existingDate = dateInput.value;
+    const existingTime = timeOptions1.dataset.existingTime || "";
 
+	// '기타' 선택 시 input 표시
     function toggleCustomInput(selectElem, inputElem) {
         if (selectElem.value === "기타") {
             inputElem.style.display = "block";
@@ -28,7 +36,6 @@ document.addEventListener("DOMContentLoaded", () => {
     toggleCustomInput(titleSelect, titleInput);
 
     // 오늘 날짜 이후부터 선택 가능
-    const dateInput = document.getElementById("reserve_date");
     const today = new Date();
     today.setDate(today.getDate() + 1);
     const yyyy = today.getFullYear();
@@ -37,14 +44,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const minDate = yyyy+ "-" +mm+ "-" +dd;
     dateInput.min = minDate;
 
-    // 예약된 시간 선택 비활성화 및 기존 예약 시간 체크
-	const timeOptions1 = document.getElementById("time-options-first");
-	const timeOptions2 = document.getElementById("time-options-second");
-    const existingDate = dateInput.value;
-    const existingTime = timeOptions1.dataset.existingTime || "";
-
 	// 예약 시간 선택란 반복문으로 출력
-    function renderTimeOptions(bookedTimes) {
+    function renderTimeOptions(bookedTimes = [], checkedTime = "") {
         let html1 = "";
         let html2 = "";
         let checkedSet = false;
@@ -55,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
             let disabled = "";
             let checked = "";
             
-            if (hourStr === existingTime) {
+            if (hourStr === checkedTime && !checkedSet) {
                 checked = "checked";
                 checkedSet = true;
             } else if (isBooked) {
@@ -89,43 +90,82 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         timeOptions2.innerHTML = html2;
     }
-
-	// 예약이 완료된 시간 json 형태로 받아오기
-    function fetchBookedTimes(selectedDate) {
-    	if (!selectedDate) {
-            timeOptions.innerHTML = "";
-            return;
+    
+    // 모든 시간 비활성화로 렌더링 (주소 바꿨을 때)
+    function renderDisabledTimeOptions() {
+        let html1 = "", html2 = "";
+        for (let hour = 9; hour <= 13; hour++) {
+            const hourStr = `${hour.toString().padStart(2, '0')}:00`;
+            const id = "reserve_time_" + hourStr;
+            html1 += `<input type='radio' id='${id}' name='reserve_time' value='${hourStr}' disabled>`;
+            html1 += `<label for='${id}'>${hourStr}</label>`;
         }
 
-    	const regionInput = document.getElementById("as_addr_display");
-		let fullRegion = regionInput.value;
+        for (let hour = 14; hour <= 17; hour++) {
+            const hourStr = `${hour.toString().padStart(2, '0')}:00`;
+            const id = "reserve_time_" + hourStr;
+            html2 += `<input type='radio' id='${id}' name='reserve_time' value='${hourStr}' disabled>`;
+            html2 += `<label for='${id}'>${hourStr}</label>`;
+        }
 
-		// 공백 기준으로 앞자리만 가져오기 (예: "서울특별시")
-		let region = fullRegion.split(' ')[0];
-		
+        timeOptions1.innerHTML = html1;
+        timeOptions2.innerHTML = html2;
+    }
+
+	// 예약이 완료된 시간 json 형태로 받아오기
+    function fetchBookedTimes(date, region, checkedTime = "") {
+        if (!date || !region) return;
+
         $.ajax({
             url: "/as/form/booked-times",
             method: "GET",
-            data: { selectedDate, region },
+            data: { selectedDate: date, region },
             dataType: "json",
-            success: function(bookedTimes) {
-                renderTimeOptions(bookedTimes);
+            success: function (bookedTimes) {
+                renderTimeOptions(bookedTimes, checkedTime);
             },
-            error: function() {
+            error: function () {
                 alert("예약된 시간을 불러오는 데 실패했습니다.");
+                renderDisabledTimeOptions(); // 실패 시 시간 선택 비활성화
             }
         });
     }
 
     // 최초 렌더링 시 예약시간 옵션 생성
-    if (existingDate) {
-        fetchBookedTimes(existingDate);
+    if (existingDate && asAddrDisplay.value.trim() !== "") {
+        const region = asAddrDisplay.value.trim().split(' ')[0];
+        fetchBookedTimes(existingDate, region, existingTime);
     }
 
-    // 날짜 변경시 예약된 시간 다시 불러오기
-    dateInput.addEventListener("change", function() {
-        fetchBookedTimes(this.value);
+	/** 주소 변경 시 */
+    asAddrDisplay.addEventListener("input", () => {
+    	const region = asAddrDisplay.value.trim().split(' ')[0];
+
+        dateInput.value = ""; // 날짜 초기화
+        renderDisabledTimeOptions();
+
     });
+	
+		
+    // 날짜 변경시 예약된 시간 다시 불러오기
+    dateInput.addEventListener("change", () => {
+        const date = dateInput.value;
+        const region = asAddrDisplay.value.trim().split(' ')[0];
+        fetchBookedTimes(date, region); // 기존 예약 시간 필요 없음
+    });
+    
+    // 상세주소 문자열 합치기
+    function combineAddress() {
+        const baseAddr = asAddrDisplay.value.trim();
+        const detailAddr = document.getElementById('as_addr_detail').value.trim();
+
+        let combined = baseAddr;
+        if (detailAddr) {
+            combined += ':' + detailAddr;
+        }
+
+        document.getElementById('as_addr_hidden').value = combined;
+    }
     
     // 유효성 검증
     const form = document.querySelector('#updateForm');
@@ -155,12 +195,6 @@ document.addEventListener("DOMContentLoaded", () => {
         if (asFacility.value === "기타" && asFacilityCustom.value.trim() === "") {
             alert("시설 종류를 직접 입력해주세요.");
             asFacilityCustom.focus();
-            e.preventDefault();
-            return;
-        }
-        if (asAddr.value.trim() === "") {
-            alert("주소를 입력해주세요.");
-            asAddr.focus();
             e.preventDefault();
             return;
         }
@@ -197,6 +231,12 @@ document.addEventListener("DOMContentLoaded", () => {
             e.preventDefault();
             return;
         }
+        if (asAddrDisplay.value.trim() === "") {
+		    alert("주소를 입력해주세요.");
+		    asAddrDisplay.focus();
+		    e.preventDefault();
+		    return;
+		}
     });
     
 	window.confirmCancel = function () {
@@ -205,20 +245,6 @@ document.addEventListener("DOMContentLoaded", () => {
 		);
 	};
 	
-	//상세주소 문자열 합치기
-    function combineAddress() {
-    	const baseAddr = document.getElementById('as_addr_display').value.trim();
-    	const detailAddr = document.getElementById('as_addr_detail').value.trim();
-    	
-    	let combined = baseAddr;
-    	if(detailAddr){
-    		combined += ':' + detailAddr;
-    	}
-    	
-    	document.getElementById('as_addr_hidden').value = combined;
-    }
+	
     
-    document.querySelector('#updateForm').addEventListener('submit', function(e) {
-  		combineAddress();
-	});
 });

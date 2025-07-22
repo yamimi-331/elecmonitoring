@@ -82,6 +82,7 @@ public class AsController {
 		log.info("as 예약 불가능 한 시간 선택 비활성화");
 		LocalDate date = LocalDate.parse(selectedDate);
 		List<String> result = asService.getFullyBookedSlots(date, region);
+		log.info(result);
 		return result;
 	}
 

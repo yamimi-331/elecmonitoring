@@ -42,6 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		  AND a.use_yn = 'Y'
 		WHERE 
 		  s.staff_addr LIKE CONCAT(#{region}, '%')
+		   AND s.use_yn = 'Y'
 		ORDER BY 
 		  s.staff_cd, ts.slot_time;
 		]]>

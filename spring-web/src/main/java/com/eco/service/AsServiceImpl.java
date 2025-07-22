@@ -2,6 +2,8 @@ package com.eco.service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -167,32 +169,66 @@ public class AsServiceImpl implements AsService {
 	@Override
 	public List<String> getFullyBookedSlots(LocalDate date, String region) {
 		try {
-			// 1) 쿼리 결과: 직원별 시간대별 일정 정보
-			List<AvailableStaffDTO> allData = asMapper.selectAllAsListByRegion(date, region);
+			 System.out.println("조회 요청 날짜: " + date); // 요청 날짜 출력
+		        System.out.println("조회 요청 지역: " + region); // 요청 지역 출력
 
-			// 2) slot_time 으로 그룹화
-			Map<String, List<AvailableStaffDTO>> groupedBySlot = allData.stream()
-					.collect(Collectors.groupingBy(AvailableStaffDTO::getSlot_time));
+		        // 1) 쿼리 결과: 직원별 시간대별 일정 정보
+		        List<AvailableStaffDTO> allData = asMapper.selectAllAsListByRegion(date, region);
 
-			List<String> fullyBookedSlots = new ArrayList<>();
+		        // --- 디버깅 포인트 1: allData 내용 확인 ---
+		        if (allData == null || allData.isEmpty()) {
+		            System.out.println("DEBUG: asMapper.selectAllAsListByRegion 결과가 비어있습니다. DB 또는 매퍼 설정을 확인하세요.");
+		            return new ArrayList<>(); // 데이터가 없으면 빈 리스트 반환
+		        } else {
+		            System.out.println("DEBUG: asMapper.selectAllAsListByRegion 결과 (총 " + allData.size() + "건):");
+		            allData.forEach(dto -> System.out.println("  " + dto)); // 모든 DTO 출력
+		        }
 
-			// 3) 각 시간대별 직원 예약 상태 검사
-			for (Map.Entry<String, List<AvailableStaffDTO>> entry : groupedBySlot.entrySet()) {
-				String slot = entry.getKey();
-				List<AvailableStaffDTO> slotList = entry.getValue();
+		        // 2) slot_time 으로 그룹화
+		        // String으로 된 slot_time을 LocalTime으로 파싱하여 그룹화하는 것이 안정적입니다.
+		        Map<LocalTime, List<AvailableStaffDTO>> groupedBySlot = allData.stream()
+		                .collect(Collectors.groupingBy(dto -> LocalTime.parse(dto.getSlot_time()))); // String -> LocalTime 변환
 
-				// 직원 중 하나라도 일정이 없으면(false), 모두 있으면(true)
-				boolean allBooked = slotList.stream().allMatch(vo -> vo.getAs_cd() != null && vo.getAs_cd() != 0);
+		        List<String> fullyBookedSlots = new ArrayList<>();
 
-				if (allBooked) {
-					fullyBookedSlots.add(slot.substring(0, 5));
-				}
-			}
+		        // --- 디버깅 포인트 2: 그룹화된 슬롯 내용 확인 ---
+		        System.out.println("DEBUG: 시간대별 그룹화 결과:");
+		        if (groupedBySlot.isEmpty()) {
+		            System.out.println("  그룹화된 시간대가 없습니다.");
+		        } else {
+		            groupedBySlot.forEach((slotTime, list) -> {
+		                System.out.println("  시간대 " + slotTime + ": 직원 " + list.size() + "명");
+		                list.forEach(dto -> System.out.println("    - " + dto.getStaff_nm() + " (as_cd: " + dto.getAs_cd() + ")"));
+		            });
+		        }
 
-			return fullyBookedSlots;
-		} catch (Exception e) {
-			throw new ServiceException("항목 상세 조회 실패", e);
-		}
+		        // 3) 각 시간대별 직원 예약 상태 검사
+		        for (Map.Entry<LocalTime, List<AvailableStaffDTO>> entry : groupedBySlot.entrySet()) {
+		            LocalTime slotTime = entry.getKey();
+		            List<AvailableStaffDTO> slotList = entry.getValue();
+
+		            // 해당 시간대의 모든 직원이 예약되었는지 확인
+		            boolean allBooked = slotList.stream()
+		                                        .allMatch(vo -> vo.getAs_cd() != null && vo.getAs_cd() != 0);
+
+		            // --- 디버깅 포인트 3: 각 시간대별 allBooked 상태 확인 ---
+		            System.out.println("DEBUG: 시간대 " + slotTime + "의 모든 직원 예약 여부: " + allBooked);
+
+		            if (allBooked) {
+		                // LocalTime을 "HH:mm" 형식으로 포맷하여 추가
+		                fullyBookedSlots.add(slotTime.format(DateTimeFormatter.ofPattern("HH:mm")));
+		            }
+		        }
+
+		        // --- 디버깅 포인트 4: 최종 결과 확인 ---
+		        System.out.println("DEBUG: 최종적으로 '완전히 예약됨'으로 판단된 시간대: " + fullyBookedSlots);
+
+		        return fullyBookedSlots;
+		    } catch (Exception e) {
+		        System.err.println("ERROR: 스케줄 조회 중 오류 발생: " + e.getMessage());
+		        e.printStackTrace(); // 스택 트레이스 출력하여 자세한 오류 원인 확인
+		        throw new ServiceException("항목 상세 조회 실패", e);
+		    }
 	}
 	// 새롭게 추가될 메서드들 (페이징 적용)
 

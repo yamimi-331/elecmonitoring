@@ -84,6 +84,10 @@
 						<td>${asVO.as_title}</td>
 					</tr>
 					<tr>
+						<th>담당기사</th>
+						<td>${asVO.staff_nm}</td>
+					</tr>
+					<tr>
 						<th>상세 정보</th>
 						<td>${asVO.as_content}</td>
 					</tr>

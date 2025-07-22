@@ -43,7 +43,10 @@ public interface AsMapper {
 
 	// AS 신고 수정 화면에 해당 신고 정보 출력
 	public ASVO selectAsDetailByCommon(int as_cd);
-
+	
+	// AS 신고 정보 출력
+	public ASListDTO selectAsListDetailByCommon(int as_cd);
+	
 	// AS 신고 수정
 	public int updateAsListByCommon(ASVO asvo);
 

@@ -262,7 +262,7 @@ public class AsController {
 	        return "redirect:/login";
 	    }
 
-	    ASVO asvo = asService.readAsDetailByUser(as_cd);
+	    ASListDTO asvo = asService.readAsListDetailByUser(as_cd);
 
 	    // 본인 확인 로직
 	    boolean authorized = false;

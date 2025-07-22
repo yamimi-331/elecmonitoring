@@ -211,7 +211,7 @@ $(document).ready(function() {
 	            codeMsg.style.color = 'green';
 	            isEmailVerified = true;
 	            
-	            signupMailInput.disabled = true;
+	            signupMailInput.readOnly = true;
 	            codeInput.disabled = true;
 	            verifyCodeBtn.disabled = true;
 	            sendCodeBtn.disabled = true;

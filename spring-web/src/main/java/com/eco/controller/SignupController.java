@@ -63,6 +63,7 @@ public class SignupController {
 	    
 	    try {
 	    	userVO.setUser_social("Basic");
+	    	log.info(userVO);
 	        int result = userService.register(userVO);
 	        if (result > 0) {
 	        	// 인증 정보 삭제

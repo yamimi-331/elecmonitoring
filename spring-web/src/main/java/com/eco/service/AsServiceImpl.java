@@ -77,6 +77,16 @@ public class AsServiceImpl implements AsService {
 		}
 	}
 
+
+	@Override
+	public ASListDTO readAsListDetailByUser(int as_cd) {
+		try {
+			return asMapper.selectAsListDetailByCommon(as_cd);
+		} catch (Exception e) {
+			throw new ServiceException("AS 신고 수정 화면에 해당 신고 정보 출력 실패", e);
+		}
+	}
+	
 	// AS 신고 수정
 	@Override
 	@Transactional

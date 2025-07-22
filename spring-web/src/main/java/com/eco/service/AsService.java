@@ -28,7 +28,9 @@ public interface AsService {
 
 	// AS 신고 수정 화면에 해당 신고 정보 출력
 	public ASVO readAsDetailByUser(int as_cd);
-
+	
+	public ASListDTO readAsListDetailByUser(int as_cd);
+	
 	// AS 신고 수정
 	public boolean editAsListByCommon(ASVO asvo);
 

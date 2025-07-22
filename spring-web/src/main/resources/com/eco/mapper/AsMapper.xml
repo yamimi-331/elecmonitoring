@@ -98,12 +98,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- AS 신고 수정 화면에 해당 신고 정보 출력 -->
 	<select id="selectAsDetailByCommon" resultType="com.eco.domain.vo.ASVO">
         <![CDATA[
-        SELECT * FROM T_AS
-        WHERE as_cd = #{as_cd}
-        AND use_yn = 'Y'
+       SELECT * FROM T_AS
+		WHERE as_cd = #{as_cd}
+		    AND use_yn = 'Y';
         ]]>
 	</select>
-
+	
+	<select id="selectAsListDetailByCommon" resultType="com.eco.domain.DTO.ASListDTO">
+	        <![CDATA[
+	       SELECT
+			    A.*, 
+			    B.* 
+			FROM
+			    T_AS A
+			JOIN
+			    T_STAFF B ON A.staff_cd = B.staff_cd
+			WHERE
+			    A.as_cd = #{as_cd}
+			    AND A.use_yn = 'Y';
+	        ]]>
+		</select>
 	<!-- 기사 조회 -->
 	<select id="selectAsStaff" resultType="int" parameterType="map">
 		<![CDATA[

@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.file.Files;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -334,7 +335,8 @@ public class NoticeController {
         }
 
         noticeDTO.setStaff_cd(staff.getStaff_cd());
-
+        noticeDTO.setUpdate_dt(LocalDateTime.now());
+        
         try {
             // 파일 처리 로직을 포함하는 새로운 서비스 메서드 호출
             noticeService.modifyNoticeWithFiles(noticeDTO, newFiles, deletedFileCds);

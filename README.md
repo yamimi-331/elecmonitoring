@@ -143,3 +143,4 @@
 
 ## **🚀 프로젝트 시연 영상**
 
+[데모 영상 다운로드](https://raw.githubusercontent.com/yamimi-331/elecmonitoring/master/Eco/src/main/resources/showFile/demo.mp4)

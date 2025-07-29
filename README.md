@@ -52,7 +52,7 @@
 │           │   ├── 📄log4j.xml
 │           │   └── 📄log4jdbc.log4j2.properties
 │           └── 📁webapp/                    # JSP/정적 자원
-├── 📄.gitignore                 # Git 무시 파일 설정
+├── 📄.gitignore                # Git 무시 파일 설정
 └── 📄README.md                 # 프로젝트 설명 파일
 ```
 

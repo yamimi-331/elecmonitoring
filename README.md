@@ -16,6 +16,46 @@
 - 아키텍처: MVC (Spring) + RESTful API (Spring ↔ FastAPI) + Machine Learning (FastAPI)
 - 예측 모델: Python (Prophet)
 
+## 📁 프로젝트 구조
+
+프로젝트는 효율적인 관리와 역할 분담을 위해 다음과 같이 모듈화하여 구성되었습니다.
+
+```
+📁elecMonitorAS/
+├── 📁fastapi_ml/                # 예측 모델 및 API 서버 (FastAPI)
+│   ├── 📁data/                  # 예측용 데이터 저장 폴더
+│   ├── 📁models/                # 학습된 모델 파일 저장소
+│   ├── 🐍main.py                # FastAPI 진입점
+│   ├── 🐍train.py               # 예측 모델 학습 스크립트
+│   ├── 🐍prediction.py          # 예측 로직 처리
+│   ├── 🐍firereason.py          # 전기 화재 원인 JSON 반환
+│   ├── 🐍shockreason.py         # 감전 사고 원인 JSON 반환
+│   ├── 🐍elecrate.py            # 전체 화재 중 전기 화재 비율 JSON 반환
+│   ├── 🐍list.py                # 전기 재해 현황 목록 JSON 반환
+│   └── 📑requirements.txt       # FastAPI 의존성 목록
+├── 📁spring-web/                # Spring MVC 기반 웹 백엔드
+│   └── 📁src/
+│       └── 📁main/
+│           ├── 📁java/com/eco/
+│           │   ├── 📁config/mail/           # 이메일 설정 클래스
+│           │   │   └── 📄MailConfig.java
+│           │   ├── 📁controller/            # 웹 컨트롤러
+│           │   ├── 📁domain/                # VO/DTO 클래스
+│           │   ├── 📁exception/             # 예외 처리
+│           │   ├── 📁mapper/                # MyBatis 매퍼 인터페이스
+│           │   └── 📁service/               # 서비스 로직
+│           ├── 📁resources/
+│           │   ├── 📁com/eco/mapper/        # MyBatis XML 매퍼
+│           │   ├── 📁sql/
+│           │   │   ├── 📄create_DB.sql      # DB 생성 스크립트
+│           │   │   └── 📄insert_staff.sql   # 더미 직원 데이터 삽입
+│           │   ├── 📄log4j.xml
+│           │   └── 📄log4jdbc.log4j2.properties
+│           └── 📁webapp/                    # JSP/정적 자원
+├── 📄.gitignore                 # Git 무시 파일 설정
+└── 📄README.md                 # 프로젝트 설명 파일
+```
+
 ## ✨ 주요 기능
 
 **전기재해 예측 (FastAPI)**

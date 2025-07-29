@@ -153,7 +153,7 @@ uvicorn main:app --reload
 
 **3. Spring 서버 실행**
 
- - spring-backend/GasDashboard 프로젝트를 IDE (STS/IntelliJ)로 임포트합니다.
+ - spring-web 프로젝트를 IDE (STS/IntelliJ)로 임포트합니다.
  - src/main/webapp/WEB-INF/spring/root-context.xml 파일에 데이터베이스 연결 정보를 설정합니다.
  - Maven 의존성 설치: 프로젝트 우클릭 -> Maven -> Update Project... 를 통해 필요한 의존성을 다운로드합니다.
  - Apache Tomcat 9 서버를 IDE에 연동하고, 프로젝트를 서버에 추가합니다.

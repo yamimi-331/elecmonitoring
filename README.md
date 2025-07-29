@@ -85,7 +85,7 @@
 **1.프로젝트 클론:**
 
 ```bash
-git clone https://github.com/yamimi-331/electricMonitorAS.git
+git clone https://github.com/yamimi-331/elecmonitoring.git
 ```
 
 **2. MySQL 초기화:**
